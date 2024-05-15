@@ -1,0 +1,28 @@
+# fly.toml app configuration file generated for admissionboox-db on 2024-04-05T12:04:49+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'admissionboox-db'
+primary_region = 'jnb'
+
+[build]
+  image = 'mysql:8'
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+# Add the following sections
+[processes]
+  app = """--datadir /data/mysql \
+    --default-authentication-plugin mysql_native_password"""
+
+[mounts]
+  source = "appdata"
+  destination = "/data"
+
+[env]
+  MYSQL_DATABASE = "admission_boox"
+  MYSQL_USER = "boox_user"
