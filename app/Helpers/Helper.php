@@ -13,6 +13,14 @@ use App\Models\Senders;
 use App\Models\Plugins;
 use App\Models\Settings;
 use App\Models\UserAddresses;
+use App\Models\Clubs;
+use App\Models\Facilities;
+use App\Models\Schools;
+use App\Models\SchoolInfo;
+use App\Models\SchoolClubs;
+use App\Models\SchoolFacilities;
+use App\Models\SchoolOwners;
+use App\Models\SchoolResources;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -319,7 +327,97 @@ class Helper implements HelperContract
            	$ret = false; 
                if( isset($arr[$key]) && $arr[$key] != "" && $arr[$key] != null ) $ret = true; 
                return $ret; 
-           }          
+           }  
+           
+           function addSchool($data)
+           {
+            //'email', 'country', 'phone', 'url','status','landing_page_pic'
+            $ret = Schools::create([
+                'email' => $data['name'],
+                'country' => $data['country'],
+                'phone' => $data['phone'],
+                'url' => $data['url'],
+                'logo' => $data['logo'],
+                'landing_page_pic' => $data['landing_page_pic'],
+                'status' => $data['status']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchools()
+           {
+               $ret = [];
+               $schools = Schools::where('id','>','0')->get();
+
+               if($schools != null)
+               {
+                  foreach($schools as $s)
+                  {
+                      $temp = $this->getSchool($s->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchool($id)
+           {
+               $ret = [];
+               $s = Schools::where('id',$id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['email'] = $s->email;
+                   $ret['country'] = $s->country;
+                   $ret['phone'] = $s->phone;
+                   $ret['url'] = $s->url;
+                   $ret['logo'] = $s->logo;
+                   $ret['landing_page_pic'] = $s->landing_page_pic;
+                   $ret['status'] = $s->status;
+                  // $ret['info'] =$this->getSchoolInfo();
+               }
+
+               return $ret;
+           }
+
+           function updateSchool($data)
+           {
+            $ret = [];
+            $s = Schools::where('id',$data['id'])->first();
+            
+            if($s != null)
+            {
+                $role = $u->role;
+                    $payload = [];
+                    if(isset($data['email'])) $payload['email'] = $data['email'];
+                    if(isset($data['phone'])) $payload['phone'] = $data['phone'];
+                    if(isset($data['url'])) $payload['url'] = $data['url'];
+                    if(isset($data['country'])) $payload['country'] = $data['country'];
+                    if(isset($data['logo'])) $payload['logo'] = $data['logo'];
+                    if(isset($data['status'])) $payload['status'] = $data['status'];
+                    if(isset($data['landing_page_pic'])) $payload['landing_page_pic'] = $data['landing_page_pic'];
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchool($id)
+           {
+               $p = Schools::where('id',$id)->first();
+
+               if($p != null) $p->delete();
+           }
+          
+           function hasKey($arr,$key) 
+           {
+           	$ret = false; 
+               if( isset($arr[$key]) && $arr[$key] != "" && $arr[$key] != null ) $ret = true; 
+               return $ret; 
+           }  
 		   
 
 		   
