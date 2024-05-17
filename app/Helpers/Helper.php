@@ -56,6 +56,8 @@ class Helper implements HelperContract
                     ]
                    ];
  
+             public $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+             public $nums = '0123456789';
 
            function symfonySendMail($data){
             
@@ -900,6 +902,29 @@ class Helper implements HelperContract
 
                if($s != null) $s->delete();
            }
+
+           function generateRandomNumber($length=2,$type='alphanumeric')
+           {
+            $container = $this->chars;
+            if($type === 'numeric') $container = $this->nums;
+            $result = ''; $temp = []; $temp3 = [];
+            for ($i = $length; $i > 0; --$i)
+            {
+               $temp2 = rand(1,strlen($container)-1);
+               if(strlen($container) > $temp2)
+               {
+                $result .= $container[$temp2];
+               } 
+            }
+            return $result;
+          }
+
+          function getUniqueLinkValue($id,$extraText='')
+          {
+            $ret = $extraText.$this->generateRandomNumber(3)."_r".$id."_r".$this->generateRandomNumber(3);
+            return $ret;
+          }
+          
 		   
 
            function callAPI($data) 

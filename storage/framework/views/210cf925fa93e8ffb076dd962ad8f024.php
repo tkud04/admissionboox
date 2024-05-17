@@ -298,7 +298,7 @@ $headerDivClass = $v ? "not-sticky":"";
                                            <label for="fname">
                                            <input class="input-text" type="text" id="school-signup-url" placeholder="Preferred URL" />
                                            </label>
-                                           <p style="color: #000000; font-style: 'italics';"><span id="school-signup-url-display"></span>@admissionboox.com</p>
+                                           <p style="color: #000000; font-style: 'italics';"><span id="school-signup-url-display"></span>.admissionboox.com</p>
                                         </p>
                                        <p class="utf_row_form utf_form_wide_block">
                                            <?php echo $__env->make('components.form-validation', ['id' => "school-signup-school-type-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -850,16 +850,21 @@ $headerDivClass = $v ? "not-sticky":"";
               $('#school-signup-loading').fadeIn()
 
               const fd = new FormData()
-                    fd.append('fname',fname)
-                    fd.append('lname',lname)
-                    fd.append('gender',gender)
+                    fd.append('schoolName',schoolName)
                     fd.append('email',email)
                     fd.append('phone',phone)
                     fd.append('country',country)
-                    fd.append('city',city)
-                    fd.append('address',address)
-                    fd.append('password',pass)
-                    fd.append('password_confirmation',pass2)
+                    fd.append('hbu',hbu)
+                    fd.append('hbuOther',hbuOther)
+                    fd.append('boardingType',boardingType)
+                    fd.append('schoolFees',schoolFees)
+                    fd.append('wcu',wcu)
+                    fd.append('ownerName',ownerName)
+                    fd.append('ownerEmail',ownerEmail)
+                    fd.append('ownerPhone',ownerPhone)
+                    fd.append('url',url)
+                    fd.append('schoolType',schoolType)
+                    fd.append('schoolCurriculum',schoolCurriculum)
 
                     schoolSignup(fd,
                  (responseJSON) => {

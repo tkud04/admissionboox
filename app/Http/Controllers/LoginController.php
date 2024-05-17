@@ -161,14 +161,14 @@ class LoginController extends Controller {
         $req = $request->all();
         #dd($req);
         $ret = ['status' => 'error','message' => "nothing happened"];
-        
+  
         $validator = Validator::make($req, [
                              'schoolName' => 'required',
                              'email' => 'required|email', 
                              'country' => 'required', 
                              'phone' => 'required|numeric',
                              'hbu' => 'required',
-                             'hbuOther' => 'required',
+                             //'hbuOther' => 'required',
                              'boardingType' => 'required',
                              'schoolFees' => 'required',
                              'wcu' => 'required',
@@ -216,17 +216,17 @@ class LoginController extends Controller {
             ];
 
             $school = $this->helpers->addSchool($schoolPayload);
-            
             $schoolInfoPayload = [
                 'school_id' => $school->id,
                 'hbu' => $req['hbu'],
-                'hbu_other' => $req['hbu_other'],
+                'boarding_type' => $req['boardingType'],
+                'hbu_other' => (isset($req['hbuOther']) && $req['hbu'] === "other") ? $req['hbuOther'] : "none",
                 'school_name' => $req['schoolName'],
                 'school_type' => $req['schoolType'],
                 'school_curriculum' => $req['schoolCurriculum'],
                 'school_fees' => $req['schoolFees'],
                 'wcu' => $req['wcu'],
-                'school_coords' => $req['school_coords'],
+                'school_coords' => "",
             ];
 
             $schoolInfo = $this->helpers->addSchoolInfo($schoolInfoPayload);

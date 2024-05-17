@@ -1,4 +1,0 @@
-[2024-05-07 18:21:04] local.ERROR: The "yield" expression can only be used inside a function {"userId":1,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): The \"yield\" expression can only be used inside a function at /Users/mac/repos/admissionboox/storage/framework/views/e357be5404618ef93a51fb7c0c3d5fe0.php:6)
-[stacktrace]
-#0 {main}
-"} 

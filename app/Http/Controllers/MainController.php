@@ -39,6 +39,9 @@ class MainController extends Controller {
 		$senders = $this->helpers->getSenders();
 		$plugins = $this->helpers->getPlugins();
 		$c = $this->compactValues;
+
+		$testUniqueLink = $this->helpers->getUniqueLinkValue("4","dasf");
+	
 		
 		$typedTexts = ['Student','School'];
 		array_push($c,'typedTexts');
