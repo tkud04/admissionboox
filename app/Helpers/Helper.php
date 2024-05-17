@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Helpers\Contracts\HelperContract; 
+use App\Models\SchoolClubs;
 use Crypt;
 use Carbon\Carbon; 
 use Mail;
@@ -17,7 +18,6 @@ use App\Models\Clubs;
 use App\Models\Facilities;
 use App\Models\Schools;
 use App\Models\SchoolInfo;
-use App\Models\SchoolClubs;
 use App\Models\SchoolFacilities;
 use App\Models\SchoolOwners;
 use App\Models\SchoolResources;
@@ -241,7 +241,7 @@ class Helper implements HelperContract
                             if(isset($data['city'])) $payload['city'] = $data['city'];
                             if(isset($data['address'])) $payload['address'] = $data['address'];
                            
-                        	$u->update($payload);
+                        	$ua->update($payload);
                              $ret = "ok";
                         }                                    
                }                                 
@@ -250,7 +250,7 @@ class Helper implements HelperContract
 
            function removeUserAddress($id)
            {
-            $ua = UserAddresses::where('user_id', $data['user_id'])->first();
+            $ua = UserAddresses::where('user_id', $id)->first();
 
                if($ua != null) $ua->delete();
            }
@@ -339,6 +339,7 @@ class Helper implements HelperContract
                 'url' => $data['url'],
                 'logo' => $data['logo'],
                 'landing_page_pic' => $data['landing_page_pic'],
+                'complete_signup' => $data['complete_signup'],
                 'status' => $data['status']
             ]);
 
@@ -376,8 +377,10 @@ class Helper implements HelperContract
                    $ret['url'] = $s->url;
                    $ret['logo'] = $s->logo;
                    $ret['landing_page_pic'] = $s->landing_page_pic;
+                   $ret['complete_signup'] = $s->complete_signup;
                    $ret['status'] = $s->status;
-                  // $ret['info'] =$this->getSchoolInfo();
+                   $ret['info'] =$this->getSchoolInfo($s->id);
+                   $ret['facilities'] =$this->getSchoolFacilities($s->id);
                }
 
                return $ret;
@@ -390,7 +393,6 @@ class Helper implements HelperContract
             
             if($s != null)
             {
-                $role = $u->role;
                     $payload = [];
                     if(isset($data['email'])) $payload['email'] = $data['email'];
                     if(isset($data['phone'])) $payload['phone'] = $data['phone'];
@@ -399,6 +401,7 @@ class Helper implements HelperContract
                     if(isset($data['logo'])) $payload['logo'] = $data['logo'];
                     if(isset($data['status'])) $payload['status'] = $data['status'];
                     if(isset($data['landing_page_pic'])) $payload['landing_page_pic'] = $data['landing_page_pic'];
+                    if(isset($data['complete_signup'])) $payload['complete_signup'] = $data['complete_signup'];
                     
                     $s->update($payload);
                      $ret = "ok";      
@@ -408,48 +411,385 @@ class Helper implements HelperContract
            function removeSchool($id)
            {
                $p = Schools::where('id',$id)->first();
-
                if($p != null) $p->delete();
            }
-          
-           function hasKey($arr,$key) 
+
+           function addSchoolInfo($data)
            {
-           	$ret = false; 
-               if( isset($arr[$key]) && $arr[$key] != "" && $arr[$key] != null ) $ret = true; 
-               return $ret; 
-           }  
-		   
+            $ret = SchoolInfo::create([
+                'school_id' => $data['school_id'],
+                'boarding_type' => $data['boarding_type'],
+                'hbu' => $data['hbu'],
+                'hbuOther' => $data['hbuOther'],
+                'school_name' => $data['school_name'],
+                'school_type' => $data['school_type'],
+                'school_curriculum' => $data['school_curriculum'],
+                'school_fees' => $data['school_fees'],
+                'wcu' => $data['wcu'],
+                'school_coords' => $data['school_coords'],
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolInfo($school_id)
+           {
+               $ret = [];
+               $s = SchoolInfo::where('id',$school_id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['boarding_type'] = $s->boarding_type;
+                   $ret['hbu'] = $s->hbu;
+                   $ret['hbuOther'] = $s->hbuOther;
+                   $ret['school_name'] = $s->school_name;
+                   $ret['school_type'] = $s->school_type;
+                   $ret['school_curriculum'] = $s->school_curriculum;
+                   $ret['school_fees'] = $s->school_fees;
+                   $ret['wcu'] = $s->wcu;
+                   $ret['school_coords'] = $s->school_coords;
+               }
+
+               return $ret;
+           }
+
+           function updateSchoolInfo($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolInfo::where('id',$data['school_id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['boarding_type'])) $payload['boarding_type'] = $data['boarding_type'];
+                    if(isset($data['hbu'])) $payload['hbu'] = $data['hbu'];
+                    if(isset($data['hbuOther'])) $payload['hbuOther'] = $data['hbuOther'];
+                    if(isset($data['school_name'])) $payload['school_name'] = $data['school_name'];
+                    if(isset($data['school_type'])) $payload['school_type'] = $data['school_type'];
+                    if(isset($data['school_curriculum'])) $payload['school_curriculum'] = $data['school_curriculum'];
+                    if(isset($data['school_fees'])) $payload['school_fees'] = $data['school_fees'];
+                    if(isset($data['wcu'])) $payload['wcu'] = $data['wcu'];
+                    if(isset($data['school_coords'])) $payload['school_coords'] = $data['school_coords'];
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchoolInfo($id)
+           {
+               $p = SchoolInfo::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolFacility($data)
+           {
+            $ret = SchoolFacilities::create([
+                'school_id' => $data['school_id'],
+                'facility_id' => $data['facility_id']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolFacilities($school_id)
+           {
+               $ret = [];
+               $facilities = SchoolFacilities::where('school_id',$school_id)->get();
+
+               if($facilities != null)
+               {
+                  foreach($facilities as $f)
+                  {
+                      $temp = $this->getSchoolFacility($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolFacility($id)
+           {
+               $ret = [];
+               $s = SchoolFacilities::where('id',$id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['facility'] = $this->getFacility($s->facility_id);
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolFacility($id)
+           {
+               $p = SchoolFacilities::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addFacility($data)
+           {
+            $ret = Facilities::create([
+                'facility_name' => $data['facility_name'],
+                'facility_value' => $data['facility_value'],
+                'icon' => $data['hbu'],
+            ]);
+
+            return $ret;
+           }
+
+           function getFacilities()
+           {
+               $ret = [];
+               $facilities = Facilities::where('id','>',0)->get();
+
+               if($facilities != null)
+               {
+                  foreach($facilities as $f)
+                  {
+                      $temp = $this->getFacility($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getFacility($id)
+           {
+               $ret = [];
+               $s = Facilities::where('id',$id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['facility_name'] = $s->facility_name;
+                   $ret['facility_value'] = $s->facility_value;
+                   $ret['icon'] = $s->icon;
+               }
+
+               return $ret;
+           }
+
+           function removeFacility($id)
+           {
+               $p = Facilities::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolOwner($data)
+           {
+            $ret = SchoolOwners::create([
+                'school_id' => $data['school_id'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+            ]);
+
+            return $ret;
+           }
+
+          
+           function getSchoolOwner($school_id)
+           {
+               $ret = [];
+               $s = SchoolOwners::where('id',$school_id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['name'] = $s->name;
+                   $ret['email'] = $s->email;
+                   $ret['phone'] = $s->phone;
+               }
+
+               return $ret;
+           }
+
+           function updateSchoolOwner($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolOwners::where('id',$data['school_id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['name'])) $payload['name'] = $data['name'];
+                    if(isset($data['email'])) $payload['email'] = $data['email'];
+                    if(isset($data['phone'])) $payload['phone'] = $data['phone'];
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchoolOwner($id)
+           {
+               $p = SchoolOwners::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolResource($data)
+           {
+            $ret = SchoolResources::create([
+                'school_id' => $data['school_id'],
+                'url' => $data['url']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolResources($school_id)
+           {
+               $ret = [];
+               $resources = SchoolResources::where('school_id',$school_id)->get();
+
+               if($resources != null)
+               {
+                  foreach($resources as $r)
+                  {
+                      $temp = $this->getSchoolResource($r->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+          
+           function getSchoolResource($id)
+           {
+               $ret = [];
+               $r = SchoolResources::where('id',$id)->first();
+
+               if($r != null)
+               {
+                   $ret['id'] = $r->id;
+                   $ret['school_id'] = $r->school_id;
+                   $ret['url'] = $r->url;
+               }
+
+               return $ret;
+           }
+
+           function removeSchoolResource($id)
+           {
+               $p = SchoolResources::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addClub($data)
+           {
+            $ret = Clubs::create([
+                'club_name' => $data['club_name'],
+                'club_value' => $data['club_value'],
+                'img_url' => $data['img_url'],
+            ]);
+
+            return $ret;
+           }
+
+           function getClubs()
+           {
+               $ret = [];
+               $clubs = Clubs::where('id','>',0)->get();
+
+               if($clubs != null)
+               {
+                  foreach($clubs as $c)
+                  {
+                      $temp = $this->getClub($c->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getClub($id)
+           {
+               $ret = [];
+               $c = Clubs::where('id',$id)->first();
+
+               if($c != null)
+               {
+                   $ret['id'] = $c->id;
+                   $ret['club_name'] = $c->club_name;
+                   $ret['club_value'] = $c->club_value;
+                   $ret['img_url'] = $c->img_url;
+               }
+
+               return $ret;
+           }
+
+           function removeClub($id)
+           {
+               $p = Clubs::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolClub($data)
+           {
+            $ret = SchoolClubs::create([
+                'school_id' => $data['school_id'],
+                'club_id' => $data['club_id']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolClubs($school_id)
+           {
+               $ret = [];
+               $clubs = SchoolClubs::where('school_id',$school_id)->get();
+
+               if($clubs != null)
+               {
+                  foreach($clubs as $c)
+                  {
+                      $temp = $this->getClub($c->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolClub($id)
+           {
+               $ret = [];
+               $s = SchoolClubs::where('id',$id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['club'] = $this->getClub($s->club_id);
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolClub($id)
+           {
+               $p = SchoolClubs::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
 
 		   
-		
-		   function getPosts()
-           {
-			   $d = date("jS F, Y h:i A");
-           	 $ret = [
-				     ['flink' => "#",'title' => "Blog Post 1",'category' => "ads",'img' => "images/small_author.png",'content' => "This is a sample blog post content. Simply using this to fill the page.",'likes' => "4",'status' => "ok",'date' => $d],
-				     ['flink' => "#",'title' => "Blog Post 2",'category' => "medicine",'img' => "images/small_author.png",'content' => "This is a sample blog post content. Simply using this to fill the page.",'likes' => "2",'status' => "ok",'date' => $d],
-				  ];
-				  
-               //$cc = Posts::where('id','>','0')->get();
-               $cc = null;
-               if($cc != null)
-               {
-				   if(count($cc) > 0) $ret = [];
-                foreach($cc as $c)
-			     {
-				  $temp['flink'] = $c->flink; 
-				  $temp['title'] = $c->title; 
-				  $temp['category'] = $c->category; 
-				  $temp['img'] = $c->img;
-				  $temp['content'] = $c->content;
-				   $temp['likes'] = $c->likes;
-				  $temp['status'] = $c->status;
-				   $temp['date'] = $c->created_at->format("jS F, Y h:i A"); 
-				  array_push($ret,$temp);
-			    }                
-              }	  
-                return $ret;
-           }	  
+		  
 		   
 		   function getTestimonials()
            {

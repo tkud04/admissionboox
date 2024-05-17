@@ -1,0 +1,8 @@
+[2024-05-16 08:46:20] local.ERROR: Cannot redeclare App\Helpers\Helper::hasKey() {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare App\\Helpers\\Helper::hasKey() at /Users/mac/repos/admissionboox/app/Helpers/Helper.php:415)
+[stacktrace]
+#0 {main}
+"} 
+[2024-05-16 08:46:34] local.ERROR: Cannot redeclare App\Helpers\Helper::hasKey() {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare App\\Helpers\\Helper::hasKey() at /Users/mac/repos/admissionboox/app/Helpers/Helper.php:415)
+[stacktrace]
+#0 {main}
+"} 

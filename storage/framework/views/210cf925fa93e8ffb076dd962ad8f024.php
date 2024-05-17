@@ -600,7 +600,7 @@ $headerDivClass = $v ? "not-sticky":"";
             }
           })
 
-          $('#school-signup-url').change(() => {
+          $('#school-signup-url').on('input',() => {
             const v = $('#school-signup-url').val()
 
             $('#school-signup-url-display').html(v)
@@ -849,9 +849,47 @@ $headerDivClass = $v ? "not-sticky":"";
               $('#school-signup-btn').hide()
               $('#school-signup-loading').fadeIn()
 
-              setTimeout(() => {
-                $('#school-signup-loading').hide()
+              const fd = new FormData()
+                    fd.append('fname',fname)
+                    fd.append('lname',lname)
+                    fd.append('gender',gender)
+                    fd.append('email',email)
+                    fd.append('phone',phone)
+                    fd.append('country',country)
+                    fd.append('city',city)
+                    fd.append('address',address)
+                    fd.append('password',pass)
+                    fd.append('password_confirmation',pass2)
+
+                    schoolSignup(fd,
+                 (responseJSON) => {
+                  $('#school-signup-loading').hide()
                 $('#school-signup-btn').fadeIn()
+                    let responseMessage = ''
+
+                    if(responseJSON.status === "ok"){
+                        alert('Signup successful! Please check your email to continue')
+                      window.location = '/'
+                    }
+                    else{
+                        if(responseJSON.message === 'validation'){
+                          responseMessage = 'Failed to sign up: All fields are required'
+                        }
+                        else{
+                          responseMessage = responseJSON?.message
+                        }
+                        alert(responseMessage)
+                    }
+                 },
+                 (errJSON) => {
+                  $('#school-signup-loading').hide()
+                $('#school-signup-btn').fadeIn()
+                    alert(`Failed to sign up: ${errJSON?.message}`)
+                 }
+                )
+
+              setTimeout(() => {
+                
                 console.log('payload: ',payload)
               },3000)
               

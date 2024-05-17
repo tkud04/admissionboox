@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SchoolClubs extends Model
+class Clubs extends Model
 {
 
     /**
@@ -13,7 +13,7 @@ class SchoolClubs extends Model
      * @var array
      */
     protected $fillable = [
-        'club_name', 'club_value'
+        'club_name', 'club_value','img_url'
     ];
     
 }
