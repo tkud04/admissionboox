@@ -27,6 +27,7 @@ class User extends Authenticatable
         'role',
         'status',
         'verified',
+        'complete_signup',
         'remember_token',
         'reset_code'
         

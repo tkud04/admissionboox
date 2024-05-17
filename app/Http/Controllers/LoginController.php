@@ -132,6 +132,7 @@ class LoginController extends Controller {
              $req['role'] = "user";
            $req['status'] = "ok";  
            $req['verified'] = "yes";       			
+           $req['complete_signup'] = "yes";       			
             
                        #dd($req);            
 
@@ -142,6 +143,106 @@ class LoginController extends Controller {
 			
                                                     
              //after creating the user, send back to the registration view with a success message
+             #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
+             $ret = ['status'=> "ok"];
+          }
+          return json_encode($ret);    
+    }
+
+    public function postSchoolSignup(Request $request)
+    {
+        /*
+      schoolName,email,country,phone,hbu,hbuOther,
+                boardingType,schoolFees,
+                wcu,
+                ownerName,ownerEmail,ownerPhone,
+                url,schoolType,schoolCurriculum
+        */
+        $req = $request->all();
+        #dd($req);
+        $ret = ['status' => 'error','message' => "nothing happened"];
+        
+        $validator = Validator::make($req, [
+                             'schoolName' => 'required',
+                             'email' => 'required|email', 
+                             'country' => 'required', 
+                             'phone' => 'required|numeric',
+                             'hbu' => 'required',
+                             'hbuOther' => 'required',
+                             'boardingType' => 'required',
+                             'schoolFees' => 'required',
+                             'wcu' => 'required',
+                             'ownerName' => 'required',
+                             'ownerEmail' => 'required|email',
+                             'ownerPhone' => 'required|numeric',
+                             'url' => 'required',
+                             'schoolType' => 'required',
+                             'schoolCurriculum' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             $ret['message'] = "validation";
+         }
+         
+         else
+         {
+			 #dd($req);
+             $userPayload = [
+                'email' => $req['email'],
+                'fname' => $req['schoolName'],
+                'lname' => "",
+                'phone' => $req['phone'],
+                'complete_signup' => "no",
+                'gender' => "",
+                'role' => 'school',
+                'verified' => 'yes',
+                'password' => "",
+                'status' => "ok",
+             ];       
+
+            $user =  $this->helpers->createUser($userPayload); 
+
+            $schoolPayload = [
+                'name' => $req['schoolName'],
+                'email' => $user->email,
+                'country' => $req['country'],
+                'phone' => $user->phone,
+                'url' => $req['url'],
+                'status' => "pending",
+                'logo' => "",
+                'landing_page_pic' => "",
+            ];
+
+            $school = $this->helpers->addSchool($schoolPayload);
+            
+            $schoolInfoPayload = [
+                'school_id' => $school->id,
+                'hbu' => $req['hbu'],
+                'hbu_other' => $req['hbu_other'],
+                'school_name' => $req['schoolName'],
+                'school_type' => $req['schoolType'],
+                'school_curriculum' => $req['schoolCurriculum'],
+                'school_fees' => $req['schoolFees'],
+                'wcu' => $req['wcu'],
+                'school_coords' => $req['school_coords'],
+            ];
+
+            $schoolInfo = $this->helpers->addSchoolInfo($schoolInfoPayload);
+			
+            $schoolOwnerPayload = [
+                'school_id' => $school->id,
+                'name' => $req['ownerName'],
+                'email' => $req['ownerEmail'],
+                'phone' => $req['ownerPhone'],
+            ];
+
+            $schoolOwner = $this->helpers->addSchoolOwner($schoolOwnerPayload);
+
+           
+                                                    
+             //TODO: after creating the user/school, send email with link to verify email andcomplete signup
              #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
              $ret = ['status'=> "ok"];
           }

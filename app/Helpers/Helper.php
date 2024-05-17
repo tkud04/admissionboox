@@ -115,6 +115,7 @@ class Helper implements HelperContract
                                                      'gender' => $data['gender'], 
                                                      'status' => $data['status'], 
                                                     'verified' => $data['verified'], 
+                                                    'complete_signup' => $data['complete_signup'], 
                                                      'password' => bcrypt($data['password']), 
                                                      'remember_token' => "default",
                                                      'reset_code' => "default"
@@ -138,6 +139,7 @@ class Helper implements HelperContract
                        $temp['role'] = $u->role; 
                        $temp['status'] = $u->status; 
                        $temp['verified'] = $u->verified; 
+                       $temp['complete_signup'] = $u->complete_signup; 
                        $temp['id'] = $u->id; 
                        $temp['date'] = $u->created_at->format("jS F, Y");  
                        $ret = $temp; 
@@ -178,16 +180,13 @@ class Helper implements HelperContract
 							$payload = [];
                             if(isset($data['fname'])) $payload['fname'] = $data['fname'];
                             if(isset($data['lname'])) $payload['lname'] = $data['lname'];
-                            if(isset($data['email'])) $payload['email'] = $data['email'];
-                            if(isset($data['phone'])) $payload['phone'] = $data['phone'];
                             if(isset($data['password'])) $payload['password'] = $data['password'];
                             if(isset($data['gender'])) $payload['gender'] = $data['gender'];
                             if(isset($data['role'])) $payload['role'] = $data['role'];
                             if(isset($data['status'])) $payload['status'] = $data['status'];
                             if(isset($data['verified'])) $payload['verified'] = $data['verified'];
-                            if(isset($data['remember_token'])) $payload['remember_token'] = $data['remember_token'];
-                            if(isset($data['reset_code'])) $payload['reset_code'] = $data['reset_code'];
-							
+                            if(isset($data['complete_signup'])) $payload['complete_signup'] = $data['complete_signup'];
+                           
                         	$u->update($payload);
                              $ret = "ok";
                         }                                    
@@ -333,13 +332,13 @@ class Helper implements HelperContract
            {
             //'email', 'country', 'phone', 'url','status','landing_page_pic'
             $ret = Schools::create([
-                'email' => $data['name'],
+                'name' => $data['name'],
+                'email' => $data['email'],
                 'country' => $data['country'],
                 'phone' => $data['phone'],
                 'url' => $data['url'],
                 'logo' => $data['logo'],
                 'landing_page_pic' => $data['landing_page_pic'],
-                'complete_signup' => $data['complete_signup'],
                 'status' => $data['status']
             ]);
 
@@ -371,13 +370,13 @@ class Helper implements HelperContract
                if($s != null)
                {
                    $ret['id'] = $s->id;
+                   $ret['name'] = $s->name;
                    $ret['email'] = $s->email;
                    $ret['country'] = $s->country;
                    $ret['phone'] = $s->phone;
                    $ret['url'] = $s->url;
                    $ret['logo'] = $s->logo;
                    $ret['landing_page_pic'] = $s->landing_page_pic;
-                   $ret['complete_signup'] = $s->complete_signup;
                    $ret['status'] = $s->status;
                    $ret['info'] =$this->getSchoolInfo($s->id);
                    $ret['facilities'] =$this->getSchoolFacilities($s->id);
@@ -394,6 +393,7 @@ class Helper implements HelperContract
             if($s != null)
             {
                     $payload = [];
+                    if(isset($data['name'])) $payload['name'] = $data['name'];
                     if(isset($data['email'])) $payload['email'] = $data['email'];
                     if(isset($data['phone'])) $payload['phone'] = $data['phone'];
                     if(isset($data['url'])) $payload['url'] = $data['url'];
@@ -401,7 +401,7 @@ class Helper implements HelperContract
                     if(isset($data['logo'])) $payload['logo'] = $data['logo'];
                     if(isset($data['status'])) $payload['status'] = $data['status'];
                     if(isset($data['landing_page_pic'])) $payload['landing_page_pic'] = $data['landing_page_pic'];
-                    if(isset($data['complete_signup'])) $payload['complete_signup'] = $data['complete_signup'];
+                   
                     
                     $s->update($payload);
                      $ret = "ok";      
@@ -420,7 +420,7 @@ class Helper implements HelperContract
                 'school_id' => $data['school_id'],
                 'boarding_type' => $data['boarding_type'],
                 'hbu' => $data['hbu'],
-                'hbuOther' => $data['hbuOther'],
+                'hbu_other' => $data['hbu_other'],
                 'school_name' => $data['school_name'],
                 'school_type' => $data['school_type'],
                 'school_curriculum' => $data['school_curriculum'],
@@ -443,7 +443,7 @@ class Helper implements HelperContract
                    $ret['school_id'] = $s->school_id;
                    $ret['boarding_type'] = $s->boarding_type;
                    $ret['hbu'] = $s->hbu;
-                   $ret['hbuOther'] = $s->hbuOther;
+                   $ret['hbu_other'] = $s->hbu_other;
                    $ret['school_name'] = $s->school_name;
                    $ret['school_type'] = $s->school_type;
                    $ret['school_curriculum'] = $s->school_curriculum;
@@ -466,7 +466,7 @@ class Helper implements HelperContract
                     $payload = [];
                     if(isset($data['boarding_type'])) $payload['boarding_type'] = $data['boarding_type'];
                     if(isset($data['hbu'])) $payload['hbu'] = $data['hbu'];
-                    if(isset($data['hbuOther'])) $payload['hbuOther'] = $data['hbuOther'];
+                    if(isset($data['hbu_other'])) $payload['hbu_other'] = $data['hbu_other'];
                     if(isset($data['school_name'])) $payload['school_name'] = $data['school_name'];
                     if(isset($data['school_type'])) $payload['school_type'] = $data['school_type'];
                     if(isset($data['school_curriculum'])) $payload['school_curriculum'] = $data['school_curriculum'];
