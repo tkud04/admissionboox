@@ -14,10 +14,12 @@ use App\Models\User;
 class LoginController extends Controller {
 
 	protected $helpers; //Helpers implementation
+    protected $compactValues;
     
     public function __construct(HelperContract $h)
     {
-    	$this->helpers = $h;            
+    	$this->helpers = $h;    
+        $this->compactValues = ['user','plugins','senders','signals'];           
     }
 	
 		/**
@@ -243,11 +245,14 @@ class LoginController extends Controller {
            
                                                     
              //TODO: after creating the user/school, send email with link to verify email andcomplete signup
+             $verificationLink = url('set-password').'?em='.$user->email;
              #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
              $ret = ['status'=> "ok"];
           }
           return json_encode($ret);    
     }
+
+
 	
 	 public function getForgotPassword()
     {
@@ -259,7 +264,7 @@ class LoginController extends Controller {
 			return redirect()->intended('/');
 		}
 		$signals = $this->helpers->signals;
-         return view('reset-password', compact(['user']));
+         return view('forgot-password', compact(['user']));
     }
     
     /**
@@ -295,23 +300,134 @@ class LoginController extends Controller {
                 //get the reset code 
                 $code = $this->helpers->getPasswordResetCode($user);
               
-                //Configure the smtp sender
-                $sender = $this->helpers->emailConfig;              
-                $sender['sn'] = 'KloudTransact Support'; 
-                #$sender['se'] = 'kloudtransact@gmail.com'; 
-                $sender['em'] = $user->email; 
-                $sender['subject'] = 'Reset Your Password'; 
-                $sender['link'] = 'www.kloudtransact.com'; 
-                $sender['ll'] = url('reset').'?code='.$code; 
-                
-                //Send password reset link
-                $this->helpers->sendEmailSMTP($sender,'emails.password','view');                                                         
+                                                                     
             session()->flash("forgot-password-status","ok");           
             return redirect()->intended('login');
 
       }
                   
     }    
+
+    public function getSetPassword(Request $request)
+    {
+       $user = null;
+       $senders = $this->helpers->getSenders();
+	   $plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+       $c = $this->compactValues;
+
+       $req = $request->all();
+
+       #dd($req);
+       $return = isset($req['return']) ? $req['return'] : '/';
+	   
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			return redirect()->intended($return);
+		}
+
+        if(isset($req['em']))
+        {
+            $em= $req['em'];
+            array_push($c,'em');
+            return view('set-password',compact($c));
+        }
+        else
+        {
+            return redirect()->intended($return);
+        }
+    	
+    }
+
+
+    public function postSetPassword(Request $request)
+    {
+        $req = $request->all();
+        #dd($req);
+        $ret = ['status' => 'error','message' => "nothing happened"];
+        
+  
+        $validator = Validator::make($req, [
+                             'email' => 'required|email', 
+                             'password' => 'required|min:6|confirmed',
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             $ret['message'] = "validation";
+         }
+         
+         else
+         {
+            $user = User::where('email',$req['email'])->first();
+            if(is_null($user))
+            {
+               $ret['message'] = "invalid-user";
+            }
+            else if($user->complete_signup !== 'no')
+            {
+                $ret['message'] = "invalid-session";
+            }
+            else
+            {
+                 #dd($req);
+             $userPayload = [
+                'email' => $req['email'],
+                'password' => bcrypt($req['password']),
+                'complete_signup' => "yes",
+             ];       
+
+            $this->helpers->updateUser($userPayload); 
+
+            $ret = ['status'=> "ok"];
+            }
+			
+          }
+          return json_encode($ret);    
+    }
+
+    public function postChangePassword(Request $request)
+    {
+        $ret = ['status' => 'error','message' => "nothing happened"];
+        $user = null;
+        if(Auth::check())
+        {
+            $user = Auth::user();
+            $req = $request->all();
+        #dd($req);
+        
+        $validator = Validator::make($req, [
+            'password' => 'required|min:6|confirmed',
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             $ret['message'] = "validation";
+         }
+         
+         else
+         {
+			 #dd($req);
+             $userPayload = [
+                'email' => $user->email,
+                'password' => bcrypt($req['password']),
+             ];       
+
+            $this->helpers->updateUser($userPayload); 
+
+            $ret = ['status'=> "ok"];
+          }
+        }
+        else
+        {
+            $ret['message'] = "invalid-session";
+        }
+        
+          return json_encode($ret);    
+    }
 
     
     public function getLogout()

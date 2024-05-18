@@ -13,7 +13,7 @@ class Schools extends Model
      * @var array
      */
     protected $fillable = [
-        'name','email', 'country', 'phone', 'url','status','logo','landing_page_pic','complete_signup'
+        'name','email', 'country', 'phone', 'url','status','logo','landing_page_pic'
     ];
     
 }

@@ -24,6 +24,7 @@ Route::get('/', [MainController::class,'getIndex']);
 Route::get('forgot-password', [LoginController::class,'getForgotPassword']);
 Route::get('reset-password', [LoginController::class,'getResetPassword']);
 Route::get('change-password', [LoginController::class,'getChangePassword']);
+Route::get('set-password', [LoginController::class,'getSetPassword']);
 Route::get('bye', [LoginController::class,'getLogout']);
 
 Route::get('dashboard', [MainController::class,'getDashboard']);

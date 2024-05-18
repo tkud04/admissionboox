@@ -2,6 +2,7 @@
 $void = 'javascript:void(0)';
 $isDashboard = true;
 $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
+$v3 = isset($useSidebar) ? $useSidebar : true;
 ?>
 
 
@@ -16,11 +17,14 @@ $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
 
 <?php $__env->startSection('content'); ?>
 <div id="dashboard">
+    
+     <?php if($v3): ?>
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
-     <?php if($v2): ?>
-      <?php echo $__env->make('components.admin-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-     <?php else: ?>
-     <?php echo $__env->make('components.user-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+       <?php if($v2): ?>
+         <?php echo $__env->make('components.admin-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+       <?php else: ?>
+         <?php echo $__env->make('components.user-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+       <?php endif; ?>
      <?php endif; ?>
      <div class="utf_dashboard_content">
      <div id="titlebar" class="dashboard_gradient">

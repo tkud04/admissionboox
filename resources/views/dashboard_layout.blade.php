@@ -2,6 +2,7 @@
 $void = 'javascript:void(0)';
 $isDashboard = true;
 $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
+$v3 = isset($useSidebar) ? $useSidebar : true;
 ?>
 
 @extends('layout')
@@ -16,11 +17,14 @@ $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
 
 @section('content')
 <div id="dashboard">
+    
+     @if($v3)
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
-     @if($v2)
-      @include('components.admin-sidebar')
-     @else
-     @include('components.user-sidebar')
+       @if($v2)
+         @include('components.admin-sidebar')
+       @else
+         @include('components.user-sidebar')
+       @endif
      @endif
      <div class="utf_dashboard_content">
      <div id="titlebar" class="dashboard_gradient">
