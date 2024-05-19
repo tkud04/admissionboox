@@ -329,9 +329,20 @@ class LoginController extends Controller {
 
         if(isset($req['em']))
         {
-            $em= $req['em'];
+            $em = $req['em'];
             array_push($c,'em');
-            return view('set-password',compact($c));
+            $u = $this->helpers->getUser($em);
+            
+            
+            if($u['complete_signup'] === 'no')
+            {
+                return view('set-password',compact($c));
+            }
+            else
+            {
+                return redirect()->intended($return);
+            }
+           
         }
         else
         {
