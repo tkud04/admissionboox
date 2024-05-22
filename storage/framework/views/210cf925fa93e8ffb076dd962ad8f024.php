@@ -54,17 +54,21 @@ $headerDivClass = $v ? "not-sticky":"";
                                 <li>
                                    <a href="<?php echo e(url('schools')); ?>">Schools</a>
                                 </li>
-                                <li><a href="#">About</a>
+                                <li><a href="#">More</a>
                                     <ul>
-                                       <li><a href="<?php echo e(url('about')); ?>">About Us</a></li>
-                                       <li><a href="<?php echo e(url('vision-mission')); ?>">Vision/Mission</a></li>
+                                       <li><a href="<?php echo e(url('scholarships')); ?>">Scholarships</a></li>
+                                       <li><a href="<?php echo e(url('help')); ?>">Help</a> </li>
                                     </ul>
                                 </li>
-                                <li>
-                                   <a href="<?php echo e(url('scholarships')); ?>">Scholarships</a>
+                                <li><a href="#">About Us</a>
+                                    <ul>
+                                       <li><a href="<?php echo e(url('about')); ?>">Who We Are</a></li>
+                                       <li><a href="<?php echo e(url('vision-mission')); ?>">Vision/Mission</a></li>
+                                       <li><a href="<?php echo e(url('contact')); ?>">Contact Us</a> </li>
+                                    </ul>
                                 </li>
-                                <li><a href="<?php echo e(url('help')); ?>">Help</a> </li>
-                                <li><a href="<?php echo e(url('contact')); ?>">Contact Us</a> </li>
+                                
+                               
                                
                             </ul>
                         </nav>
@@ -873,7 +877,7 @@ $headerDivClass = $v ? "not-sticky":"";
                     let responseMessage = ''
 
                     if(responseJSON.status === "ok"){
-                        alert('Signup successful! Please check your email to continue')
+                        alert('Signup successful! Please check your email to continue. (Check your spam if you dont get it in your inbox.)')
                       window.location = '/'
                     }
                     else{
@@ -892,11 +896,6 @@ $headerDivClass = $v ? "not-sticky":"";
                     alert(`Failed to sign up: ${errJSON?.message}`)
                  }
                 )
-
-              setTimeout(() => {
-                
-                console.log('payload: ',payload)
-              },3000)
               
             }
           })

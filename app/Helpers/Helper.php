@@ -5,10 +5,6 @@ use App\Helpers\Contracts\HelperContract;
 use App\Models\SchoolClubs;
 use Crypt;
 use Carbon\Carbon; 
-use Mail;
-use Auth;
-use \Swift_Mailer;
-use \Swift_SmtpTransport;
 use App\Models\User;
 use App\Models\Senders;
 use App\Models\Plugins;
@@ -389,7 +385,8 @@ EOD;
            function getSchool($id)
            {
                $ret = [];
-               $s = Schools::where('id',$id)->first();
+               $s = Schools::where('id',$id)
+                           ->orWhere('email',$id)->first();
 
                if($s != null)
                {
@@ -402,8 +399,11 @@ EOD;
                    $ret['logo'] = $s->logo;
                    $ret['landing_page_pic'] = $s->landing_page_pic;
                    $ret['status'] = $s->status;
+                   $ret['owner'] = $this->getSchoolOwner($s->id);
                    $ret['info'] =$this->getSchoolInfo($s->id);
                    $ret['facilities'] =$this->getSchoolFacilities($s->id);
+                   $ret['resources'] =$this->getSchoolResources($s->id);
+                   $ret['clubs'] =$this->getSchoolClubs($s->id);
                }
 
                return $ret;
@@ -957,6 +957,20 @@ EOD;
           function getUniqueLinkValue($id,$extraText='')
           {
             $ret = $extraText.$this->generateRandomNumber(3)."_r".$id."_r".$this->generateRandomNumber(3);
+            return $ret;
+          }
+
+          function checkSchoolSignup($s)
+          {
+            $ret = true;
+            if(count($s['resources']) < 1) $ret = false; 
+            if(count($s['clubs']) < 1) $ret = false; 
+            if(count($s['facilities']) < 1) $ret = false; 
+            if(strlen($s['logo']) < 1) $ret = false;
+            if(strlen($s['landing_page_pic']) < 1) $ret = false;
+            $info = $s['info'];
+            if(strlen($info['school_coords']) < 1) $ret = false;
+
             return $ret;
           }
           

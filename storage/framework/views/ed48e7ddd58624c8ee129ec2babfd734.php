@@ -1,6 +1,7 @@
 <?php
 $notificationsArr = isset($notifications) ? $notifications : [];
-$fnameString = isset($fname) ? $fname : "";
+$fnameString2 = isset($fname) ? $fname : "";
+$fnameString = strlen($fnameString2) <= 7 ? $fnameString2 : substr($fnameString2,0,5)."..";
 
 ?>
 <div class="dashboard_header_button_item has-noti js-item-menu">

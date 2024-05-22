@@ -134,14 +134,38 @@ class MainController extends Controller {
 		$plugins = $this->helpers->getPlugins();
 		$c = $this->compactValues;
 
-		$notifications = [
+		if($user->role === 'school')
+		{
+            $school =$this->helpers->getSchool($user->email);
+		  
+		   $hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
+		   array_push($c,'school','hasCompletedSignup');
+
+		   $notifications = [
 			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
 			['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
 			['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
 		];
 		array_push($c,"notifications");
 
-        return view('dashboard',compact($c));
+		   return view('school-dashboard',compact($c));
+		}
+		else if($user->role === 'admin' || $user->role === 'su')
+		{
+          dd($user);
+		}
+		else
+		{
+            $notifications = [
+				['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+				['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+				['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+			];
+			array_push($c,"notifications");
+	        return view('dashboard',compact($c));	
+		}
+
+		
     }
 
 

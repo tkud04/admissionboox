@@ -54,17 +54,21 @@ $headerDivClass = $v ? "not-sticky":"";
                                 <li>
                                    <a href="{{url('schools')}}">Schools</a>
                                 </li>
-                                <li><a href="#">About</a>
+                                <li><a href="#">More</a>
                                     <ul>
-                                       <li><a href="{{url('about')}}">About Us</a></li>
-                                       <li><a href="{{url('vision-mission')}}">Vision/Mission</a></li>
+                                       <li><a href="{{url('scholarships')}}">Scholarships</a></li>
+                                       <li><a href="{{url('help')}}">Help</a> </li>
                                     </ul>
                                 </li>
-                                <li>
-                                   <a href="{{url('scholarships')}}">Scholarships</a>
+                                <li><a href="#">About Us</a>
+                                    <ul>
+                                       <li><a href="{{url('about')}}">Who We Are</a></li>
+                                       <li><a href="{{url('vision-mission')}}">Vision/Mission</a></li>
+                                       <li><a href="{{url('contact')}}">Contact Us</a> </li>
+                                    </ul>
                                 </li>
-                                <li><a href="{{url('help')}}">Help</a> </li>
-                                <li><a href="{{url('contact')}}">Contact Us</a> </li>
+                                
+                               
                                
                             </ul>
                         </nav>
