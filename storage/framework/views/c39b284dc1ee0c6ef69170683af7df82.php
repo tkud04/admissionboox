@@ -5,6 +5,25 @@ $ac = "dashboard";
 
 <?php $__env->startSection('dashboard-title',$school['name']); ?>
 
+<?php if(!$hasCompletedSignup): ?>
+ <?php $__env->startSection('scripts'); ?>
+ <script>
+    $(document).ready(() => {
+        Swal.fire({
+            icon: 'warning',
+            title: `Complete your school information`,
+            html: `<p>Your school information is yet to be complete. Please fill out rhe rest of the information required in order to use AdmissionBoox</p>`
+        })
+        .then((result) => {
+             if (result.value) {
+             //window.location = "dashboard";				
+             }
+           });
+    })
+ </script>
+ <?php $__env->stopSection(); ?>
+<?php endif; ?>
+
 <?php $__env->startSection('dashboard-content'); ?>
   <?php if(count($notifications) > 0): ?>
   <div class="row">

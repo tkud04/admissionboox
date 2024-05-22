@@ -18,6 +18,8 @@ $void = "javascript:void(0)";
     <!--<link rel="stylesheet" href="css/stylesheet.css">-->
     <link rel="stylesheet" href="css/mmenu.css">
     <link rel="stylesheet" href="css/stylesheet_1.css" id="colors">
+    <link rel="stylesheet" href="lib/sweet-alert/sweetalert2.css">
+    
     <!-- Google Font -->
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800&display=swap&subset=latin-ext,vietnamese"
@@ -535,6 +537,7 @@ $headerDivClass = $v ? "not-sticky":"";
     <script src="js/tooltips.min.js"></script>
     <script src="js/jquery_custom.js"></script>
     <script src="js/lists.js"></script>
+    <script src="lib/sweet-alert/sweetalert2.js"></script>
     <script src="js/helpers.js?ver={{rand(999, 9999999)}}"></script>
     
     <script>

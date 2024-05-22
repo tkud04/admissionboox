@@ -5,6 +5,25 @@ $ac = "dashboard";
 
 @section('dashboard-title',$school['name'])
 
+@if(!$hasCompletedSignup)
+ @section('scripts')
+ <script>
+    $(document).ready(() => {
+        Swal.fire({
+            icon: 'warning',
+            title: `Complete your school information`,
+            html: `<p>Your school information is yet to be complete. Please fill out rhe rest of the information required in order to use AdmissionBoox!</p>`
+        })
+        .then((result) => {
+             if (result.value) {
+             //window.location = "dashboard";				
+             }
+           });
+    })
+ </script>
+ @stop
+@endif
+
 @section('dashboard-content')
   @if(count($notifications) > 0)
   <div class="row">
