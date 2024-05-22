@@ -246,7 +246,18 @@ class LoginController extends Controller {
                                                     
              //TODO: after creating the user/school, send email with link to verify email andcomplete signup
              $verificationLink = url('set-password').'?em='.$user->email;
-             #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
+             $emailPayload = $this->helpers->getCurrentSender();
+             $emailPayload['from'] = $emailPayload['se'];
+             $emailPayload['to'] = $req['email'];
+             $emailPayload['subject'] = "Verify Your Email";
+             $emailPayload['htmlContent'] = $this->helpers->getEmailContent(
+               'verify-school-signup',
+               [
+                  'link' => $verificationLink,
+                  'name' => $schoolInfoPayload['school_name']
+               ]
+             );
+             $this->helpers->symfonySendMail($emailPayload);
              $ret = ['status'=> "ok"];
           }
           return json_encode($ret);    
@@ -410,6 +421,7 @@ class LoginController extends Controller {
         #dd($req);
         
         $validator = Validator::make($req, [
+            'email' => 'required|email', 
             'password' => 'required|min:6|confirmed',
          ]);
          

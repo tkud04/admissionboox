@@ -873,7 +873,7 @@ $headerDivClass = $v ? "not-sticky":"";
                     let responseMessage = ''
 
                     if(responseJSON.status === "ok"){
-                        alert('Signup successful! Please check your email to continue')
+                        alert('Signup successful! Please check your email to continue. (Check your spam if you dont get it in your inbox.)')
                       window.location = '/'
                     }
                     else{
@@ -892,11 +892,6 @@ $headerDivClass = $v ? "not-sticky":"";
                     alert(`Failed to sign up: ${errJSON?.message}`)
                  }
                 )
-
-              setTimeout(() => {
-                
-                console.log('payload: ',payload)
-              },3000)
               
             }
           })

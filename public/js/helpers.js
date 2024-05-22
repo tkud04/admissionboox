@@ -66,6 +66,23 @@ const completeSchoolSignup = async (fd,successCallback,errorCallback) => {
  
 }
 
+const changePassword = async (fd,successCallback,errorCallback) => {
+  const url = 'api/change-password'
+  const response =  await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
 const rn = async (fd,successCallback,errorCallback) => {
   const url = 'api/read-notification'
   const response =  await fetch(url, {

@@ -25,6 +25,7 @@ use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 class Helper implements HelperContract
@@ -62,7 +63,7 @@ class Helper implements HelperContract
            function symfonySendMail($data){
             
               $email = (new Email())
-               ->from($data['from'])
+               ->from(new Address($data['se'],$data['sn']))
                ->to($data['to'])
                //->cc('cc@example.com')
                //->bcc('bcc@example.com')
@@ -76,6 +77,27 @@ class Helper implements HelperContract
               $transport = Transport::fromDsn($dsn);
               $mailer = new Mailer($transport);
               $mailer->send($email);
+           }
+
+           function getEmailContent($type='', $data= [])
+           {
+             $ret = '';
+
+             if($type === 'verify-school-signup' && (isset($data['link']) && isset($data['name'])))
+             {
+                $name = $data['name']; $link = $data['link'];
+                $ret = <<<EOD
+                <div style="padding: 10px;">
+                <h4 style="">Welcome to AdmissionBOOX!</h4>
+                <p style="">Hello $name,<br> We are excited to get you started. First, you need to verify your account. Just click the button below:</p>
+                <a href="$link" style="padding: 8px 15px; background: #ff7600; border: 1px solid transparent; color: #fff; margin: 0 5px; min-width: 110px; text-align: center; position: relative; line-height: 26px; font-weight: 700;">Verify Account</a>
+                <p style="">If that doesn't work, copy and paste the link below to your browser:</p>
+                <a href="$link" style="">$link</a>
+             </div>
+EOD;
+             }
+
+             return $ret;
            }
 
           
@@ -894,6 +916,19 @@ class Helper implements HelperContract
                }
 
                return $ret;
+           }
+
+           function getCurrentSender()
+           {
+            $ret = [];
+            $s = Senders::where('current','yes')->first();
+
+            if($s != null)
+            {
+                $ret = $this->getSender($s->id);
+            }
+
+            return $ret;
            }
 
            function removeSender($id)
