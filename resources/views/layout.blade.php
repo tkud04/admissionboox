@@ -532,6 +532,7 @@ $headerDivClass = $v ? "not-sticky":"";
     <script src="js/rangeslider.min.js"></script>
     <script src="js/magnific-popup.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <script src="js/dropzone.js"></script>
     <script src="js/bootstrap-select.min.js"></script>
     <script src="js/mmenu.js"></script>
     <script src="js/tooltips.min.js"></script>

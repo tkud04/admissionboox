@@ -33,6 +33,7 @@ Route::post('set-password', [LoginController::class,'postSetPassword']);
 
 
 //School dashboard routes
+Route::post('usr', [MainController::class,'postUpdateSchoolResources']);
 Route::post('update-school-info', [MainController::class,'postUpdateSchoolInfo']);
 
 Route::get('st', [MainController::class,'getSendTest']);

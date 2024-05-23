@@ -225,6 +225,64 @@ class MainController extends Controller {
     }
 
 
+		/**
+	 * Show the application welcome screen to the user.
+	 *
+	 */
+    public function postUpdateSchoolResources(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school')
+			{
+				$req = $request->all();
+                $ret['message'] = json_encode($req);
+
+				#dd($req);
+				/*$validator = Validator::make($req, [
+					'to' => 'required',
+					'sn' => 'required',
+					'se' => 'required',
+					'subject' => 'required',
+					'msg' => 'required',
+					'xf' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation"];
+	              //dd($messages);
+                }
+				else
+				{
+					//$school = $this->helpers->getSchool($)
+				}
+				*/
+
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+
 
    
 
