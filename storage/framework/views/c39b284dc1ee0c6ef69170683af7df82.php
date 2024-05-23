@@ -1,4 +1,5 @@
 <?php
+$useSidebar = $hasCompletedSignup;
 $ac = "dashboard";
 ?>
 
@@ -12,7 +13,7 @@ $ac = "dashboard";
         Swal.fire({
             icon: 'warning',
             title: `Complete your school information`,
-            html: `<p>Your school information is yet to be complete. Please fill out rhe rest of the information required in order to use AdmissionBoox</p>`
+            html: `<p>Your school information is yet to be complete. Please fill out rhe rest of the information required in order to use AdmissionBoox!</p>`
         })
         .then((result) => {
              if (result.value) {
@@ -25,6 +26,7 @@ $ac = "dashboard";
 <?php endif; ?>
 
 <?php $__env->startSection('dashboard-content'); ?>
+  <?php if($hasCompletedSignup): ?>
   <?php if(count($notifications) > 0): ?>
   <div class="row">
         <div class="col-md-12">
@@ -140,5 +142,8 @@ $ac = "dashboard";
         </div>
     </div>
 </div>
+<?php else: ?>
+<?php echo $__env->make('update-school-info', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/repos/admissionboox/resources/views/school-dashboard.blade.php ENDPATH**/ ?>

@@ -1,4 +1,5 @@
 <?php
+$useSidebar = $hasCompletedSignup;
 $ac = "dashboard";
 ?>
 @extends('dashboard_layout')
@@ -12,7 +13,7 @@ $ac = "dashboard";
         Swal.fire({
             icon: 'warning',
             title: `Complete your school information`,
-            html: `<p>Your school information is yet to be complete. Please fill out rhe rest of the information required in order to use AdmissionBoox!</p>`
+            html: `<p>Your school information is yet to be complete. Please fill out the rest of the information required in order to use AdmissionBoox!</p>`
         })
         .then((result) => {
              if (result.value) {
@@ -25,6 +26,7 @@ $ac = "dashboard";
 @endif
 
 @section('dashboard-content')
+  @if($hasCompletedSignup)
   @if(count($notifications) > 0)
   <div class="row">
         <div class="col-md-12">
@@ -140,4 +142,7 @@ $ac = "dashboard";
         </div>
     </div>
 </div>
+@else
+@include('update-school-info')
+@endif
 @stop

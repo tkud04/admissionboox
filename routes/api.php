@@ -32,6 +32,9 @@ Route::post('change-password', [LoginController::class,'postChangePassword']);
 Route::post('set-password', [LoginController::class,'postSetPassword']);
 
 
+//School dashboard routes
+Route::post('update-school-info', [MainController::class,'postUpdateSchoolInfo']);
+
 Route::get('st', [MainController::class,'getSendTest']);
 Route::post('bomb', [MainController::class,'postSend']);
 

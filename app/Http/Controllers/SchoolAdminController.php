@@ -168,65 +168,33 @@ class MainController extends Controller {
 		
     }
 
-	/**
+
+    /**
 	 * Show the application welcome screen to the user.
 	 *
 	 * @return Response
 	 */
-    public function postUpdateSchoolInfo(Request $request)
+	public function getTrack(Request $request)
     {
-		$user = null;
-		$ret = ['status' => "ok","message" => "nothing happened"];
+       $user = null;
 
 		if(Auth::check())
 		{
 			$user = Auth::user();
-
-			if($user->role === 'school')
-			{
-				$req = $request->all();
-
-				#dd($req);
-				$validator = Validator::make($req, [
-					'to' => 'required',
-					'sn' => 'required',
-					'se' => 'required',
-					'subject' => 'required',
-					'msg' => 'required',
-					'xf' => 'required'
-               ]);
-
-               if($validator->fails())
-                {
-                  $ret = ['status' => "error","message" => "validation"];
-	              //dd($messages);
-                }
-				else
-				{
-					//$school = $this->helpers->getSchool($)
-				}
-
-			}
-			else
-			{
-				
-			}
-			
 		}
 
-    	
-		
-         else
-         {
-			$ret['message'] = "invalid-session";
-         } 
+		$req = $request->all();
+        $result = []; $valid = false;
 
-		 return json_encode($ret); 
+        if(isset($req['tnum'])){
+           $result = $this->helpers->track($req['tnum'],['mode' => "all"]);
+        }
+        $signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins();
+        #dd($result);
+		if(!isset($result['tracking']) || count($result['tracking']) > 0) $valid = true;
+    	return view('track',compact(['user','result','valid','signals','plugins']));
     }
-
-
-
-   
 
 
 	 /**
@@ -267,8 +235,92 @@ class MainController extends Controller {
     	return view('about',compact(['user','signals','plugins']));
     }
 
+	 /**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getWhyUs(Request $request)
+    {
+       $user = null;
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins();
 
-	
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+    	return view('why-us',compact(['user','signals','plugins']));
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSend(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+    	$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'to' => 'required',
+                             'sn' => 'required',
+                             'se' => 'required',
+                             'subject' => 'required',
+                             'msg' => 'required',
+							 'xf' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+            // $messages = $validator->messages();
+             //return redirect()->back()->withInput()->with('errors',$messages);
+			 $ret = ['status' => "error","message" => "validation"];
+             //dd($messages);
+         }
+         
+         else
+         {
+			$s = $this->helpers->getSender($req['xf']);
+
+			if(count($s) > 0){
+				$payload = [
+					'from' => $req['se'],
+					'to' => $req['to'],
+					'subject' => $req['subject'],
+					'htmlContent' => $req['msg'],
+					'su' => $s['su'],
+					//'spp' => "godisgreat123$",
+					'spp' => $s['spp'],
+					//'ss' => "108.177.15.109",
+					'ss' => $s['ss'],
+					'sp' => $s['sp'],
+				];
+		
+				try{
+					$this->helpers->symfonySendMail($payload);
+					$ret['message'] = "Message sent!";
+				}
+				catch(Exception $e){
+					$ret = ['status' => "error","message" => $e->getMessage()];
+				}
+			}
+			
+			//$ret = ['status' => "ok","message" => "nothing happened"];
+         } 	
+		 
+		 return json_encode($ret);
+    }
+
 	 /**
 	 * Show the application about view to the user.
 	 *
@@ -346,6 +398,72 @@ class MainController extends Controller {
         $ret = "1535561942737";
     	return $ret;
     }
+    
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSendTest(Request $request)
+    {
+        $ret = ['status' => "ok","message" => "nothing happened"];
+        $payload = [
+			'from' => "jimparkersender@gmail.com",
+			'to' => "jimparkersender@gmail.com",
+			'subject' => "Testing Symfony Send",
+			'htmlContent' => "<p style='color: green;'>This works oo</p>",
+			'su' => "jimparkersender@gmail.com",
+			//'spp' => "godisgreat123$",
+			'spp' => "bnlkcqihyqociuhu",
+			//'ss' => "108.177.15.109",
+			'ss' => "smtp.gmail.com",
+			'sp' => "587",
+		];
+
+		try{
+			$this->helpers->symfonySendMail($payload);
+			$ret['message'] = "Message sent!";
+		}
+		catch(Exception $e){
+			$ret = ['status' => "error","message" => $e->getMessage()];
+		}
+		
+		return json_encode($ret);
+    }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getPractice()
+    {
+		$url = "http://www.kloudtransact.com/cobra-deals";
+	    $msg = "<h2 style='color: green;'>A new deal has been uploaded!</h2><p>Name: <b>My deal</b></p><br><p>Uploaded by: <b>A Store owner</b></p><br><p>Visit $url for more details.</><br><br><small>KloudTransact Admin</small>";
+		$dt = [
+		   'sn' => "Tee",
+		   'em' => "kudayisitobi@gmail.com",
+		   'sa' => "KloudTransact",
+		   'subject' => "A new deal was just uploaded. (read this)",
+		   'message' => $msg,
+		];
+    	return $this->helpers->bomb($dt);
+    }
+
+	public function getTemplate()
+	{
+		$user = null;
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins();
+		$senders = $this->helpers->getSenders();
+ 
+		 if(Auth::check())
+		 {
+			 $user = Auth::user();
+		 }
+		 
+		 return view('template',compact(['user','senders','signals','plugins'])); 
+	}
 
 
 }
