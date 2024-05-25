@@ -48,37 +48,66 @@ class MainController extends Controller {
 
 		$categories = [
 			[
-				'name' => 'Boarding Schools',
+				'name' => 'Early Years',
 				'image' => 'images/popular-location-01.jpg',
 				'numListings' => 18
 			],
 			[
-				'name' => 'Day Schools',
+				'name' => 'Primary',
 				'image' => 'images/popular-location-02.jpg',
 				'numListings' => 26
 			],
 			[
-				'name' => 'Mixed Schools',
+				'name' => 'Secondary',
 				'image' => 'images/popular-location-03.jpg',
 				'numListings' => 19
 			],
 			[
-				'name' => 'Girls Schools',
+				'name' => 'Tertiary',
 				'image' => 'images/popular-location-04.jpg',
 				'numListings' => 22
 			],
 			[
-				'name' => 'Boys Schools',
+				'name' => 'Faith-based',
 				'image' => 'images/popular-location-05.jpg',
 				'numListings' => 19
 			],
 			[
-				'name' => 'Private Schools',
+				'name' => 'Boarding',
 				'image' => 'images/popular-location-06.jpg',
 				'numListings' => 33
 			]
 		];
 		array_push($c,'categories');
+
+		$viewMoreCategories = [
+			[
+				'name' => 'Private',
+				'image' => 'images/popular-location-01.jpg',
+				'numListings' => 11
+			],
+			[
+				'name' => 'Public',
+				'image' => 'images/popular-location-01.jpg',
+				'numListings' => 18
+			],
+			[
+				'name' => 'Boys',
+				'image' => 'images/popular-location-01.jpg',
+				'numListings' => 13
+			],
+			[
+				'name' => 'Girls',
+				'image' => 'images/popular-location-01.jpg',
+				'numListings' => 19
+			],
+			[
+				'name' => 'Day Care',
+				'image' => 'images/popular-location-01.jpg',
+				'numListings' => 10
+			],
+		];
+		array_push($c,'viewMoreCategories');
 
 		$locations = [
 			[
@@ -188,12 +217,13 @@ class MainController extends Controller {
 
 				#dd($req);
 				$validator = Validator::make($req, [
-					'to' => 'required',
+					/*'to' => 'required',
 					'sn' => 'required',
 					'se' => 'required',
 					'subject' => 'required',
-					'msg' => 'required',
-					'xf' => 'required'
+					'msg' => 'required',*/
+					'xf' => 'required',
+					'file' => 'required|file'
                ]);
 
                if($validator->fails())
@@ -203,13 +233,17 @@ class MainController extends Controller {
                 }
 				else
 				{
-					//$school = $this->helpers->getSchool($)
+					$school = $this->helpers->getSchool($req['xf']);
+					$uu = $this->helpers->cloudinaryUploadImage($request->file('file'));
+					$ret['message'] = "ok";
+					$ret['url'] = $uu;
 				}
 
 			}
 			else
 			{
-				
+				$ret = ['status' => "error",'message' => 'invalid-session'];
+
 			}
 			
 		}
@@ -241,28 +275,27 @@ class MainController extends Controller {
 			if($user->role === 'school')
 			{
 				$req = $request->all();
-                $ret['message'] = json_encode($req);
+				$payload = [];
 
-				#dd($req);
-				/*$validator = Validator::make($req, [
-					'to' => 'required',
-					'sn' => 'required',
-					'se' => 'required',
-					'subject' => 'required',
-					'msg' => 'required',
+				
+                
+				$validator = Validator::make($req, [
 					'xf' => 'required'
                ]);
 
                if($validator->fails())
                 {
                   $ret = ['status' => "error","message" => "validation"];
-	              //dd($messages);
                 }
 				else
 				{
-					//$school = $this->helpers->getSchool($)
+					if($request->hasFile('file'))
+				    {
+					   $file = $request->file('file');
+					   $payload['file'] = $file;
+				    }
 				}
-				*/
+				
 
 			}
 			else

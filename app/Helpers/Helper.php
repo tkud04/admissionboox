@@ -23,6 +23,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class Helper implements HelperContract
 {    
@@ -94,6 +95,18 @@ EOD;
              }
 
              return $ret;
+           }
+
+           function cloudinaryUploadImage($file)
+           {
+             $url = Cloudinary::uploadFile($file->getRealPath())->getSecurePath();
+             return $url;
+           }
+
+           function getCloudinaryImage($public_id)
+           {
+            $url = Cloudinary::getUrl($public_id);
+            return $url;
            }
 
           

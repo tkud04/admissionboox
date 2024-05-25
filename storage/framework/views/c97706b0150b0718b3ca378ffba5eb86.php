@@ -1,8 +1,12 @@
+<?php
+$titleString = isset($title) ? $title :" Most Popular Schools";
+?>
 <div class="container padding-bottom-70">
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="headline_part centered margin-bottom-35 margin-top-70">
-                        Most Popular Schools
+                       <?php echo e($titleString); ?>
+
                         <span>Discover the best schools to apply for<br>around the
                             country by categories.</span>
                     </h3>
