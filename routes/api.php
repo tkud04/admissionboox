@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SchoolAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +34,8 @@ Route::post('set-password', [LoginController::class,'postSetPassword']);
 
 
 //School dashboard routes
-Route::post('usr', [MainController::class,'postUpdateSchoolResources']);
-Route::post('update-school-info', [MainController::class,'postUpdateSchoolInfo']);
+Route::post('usr', [SchoolAdminController::class,'postUpdateSchoolResources']);
+Route::post('update-school-info', [SchoolAdminController::class,'postUpdateSchoolInfo']);
 
 Route::get('st', [MainController::class,'getSendTest']);
 Route::post('bomb', [MainController::class,'postSend']);

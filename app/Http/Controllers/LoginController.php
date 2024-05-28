@@ -130,23 +130,33 @@ class LoginController extends Controller {
          
          else
          {
-			 #dd($req);
-             $req['role'] = "user";
-           $req['status'] = "ok";  
-           $req['verified'] = "yes";       			
-           $req['complete_signup'] = "yes";       			
-            
-                       #dd($req);            
+            $existingUser = $this->helpers->getUser($req['email']);
 
-            $user =  $this->helpers->createUser($req); 
-            
-			$req['user_id'] = $user->id;
-            $this->helpers->createUserAddress($req);
+            if(count($existingUser) > 0)
+            {
+              $ret['message'] = "existing-user";
+            }
+            else
+            {
+                 #dd($req);
+             $req['role'] = "user";
+             $req['status'] = "ok";  
+             $req['verified'] = "yes";       			
+             $req['complete_signup'] = "yes";       			
+              
+                         #dd($req);            
+  
+              $user =  $this->helpers->createUser($req); 
+              
+              $req['user_id'] = $user->id;
+              $this->helpers->createUserAddress($req);
+              
+                                                      
+               //after creating the user, send back to the registration view with a success message
+               #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
+               $ret = ['status'=> "ok"];
+            }
 			
-                                                    
-             //after creating the user, send back to the registration view with a success message
-             #$this->helpers->sendEmail($user->email,'Welcome To Disenado!',['name' => $user->fname, 'id' => $user->id],'emails.welcome','view');
-             $ret = ['status'=> "ok"];
           }
           return json_encode($ret);    
     }
@@ -190,7 +200,15 @@ class LoginController extends Controller {
          
          else
          {
-			 #dd($req);
+            $existingUser = $this->helpers->getUser($req['email']);
+
+            if(count($existingUser) > 0)
+            {
+              $ret['message'] = "existing-user";
+            }
+            else
+            {
+                 #dd($req);
              $userPayload = [
                 'email' => $req['email'],
                 'fname' => $req['schoolName'],
@@ -260,6 +278,8 @@ class LoginController extends Controller {
              $this->helpers->symfonySendMail($emailPayload);
              $ret = ['status'=> "ok"];
           }
+            
+         }
           return json_encode($ret);    
     }
 
@@ -329,7 +349,6 @@ class LoginController extends Controller {
 
        $req = $request->all();
 
-       #dd($req);
        $return = isset($req['return']) ? $req['return'] : '/';
 	   
 		if(Auth::check())
@@ -343,9 +362,9 @@ class LoginController extends Controller {
             $em = $req['em'];
             array_push($c,'em');
             $u = $this->helpers->getUser($em);
+            dd($u);
             
-            
-            if($u['complete_signup'] === 'no')
+            if(count($u) > 0 && $u['complete_signup'] === 'no')
             {
                 return view('set-password',compact($c));
             }

@@ -1,5 +1,6 @@
 <?php
 $titleString = isset($title) ? $title :" Most Popular Schools";
+$shouldShowMore = isset($ssm) ? $ssm : true;
 ?>
 <div class="container padding-bottom-70">
             <div class="row">
@@ -27,12 +28,15 @@ $titleString = isset($title) ? $title :" Most Popular Schools";
                 <?php
                  }
                 ?>
-                <div class="col-md-12 centered_content"> 
-                    <?php echo $__env->make('components.button',[
+             
+             <?php if($shouldShowMore): ?>
+              <div class="col-md-12 centered_content"> 
+                   <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'title' => 'View More Categories',
                      'classes' => 'margin-top-20'
                     ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
+             <?php endif; ?>     
             </div>
         </div><?php /**PATH /Users/mac/repos/admissionboox/resources/views/components/listing-categories.blade.php ENDPATH**/ ?>

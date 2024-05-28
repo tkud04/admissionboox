@@ -888,6 +888,9 @@ $headerDivClass = $v ? "not-sticky":"";
                         if(responseJSON.message === 'validation'){
                           responseMessage = 'Failed to sign up: All fields are required'
                         }
+                        else if(responseJSON.message === 'existing-user'){
+                          responseMessage = 'Failed to sign up: User already exists!'
+                        }
                         else{
                           responseMessage = responseJSON?.message
                         }
@@ -1047,6 +1050,9 @@ $headerDivClass = $v ? "not-sticky":"";
                     else{
                         if(responseJSON.message === 'validation'){
                           responseMessage = 'Failed to sign up: All fields are required'
+                        }
+                        else if(responseJSON.message === 'existing-user'){
+                          responseMessage = 'Failed to sign up: User already exists!'
                         }
                         else{
                           responseMessage = responseJSON?.message

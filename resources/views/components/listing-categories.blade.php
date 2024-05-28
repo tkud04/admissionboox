@@ -1,5 +1,6 @@
 <?php
 $titleString = isset($title) ? $title :" Most Popular Schools";
+$shouldShowMore = isset($ssm) ? $ssm : true;
 ?>
 <div class="container padding-bottom-70">
             <div class="row">
@@ -26,12 +27,15 @@ $titleString = isset($title) ? $title :" Most Popular Schools";
                 <?php
                  }
                 ?>
-                <div class="col-md-12 centered_content"> 
-                    @include('components.button',[
+             
+             @if($shouldShowMore)
+              <div class="col-md-12 centered_content"> 
+                   @include('components.button',[
                      'href' => '#',
                      'title' => 'View More Categories',
                      'classes' => 'margin-top-20'
                     ])
                 </div>
+             @endif     
             </div>
         </div>
