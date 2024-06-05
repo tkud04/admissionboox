@@ -30,6 +30,8 @@ Route::get('bye', [LoginController::class,'getLogout']);
 Route::get('dashboard', [MainController::class,'getDashboard']);
 
 
-//Admin routes
-Route::get('admin-dashboard', [AdminController::class,'getDashboard']);
+//Admin GET routes
+Route::get('add-plugin', [AdminController::class,'getAddPlugin']);
+Route::get('plugins', [AdminController::class,'getPlugins']);
 Route::get('add-sender', [AdminController::class,'getAddSender']);
+Route::get('senders', [AdminController::class,'getSenders']);

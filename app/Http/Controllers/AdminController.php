@@ -13,391 +13,16 @@ use Carbon\Carbon;
 class AdminController extends Controller {
 
 	protected $helpers; //Helpers implementation
+    protected $compactValues;
     
     public function __construct(HelperContract $h)
     {
-    	$this->helpers = $h;                     
-    }
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-	public function getDashboard()
-    {
-       $user = null;
-
-		if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-
-		
-		$signals = $this->helpers->signals;
-        $stats = $this->helpers->getDashboardStats();
-		 $courses = [];
-       return view('dashboard',compact(['user','signals','stats']));
-    }
-	
-
-	
-
-    /**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-	public function getTrackingHistory(Request $request)
-    {
-       $user = null;
-
-	   if(Auth::check())
-	   {
-		   $user = Auth::user();
-		   if($user->role !== "admin")
-		   {
-			   return redirect()->intended('/');
-		   }
-	   }
-	   else
-	   {
-		   return redirect()->intended('/');
-	   }
-
-		$req = $request->all();
-        $t = []; $valid = false;
-
-        if(isset($req['tnum'])){
-           $history = $this->helpers->getTrackingHistory($req['tnum']);
-        }
-		else
-		{
-			session()->flash("track-status","error");
-			return redirect()->intended('/');
-		}
-
-        $signals = $this->helpers->signals;
-        $tnum = $req['tnum'];
-		#dd($history);
-    	return view('tracking-history',compact(['user','history','tnum','valid','signals']));
-    }
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postAddTrackingHistory(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'tnum' => 'required',
-                             'location' => 'required',
-                             'remarks' => 'required',
-							 'status' => 'required|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-             $ret = $this->helpers->addTrackingHistory($req);
-			 
-	        session()->flash("update-tracking-status","ok");
-			return redirect()->intended('tracking-history?tnum='.$req['tnum']);
-         } 	  
+    	$this->helpers = $h;
+		$this->compactValues = ['user','plugins','senders','signals'];                     
     }
 
 
-    /**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-	public function getTrackings()
-    {
-       $user = null;
-
-		if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-
-		
-		$signals = $this->helpers->signals;
-        $trackings = $this->helpers->getTrackings(['mode' => "all"]);
-		#dd($trackings);
-       return view('trackings',compact(['user','signals','trackings']));
-    }
-
-	/**
-	 * Show the application about view to the user.
-	 *
-	 * @return Response
-	 */
-	public function getAddTracking(Request $request)
-    {
-       $user = null;
-	   $signals = $this->helpers->signals;
-
-	   if(Auth::check())
-	   {
-		   $user = Auth::user();
-		   if($user->role !== "admin")
-		   {
-			   return redirect()->intended('/');
-		   }
-	   }
-	   else
-	   {
-		   return redirect()->intended('/');
-	   }
-
-    	return view('add-tracking',compact(['user','signals']));
-    }
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postAddTracking(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'sname' => 'required',
-                             'sphone' => 'required',
-                             'sadd' => 'required',
-							 'rname' => 'required',
-                             'rphone' => 'required',
-                             'radd' => 'required',
-                             'stype' => 'required',
-                             'weight' => 'required',
-                             'origin' => 'required',
-                             'bmode' => 'required | not_in:none',
-                             'freight' => 'required',
-                             'mode' => 'required',
-                             'description' => 'required',
-                             'dest' => 'required',
-                             'pickup_at' => 'required',
-                             'status' => 'required|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-             $ret = $this->helpers->addTracking($req);
-			 
-			 $s = ['tnum' => $ret->tnum, 'name' => $req['sname'], 'phone' => $req['sphone'],'address' => $req['sadd'] ];
-			 $r = ['tnum' => $ret->tnum, 'name' => $req['rname'], 'phone' => $req['rphone'],'address' => $req['radd'] ];
-			 
-			 $this->helpers->addShipper($s);
-			 $this->helpers->addReceiver($r);
-			 
-	        session()->flash("new-tracking-status","ok");
-			return redirect()->intended('trackings');
-         } 	  
-    }
-
-	/**
-	 * Show the application about view to the user.
-	 *
-	 * @return Response
-	 */
-	public function getTracking(Request $request)
-    {
-       $user = null;
-	   $signals = $this->helpers->signals;
-	   $req = $request->all();
-
-	   if(Auth::check())
-	   {
-		   $user = Auth::user();
-		   if($user->role !== "admin")
-		   {
-			   return redirect()->intended('/');
-		   }
-	   }
-	   else
-	   {
-		   return redirect()->intended('/');
-	   }
-
-		if(isset($req['xf']))
-		{
-			$t = $this->helpers->getTracking($req['xf'],['mode' => "all",'rawDate' => true]);
-
-			if(count($t) < 1)
-			{
-				session()->flash("tracking-status","error");
-			    return redirect()->intended('trackings');
-			}
-		}
-		else
-		{
-			session()->flash("tracking-status","error");
-			return redirect()->intended('trackings');
-		}
-
-    	return view('edit-tracking',compact(['user','signals','t']));
-    }
-
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postTracking(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-			                 'tnum' => 'required',
-                             'sname' => 'required',
-                             'sphone' => 'required',
-                             'sadd' => 'required',
-							 'rname' => 'required',
-                             'rphone' => 'required',
-                             'radd' => 'required',
-                             'stype' => 'required',
-                             'weight' => 'required',
-                             'origin' => 'required',
-                             'bmode' => 'required | not_in:none',
-                             'freight' => 'required',
-                             'mode' => 'required',
-                             'description' => 'required',
-                             'dest' => 'required',
-                             'pickup_at' => 'required',
-                             'status' => 'required|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-             $ret = $this->helpers->addTracking($req);
-             session()->flash("edit-tracking-status","ok");
-			return redirect()->intended('trackings');
-         } 	  
-    }
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function getRemoveTracking(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-            if($user->role !== "admin")
-            {
-                return redirect()->intended('/');
-            }
-		}
-        else
-        {
-            return redirect()->intended('/');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'xf' => 'required'
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-			 $req['tnum'] = $req['xf'];
-             $ret = $this->helpers->removeTracking($req);
-			 
-	        session()->flash("remove-tracking-status","ok");
-			return redirect()->intended('trackings');
-         } 	  
-    }
+   
 
 	 /**
 	 * Show the application welcome screen to the user.
@@ -406,26 +31,24 @@ class AdminController extends Controller {
 	 */
 	public function getPlugins()
     {
-       $user = null;
+        $user = null;
+       $senders = $this->helpers->getSenders();
+	   //$plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
 
 		if(Auth::check())
 		{
 			$user = Auth::user();
-            if($user->role !== "admin")
+            if($user->role === "admin" || $user->role === "su")
             {
-                return redirect()->intended('/');
+			   return view('plugins',compact($c));
             }
 		}
-        else
-        {
-            return redirect()->intended('/');
-        }
 
-		
-		$signals = $this->helpers->signals;
-        $plugins = $this->helpers->getPlugins(['mode' => "all"]);
-		#dd($trackings);
-       return view('plugins',compact(['user','signals','plugins']));
+		return redirect()->intended('/');
+       
     }
 
 	/**
@@ -436,22 +59,24 @@ class AdminController extends Controller {
 	public function getAddPlugin(Request $request)
     {
        $user = null;
-	   $signals = $this->helpers->signals;
+       $senders = $this->helpers->getSenders();
+	   $plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+       $c = $this->compactValues;
 
 	   if(Auth::check())
-	   {
-		   $user = Auth::user();
-		   if($user->role !== "admin")
-		   {
-			   return redirect()->intended('/');
-		   }
-	   }
-	   else
-	   {
-		   return redirect()->intended('/');
-	   }
+		{
+			$user = Auth::user();
+			
+			if($user->role === "admin" || $user->role === "su")
+            {
+				return view('add-plugin',compact($c));
+            }
+		}
 
-    	return view('add-plugin',compact(['user','signals']));
+		return redirect()->intended('/');
+
+    	
     }
 
 	/**
@@ -461,31 +86,30 @@ class AdminController extends Controller {
 	 */
     public function postAddPlugin(Request $request)
     {
-    	if(Auth::check())
+        $req = $request->all();
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+        if(Auth::check())
 		{
 			$user = Auth::user();
             if($user->role !== "admin")
             {
-                return redirect()->intended('/');
+                $ret['message'] = "auth";
             }
 		}
         else
         {
-            return redirect()->intended('/');
+			$ret['message'] = "auth";
         }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
+		
+		$validator = Validator::make($req, [
                              'name' => 'required',
                              'value' => 'required',
          ]);
          
          if($validator->fails())
          {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
+			$ret['message'] = "validation";
          }
          
          else
@@ -493,9 +117,10 @@ class AdminController extends Controller {
 			 $req['status'] = "active";
              $ret = $this->helpers->createPlugin($req);
 			 
-	        session()->flash("new-plugin-status","ok");
-			return redirect()->intended('plugins');
-         } 	  
+			 $ret = ['status' => 'ok'];
+         }
+
+		 return json_encode($ret);
     }
 
 	/**
@@ -591,41 +216,41 @@ class AdminController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function removePlugin(Request $request)
+	public function getRemovePlugin(Request $request)
     {
-       $user = null;
-	   $signals = $this->helpers->signals;
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
 	   $req = $request->all();
+
 
 	   if(Auth::check())
 	   {
 		   $user = Auth::user();
-		   if($user->role !== "admin")
+		   if($user->role === "admin" || $user->role === "su")
 		   {
-			   return redirect()->intended('/');
+			  if(isset($req['xf']))
+			  {
+				$p = $this->helpers->getPlugin($req['xf']);
+	
+				if(count($p) > 0)
+				{
+					$this->helpers->removePlugin($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
 		   }
 	   }
 	   else
 	   {
-		   return redirect()->intended('/');
+		 $ret['message'] = "auth";
 	   }
 
-		if(isset($req['xf']))
-		{
-			$p = $this->helpers->getPlugin($req['xf']);
-
-			if(count($p) < 1)
-			{
-				$this->helpers->removePlugin($p['id']);
-				session()->flash("remove-plugin-status","ok");
-			    return redirect()->intended('plugins');
-			}
-		}
-		else
-		{
-			session()->flash("plugin-status","error");
-			return redirect()->intended('plugins');
-		}
+	   return json_encode(($ret));
     }
 	
 	

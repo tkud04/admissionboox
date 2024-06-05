@@ -11,6 +11,10 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
  <?php echo $__env->yieldContent('dashboard-title'); ?>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('styles'); ?>
+  <?php echo $__env->yieldContent('dashboard-styles'); ?>
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('scripts'); ?>
   <?php echo $__env->yieldContent('dashboard-scripts'); ?>
 <?php $__env->stopSection(); ?>

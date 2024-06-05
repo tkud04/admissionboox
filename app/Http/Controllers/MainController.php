@@ -137,6 +137,7 @@ class MainController extends Controller {
 		];
         array_push($c,'locations');
         
+		#dd($plugins);
 
         return view('index',compact($c));
     }
@@ -163,11 +164,18 @@ class MainController extends Controller {
 		$plugins = $this->helpers->getPlugins();
 		$c = $this->compactValues;
 
-		if($user->role === 'school')
+		$notifications = [
+			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+			['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+			['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+		];
+		array_push($c,"notifications");
+
+		if($user->role === 'school_admin')
 		{
             $school =$this->helpers->getSchool($user->email);
-		  
-		   $hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
+
+			$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
 		   array_push($c,'school','hasCompletedSignup');
 
 		   $notifications = [
@@ -181,7 +189,14 @@ class MainController extends Controller {
 		}
 		else if($user->role === 'admin' || $user->role === 'su')
 		{
-          dd($user);
+		  $schools = $this->helpers->getSchools();
+		   $facilities = $this->helpers->getFacilities();
+		  $clubs = $this->helpers->getClubs();
+		  $users = $this->helpers->getUsers(); 
+		  $dashboardStats = [];
+		  array_push($c,'schools','facilities','clubs','users','dashboardStats');
+		 # dd($schools);
+		  return view('admin-dashboard',compact($c));
 		}
 		else
 		{

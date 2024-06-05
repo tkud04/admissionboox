@@ -1,55 +1,96 @@
 <?php
-$void = 'javascript:void(0)';
+$ac = "dashboard";
+$useAdminSidebar = true;
 ?>
-@extends('layout')
+@extends('dashboard_layout')
 
-@section('title',"Plugins")
+@section('dashboard-title',"Plugins")
+
+@section('dashboard-styles')
+  <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
+@stop
+
+@section('dashboard-scripts')
+  <script src="lib/datatables/datatables.min.js"></script>
+
+  <script>
+	const confirmAction = (actionId,callback) => {
+		const v = confirm('Are you sure? This action cannot be undone')
+
+		if(v){
+			typeof callback === 'function' && callback(actionId)
+		}
+	}
+	 const confirmDeletePlugin = (pid) => {
+            confirmAction(pid, 
+			    (xf) => {
+            removePlugin(pid,
+				      () => {
+			       		alert('Plugin removed')
+					      window.location = 'plugins'
+				      },
+				      (err) => {
+				       	alert('Failed to remove plugin: ',err)
+				      }
+			       )
+           })
+        
+        }
+
+		
+	$(() => {
+		$('.admissionboox-table').dataTable()
+	})
+  </script>
+@stop
+
+@section('dashboard-content')
 
 
-@section('content')
-<section class="block" class="up">
-<div class="container">
-      <div class="row">
-        @include('_admin-nav')
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-          @include('_admin-header',['title' => "Plugins",'btn' => "<a href='add-plugin' class='btn btn-primary'>Add New Plugin</a>"])
-         
-          <div class="table-responsive">
-            <table class="table table-striped table-sm data-table">
-              <thead>
-                <tr>
-                 <th>Name</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <?php
-                   foreach($plugins as $p)
-                   {
-                     $tu = url('plugin')."?xf=".$p['id'];
-                     $ru = url('remove-plugin')."?xf=".$p['id'];
-                  ?>
-                <tr>
-                  <td>{{$p['name']}}</td>
-                  
-                  <td><span class="badge bg-info">{{strtoupper($p['status'])}}</span></td>
-                  <td>
-                    <div class="btn-group up">
-                      <a href="{{$tu}}" class="btn btn-primary">View</a>
-                      <a href="{{$ru}}" class="btn btn-danger">Remove</a>
-                   </div>  
-                  </td>
-                </tr>
-                <?php
-                   }
-                ?>
-              </tbody>
-            </table>
-          </div>
-        </main>
-      </div>
-    </div>
-</section>
+  <div class="row">
+   
+      <div class="col-lg-12 col-md-12 mb-4">
+		  <div class="utf_dashboard_list_box table-responsive recent_booking">
+			<h4>Plugins</h4>
+			<div class="dashboard-list-box table-responsive invoices with-icons">
+			  <table class="table table-hover admissionboox-table">
+				<thead>
+				  <tr>
+					<th>Name</th>
+					<th>Content</th>
+					<th>Date Added</th>
+					<th>Status</th>
+					<th>Action</th>
+				  </tr>
+				</thead>
+				<tbody>
+				<?php
+                  if(isset($plugins) && count($plugins) > 0)
+                  {
+                    foreach($plugins as $p)
+                    {
+                       $pid = $p['id'];
+						$ru = url('remove-plugin')."?xf={$p['id']}";
+                 ?>
+				  <tr>
+					<td>{{$p['name']}}</td>
+					<td>
+						<div style="background: #efefef; border-radius: 2px;">{{$p['value']}}</div>
+					</td>
+					<td>{{$p['date']}}</td>
+					<td>{{$p['status']}}</td>
+					<td><a href="#" onclick="confirmDeletePlugin('{{$pid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+				  </tr>
+				<?php
+					}
+				}
+				
+				?>
+				</tbody>
+			  </table>
+			</div>
+		  </div>
+		</div>
+</div>
 @stop

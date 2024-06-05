@@ -11,6 +11,10 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
  @yield('dashboard-title')
 @stop
 
+@section('styles')
+  @yield('dashboard-styles')
+@stop
+
 @section('scripts')
   @yield('dashboard-scripts')
 @stop

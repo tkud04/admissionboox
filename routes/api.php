@@ -31,15 +31,23 @@ Route::post('forgot-password', [LoginController::class,'postForgotPassword']);
 Route::post('reset-password', [LoginController::class,'postResetPassword']);
 Route::post('change-password', [LoginController::class,'postChangePassword']);
 Route::post('set-password', [LoginController::class,'postSetPassword']);
+Route::get('st', [MainController::class,'getSendTest']);
+Route::post('bomb', [MainController::class,'postSend']);
 
 
 //School dashboard routes
 Route::post('usr', [SchoolAdminController::class,'postUpdateSchoolResources']);
 Route::post('update-school-info', [SchoolAdminController::class,'postUpdateSchoolInfo']);
 
-Route::get('st', [MainController::class,'getSendTest']);
-Route::post('bomb', [MainController::class,'postSend']);
+
 
 //Admin routes
+
 Route::post('add-sender', [AdminController::class,'postAddSender']);
+Route::get('remove-sender', [AdminController::class,'getRemoveSender']);
+
+Route::post('add-plugin', [AdminController::class,'postAddPlugin']);
+Route::get('remove-plugin', [AdminController::class,'getRemovePlugin']);
+
+
 

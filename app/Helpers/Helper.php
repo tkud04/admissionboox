@@ -327,6 +327,7 @@ EOD;
                    $ret['name'] = $p->name;
                    $ret['value'] = $p->value;
                    $ret['status'] = $p->status;
+                   $ret['date'] = $p->created_at->format("jS F, Y");  
                }
 
                return $ret;
@@ -378,10 +379,11 @@ EOD;
             return $ret;
            }
 
-           function getSchools()
+           function getSchools($id='all')
            {
                $ret = [];
-               $schools = Schools::where('id','>','0')->get();
+               if($id === 'all') $schools = Schools::where('id','>','0')->get();
+               else $schools = Schools::where('email', $id)->get();
 
                if($schools != null)
                {
@@ -926,6 +928,7 @@ EOD;
                    $ret['se'] = $s->se;
                    $ret['current'] = $s->current;
                    $ret['status'] = $s->status;
+                   $ret['date'] = $s->created_at->format("jS F, Y");
                }
 
                return $ret;

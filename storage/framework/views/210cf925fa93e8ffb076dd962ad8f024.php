@@ -26,6 +26,14 @@ $void = "javascript:void(0)";
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800" rel="stylesheet"
         type="text/css">
+        
+      <?php echo $__env->yieldContent('styles'); ?>
+
+      <style type="text/css">
+        .dataTables_wrapper .dataTables_filter input{
+	         padding: 0px !important;
+        }
+      </style>
 </head>
 
 <?php
@@ -513,7 +521,7 @@ $headerDivClass = $v ? "not-sticky":"";
   <?php
      }
   ?>
-    <!-- Scripts -->
+    <!-- Scripts 
     <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -523,7 +531,7 @@ $headerDivClass = $v ? "not-sticky":"";
     });
   };
 </script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>-->
    
 
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -1051,6 +1059,9 @@ $headerDivClass = $v ? "not-sticky":"";
                         if(responseJSON.message === 'validation'){
                           responseMessage = 'Failed to sign up: All fields are required'
                         }
+                        else if(responseJSON.message === 'existing-user'){
+                          responseMessage = 'Failed to sign up: User already exists!'
+                        }
                         else{
                           responseMessage = responseJSON?.message
                         }
@@ -1090,17 +1101,18 @@ if (isset($signals)) {
                    <?php echo $__env->make('session-status', ['pop' => $pop, 'val' => $val], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <?php endif; ?>
 
-<?php if($user == null): ?>
+
 <!--------- Plugins: DO NOT EDIT ------>
 <?php
     foreach ($plugins as $p) {
 ?>
-<!--<?php echo $p['value']; ?> -->
+<?php echo $p['value']; ?>
+
 <?php
     }
 ?>
 <!------------------------------------->
-<?php endif; ?>
+
 
 </body>
 </html><?php /**PATH /Users/mac/repos/admissionboox/resources/views/layout.blade.php ENDPATH**/ ?>

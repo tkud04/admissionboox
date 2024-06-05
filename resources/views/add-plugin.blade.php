@@ -1,43 +1,99 @@
 <?php
 $void = 'javascript:void(0)';
+$ac = "dashboard";
+$useAdminSidebar = true;
 ?>
-@extends('layout')
 
-@section('title',"Add Plugin")
+@extends('dashboard_layout')
 
+@section('dashboard-title',"Add Plugin")
 
-@section('content')
-<section class="block">
-<div class="container">
-      <div class="row">
-        @include('_admin-nav')
+@section('dashboard-scripts')
+<script>
+    $(document).ready(() => {
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-          @include('_admin-header',['title' => "Add New Plugin"])
-         
-         <form id="add-plugin-form" action="{{url('add-plugin')}}" method="post">
-           {!! csrf_field() !!}
-           <div class="row">
-              <div class="form-group mb-3 col-md-12">
-                 <label class="control-label">Name</label>
-                 <input type="text" class="form-control" id="pname" name="name" placeholder="Friendly name for the plugin">
-               </div>
-               <div class="form-group col-md-12">
-                 <label class="control-label">Value</label>
-                 <textarea class="form-control" id="pvalue" name="value" placeholder="Plugin content" rows="15"></textarea>
-               </div>
-           </div>
+        $('#add-plugin-name-validation').hide()
+        $('#add-plugin-content-validation').hide()
 
-           <div class="row mt-5">
-               <div class="form-group col-md-12 mt-3">
-                 <button class="btn btn-primary" id="add-plugin-submit">SUBMIT</button>
-               </div>
-           </div>
+        $('#add-plugin-btn').click(e => {
+            e.preventDefault()
+            $('#add-plugin-name-validation').hide()
+            $('#add-plugin-content-validation').hide()
 
-           
-         </form>
-        </main>
+            const name = $('#add-plugin-name').val(), content = $('#add-plugin-content').val(),
+            v = name === '' || content === ''
+
+            if(v){
+              if(name === '') $('#add-plugin-name-validation').fadeIn()
+              if(content === '') $('#add-plugin-content-validation').fadeIn()
+            }
+            else{
+              $('#add-plugin-btn').hide()
+              $('#add-plugin-loading').fadeIn()
+              
+              const fd = new FormData()
+              fd.append('name',name)
+              fd.append('value',content)
+              addPlugin(fd,
+              (data) => {
+                
+                $('#add-plugin-loading').hide()
+              $('#add-plugin-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Plugin Added!')
+                    window.location = 'plugins'
+                }
+                else if(data.status === 'error'){
+                    let errMessage = 'please try again'
+                    if(data.message === 'invalid-session'){
+                     errMessage = 'There was an issue while processing your data. Please contact support'
+                    }
+                    else if(data.message === 'invalid-user'){
+                     errMessage = 'User invalid, please contact support'
+                    }
+
+                    alert(errMessage)
+                }
+              },
+              (err) => {
+                $('#add-plugin-loading').hide()
+              $('#add-plugin-btn').fadeIn()
+                alert(`Failed to change password: ${err}`)
+              }
+            )
+            }
+        })
+    })
+</script>
+@stop
+
+@section('dashboard-content')
+<div class="row"> 
+        <div class="col-lg-12 col-md-12">
+          <div class="utf_dashboard_list_box margin-top-0">
+            <h4 class="gray"><i class="sl sl-icon-key"></i>Add plugin:</h4>
+            <div class="utf_dashboard_list_box-static"> 
+              <div class="my-profile">
+			    <div class="row with-forms">
+					<div class="col-md-12">
+                        @include('components.form-validation', ['id' => "add-plugin-name-validation"])
+						<label>Name</label>						
+						<input type="text" class="input-text" id="add-plugin-name" placeholder="Plugin name" value="">
+					</div>
+					<div class="col-md-12">
+                     @include('components.form-validation', ['id' => "add-plugin-content-validation"])
+						<label>Content</label>
+            <textarea class="input-text" id="add-plugin-content" name="value" placeholder="Plugin content" rows="15"></textarea>
+					</div>
+					<div class="col-md-12">
+                         @include('components.generic-loading', ['message' => 'Loading', 'id' => "add-plugin-loading"])
+						<button class="button btn_center_item margin-top-15" id="add-plugin-btn">Submit</button>
+					</div>
+				</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-</section>
 @stop

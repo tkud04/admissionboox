@@ -26,6 +26,14 @@ $void = "javascript:void(0)";
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800" rel="stylesheet"
         type="text/css">
+        
+      @yield('styles')
+
+      <style type="text/css">
+        .dataTables_wrapper .dataTables_filter input{
+	         padding: 0px !important;
+        }
+      </style>
 </head>
 
 <?php
@@ -513,7 +521,7 @@ $headerDivClass = $v ? "not-sticky":"";
   <?php
      }
   ?>
-    <!-- Scripts -->
+    <!-- Scripts 
     <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -523,7 +531,7 @@ $headerDivClass = $v ? "not-sticky":"";
     });
   };
 </script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>-->
    
 
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -1093,17 +1101,17 @@ if (isset($signals)) {
                    @include('session-status', ['pop' => $pop, 'val' => $val])
                  @endif
 
-@if($user == null)
+
 <!--------- Plugins: DO NOT EDIT ------>
 <?php
     foreach ($plugins as $p) {
 ?>
-<!--{!! $p['value'] !!} -->
+{!! $p['value'] !!}
 <?php
     }
 ?>
 <!------------------------------------->
-@endif
+
 
 </body>
 </html>

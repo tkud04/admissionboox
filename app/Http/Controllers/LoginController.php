@@ -216,7 +216,7 @@ class LoginController extends Controller {
                 'phone' => $req['phone'],
                 'complete_signup' => "no",
                 'gender' => "",
-                'role' => 'school',
+                'role' => 'school_admin',
                 'verified' => 'yes',
                 'password' => "",
                 'status' => "ok",
@@ -362,7 +362,7 @@ class LoginController extends Controller {
             $em = $req['em'];
             array_push($c,'em');
             $u = $this->helpers->getUser($em);
-            dd($u);
+            #dd($u);
             
             if(count($u) > 0 && $u['complete_signup'] === 'no')
             {
