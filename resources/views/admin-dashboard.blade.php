@@ -230,7 +230,7 @@ $useAdminSidebar = true;
                         $owner = $school['owner'];
                  ?>
 				  <tr>
-					<td><img alt="{{$school['name']}}" class="img-fluid rounded-circle shadow-lg" src="{{$school['name']}}" width="50" height="50"></td>
+					<td><img alt="{{$school['name']}}" class="img-fluid rounded-circle shadow-lg" src="{{$school['logo']}}" width="50" height="50"></td>
 					<td>{{$school['name']}}</td>
 					<td>12 Jan 2022</td>
 					<td>Paypal</td>
@@ -379,29 +379,27 @@ $useAdminSidebar = true;
 				<thead>
 				  <tr>
 					<th>Name</th>
-					<th>Content</th>
+					<th>Value</th>
+					<th>Image</th>
 					<th>Date Added</th>
-					<th>Status</th>
 					<th>Action</th>
 				  </tr>
 				</thead>
 				<tbody>
 				<?php
-                  if(isset($plugins) && count($plugins) > 0)
+                  if(isset($clubs) && count($clubs) > 0)
                   {
-                    foreach($plugins as $p)
+                    foreach($clubs as $c)
                     {
-                       $pid = $p['id'];
-						$ru = url('remove-plugin')."?xf={$p['id']}";
+                       $cid = $c['id'];
+						$ru = url('remove-club')."?xf={$c['id']}";
                  ?>
 				  <tr>
-					<td>{{$p['name']}}</td>
-					<td>
-						<div style="background: #efefef; border-radius: 2px;">{{$p['value']}}</div>
-					</td>
-					<td>{{$p['date']}}</td>
-					<td>{{$p['status']}}</td>
-					<td><a href="#" onclick="confirmDeletePlugin('{{$pid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+					<td>{{$c['club_name']}}</td>
+					<td>{{$c['club_value']}}</td>
+					<td><img alt="{{$c['club_name']}}" class="img-fluid rounded-circle shadow-lg" src="{{$c['img_url']}}" width="50" height="50"></td>
+					<td>{{$c['date']}}</td>
+					<td><a href="#" onclick="confirmDeleteClub('{{$cid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php
 					}

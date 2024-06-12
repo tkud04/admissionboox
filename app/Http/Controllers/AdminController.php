@@ -253,6 +253,150 @@ class AdminController extends Controller {
 	   return json_encode(($ret));
     }
 	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFacilities()
+    {
+        $user = null;
+       $senders = $this->helpers->getSenders();
+	   //$plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role === "admin" || $user->role === "su")
+            {
+			  $facilities = $this->helpers->getFacilities();
+			  array_push($c,'facilities');
+			   return view('facilities',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+       
+    }
+
+	/**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddFacility(Request $request)
+    {
+       $user = null;
+       $senders = $this->helpers->getSenders();
+	   $plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+       $c = $this->compactValues;
+
+	   if(Auth::check())
+		{
+			$user = Auth::user();
+			
+			if($user->role === "admin" || $user->role === "su")
+            {
+				return view('add-facility',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+
+    	
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddFacility(Request $request)
+    {
+        $req = $request->all();
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+        if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role !== "admin")
+            {
+                $ret['message'] = "auth";
+            }
+		}
+        else
+        {
+			$ret['message'] = "auth";
+        }
+		
+		$validator = Validator::make($req, [
+                             'name' => 'required',
+                             'value' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+			$ret['message'] = "validation";
+         }
+         
+         else
+         {
+			 $req['status'] = "active";
+             $ret = $this->helpers->createPlugin($req);
+			 
+			 $ret = ['status' => 'ok'];
+         }
+
+		 return json_encode($ret);
+    }
+
+
+	/**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveFacility(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === "admin" || $user->role === "su")
+		   {
+			  if(isset($req['xf']))
+			  {
+				$p = $this->helpers->getPlugin($req['xf']);
+	
+				if(count($p) > 0)
+				{
+					$this->helpers->removePlugin($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+	
 	
     
     /**
