@@ -1,3 +1,12 @@
+const confirmAction = (actionId,callback) => {
+  const v = confirm('Are you sure? This action cannot be undone')
+
+  if(v){
+    typeof callback === 'function' && callback(actionId)
+  }
+}
+
+
 const login = async (fd,successCallback,errorCallback) => {
     const url = 'api/signin'
     const response =  await fetch(url, {

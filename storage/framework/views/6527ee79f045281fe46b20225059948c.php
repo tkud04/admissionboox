@@ -14,17 +14,11 @@ $useAdminSidebar = true;
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
-	const confirmAction = (actionId,callback) => {
-		const v = confirm('Are you sure? This action cannot be undone')
 
-		if(v){
-			typeof callback === 'function' && callback(actionId)
-		}
-	}
 	 const confirmDeletePlugin = (pid) => {
             confirmAction(pid, 
 			    (xf) => {
-            removePlugin(pid,
+            removePlugin(xf,
 				      () => {
 			       		alert('Plugin removed')
 					      window.location = 'plugins'

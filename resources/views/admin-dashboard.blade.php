@@ -14,67 +14,67 @@ $useAdminSidebar = true;
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
-	const confirmAction = (actionId,callback) => {
-		const v = confirm('Are you sure? This action cannot be undone')
-
-		if(v){
-			typeof callback === 'function' && callback(actionId)
-		}
-	}
+	
 	 const confirmDeletePlugin = (pid) => {
             confirmAction(pid, 
-			    removePlugin(pid,
-				() => {
-					alert('Plugin removed')
-					window.location = 'dashboard'
-				},
-				(err) => {
-					alert('Failed to remove plugin: ',err)
-				}
-			   ))
+			    (xf) => {
+					removePlugin(xf,
+				      () => {
+					    alert('Plugin removed')
+					    window.location = 'dashboard'
+				       },
+				      (err) => {
+					    alert('Failed to remove plugin: ',err)
+				      }
+			        )
+				})
         
         }
 
 		const confirmDeleteSender = (sid) => {
-			confirmAction(pid, 
-			    removeSender(sid,
-				() => {
-					alert('Sender removed')
-					window.location = 'dashboard'
-				},
-				(err) => {
-					alert('Failed to sender plugin: ',err)
-				}
-			   ))
-        
+			confirmAction(sid, 
+			    (xf) => {
+					removeSender(xf,
+				      () => {
+					    alert('Sender removed')
+					    window.location = 'dashboard'
+				       },
+				      (err) => {
+					    alert('Failed to remove sender: ',err)
+				      }
+			        )
+				})
         }
 
 		const confirmDeleteFacility = (sid) => {
-			confirmAction(pid, 
-			    removeFacility(sid,
-				() => {
-					alert('Sender removed')
-					window.location = 'dashboard'
-				},
-				(err) => {
-					alert('Failed to sender plugin: ',err)
-				}
-			   ))
+			confirmAction(sid, 
+			    (xf) => {
+					removeFacility(xf,
+				      () => {
+					    alert('Facility removed')
+					    window.location = 'dashboard'
+				       },
+				      (err) => {
+					    alert('Failed to remove facility: ',err)
+				      }
+			        )
+				})
         
         }
 		
 		const confirmDeleteClub = (sid) => {
-			confirmAction(pid, 
-			    removeClub(sid,
-				() => {
-					alert('Sender removed')
-					window.location = 'dashboard'
-				},
-				(err) => {
-					alert('Failed to sender plugin: ',err)
-				}
-			   ))
-        
+			confirmAction(sid, 
+			    (xf) => {
+					removeCLub(xf,
+				      () => {
+					    alert('Club removed')
+					    window.location = 'dashboard'
+				       },
+				      (err) => {
+					    alert('Failed to remove club: ',err)
+				      }
+			        )
+				})
         }
 
 	$(() => {
@@ -337,29 +337,29 @@ $useAdminSidebar = true;
 				<thead>
 				  <tr>
 					<th>Name</th>
-					<th>Content</th>
+					<th>Value</th>
+					<th>Icon</th>
 					<th>Date Added</th>
-					<th>Status</th>
 					<th>Action</th>
 				  </tr>
 				</thead>
 				<tbody>
 				<?php
-                  if(isset($plugins) && count($plugins) > 0)
+                  if(isset($facilities) && count($facilities) > 0)
                   {
-                    foreach($plugins as $p)
+                    foreach($facilities as $f)
                     {
-                       $pid = $p['id'];
-						$ru = url('remove-plugin')."?xf={$p['id']}";
+                       $fid = $f['id'];
+						$ru = url('remove-facility')."?xf={$f['id']}";
                  ?>
 				  <tr>
-					<td>{{$p['name']}}</td>
+					<td>{{$f['facility_name']}}</td>
+					<td>{{$f['facility_value']}}</td>
 					<td>
 						<div style="background: #efefef; border-radius: 2px;">{{$p['value']}}</div>
 					</td>
 					<td>{{$p['date']}}</td>
-					<td>{{$p['status']}}</td>
-					<td><a href="#" onclick="confirmDeletePlugin('{{$pid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+					<td><a href="#" onclick="confirmDeletefacility('{{$fid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php
 					}
