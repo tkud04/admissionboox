@@ -301,6 +301,8 @@ class AdminController extends Controller {
 			
 			if($user->role === "admin" || $user->role === "su")
             {
+				$iconsList = $this->helpers->im_icons;
+				array_push($c,'iconsList');
 				return view('add-facility',compact($c));
             }
 		}
@@ -334,8 +336,9 @@ class AdminController extends Controller {
         }
 		
 		$validator = Validator::make($req, [
-                             'name' => 'required',
-                             'value' => 'required',
+                             'facility_name' => 'required',
+                             'facility_value' => 'required',
+                             'icon' => 'required',
          ]);
          
          if($validator->fails())
@@ -346,7 +349,7 @@ class AdminController extends Controller {
          else
          {
 			 $req['status'] = "active";
-             $ret = $this->helpers->createPlugin($req);
+             $ret = $this->helpers->addFacility($req);
 			 
 			 $ret = ['status' => 'ok'];
          }
@@ -375,11 +378,158 @@ class AdminController extends Controller {
 		   {
 			  if(isset($req['xf']))
 			  {
-				$p = $this->helpers->getPlugin($req['xf']);
+				$p = $this->helpers->getFacility($req['xf']);
 	
 				if(count($p) > 0)
 				{
-					$this->helpers->removePlugin($req['xf']);
+					$this->helpers->removeFacility($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getClubs()
+    {
+        $user = null;
+       $senders = $this->helpers->getSenders();
+	   //$plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role === "admin" || $user->role === "su")
+            {
+			  $clubs = $this->helpers->getClubs();
+			  array_push($c,'clubs');
+			   return view('clubs',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+       
+    }
+
+	/**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddClub(Request $request)
+    {
+       $user = null;
+       $senders = $this->helpers->getSenders();
+	   $plugins = $this->helpers->getPlugins();
+       $signals = $this->helpers->signals;
+       $c = $this->compactValues;
+
+	   if(Auth::check())
+		{
+			$user = Auth::user();
+			
+			if($user->role === "admin" || $user->role === "su")
+            {
+				$iconsList = $this->helpers->im_icons;
+				array_push($c,'iconsList');
+				return view('add-club',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+
+    	
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddClub(Request $request)
+    {
+        $req = $request->all();
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+        if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role !== "admin")
+            {
+                $ret['message'] = "auth";
+            }
+		}
+        else
+        {
+			$ret['message'] = "auth";
+        }
+		
+		$validator = Validator::make($req, [
+                             'club_name' => 'required',
+                             'club_value' => 'required',
+                             'icon' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+			$ret['message'] = "validation";
+         }
+         
+         else
+         {
+			 $req['status'] = "active";
+             $ret = $this->helpers->addClub($req);
+			 
+			 $ret = ['status' => 'ok'];
+         }
+
+		 return json_encode($ret);
+    }
+
+
+	/**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveClub(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === "admin" || $user->role === "su")
+		   {
+			  if(isset($req['xf']))
+			  {
+				$p = $this->helpers->getClub($req['xf']);
+	
+				if(count($p) > 0)
+				{
+					$this->helpers->removeClub($req['xf']);
 					$ret = ['status' => "ok"];
 				}
 			  }

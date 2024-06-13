@@ -59,7 +59,7 @@ $useAdminSidebar = true;
               (err) => {
                 $('#add-plugin-loading').hide()
               $('#add-plugin-btn').fadeIn()
-                alert(`Failed to change password: ${err}`)
+                alert(`Failed to add plugin: ${err}`)
               }
             )
             }

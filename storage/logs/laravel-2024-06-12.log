@@ -1,4 +1,0 @@
-[2024-06-12 17:45:09] local.ERROR: Cannot redeclare App\Http\Controllers\AdminController::getAddPlugin() {"userId":1,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare App\\Http\\Controllers\\AdminController::getAddPlugin() at /Users/mac/repos/admissionboox/app/Http/Controllers/AdminController.php:290)
-[stacktrace]
-#0 {main}
-"} 

@@ -37,3 +37,5 @@ Route::get('add-sender', [AdminController::class,'getAddSender']);
 Route::get('senders', [AdminController::class,'getSenders']);
 Route::get('add-facility', [AdminController::class,'getAddFacility']);
 Route::get('facilities', [AdminController::class,'getFacilities']);
+Route::get('add-club', [AdminController::class,'getAddClub']);
+Route::get('clubs', [AdminController::class,'getClubs']);

@@ -6,6 +6,22 @@ const confirmAction = (actionId,callback) => {
   }
 }
 
+const handleResponseError = (data) => {
+  console.log('data in error')
+  let errMessage = 'please try again'
+  if(data.message === 'validation'){
+   errMessage = 'All fields are required'
+  }
+  else if(data.message === 'invalid-session'){
+    errMessage = 'There was an issue while processing your data. Please contact support'
+   }
+  else if(data.message === 'invalid-user'){
+   errMessage = 'User invalid, please contact support'
+  }
+
+  alert(errMessage)
+}
+
 
 const login = async (fd,successCallback,errorCallback) => {
     const url = 'api/signin'
@@ -128,6 +144,72 @@ const addPlugin = async (fd,successCallback,errorCallback) => {
 
 const removePlugin = async (id,successCallback,errorCallback) => {
   const url = `api/remove-plugin?xf=${id}`
+  const response = await fetch(url, {
+      method: "GET",
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const addFacility = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-facility'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeFacility = async (id,successCallback,errorCallback) => {
+  const url = `api/remove-facility?xf=${id}`
+  const response = await fetch(url, {
+      method: "GET",
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const addCLub = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-club'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeClub = async (id,successCallback,errorCallback) => {
+  const url = `api/remove-club?xf=${id}`
   const response = await fetch(url, {
       method: "GET",
     })

@@ -6,7 +6,7 @@ $useAdminSidebar = true;
 
 @extends('dashboard_layout')
 
-@section('dashboard-title',"Add Facility")
+@section('dashboard-title',"Add Club")
 
 @section('dashboard-scripts')
 <script>
@@ -103,7 +103,7 @@ $useAdminSidebar = true;
 <div class="row"> 
         <div class="col-lg-12 col-md-12">
           <div class="utf_dashboard_list_box margin-top-0">
-            <h4 class="gray"><i class="sl sl-icon-key"></i>Add facility:</h4>
+            <h4 class="gray"><i class="sl sl-icon-key"></i>Add club:</h4>
             <div class="utf_dashboard_list_box-static"> 
               <div class="my-profile">
 			    <div class="row with-forms">

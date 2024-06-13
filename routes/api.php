@@ -49,5 +49,11 @@ Route::get('remove-sender', [AdminController::class,'getRemoveSender']);
 Route::post('add-plugin', [AdminController::class,'postAddPlugin']);
 Route::get('remove-plugin', [AdminController::class,'getRemovePlugin']);
 
+Route::post('add-facility', [AdminController::class,'postAddFacility']);
+Route::get('remove-facility', [AdminController::class,'getRemoveFacility']);
+
+Route::post('add-club', [AdminController::class,'postAddClub']);
+Route::get('remove-club', [AdminController::class,'getRemoveClub']);
+
 
 

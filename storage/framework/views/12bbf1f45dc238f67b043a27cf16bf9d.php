@@ -4,11 +4,11 @@ $ac = "dashboard";
 $useAdminSidebar = true;
 ?>
 
-@extends('dashboard_layout')
 
-@section('dashboard-title',"Add Facility")
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-title',"Add Club"); ?>
+
+<?php $__env->startSection('dashboard-scripts'); ?>
 <script>
     const hideValidationErrors = () => {
         $('#add-facility-name-validation').hide()
@@ -97,34 +97,34 @@ $useAdminSidebar = true;
         })
     })
 </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 <div class="row"> 
         <div class="col-lg-12 col-md-12">
           <div class="utf_dashboard_list_box margin-top-0">
-            <h4 class="gray"><i class="sl sl-icon-key"></i>Add facility:</h4>
+            <h4 class="gray"><i class="sl sl-icon-key"></i>Add club:</h4>
             <div class="utf_dashboard_list_box-static"> 
               <div class="my-profile">
 			    <div class="row with-forms">
 					<div class="col-md-6">
-                        @include('components.form-validation', ['id' => "add-facility-name-validation"])
+                        <?php echo $__env->make('components.form-validation', ['id' => "add-facility-name-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Name</label>						
 						<input type="text" class="input-text" id="add-facility-name" placeholder="Facility name" value="">
 					</div>
 					<div class="col-md-6">
-                     @include('components.form-validation', ['id' => "add-facility-value-validation"])
+                     <?php echo $__env->make('components.form-validation', ['id' => "add-facility-value-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Value</label>
                         <input type="text" class="input-text" id="add-facility-value" placeholder="Facility value" value="" disabled>
 					</div>
                     <div class="col-md-6">
-                     @include('components.form-validation', ['id' => "add-facility-icon-validation"])
+                     <?php echo $__env->make('components.form-validation', ['id' => "add-facility-icon-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Icon</label>
                         <select class="input-text" id="add-facility-icon" placeholder="Facility icon">
                             <option value="none">Select an option</option>
-                            @foreach($iconsList as $ic)
-                            <option value="{{$ic}}">{{$ic}}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $iconsList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ic): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($ic); ?>"><?php echo e($ic); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
 					</div>
                     <div class="col-md-6">
@@ -132,7 +132,7 @@ $useAdminSidebar = true;
                     	<p><span id="add-facility-icon-display" style="font-size: 20px;">Select an icon</span></p>
 					</div>
 					<div class="col-md-12">
-                         @include('components.generic-loading', ['message' => 'Loading', 'id' => "add-facility-loading"])
+                         <?php echo $__env->make('components.generic-loading', ['message' => 'Loading', 'id' => "add-facility-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<button class="button btn_center_item margin-top-15" id="add-facility-btn">Submit</button>
 					</div>
 				</div>
@@ -141,4 +141,5 @@ $useAdminSidebar = true;
           </div>
         </div>
       </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/repos/admissionboox/resources/views/add-club.blade.php ENDPATH**/ ?>
