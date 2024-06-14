@@ -268,7 +268,7 @@ $ac = "dashboard";
           <h3><i class="sl sl-icon-energy"></i> Facilities</h3>
           </div>
 
-          @include('components.form-validation', ['id' => "update-school-clubs-validation"])
+          @include('components.form-validation', ['id' => "update-school-facilities-validation"])
 
           <div class="checkboxes in-row amenities_checkbox">
           <ul>
@@ -288,8 +288,26 @@ $ac = "dashboard";
           </div>
         </div>
 
+        <div class="add_utf_listing_section margin-top-45">
+          <div class="utf_add_listing_part_headline_part">
+          <h3><i class="sl sl-icon-folder-alt"></i> School Logo</h3>
+          </div>
+          <p>Upload school logo</p>
+          @include('components.form-validation', ['id' => "update-school-info-logo-validation"])
+          <form action="api/usl" class="dropzone"></form>
+        </div>
+
+        <div class="add_utf_listing_section margin-top-45">
+          <div class="utf_add_listing_part_headline_part">
+          <h3><i class="sl sl-icon-folder-alt"></i> School Landing Page</h3>
+          </div>
+          <p>Upload school landing page</p>
+          @include('components.form-validation', ['id' => "update-school-info-landing-page-validation"])
+          <form action="api/uslp" class="dropzone"></form>
+        </div>
+
         <div class="col-md-12">
-          @include('components.generic-loading', ['message' => 'Updating your password', 'id' => "update-school-info-loading"])
+          @include('components.generic-loading', ['message' => 'Updating school info', 'id' => "update-school-info-loading"])
           <button class="button btn_center_item margin-top-15" id="update-school-info-btn">Submit</button>
         </div>
         </div>

@@ -145,6 +145,136 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 */
+    public function postUpdateSchoolLogo(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'file' => 'required|file'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation"];
+                }
+				else
+				{
+					if($request->hasFile('file'))
+				    {
+					   $file = $request->file('file');
+
+					   $uu = $this->helpers->cloudinaryUploadImage($file);
+					   $payload = [
+						'id' => $school['id'],
+						'logo' => $uu
+					   ];
+
+					   $this->helpers->updateSchool($payload);
+					   $ret = ['status' => "ok"];
+				    }
+				}
+				
+
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 */
+    public function postUpdateSchoolLandingPage(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'file' => 'required|file'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation"];
+                }
+				else
+				{
+					if($request->hasFile('file'))
+				    {
+					   $file = $request->file('file');
+
+					   $uu = $this->helpers->cloudinaryUploadImage($file);
+					   $payload = [
+						'id' => $school['id'],
+						'landing_page' => $uu
+					   ];
+
+					   $this->helpers->updateSchool($payload);
+					   $ret = ['status' => "ok"];
+				    }
+				}
+				
+
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
 
 
 }

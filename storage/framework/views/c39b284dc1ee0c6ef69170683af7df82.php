@@ -268,7 +268,7 @@ $ac = "dashboard";
           <h3><i class="sl sl-icon-energy"></i> Facilities</h3>
           </div>
 
-          <?php echo $__env->make('components.form-validation', ['id' => "update-school-clubs-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <?php echo $__env->make('components.form-validation', ['id' => "update-school-facilities-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
           <div class="checkboxes in-row amenities_checkbox">
           <ul>
@@ -288,8 +288,26 @@ $ac = "dashboard";
           </div>
         </div>
 
+        <div class="add_utf_listing_section margin-top-45">
+          <div class="utf_add_listing_part_headline_part">
+          <h3><i class="sl sl-icon-folder-alt"></i> School Logo</h3>
+          </div>
+          <p>Upload school logo</p>
+          <?php echo $__env->make('components.form-validation', ['id' => "update-school-info-logo-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <form action="api/usl" class="dropzone"></form>
+        </div>
+
+        <div class="add_utf_listing_section margin-top-45">
+          <div class="utf_add_listing_part_headline_part">
+          <h3><i class="sl sl-icon-folder-alt"></i> School Landing Page</h3>
+          </div>
+          <p>Upload school landing page</p>
+          <?php echo $__env->make('components.form-validation', ['id' => "update-school-info-landing-page-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <form action="api/uslp" class="dropzone"></form>
+        </div>
+
         <div class="col-md-12">
-          <?php echo $__env->make('components.generic-loading', ['message' => 'Updating your password', 'id' => "update-school-info-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <?php echo $__env->make('components.generic-loading', ['message' => 'Updating school info', 'id' => "update-school-info-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
           <button class="button btn_center_item margin-top-15" id="update-school-info-btn">Submit</button>
         </div>
         </div>
