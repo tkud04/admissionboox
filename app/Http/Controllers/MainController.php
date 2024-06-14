@@ -176,7 +176,11 @@ class MainController extends Controller {
             $school =$this->helpers->getSchool($user->email);
 
 			$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
-		   array_push($c,'school','hasCompletedSignup');
+			$facilities = $this->helpers->getFacilities();
+			$clubs = $this->helpers->getClubs();
+			$ngStates = $this->helpers->statesNigeria;
+			
+			array_push($c,'school','hasCompletedSignup','facilities','clubs','ngStates');
 
 		   $notifications = [
 			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
@@ -205,6 +209,7 @@ class MainController extends Controller {
 				['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
 				['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
 			];
+			
 			array_push($c,"notifications");
 	        return view('dashboard',compact($c));	
 		}

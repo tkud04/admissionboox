@@ -191,7 +191,7 @@ const removeFacility = async (id,successCallback,errorCallback) => {
  
 }
 
-const addCLub = async (fd,successCallback,errorCallback) => {
+const addClub = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-club'
   const response = await fetch(url, {
       method: "POST",

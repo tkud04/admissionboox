@@ -2146,6 +2146,46 @@ class Helper implements HelperContract
                 "im-icon-Zootool"
              ];
 
+             public $statesNigeria = [
+                'FCT',
+                'Abia',
+                'Adamawa',
+                'Akwa Ibom',
+                'Awka',
+                'Bauchi',
+                'Bayelsa',
+                'Benue',
+                'Borno',
+                'Cross River',
+                'Delta',
+                'Ebonyi',
+                'Edo',
+                'Ekiti',
+                'Enugu',
+                'Gombe',
+                'Imo',
+                'Jigawa',
+                'Kaduna',
+                'Kano',
+                'Katsina',
+                'Kebbi',
+                'Kogi',
+                'Kwara',
+                'Lagos',
+                'Nasarawa',
+                'Niger',
+                'Ogun',
+                'Ondo',
+                'Osun',
+                'Oyo',
+                'Plateau',
+                'Rivers',
+                'Sokoto',
+                'Taraba',
+                'Yobe',
+                'Zamfara',
+             ];
+
            function symfonySendMail($data){
             
               $email = (new Email())
@@ -2855,7 +2895,8 @@ EOD;
                    $ret['id'] = $c->id;
                    $ret['club_name'] = $c->club_name;
                    $ret['club_value'] = $c->club_value;
-                   $ret['img_url'] = $c->img_url;
+                   $ret['icon'] = $c->img_url;
+                   $ret['date'] = $c->created_at->format("jS F, Y");  
                }
 
                return $ret;

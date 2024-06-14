@@ -4,7 +4,7 @@ $useAdminSidebar = true;
 ?>
 
 
-<?php $__env->startSection('dashboard-title',"Facilities"); ?>
+<?php $__env->startSection('dashboard-title',"Clubs"); ?>
 
 <?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
@@ -15,16 +15,16 @@ $useAdminSidebar = true;
 
   <script>
 
-	 const confirmDeleteFacility = (pid) => {
+	 const confirmDeleteClub = (pid) => {
             confirmAction(pid, 
 			    (xf) => {
-            removeFacility(xf,
+            removeClub(xf,
 				      () => {
-			       		alert('Facility removed')
-					      window.location = 'facilities'
+			       		alert('Club removed')
+					      window.location = 'clubs'
 				      },
 				      (err) => {
-				       	alert('Failed to remove facility: ',err)
+				       	alert('Failed to remove club: ',err)
 				      }
 			       )
            })
@@ -46,7 +46,7 @@ $useAdminSidebar = true;
    
       <div class="col-lg-12 col-md-12 mb-4">
 		  <div class="utf_dashboard_list_box table-responsive recent_booking">
-			<h4>Facilities</h4>
+			<h4>Clubs</h4>
 			<div class="dashboard-list-box table-responsive invoices with-icons">
 			  <table class="table table-hover admissionboox-table">
 				<thead>
@@ -59,25 +59,25 @@ $useAdminSidebar = true;
 				</thead>
 				<tbody>
 				<?php
-                  if(isset($facilities) && count($facilities) > 0)
+                  if(isset($clubs) && count($clubs) > 0)
                   {
-                    foreach($facilities as $f)
+                    foreach($clubs as $c)
                     {
-                       $fid = $f['id'];
-						$ru = url('remove-facility')."?xf={$f['id']}";
+                       $cid = $c['id'];
+						$ru = url('remove-club')."?xf={$c['id']}";
                  ?>
 				  <tr>
 					<td>
-                      <p><?php echo e($f['facility_name']); ?>  <i>(<?php echo e($f['facility_value']); ?>)</i></p>
+                      <p><?php echo e($c['club_name']); ?>  <i>(<?php echo e($c['club_value']); ?>)</i></p>
                      
                     </td>
 					<td>
 						<div>
-                          <i class='im <?php echo e($f['icon']); ?>' style="font-size: 40px;"></i>
+                          <i class="im <?php echo e($c['icon']); ?>" style="font-size: 40px;"></i>
                         </div>
 					</td>
-					<td><?php echo e($f['date']); ?></td>
-					<td><a href="#" onclick="confirmDeleteFacility('<?php echo e($fid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+					<td><?php echo e($c['date']); ?></td>
+					<td><a href="#" onclick="confirmDeleteClub('<?php echo e($cid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php
 					}
@@ -91,4 +91,4 @@ $useAdminSidebar = true;
 		</div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/repos/admissionboox/resources/views/facilities.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/repos/admissionboox/resources/views/clubs.blade.php ENDPATH**/ ?>

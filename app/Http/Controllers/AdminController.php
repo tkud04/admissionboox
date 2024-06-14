@@ -485,7 +485,7 @@ class AdminController extends Controller {
 		$validator = Validator::make($req, [
                              'club_name' => 'required',
                              'club_value' => 'required',
-                             'icon' => 'required',
+                             'img_url' => 'required',
          ]);
          
          if($validator->fails())

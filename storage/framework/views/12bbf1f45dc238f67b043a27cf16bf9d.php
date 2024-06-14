@@ -11,17 +11,17 @@ $useAdminSidebar = true;
 <?php $__env->startSection('dashboard-scripts'); ?>
 <script>
     const hideValidationErrors = () => {
-        $('#add-facility-name-validation').hide()
-        $('#add-facility-value-validation').hide()
-        $('#add-facility-icon-validation').hide()
+        $('#add-club-name-validation').hide()
+        $('#add-club-value-validation').hide()
+        $('#add-club-icon-validation').hide()
     }
 
     $(document).ready(() => {
 
         hideValidationErrors()
 
-        $('#add-facility-icon').change(() => {
-        const thiss = $('#add-facility-icon'), displayElem = $('#add-facility-icon-display')
+        $('#add-club-icon').change(() => {
+        const thiss = $('#add-club-icon'), displayElem = $('#add-club-icon-display')
           const v = thiss.val()
         
           if(v === 'none'){
@@ -32,8 +32,8 @@ $useAdminSidebar = true;
           }
         })
 
-        $('#add-facility-name').change(() => {
-        const thiss = $('#add-facility-name'), valueElem = $('#add-facility-value')
+        $('#add-club-name').change(() => {
+        const thiss = $('#add-club-name'), valueElem = $('#add-club-value')
           const v = thiss.val()
         
           if(v === ''){
@@ -53,44 +53,44 @@ $useAdminSidebar = true;
           }
         })
 
-        $('#add-facility-btn').click(e => {
+        $('#add-club-btn').click(e => {
             e.preventDefault()
             hideValidationErrors()
 
-            const name = $('#add-facility-name').val(), value = $('#add-facility-value').val(),
-                  icon = $('#add-facility-icon').val(), v = name === '' || value === '' || icon === 'none'
+            const name = $('#add-club-name').val(), value = $('#add-club-value').val(),
+                  icon = $('#add-club-icon').val(), v = name === '' || value === '' || icon === 'none'
 
             if(v){
-              if(name === '') $('#add-facility-name-validation').fadeIn()
-              if(value === '') $('#add-facility-value-validation').fadeIn()
-              if(icon === 'none') $('#add-facility-icon-validation').fadeIn()
+              if(name === '') $('#add-club-name-validation').fadeIn()
+              if(value === '') $('#add-club-value-validation').fadeIn()
+              if(icon === 'none') $('#add-club-icon-validation').fadeIn()
             }
             else{
-              $('#add-facility-btn').hide()
-              $('#add-facility-loading').fadeIn()
+              $('#add-club-btn').hide()
+              $('#add-club-loading').fadeIn()
               
               const fd = new FormData()
-              fd.append('facility_name',name)
-              fd.append('facility_value',value)
-              fd.append('icon',icon)
-              addFacility(fd,
+              fd.append('club_name',name)
+              fd.append('club_value',value)
+              fd.append('img_url',icon)
+              addClub(fd,
               (data) => {
                 
-                $('#add-facility-loading').hide()
-              $('#add-facility-btn').fadeIn()
+                $('#add-club-loading').hide()
+              $('#add-club-btn').fadeIn()
 
                 if(data.status === 'ok'){
-                    alert('Facility Added!')
-                    window.location = 'facilities'
+                    alert('Club Added!')
+                    window.location = 'clubs'
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
                 }
               },
               (err) => {
-                $('#add-facility-loading').hide()
-              $('#add-facility-btn').fadeIn()
-                alert(`Failed to add facility: ${err}`)
+                $('#add-club-loading').hide()
+              $('#add-club-btn').fadeIn()
+                alert(`Failed to add club: ${err}`)
               }
             )
             }
@@ -108,19 +108,19 @@ $useAdminSidebar = true;
               <div class="my-profile">
 			    <div class="row with-forms">
 					<div class="col-md-6">
-                        <?php echo $__env->make('components.form-validation', ['id' => "add-facility-name-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <?php echo $__env->make('components.form-validation', ['id' => "add-club-name-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Name</label>						
-						<input type="text" class="input-text" id="add-facility-name" placeholder="Facility name" value="">
+						<input type="text" class="input-text" id="add-club-name" placeholder="Club name" value="">
 					</div>
 					<div class="col-md-6">
-                     <?php echo $__env->make('components.form-validation', ['id' => "add-facility-value-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                     <?php echo $__env->make('components.form-validation', ['id' => "add-club-value-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Value</label>
-                        <input type="text" class="input-text" id="add-facility-value" placeholder="Facility value" value="" disabled>
+                        <input type="text" class="input-text" id="add-club-value" placeholder="Club value" value="" disabled>
 					</div>
                     <div class="col-md-6">
-                     <?php echo $__env->make('components.form-validation', ['id' => "add-facility-icon-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                     <?php echo $__env->make('components.form-validation', ['id' => "add-club-icon-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Icon</label>
-                        <select class="input-text" id="add-facility-icon" placeholder="Facility icon">
+                        <select class="input-text" id="add-club-icon" placeholder="Club icon">
                             <option value="none">Select an option</option>
                             <?php $__currentLoopData = $iconsList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ic): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($ic); ?>"><?php echo e($ic); ?></option>
@@ -129,11 +129,11 @@ $useAdminSidebar = true;
 					</div>
                     <div class="col-md-6">
                          <label>Icon Selected</label>
-                    	<p><span id="add-facility-icon-display" style="font-size: 20px;">Select an icon</span></p>
+                    	<p><span id="add-club-icon-display" style="font-size: 20px;">Select an icon</span></p>
 					</div>
 					<div class="col-md-12">
-                         <?php echo $__env->make('components.generic-loading', ['message' => 'Loading', 'id' => "add-facility-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-						<button class="button btn_center_item margin-top-15" id="add-facility-btn">Submit</button>
+                         <?php echo $__env->make('components.generic-loading', ['message' => 'Loading', 'id' => "add-club-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+						<button class="button btn_center_item margin-top-15" id="add-club-btn">Submit</button>
 					</div>
 				</div>
               </div>
