@@ -32,4 +32,4 @@ function getActiveClass($activeClass,$currentClass)
                 <li><a href="<?php echo e(url('bye')); ?>"><i class="sl sl-icon-power"></i> Logout</a></li>
             </ul>
         </div>
-</div><?php /**PATH /Users/mac/repos/admissionboox/resources/views/components/user-sidebar.blade.php ENDPATH**/ ?>
+</div><?php /**PATH /Users/mac/repos/admissionboox/resources/views/components/school-sidebar.blade.php ENDPATH**/ ?>

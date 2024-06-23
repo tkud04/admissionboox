@@ -25,9 +25,13 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
      <?php if($v3): ?>
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
        <?php if($v2): ?>
-         <?php echo $__env->make('components.admin-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+         <?php echo $__env->make('components.admin-sidebar',['ac' => $ac], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
        <?php else: ?>
-         <?php echo $__env->make('components.user-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php if($user->role === 'school_admin'): ?>
+         <?php echo $__env->make('components.school-sidebar',['ac' => $ac], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php else: ?>
+         <?php echo $__env->make('components.user-sidebar',['ac' => $ac], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php endif; ?>
        <?php endif; ?>
      <?php endif; ?>
      <div class="utf_dashboard_content">

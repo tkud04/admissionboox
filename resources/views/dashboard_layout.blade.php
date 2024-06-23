@@ -25,9 +25,13 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
      @if($v3)
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
        @if($v2)
-         @include('components.admin-sidebar')
+         @include('components.admin-sidebar',['ac' => $ac])
        @else
-         @include('components.user-sidebar')
+        @if($user->role === 'school_admin')
+         @include('components.school-sidebar',['ac' => $ac])
+        @else
+         @include('components.user-sidebar',['ac' => $ac])
+        @endif
        @endif
      @endif
      <div class="utf_dashboard_content">

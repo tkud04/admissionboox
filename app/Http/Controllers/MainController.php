@@ -164,12 +164,14 @@ class MainController extends Controller {
 		$plugins = $this->helpers->getPlugins();
 		$c = $this->compactValues;
 
+		$currentClass = "dashboard";
+
 		$notifications = [
 			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
 			['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
 			['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
 		];
-		array_push($c,"notifications");
+		array_push($c,"notifications","currentClass");
 
 		if($user->role === 'school_admin')
 		{
