@@ -174,13 +174,15 @@ class MainController extends Controller {
 		if($user->role === 'school_admin')
 		{
             $school =$this->helpers->getSchool($user->email);
-
-			$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
+          	$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
 			
-			array_push($c,'school','hasCompletedSignup','facilities','clubs','ngStates');
+			array_push(
+				$c,'school','hasCompletedSignup',
+			    'facilities','clubs','ngStates'
+			);
 
 		   $notifications = [
 			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],

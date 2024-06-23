@@ -14,6 +14,7 @@ use App\Models\Clubs;
 use App\Models\Facilities;
 use App\Models\Schools;
 use App\Models\SchoolInfo;
+use App\Models\SchoolAddresses;
 use App\Models\SchoolFacilities;
 use App\Models\SchoolOwners;
 use App\Models\SchoolResources;
@@ -2548,6 +2549,7 @@ EOD;
                    $ret['facilities'] =$this->getSchoolFacilities($s->id);
                    $ret['resources'] =$this->getSchoolResources($s->id);
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
+                   $ret['address'] =$this->getSchoolAddress($s->id);
                }
 
                return $ret;
@@ -2594,7 +2596,6 @@ EOD;
                 'school_curriculum' => $data['school_curriculum'],
                 'school_fees' => $data['school_fees'],
                 'wcu' => $data['wcu'],
-                'school_coords' => $data['school_coords'],
             ]);
 
             return $ret;
@@ -2617,7 +2618,6 @@ EOD;
                    $ret['school_curriculum'] = $s->school_curriculum;
                    $ret['school_fees'] = $s->school_fees;
                    $ret['wcu'] = $s->wcu;
-                   $ret['school_coords'] = $s->school_coords;
                }
 
                return $ret;
@@ -2640,7 +2640,6 @@ EOD;
                     if(isset($data['school_curriculum'])) $payload['school_curriculum'] = $data['school_curriculum'];
                     if(isset($data['school_fees'])) $payload['school_fees'] = $data['school_fees'];
                     if(isset($data['wcu'])) $payload['wcu'] = $data['wcu'];
-                    if(isset($data['school_coords'])) $payload['school_coords'] = $data['school_coords'];
                     
                     $s->update($payload);
                      $ret = "ok";      
@@ -2650,6 +2649,69 @@ EOD;
            function removeSchoolInfo($id)
            {
                $p = SchoolInfo::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolAddress($data)
+           {
+            $ret = SchoolAddresses::create([
+                'school_id' => $data['school_id'],
+                'school_address' => $data['school_address'],
+                'school_state' => $data['school_state'],
+                'school_coords' => $data['longitude'].",".$data['latitude'],
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolAddress($school_id)
+           {
+               $ret = [];
+               $s = SchoolAddresses::where('id',$school_id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['school_state'] = $s->school_state;
+                   $ret['school_address'] = $s->school_address;
+
+                   $coordsArr = explode(',',$s->school_coords);
+                   
+                   $ret['longitude'] = count($coordsArr) === 2 ? $coordsArr[0] : '';
+                   $ret['latitude'] = count($coordsArr) === 2 ? $coordsArr[1] : '';
+               }
+
+               return $ret;
+           }
+
+           function updateSchoolAddress($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolAddresses::where('id',$data['school_id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['school_state'])) $payload['school_state'] = $data['school_state'];
+                    if(isset($data['school_address'])) $payload['school_address'] = $data['school_address'];
+
+                   
+                    if(isset($data['longitude']) && isset($data['latitude']))
+                    {
+                        $coords = $data['longitude'].",".$data['latitude'];
+                        $payload['school_coords'] = $coords;
+                    } 
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchoolAddress($id)
+           {
+               $p = SchoolAddresses::where('id',$id)->first();
                if($p != null) $p->delete();
            }
 
@@ -3115,8 +3177,13 @@ EOD;
             if(count($s['facilities']) < 1) $ret = false; 
             if(strlen($s['logo']) < 1) $ret = false;
             if(strlen($s['landing_page_pic']) < 1) $ret = false;
-            $info = $s['info'];
-            if(strlen($info['school_coords']) < 1) $ret = false;
+            
+            $addr = $s['address'];
+            
+            if(strlen($addr['school_state']) < 1) $ret = false;
+            if(strlen($addr['school_address']) < 1) $ret = false;
+            if(strlen($addr['longitude']) < 1) $ret = false;
+            if(strlen($addr['latitude']) < 1) $ret = false;
 
             return $ret;
           }

@@ -245,8 +245,7 @@ class LoginController extends Controller {
                 'school_type' => $req['schoolType'],
                 'school_curriculum' => $req['schoolCurriculum'],
                 'school_fees' => $req['schoolFees'],
-                'wcu' => $req['wcu'],
-                'school_coords' => "",
+                'wcu' => $req['wcu']
             ];
 
             $schoolInfo = $this->helpers->addSchoolInfo($schoolInfoPayload);
@@ -259,6 +258,15 @@ class LoginController extends Controller {
             ];
 
             $schoolOwner = $this->helpers->addSchoolOwner($schoolOwnerPayload);
+
+            $schoolAddressPayload = [
+                'school_id' => $school->id,
+                'state' => '',
+                'address' => '',
+                'coords' => '',
+            ];
+
+            $schoolAddress = $this->helpers->addSchoolAddress($schoolAddressPayload);
 
            
                                                     

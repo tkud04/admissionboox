@@ -41,13 +41,13 @@ class SchoolAdminController extends Controller {
 
 				#dd($req);
 				$validator = Validator::make($req, [
-					/*'to' => 'required',
-					'sn' => 'required',
-					'se' => 'required',
-					'subject' => 'required',
-					'msg' => 'required',*/
-					'xf' => 'required',
-					'file' => 'required|file'
+					'address' => 'required',
+					'state' => 'required',
+					'latitude' => 'required|numeric',
+					'longitude' => 'required|numeric',
+					'clubs' => 'required',
+					'facilities' => 'required',
+					'xf' => 'required|numeric'
                ]);
 
                if($validator->fails())
@@ -57,7 +57,46 @@ class SchoolAdminController extends Controller {
                 }
 				else
 				{
-					$school = $this->helpers->getSchool($req['xf']);	
+					$xf = $req['xf'];
+					
+					//Clubs
+					$clubs = json_decode($req['clubs']);
+					if(count($clubs) > 0)
+					{
+						foreach($clubs as $c)
+						{
+							$this->helpers->addSchoolClub([
+								'school_id' => $xf,
+								'club_id' => $c
+							]);
+						}
+					}
+
+					//Facilities
+					$facilities = json_decode($req['facilities']);
+					if(count($facilities) > 0)
+					{
+						foreach($facilities as $f)
+						{
+							$this->helpers->addSchoolFacility([
+								'school_id' => $xf,
+								'facility_id' => $f
+							]);
+						}
+					}
+
+					//Address
+					$addressPayload = [
+                      'school_id' => $xf,
+                      'school_state' => $req['state'],
+                      'school_address' => $req['address'],
+                      'latitude' => $req['latitude'],
+                      'longitude' => $req['longitude']
+					];
+
+					$this->helpers->updateSchoolAddress($addressPayload);
+					
+					$ret = ['status' => 'ok'];
 				}
 
 			}
@@ -191,7 +230,6 @@ class SchoolAdminController extends Controller {
 				    }
 				}
 				
-
 			}
 			else
 			{
@@ -237,7 +275,7 @@ class SchoolAdminController extends Controller {
 
                if($validator->fails())
                 {
-                  $ret = ['status' => "error","message" => "validation"];
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
                 }
 				else
 				{
@@ -248,7 +286,7 @@ class SchoolAdminController extends Controller {
 					   $uu = $this->helpers->cloudinaryUploadImage($file);
 					   $payload = [
 						'id' => $school['id'],
-						'landing_page' => $uu
+						'landing_page_pic' => $uu
 					   ];
 
 					   $this->helpers->updateSchool($payload);
@@ -256,7 +294,6 @@ class SchoolAdminController extends Controller {
 				    }
 				}
 				
-
 			}
 			else
 			{
@@ -274,7 +311,6 @@ class SchoolAdminController extends Controller {
 
 		 return json_encode($ret); 
     }
-
 
 
 }
