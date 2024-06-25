@@ -188,10 +188,12 @@ class MainController extends Controller {
 
 		   $notifications = [
 			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
-			['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
-			['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
-		];
-		array_push($c,"notifications");
+			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+		   ];
+		
+		   $dashboardStats = $this->helpers->getSchoolDashboardStats($school);
+		   array_push($c,"notifications",'dashboardStats');
 
 		   return view('school-dashboard',compact($c));
 		}

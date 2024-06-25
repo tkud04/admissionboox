@@ -18,6 +18,9 @@ use App\Models\SchoolAddresses;
 use App\Models\SchoolFacilities;
 use App\Models\SchoolOwners;
 use App\Models\SchoolResources;
+use App\Models\Terms;
+use App\Models\SchoolClasses;
+use App\Models\AdmissionClasses;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -3020,6 +3023,57 @@ EOD;
                if($p != null) $p->delete();
            }
 
+           function addTerm($data)
+           {
+            $ret = Terms::create([
+                'name' => $data['name'],
+                'value' => $data['value']
+            ]);
+
+            return $ret;
+           }
+
+           function getTerms()
+           {
+               $ret = []; $clubs = [];
+
+                $terms = Terms::where('id','>','0')->get();
+               
+               if($terms != null)
+               {
+                  foreach($terms as $t)
+                  {
+                      $temp = $this->getTerm($t->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getTerm($id)
+           {
+               $ret = [];
+               $t = Terms::where('id',$id)->first();
+
+               if($t != null)
+               {
+                   $ret['id'] = $t->id;
+                   $ret['name'] = $t->name;
+                   $ret['value'] = $t->value;
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeTerm($id)
+           {
+               $t = Terms::where('id',$id)->first();
+               if($t != null) $t->delete();
+           }
+
 		   
 		  
 		   
@@ -3184,6 +3238,18 @@ EOD;
             if(strlen($addr['school_address']) < 1) $ret = false;
             if(strlen($addr['longitude']) < 1) $ret = false;
             if(strlen($addr['latitude']) < 1) $ret = false;
+
+            return $ret;
+          }
+
+          function getSchoolDashboardStats($s)
+          {
+             $ret = [
+                'facilities' => count($s['facilities']),
+                'admissions'=> 0,
+                'applications' => 0,
+                'reviews' => 0
+            ];
 
             return $ret;
           }

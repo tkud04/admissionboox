@@ -184,6 +184,8 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+
+
 	/**
 	 * Show the application welcome screen to the user.
 	 *
@@ -307,6 +309,38 @@ class SchoolAdminController extends Controller {
          else
          {
 			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+		/**
+	 * Show the application welcome screen to the user.
+	 *
+	 */
+    public function getSendEmail(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
          } 
 
 		 return json_encode($ret); 
