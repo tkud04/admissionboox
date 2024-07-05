@@ -110,10 +110,10 @@ class LoginController extends Controller {
         
         $validator = Validator::make($req, [
                              'password' => 'required|min:6|confirmed',
-                             'email' => 'required|email', 
+                             'email' => 'required|email|not_in:users', 
                              'fname' => 'required', 
                              'lname' => 'required',
-                             'phone' => 'required|numeric',
+                             'phone' => 'required|numeric|not_in:users',
                              'gender' => 'required',
                              'country' => 'required',
                              'city' => 'required',
@@ -176,9 +176,9 @@ class LoginController extends Controller {
   
         $validator = Validator::make($req, [
                              'schoolName' => 'required',
-                             'email' => 'required|email', 
+                             'email' => 'required|email|not_in:users', 
                              'country' => 'required', 
-                             'phone' => 'required|numeric',
+                             'phone' => 'required|numeric|not_in:users',
                              'hbu' => 'required',
                              //'hbuOther' => 'required',
                              'boardingType' => 'required',

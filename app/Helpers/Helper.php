@@ -23,6 +23,8 @@ use App\Models\SchoolClasses;
 use App\Models\SchoolAdmissions;
 use App\Models\AdmissionForms;
 use App\Models\FormFields;
+use App\Models\SchoolApplications;
+use App\Models\AppicationData;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -3267,6 +3269,67 @@ EOD;
            {
                $f = FormFields::where('id',$id)->first();
                if($f != null) $f->delete();
+           }
+
+
+           function addSchoolApplication($data)
+           {
+            $ret = SchoolApplications::create([
+                'admission_id' => $data['admission_id'],
+                'user_id' => $data['user_id']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolApplications($admission_id='all')
+           {
+               $ret = [];
+               $applications = [];
+
+               if($applications === 'all')
+               {
+                  $applications = SchoolApplications::where('id','>','0')->get();
+               }
+               else
+               {
+                $applications = SchoolApplications::where('admission_id',$admission_id)->get();
+               }
+               
+               if($applications != null)
+               {
+                  foreach($applications as $a)
+                  {
+                      $temp = $this->getSchoolApplication($a->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolApplication($id)
+           {
+               $ret = [];
+               $a = SchoolApplications::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['admission_id'] = $a->form_id;
+                   $ret['user'] = $this->getUser($a->user_id);
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolApplication($id)
+           {
+               $a = SchoolApplications::where('id',$id)->first();
+               if($a != null) $a->delete();
            }
 
 
