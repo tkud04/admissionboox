@@ -24,7 +24,7 @@ use App\Models\SchoolAdmissions;
 use App\Models\AdmissionForms;
 use App\Models\FormFields;
 use App\Models\SchoolApplications;
-use App\Models\AppicationData;
+use App\Models\ApplicationData;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -3331,6 +3331,70 @@ EOD;
                $a = SchoolApplications::where('id',$id)->first();
                if($a != null) $a->delete();
            }
+
+
+           function addApplicationData($data)
+           {
+            $ret = ApplicationData::create([
+                'application_id' => $data['application_id'],
+                'form_field_id' => $data['form_field_id'],
+                'value' => $data['value']
+            ]);
+
+            return $ret;
+           }
+
+           function getApplicationData($application_id='all')
+           {
+               $ret = [];
+               $data = [];
+
+               if($application_id === 'all')
+               {
+                  $data = ApplicationData::where('id','>','0')->get();
+               }
+               else
+               {
+                $data = ApplicationData::where('application_id',$application_id)->get();
+               }
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getApplicationDatum($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getApplicationDatum($id)
+           {
+               $ret = [];
+               $a = ApplicationData::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['application_id'] = $a->form_id;
+                   $ret['form_field_id'] = $a->form_field_id;
+                   $ret['value'] = $a->value;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeApplicationData($id)
+           {
+               $a = ApplicationData::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
 
 
 
