@@ -13,7 +13,7 @@ class FormFields extends Model
      * @var array
      */
     protected $fillable = [
-        'admission_id', 'title','type','value'
+        'form_id', 'title','type','description'
     ];
     
 }

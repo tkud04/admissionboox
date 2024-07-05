@@ -20,7 +20,9 @@ use App\Models\SchoolOwners;
 use App\Models\SchoolResources;
 use App\Models\Terms;
 use App\Models\SchoolClasses;
-use App\Models\AdmissionClasses;
+use App\Models\SchoolAdmissions;
+use App\Models\AdmissionForms;
+use App\Models\FormFields;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -3073,6 +3075,201 @@ EOD;
                $t = Terms::where('id',$id)->first();
                if($t != null) $t->delete();
            }
+
+           function addSchoolAdmission($data)
+           {
+            $ret = SchoolAdmissions::create([
+                'school_id' => $data['school_id'],
+                'session' => $data['session'],
+                'term_id' => $data['term_id'],
+                'form_id' => $data['form_id'],
+                'end_date' => $data['end_date']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolAdmissions($school_id='all')
+           {
+               $ret = []; $clubs = [];
+               $admissions = [];
+
+               if($school_id === 'all')
+               {
+                  $admissions = SchoolAdmissions::where('id','>','0')->get();
+               }
+               else
+               {
+                $admissions = SchoolAdmissions::where('school_id',$school_id)->get();
+               }
+               
+               if($admissions != null)
+               {
+                  foreach($admissions as $a)
+                  {
+                      $temp = $this->getSchoolAdmission($a->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolAdmission($id)
+           {
+               $ret = [];
+               $a = SchoolAdmissions::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['school_id'] = $a->school_id;
+                   $ret['session'] = $a->session;
+                   $ret['term_id'] = $a->term_id;
+                   $ret['form_id'] = $a->form_id;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+                   $ret['end_date'] = $a->end_date;
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolAdmission($id)
+           {
+               $a = SchoolAdmissions::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
+
+           function addAdmissionForm($data)
+           {
+            $ret = AdmissionForms::create([
+                'admission_id' => $data['admission_id'],
+                'status' => $data['status']
+            ]);
+
+            return $ret;
+           }
+
+           function getAdmissionForms($admission_id='all')
+           {
+               $ret = [];
+               $forms = [];
+
+               if($admission_id === 'all')
+               {
+                  $forms = AdmissionForms::where('id','>','0')->get();
+               }
+               else
+               {
+                $forms = AdmissionForms::where('admission_id',$admission_id)->get();
+               }
+               
+               if($forms != null)
+               {
+                  foreach($forms as $f)
+                  {
+                      $temp = $this->getAdmissionForm($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getAdmissionForm($id)
+           {
+               $ret = [];
+               $f = AdmissionForms::where('id',$id)->first();
+
+               if($f != null)
+               {
+                   $ret['id'] = $f->id;
+                   $ret['admission_id'] = $f->admission_id;
+                   $ret['fields'] = $this->getFormFields($f->id);
+                   $ret['status'] = $f->status;
+                   $ret['date'] = $f->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeAdmissionForm($id)
+           {
+               $f = AdmissionForms::where('id',$id)->first();
+               if($f != null) $f->delete();
+           }
+
+
+           function addFormField($data)
+           {
+            $ret = FormFields::create([
+                'form_id' => $data['form_id'],
+                'title' => $data['title'],
+                'type' => $data['type'],
+                'description' => $data['description']
+            ]);
+
+            return $ret;
+           }
+
+           function getFormFields($form_id='all')
+           {
+               $ret = [];
+               $forms_fields = [];
+
+               if($form_id === 'all')
+               {
+                  $forms_fields = FormFields::where('id','>','0')->get();
+               }
+               else
+               {
+                $forms_fields = FormFields::where('form_id',$form_id)
+                                   ->orWhere('title',$form_id)->get();
+               }
+               
+               if($forms_fields != null)
+               {
+                  foreach($forms_fields as $f)
+                  {
+                      $temp = $this->getFormField($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getFormField($id)
+           {
+               $ret = [];
+               $f = FormFields::where('id',$id)->first();
+
+               if($f != null)
+               {
+                   $ret['id'] = $f->id;
+                   $ret['form_id'] = $f->form_id;
+                   $ret['title'] = $f->title;
+                   $ret['type'] = $f->type;
+                   $ret['description'] = $f->description;
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeFormField($id)
+           {
+               $f = FormFields::where('id',$id)->first();
+               if($f != null) $f->delete();
+           }
+
+
 
 		   
 		  

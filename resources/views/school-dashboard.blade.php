@@ -156,26 +156,32 @@ $ac = "dashboard";
       <li>
         <i class="utf_list_box_icon sl sl-icon-layers"></i> Peter Parker Left A Review 5.0 On <strong><a href="#">
           Restaurant</a></strong> 
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       <li>
         <i class="utf_list_box_icon sl sl-icon-star"></i> Your Listing <strong><a href="#">Local
           Service</a></strong> Has Been Approved
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       <li>
         <i class="utf_list_box_icon sl sl-icon-heart"></i> Someone Bookmarked Your <strong><a
           href="#">Listing</a></strong> Restaurant 
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       <li>
         <i class="utf_list_box_icon sl sl-icon-star"></i> Your Listing <strong><a href="#">Local
           Service</a></strong> Has Been Approved
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       <li>
         <i class="utf_list_box_icon sl sl-icon-heart"></i> Someone Bookmarked Your <strong><a
           href="#">Listing</a></strong> Restaurant 
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       <li>
         <i class="utf_list_box_icon sl sl-icon-layers"></i> Peter Parker Left A Review 5.0 On <strong><a href="#">
           Restaurant</a></strong> 
+          <a href="#" class="close-list-item"><i class="fa fa-close"></i></a>
       </li>
       </ul>
     </div>
