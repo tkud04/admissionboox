@@ -19,7 +19,7 @@ $useSidebar = true;
           $('#na-session-validation').hide()
           $('#na-term-validation').hide()
           $('#na-class-validation').hide()
-          $('#na-duration-validation').hide()
+          $('#na-end-date-validation').hide()
         }
 
     $(document).ready(() =>{
@@ -27,19 +27,52 @@ $useSidebar = true;
         e.preventDefault()
         clearValidations()
          const naSession = $('#na-session').val(), naTerm = $('#na-term').val(),
-         naClass = $('#na-class').val(), naDuration = $('#na-duration').val()
-         //console.log({naSession,naTerm,naClass,naDuration})
+         naClasses = $('input.na-classes:checked'), naEndDate = $('#na-end-date').val()
+         
+         //console.log({naSession,naTerm,naClass,naEndDate})
 
-         const v = naSession === 'none' || naTerm === 'none' || naClass === 'none' || naDuration === ''
+         const v = naSession === 'none' || naTerm === 'none' || naClasses.length < 1 || naEndDate === ''
 
          if(v){
            if(naSession === 'none') $('#na-session-validation').fadeIn()
            if(naTerm === 'none') $('#na-term-validation').fadeIn()
-           if(naClass === 'none') $('#na-class-validation').fadeIn()
-           if(naDuration === '') $('#na-duration-validation').fadeIn()
+           if(naClasses.length < 1) $('#na-class-validation').fadeIn()
+           if(naEndDate === '') $('#na-end-date-validation').fadeIn()
          }
          else{
+          $('#na-btn').hide()
+          $('#na-loading').fadeIn()
+          const classValues = []
+          naClasses.each((i,elem) => {
+            classValues.push(elem.getAttribute('data-value'))
+           })
+           const fd = new FormData()
+              fd.append('xf',"{{$school['id']}}")
+              fd.append('session',naSession)
+              fd.append('term',naTerm)
+              fd.append('end_date',naEndDate)
+              fd.append('classes',JSON.stringify(classValues))
 
+              addAdmissionSession(fd,
+              (data) => {
+                
+                $('#na-loading').hide()
+              $('#na-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Admission session created!')
+                    window.location = `school-admission?xf={{$school['id']}}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#na-loading').hide()
+              $('#na-btn').fadeIn()
+                alert(`Failed to add admission: ${err}`)
+              }
+            )
          }
          
          
@@ -94,29 +127,34 @@ $useSidebar = true;
                  </select>
                </div>
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-class-validation",'style' => "margin-top: 10px;"])
+                 @include('components.form-validation', ['id' => "na-class-validation",'style' => "margin-top: 10px;",'message' => 'Select at least 1 class'])
                  <h5>Classes Available</h5>
-                 <select id="na-class" class="selectpicker default" data-selected-text-format="count" data-size="{{count($schoolClasses)}}"
-                    title="Select State" tabindex="-98">
-                     <option class="bs-title-option" value="none">Select class</option>
-                     <?php
-                      foreach($schoolClasses as $c)
-                       {
-                     ?>
-                       <option value="{{$c['id']}}">{{$c['class_name']}}</option>
-                     <?php
-                       }
-                     ?>
-                 </select>
+                 <div class="checkboxes in-row amenities_checkbox">
+          <ul>
+            <?php
+             for ($i = 0; $i < count($schoolClasses); $i++) {
+               $class = $schoolClasses[$i];     
+            ?>
+              <li>
+               <input id="check-class-{{$i}}" type="checkbox" class="na-classes" data-value="{{$class['id']}}">
+               <label for="check-class-{{$i}}">
+               {{$class['class_name']}}</label>
+              </li>
+            <?php
+           }
+            ?>
+          </ul>
+          </div>
                </div>
               
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-duration-validation",'style' => "margin-top: 10px;"])
-                 <h5>Duration</h5>
-                 <input type="date" class="input-text" name="address" id="na-duration">
+                 @include('components.form-validation', ['id' => "na-end-date-validation",'style' => "margin-top: 10px;"])
+                 <h5>End Date</h5>
+                 <input type="date" class="input-text" name="address" id="na-end-date">
                </div>
 
                <div class="col-md-12">
+               @include('components.generic-loading', ['message' => 'Creating admission session', 'id' => "na-loading"])
                    @include('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',

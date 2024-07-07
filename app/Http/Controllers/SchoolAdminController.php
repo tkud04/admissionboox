@@ -590,7 +590,7 @@ class SchoolAdminController extends Controller {
 	   if(Auth::check())
 	   {
 		   $user = Auth::user();
-		   if($user->role === "admin" || $user->role === "su")
+		   if($user->role === 'school_admin')
 		   {
 			  if(isset($req['xf']))
 			  {
@@ -615,8 +615,111 @@ class SchoolAdminController extends Controller {
 
 	   return json_encode(($ret));
     }
+
+	public function postAddSchoolAdmission(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'session' => 'required|not_in:none',
+					'term' => 'required|not_in:none',
+					'classes' => 'required',
+					'end_date' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$admissionPayload = [
+						'school_id' => $school['id'],
+						'session' => $req['session'],
+						'term_id' => $req['term'],
+						'form_id' => '',
+						'end_date' => $req['end_date']
+					];
+
+					$admission = $this->helpers->addSchoolAdmission($admissionPayload);
+
+					 $classes = json_decode($req['classes']);
+					if(count($classes) > 0)
+					{
+						foreach($classes as $c)
+						{
+							$this->helpers->addAdmissionClass([
+								'admission_id' => $admission->id,
+								'class_id' => $c
+							]);
+						}
+					}
+
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
 	
 
+	public function getSchoolAdmission(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
 
 
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			  if(isset($req['xf']))
+			  {
+				$a = $this->helpers->getSchoolAdmission($req['xf']);
+	
+				dd($a);
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
 }
