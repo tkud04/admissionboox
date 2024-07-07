@@ -13,8 +13,8 @@ function getActiveClass($activeClass,$currentClass)
                 <li class="{{getActiveClass('admissions',$ac)}}">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Admissions</a>
                     <ul>
-                        <li><a href="{{url('school-applications?status=active')}}">View admissions </a></li>
-                        <li><a href="{{url('school-applications?status=pending')}}">New admission</a></li>
+                        <li><a href="{{url('school-admissions')}}">View admissions </a></li>
+                        <li><a href="{{url('add-school-admission')}}">New admission</a></li>
                     </ul>
                 </li>
                 <li class="{{getActiveClass('send-email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
@@ -24,6 +24,13 @@ function getActiveClass($activeClass,$currentClass)
                         <li><a href="{{url('school-applications?status=active')}}">Active <span class="nav-tag green">10</span></a></li>
                         <li><a href="{{url('school-applications?status=pending')}}">Pending <span class="nav-tag yellow">4</span></a></li>
                         <li><a href="{{url('school-applications?status=expired')}}">Expired <span class="nav-tag red">8</span></a></li>
+                    </ul>
+                </li>
+                <li class="{{getActiveClass('classes',$ac)}}">
+                    <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Classes</a>
+                    <ul>
+                       <li><a href="{{url('school-classes')}}">View classes</a></li>
+                       <li><a href="{{url('add-school-class')}}">New class</a></li>
                     </ul>
                 </li>
                 <li class="{{getActiveClass('reviews',$ac)}}">

@@ -240,3 +240,20 @@ const updateSchoolInfo = async (fd,successCallback,errorCallback) => {
   }
  
 }
+
+const addSchoolClass = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-school-class'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}

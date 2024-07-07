@@ -41,6 +41,14 @@ Route::post('usl', [SchoolAdminController::class,'postUpdateSchoolLogo']);
 Route::post('ust', [SchoolAdminController::class,'postUpdateSchoolLandingPage']);
 Route::post('usi', [SchoolAdminController::class,'postUpdateSchoolInfo']);
 
+Route::post('school-admission', [SchoolAdminController::class,'postSchoolAdmission']);
+Route::post('add-school-admission', [SchoolAdminController::class,'postAddSchoolAdmission']);
+
+Route::post('school-application', [SchoolAdminController::class,'postSchoolApplication']);
+Route::post('add-school-application', [SchoolAdminController::class,'postAddSchoolApplication']);
+
+Route::post('add-school-class', [SchoolAdminController::class,'postAddSchoolClass']);
+
 
 
 //Admin routes

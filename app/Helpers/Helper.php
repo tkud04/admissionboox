@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Helpers\Contracts\HelperContract; 
+use App\Models\AdmissionClasses;
 use App\Models\SchoolClubs;
 use Crypt;
 use Carbon\Carbon; 
@@ -2915,6 +2916,7 @@ EOD;
                    $ret['id'] = $r->id;
                    $ret['school_id'] = $r->school_id;
                    $ret['url'] = $r->url;
+                   $ret['date'] = $r->created_at->format("jS F, Y");  
                }
 
                return $ret;
@@ -2923,6 +2925,88 @@ EOD;
            function removeSchoolResource($id)
            {
                $p = SchoolResources::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolClass($data)
+           {
+            $ret = SchoolClasses::create([
+                'school_id' => $data['school_id'],
+                'class_name' => $data['class_name'],
+                'class_value' => $data['class_value'],
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolClasses($school_id='all')
+           {
+               $ret = [];
+               $classes = null;
+
+               if($school_id === 'all')
+               {
+                $classes = SchoolClasses::where('id','>','0')->get();
+               }
+
+               else
+               {
+                $classes = SchoolClasses::where('school_id',$school_id)->get();
+               }
+              
+
+               if($classes != null)
+               {
+                  foreach($classes as $c)
+                  {
+                      $temp = $this->getSchoolClass($c->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+          
+           function getSchoolClass($id)
+           {
+               $ret = [];
+               $r = SchoolClasses::where('id',$id)->first();
+
+               if($r != null)
+               {
+                   $ret['id'] = $r->id;
+                   $ret['school_id'] = $r->school_id;
+                   $ret['class_name'] = $r->class_name;
+                   $ret['class_value'] = $r->class_value;
+                   $ret['date'] = $r->created_at->format("jS F, Y");  
+                   $ret['url'] = $r->url;
+               }
+
+               return $ret;
+           }
+
+
+           function updateSchoolClass($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolClasses::where('id',$data['school_id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['class_name'])) $payload['class_name'] = $data['class_name'];
+                    if(isset($data['class_value'])) $payload['class_value'] = $data['class_value'];
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchoolClass($id)
+           {
+               $p = SchoolClasses::where('id',$id)->first();
                if($p != null) $p->delete();
            }
 
@@ -3203,6 +3287,66 @@ EOD;
            function removeAdmissionForm($id)
            {
                $f = AdmissionForms::where('id',$id)->first();
+               if($f != null) $f->delete();
+           }
+
+           function addAdmissionClass($data)
+           {
+            $ret = AdmissionClasses::create([
+                'admission_id' => $data['admission_id'],
+                'class_id' => $data['class_id']
+            ]);
+
+            return $ret;
+           }
+
+           function getAdmissionClasses($admission_id='all')
+           {
+               $ret = [];
+               $forms = [];
+
+               if($admission_id === 'all')
+               {
+                  $forms = AdmissionClasses::where('id','>','0')->get();
+               }
+               else
+               {
+                $forms = AdmissionClasses::where('admission_id',$admission_id)->get();
+               }
+               
+               if($forms != null)
+               {
+                  foreach($forms as $f)
+                  {
+                      $temp = $this->getAdmissionClass($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getAdmissionClass($id)
+           {
+               $ret = [];
+               $f = AdmissionClasses::where('id',$id)->first();
+
+               if($f != null)
+               {
+                   $ret['id'] = $f->id;
+                   $ret['admission_id'] = $f->admission_id;
+                   $ret['class'] = $this->getSchoolClass($f->id);
+                   $ret['date'] = $f->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeAdmissionClass($id)
+           {
+               $f = AdmissionClasses::where('id',$id)->first();
                if($f != null) $f->delete();
            }
 

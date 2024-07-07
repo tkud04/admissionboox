@@ -346,5 +346,277 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	public function getSchoolAdmissions(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				$admissions = $this->helpers->getSchoolAdmissions($school['id']);
+				array_push($c,'school','admissions');
+				return view('my-admissions',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function getAddSchoolAdmission(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				$availableSessions = [];
+				$currentYear = date('Y');
+				$next5Years = $currentYear + 5;
+
+				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
+				$terms = $this->helpers->getTerms();
+				
+				for($i = $currentYear; $i < $next5Years - 1; $i++)
+				{
+					$i2 = $i + 1;
+					$ret = "{$i}/{$i2}";
+					array_push($availableSessions,$ret);
+				}
+
+				
+				array_push($c,'school','availableSessions','schoolClasses','terms');
+				return view('new-admission',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+
+	public function getSchoolApplications(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				dd($school);
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function getSchoolClasses(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				$classes = $this->helpers->getSchoolClasses($school['id']);
+				array_push($c,'school','classes');
+				return view('my-classes',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function getAddSchoolClass(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				return view('new-class',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+
+	public function postAddSchoolClass(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'class_name' => 'required',
+					'class_value' => 'required',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$payload = [
+						'school_id' => $school['id'],
+						'class_name' => $req['class_name'],
+						'class_value' => $req['class_value'],
+					];
+
+					 $this->helpers->addSchoolClass($payload);
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+	public function getRemoveSchoolClass(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === "admin" || $user->role === "su")
+		   {
+			  if(isset($req['xf']))
+			  {
+				$p = $this->helpers->getSchoolClass($req['xf']);
+	
+				if(count($p) > 0)
+				{
+					$this->helpers->removeSchoolClass($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+	
+
+
 
 }

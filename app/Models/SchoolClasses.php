@@ -13,7 +13,7 @@ class SchoolClasses extends Model
      * @var array
      */
     protected $fillable = [
-        'school_id', 'name','value'
+        'school_id', 'class_name','class_value'
     ];
     
 }

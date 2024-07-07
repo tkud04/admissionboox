@@ -43,3 +43,17 @@ Route::get('clubs', [AdminController::class,'getClubs']);
 
 //School routes
 Route::get('send-email', [SchoolAdminController::class,'getSendEmail']);
+
+Route::get('school-admissions', [SchoolAdminController::class,'getSchoolAdmissions']);
+Route::get('school-admission', [SchoolAdminController::class,'getSchoolAdmissions']);
+Route::get('add-school-admission', [SchoolAdminController::class,'getAddSchoolAdmission']);
+Route::get('remove-school-admission', [SchoolAdminController::class,'getRemoveSchoolAdmission']);
+
+Route::get('school-applications', [SchoolAdminController::class,'getSchoolApplications']);
+Route::get('school-application', [SchoolAdminController::class,'getSchoolApplication']);
+Route::get('add-school-application', [SchoolAdminController::class,'getAddSchoolApplication']);
+Route::get('remove-school-application', [SchoolAdminController::class,'getRemoveSchoolApplication']);
+
+Route::get('school-classes', [SchoolAdminController::class,'getSchoolClasses']);
+Route::get('add-school-class', [SchoolAdminController::class,'getAddSchoolClass']);
+Route::get('remove-school-class', [SchoolAdminController::class,'getRemoveSchoolClass']);
