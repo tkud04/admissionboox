@@ -4,7 +4,7 @@ $useSidebar = true;
 ?>
 @extends('dashboard_layout')
 
-@section('dashboard-title',"New Admission Session")
+@section('dashboard-title',"{$admission['session']} Session")
 
 @section('dashboard-styles')
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
@@ -47,21 +47,21 @@ $useSidebar = true;
             classValues.push(elem.getAttribute('data-value'))
            })
            const fd = new FormData()
-              fd.append('xf',"{{$school['id']}}")
+              fd.append('xf',"{{$admission['id']}}")
               fd.append('session',naSession)
               fd.append('term',naTerm)
               fd.append('end_date',naEndDate)
               fd.append('classes',JSON.stringify(classValues))
 
-              addAdmissionSession(fd,
+              updateAdmissionSession(fd,
               (data) => {
                 
                 $('#na-loading').hide()
               $('#na-btn').fadeIn()
 
                 if(data.status === 'ok'){
-                    alert('Admission session created!')
-                    window.location = `school-admissions`
+                    alert('Admission session updated!')
+                    window.location = `school-admission?xf={{$admission['id']}}`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -70,7 +70,7 @@ $useSidebar = true;
               (err) => {
                 $('#na-loading').hide()
               $('#na-btn').fadeIn()
-                alert(`Failed to add admission: ${err}`)
+                alert(`Failed to update admission: ${err}`)
               }
             )
          }
@@ -99,12 +99,13 @@ $useSidebar = true;
                  <h5>Admission Session</h5>
                  <select id="na-session" class="selectpicker default" data-selected-text-format="count" data-size="{{count($availableSessions)}}"
                     title="Select session" tabindex="-98">
-                     <option class="bs-title-option" value="none">Select session</option>
+                     <option class="bs-title-option" value="none" >Select session</option>
                      <?php
                       foreach($availableSessions as $s)
                        {
+                         $v = $s === $admission['session'] ? " selected" : "";
                      ?>
-                       <option value="{{$s}}">{{$s}} session</option>
+                       <option value="{{$s}}"{{$v}}>{{$s}} session</option>
                      <?php
                        }
                      ?>
@@ -119,8 +120,9 @@ $useSidebar = true;
                      <?php
                       foreach($terms as $t)
                        {
+                        $v = $t['value'] === $admission['term_id'] ? " selected" : "";
                      ?>
-                       <option value="{{$t['value']}}">{{$t['name']}}</option>
+                       <option value="{{$t['value']}}"{{$v}}>{{$t['name']}}</option>
                      <?php
                        }
                      ?>
@@ -133,10 +135,12 @@ $useSidebar = true;
           <ul>
             <?php
              for ($i = 0; $i < count($schoolClasses); $i++) {
-               $class = $schoolClasses[$i];     
+               $class = $schoolClasses[$i];
+               $isChecked = in_array($class,$acList);
+               $checkedString = $isChecked ? ' checked' : '';
             ?>
               <li>
-               <input id="check-class-{{$i}}" type="checkbox" class="na-classes" data-value="{{$class['id']}}">
+               <input id="check-class-{{$i}}" type="checkbox" class="na-classes" data-value="{{$class['id']}}" {{$checkedString}}>
                <label for="check-class-{{$i}}">
                {{$class['class_name']}}</label>
               </li>
@@ -150,11 +154,11 @@ $useSidebar = true;
                <div class="col-md-6">
                  @include('components.form-validation', ['id' => "na-end-date-validation",'style' => "margin-top: 10px;"])
                  <h5>End Date</h5>
-                 <input type="date" class="input-text" name="address" id="na-end-date">
+                 <input type="date" class="input-text" name="address" id="na-end-date" value="{{$admission['end_date']}}">
                </div>
 
                <div class="col-md-12">
-               @include('components.generic-loading', ['message' => 'Creating admission session', 'id' => "na-loading"])
+               @include('components.generic-loading', ['message' => 'Updating admission session', 'id' => "na-loading"])
                    @include('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',

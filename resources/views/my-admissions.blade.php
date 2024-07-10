@@ -18,10 +18,10 @@ $useSidebar = true;
 	 const confirmDeleteAdmission = (pid) => {
             confirmAction(pid, 
 			    (xf) => {
-            removeAdmission(xf,
+            removeAdmissionSession(xf,
 				      () => {
 			       		alert('Admission removed')
-					      window.location = 'admissions'
+					      window.location = 'school-admissions'
 				      },
 				      (err) => {
 				       	alert('Failed to remove admission: ',err)
@@ -67,6 +67,7 @@ $useSidebar = true;
                   foreach($admissions as $a)
                   {
                     $xf = $a['id'];
+                    $vu = url('school-admission')."?xf={$xf}";
 
               ?>
                     <li>
@@ -87,8 +88,8 @@ $useSidebar = true;
                         </div>
                       </div>
                       <div class="buttons-to-right"> 
-					              <a href="#" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
-					              <a href="#" class="button gray"><i class="fa fa-trash-o"></i> Delete</a> 
+					              <a href="{{$vu}}" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
+					              <a href="#" onclick="confirmDeleteAdmission('{{$xf}}'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Delete</a> 
 				              </div>
                    </li>
               <?php

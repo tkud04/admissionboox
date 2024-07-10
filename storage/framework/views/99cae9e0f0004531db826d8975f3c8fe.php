@@ -2,15 +2,15 @@
 $ac = "admissions";
 $useSidebar = true;
 ?>
-@extends('dashboard_layout')
 
-@section('dashboard-title',"New Admission Session")
 
-@section('dashboard-styles')
+<?php $__env->startSection('dashboard-title',"{$admission['session']} Session"); ?>
+
+<?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-scripts'); ?>
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
@@ -47,21 +47,21 @@ $useSidebar = true;
             classValues.push(elem.getAttribute('data-value'))
            })
            const fd = new FormData()
-              fd.append('xf',"{{$school['id']}}")
+              fd.append('xf',"<?php echo e($admission['id']); ?>")
               fd.append('session',naSession)
               fd.append('term',naTerm)
               fd.append('end_date',naEndDate)
               fd.append('classes',JSON.stringify(classValues))
 
-              addAdmissionSession(fd,
+              updateAdmissionSession(fd,
               (data) => {
                 
                 $('#na-loading').hide()
               $('#na-btn').fadeIn()
 
                 if(data.status === 'ok'){
-                    alert('Admission session created!')
-                    window.location = `school-admissions`
+                    alert('Admission session updated!')
+                    window.location = `school-admission?xf=<?php echo e($admission['id']); ?>`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -70,7 +70,7 @@ $useSidebar = true;
               (err) => {
                 $('#na-loading').hide()
               $('#na-btn').fadeIn()
-                alert(`Failed to add admission: ${err}`)
+                alert(`Failed to update admission: ${err}`)
               }
             )
          }
@@ -81,9 +81,9 @@ $useSidebar = true;
 		
 	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 
 <div class="row"> 
      <div class="col-lg-12 col-md-12">
@@ -95,50 +95,54 @@ $useSidebar = true;
         <div class="utf_submit_section">
           <div class="row with-forms">
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-session-validation",'style' => "margin-top: 10px;"])
+                 <?php echo $__env->make('components.form-validation', ['id' => "na-session-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <h5>Admission Session</h5>
-                 <select id="na-session" class="selectpicker default" data-selected-text-format="count" data-size="{{count($availableSessions)}}"
+                 <select id="na-session" class="selectpicker default" data-selected-text-format="count" data-size="<?php echo e(count($availableSessions)); ?>"
                     title="Select session" tabindex="-98">
-                     <option class="bs-title-option" value="none">Select session</option>
+                     <option class="bs-title-option" value="none" >Select session</option>
                      <?php
                       foreach($availableSessions as $s)
                        {
+                         $v = $s === $admission['session'] ? " selected" : "";
                      ?>
-                       <option value="{{$s}}">{{$s}} session</option>
+                       <option value="<?php echo e($s); ?>"<?php echo e($v); ?>><?php echo e($s); ?> session</option>
                      <?php
                        }
                      ?>
                  </select>
                </div>
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-term-validation",'style' => "margin-top: 10px;"])
+                 <?php echo $__env->make('components.form-validation', ['id' => "na-term-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <h5>Admission Term</h5>
-                 <select id="na-term" class="selectpicker default" data-selected-text-format="count" data-size="{{count($terms)}}"
+                 <select id="na-term" class="selectpicker default" data-selected-text-format="count" data-size="<?php echo e(count($terms)); ?>"
                     title="Select term" tabindex="-98">
                      <option class="bs-title-option" value="none">Select term</option>
                      <?php
                       foreach($terms as $t)
                        {
+                        $v = $t['value'] === $admission['term_id'] ? " selected" : "";
                      ?>
-                       <option value="{{$t['value']}}">{{$t['name']}}</option>
+                       <option value="<?php echo e($t['value']); ?>"<?php echo e($v); ?>><?php echo e($t['name']); ?></option>
                      <?php
                        }
                      ?>
                  </select>
                </div>
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-class-validation",'style' => "margin-top: 10px;",'message' => 'Select at least 1 class'])
+                 <?php echo $__env->make('components.form-validation', ['id' => "na-class-validation",'style' => "margin-top: 10px;",'message' => 'Select at least 1 class'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <h5>Classes Available</h5>
                  <div class="checkboxes in-row amenities_checkbox">
           <ul>
             <?php
              for ($i = 0; $i < count($schoolClasses); $i++) {
-               $class = $schoolClasses[$i];     
+               $class = $schoolClasses[$i];
+               $isChecked = in_array($class,$acList);
+               $checkedString = $isChecked ? ' checked' : '';
             ?>
               <li>
-               <input id="check-class-{{$i}}" type="checkbox" class="na-classes" data-value="{{$class['id']}}">
-               <label for="check-class-{{$i}}">
-               {{$class['class_name']}}</label>
+               <input id="check-class-<?php echo e($i); ?>" type="checkbox" class="na-classes" data-value="<?php echo e($class['id']); ?>" <?php echo e($checkedString); ?>>
+               <label for="check-class-<?php echo e($i); ?>">
+               <?php echo e($class['class_name']); ?></label>
               </li>
             <?php
            }
@@ -148,19 +152,19 @@ $useSidebar = true;
                </div>
               
                <div class="col-md-6">
-                 @include('components.form-validation', ['id' => "na-end-date-validation",'style' => "margin-top: 10px;"])
+                 <?php echo $__env->make('components.form-validation', ['id' => "na-end-date-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <h5>End Date</h5>
-                 <input type="date" class="input-text" name="address" id="na-end-date">
+                 <input type="date" class="input-text" name="address" id="na-end-date" value="<?php echo e($admission['end_date']); ?>">
                </div>
 
                <div class="col-md-12">
-               @include('components.generic-loading', ['message' => 'Creating admission session', 'id' => "na-loading"])
-                   @include('components.button',[
+               <?php echo $__env->make('components.generic-loading', ['message' => 'Updating admission session', 'id' => "na-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                   <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',
                      'title' => 'Next',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>
            
             </div>
@@ -170,4 +174,5 @@ $useSidebar = true;
        
 </div>
       
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/mac/repos/admissionboox/resources/views/my-admission.blade.php ENDPATH**/ ?>

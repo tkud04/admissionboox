@@ -2970,6 +2970,7 @@ EOD;
           
            function getSchoolClass($id)
            {
+            
                $ret = [];
                $r = SchoolClasses::where('id',$id)->first();
 
@@ -3220,6 +3221,29 @@ EOD;
                return $ret;
            }
 
+           function updateSchoolAdmission($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	    $a = SchoolAdmissions::where('admission_id', $data['xf'])->first();
+ 
+                        if($a != null)
+                        {
+							$payload = [];
+                            if(isset($data['session'])) $payload['session'] = $data['session'];
+                            if(isset($data['term_id'])) $payload['term_id'] = $data['term_id'];
+                            if(isset($data['form_id'])) $payload['form_id'] = $data['form_id'];
+                            if(isset($data['end_date'])) $payload['end_date'] = $data['end_date'];
+                           
+                        	$a->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
+           }
+
           
 
            function removeSchoolAdmission($id)
@@ -3314,6 +3338,7 @@ EOD;
                 $forms = AdmissionClasses::where('admission_id',$admission_id)->get();
                }
                
+            
                if($forms != null)
                {
                   foreach($forms as $f)
@@ -3333,12 +3358,13 @@ EOD;
 
                if($f != null)
                {
+                
                    $ret['id'] = $f->id;
                    $ret['admission_id'] = $f->admission_id;
-                   $ret['class'] = $this->getSchoolClass($f->id);
+                   $ret['class'] = $this->getSchoolClass($f->class_id);
                    $ret['date'] = $f->created_at->format("jS F, Y");
                }
-
+               
                return $ret;
            }
 
@@ -3350,6 +3376,35 @@ EOD;
                if($f != null) $f->delete();
            }
 
+           function removeAdmissionClasses($admission_id)
+           {
+             $a = SchoolAdmissions::where('id',$admission_id)->first();
+
+             if($a !== null)
+             {
+                $classes = $this->getAdmissionClasses($admission_id);
+
+                foreach($classes as $c)
+                {
+                    $this->removeAdmissionClass($c['id']);
+                }
+             }
+           }
+
+           function extractAdmissionClasses($classes)
+           {
+            $ret = [];
+            
+
+              for($j = 0; $j < count($classes); $j++)
+              {
+                $c = $classes[$j]['class'];
+                array_push($ret,$c);
+              }
+
+              
+              return $ret;
+           }
 
            function addFormField($data)
            {
@@ -3362,6 +3417,8 @@ EOD;
 
             return $ret;
            }
+
+         
 
            function getFormFields($form_id='all')
            {

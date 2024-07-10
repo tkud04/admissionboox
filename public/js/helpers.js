@@ -292,6 +292,23 @@ const addAdmissionSession = async (fd,successCallback,errorCallback) => {
  
 }
 
+const updateAdmissionSession = async (fd,successCallback,errorCallback) => {
+  const url = 'api/update-school-admission'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
 const removeAdmissionSession = async (fd,successCallback,errorCallback) => {
   const url = 'api/remove-school-admission'
   const response = await fetch(url, {

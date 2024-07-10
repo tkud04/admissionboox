@@ -42,7 +42,9 @@ Route::post('ust', [SchoolAdminController::class,'postUpdateSchoolLandingPage'])
 Route::post('usi', [SchoolAdminController::class,'postUpdateSchoolInfo']);
 
 Route::post('add-school-admission', [SchoolAdminController::class,'postAddSchoolAdmission']);
-Route::post('add-form', [SchoolAdminController::class,'postAddAdmissionForm']);
+Route::post('update-school-admission', [SchoolAdminController::class,'postSchoolAdmission']);
+Route::post('add-school-admission-form', [SchoolAdminController::class,'postAddSchoolAdmissionForm']);
+Route::post('school-admission-form', [SchoolAdminController::class,'postSchoolAdmissionForm']);
 
 Route::post('school-application', [SchoolAdminController::class,'postSchoolApplication']);
 Route::post('add-school-application', [SchoolAdminController::class,'postAddSchoolApplication']);
