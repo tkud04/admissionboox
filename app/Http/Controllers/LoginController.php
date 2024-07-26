@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Helpers\Contracts\HelperContract; 
+use App\Helpers\Helper; 
 use Illuminate\Support\Facades\Auth;
 use Session; 
 use Validator; 
@@ -16,7 +16,7 @@ class LoginController extends Controller {
 	protected $helpers; //Helpers implementation
     protected $compactValues;
     
-    public function __construct(HelperContract $h)
+    public function __construct(Helper $h)
     {
     	$this->helpers = $h;    
         $this->compactValues = ['user','plugins','senders','signals'];           
@@ -261,9 +261,10 @@ class LoginController extends Controller {
 
             $schoolAddressPayload = [
                 'school_id' => $school->id,
-                'state' => '',
-                'address' => '',
-                'coords' => '',
+                'school_state' => '',
+                'school_address' => '',
+                'longitude' => 'none',
+                'latitude' => 'none',
             ];
 
             $schoolAddress = $this->helpers->addSchoolAddress($schoolAddressPayload);

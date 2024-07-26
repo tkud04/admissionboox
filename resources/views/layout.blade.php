@@ -88,7 +88,7 @@ $headerDivClass = $v ? "not-sticky":"";
                        <div class="header_widget"> 
                         @if(isset($user))
                          @include('components.auth-menu',[
-                            'fname' => $user->fname
+                            'user' => $user,
                          ])
                         
                          @else
@@ -547,6 +547,7 @@ $headerDivClass = $v ? "not-sticky":"";
     <script src="js/jquery_custom.js"></script>
     <script src="js/lists.js"></script>
     <script src="lib/sweet-alert/sweetalert2.js"></script>
+    <script type="module" src="lib/micromodal/micromodal.min.js"></script>
     <script src="js/helpers.js?ver={{rand(999, 9999999)}}"></script>
     
     <script>

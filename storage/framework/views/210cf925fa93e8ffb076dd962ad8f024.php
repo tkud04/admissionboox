@@ -88,7 +88,7 @@ $headerDivClass = $v ? "not-sticky":"";
                        <div class="header_widget"> 
                         <?php if(isset($user)): ?>
                          <?php echo $__env->make('components.auth-menu',[
-                            'fname' => $user->fname
+                            'user' => $user,
                          ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         
                          <?php else: ?>
@@ -547,6 +547,7 @@ $headerDivClass = $v ? "not-sticky":"";
     <script src="js/jquery_custom.js"></script>
     <script src="js/lists.js"></script>
     <script src="lib/sweet-alert/sweetalert2.js"></script>
+    <script type="module" src="lib/micromodal/micromodal.min.js"></script>
     <script src="js/helpers.js?ver=<?php echo e(rand(999, 9999999)); ?>"></script>
     
     <script>

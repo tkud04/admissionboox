@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Helpers\Contracts\HelperContract; 
+use App\Helpers\Helper; 
 use Illuminate\Support\Facades\Auth;
 use Session; 
 use Validator; 
@@ -15,9 +15,9 @@ class MainController extends Controller {
 	protected $helpers; //Helpers implementation
 	protected $compactValues;
     
-    public function __construct(HelperContract $h)
+    public function __construct(Helper $h)
     {
-    	$this->helpers = $h;        
+    	$this->helpers = $h;      
 		$this->compactValues = ['user','plugins','senders','signals'];         
     }
 

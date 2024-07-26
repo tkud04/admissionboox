@@ -47,7 +47,7 @@ $useSidebar = true;
             classValues.push(elem.getAttribute('data-value'))
            })
            const fd = new FormData()
-              fd.append('xf',"{{$admission['id']}}")
+              fd.append('xf',"{{$admission['form_id']}}")
               fd.append('session',naSession)
               fd.append('term',naTerm)
               fd.append('end_date',naEndDate)
@@ -92,7 +92,7 @@ $useSidebar = true;
              <h3><i class="sl sl-icon-book-open"></i> Basic Information</h3>
           </div>
        
-        <div class="utf_submit_section">
+         <div class="utf_submit_section">
           <div class="row with-forms">
                <div class="col-md-6">
                  @include('components.form-validation', ['id' => "na-session-validation",'style' => "margin-top: 10px;"])
@@ -162,13 +162,49 @@ $useSidebar = true;
                    @include('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',
-                     'title' => 'Next',
+                     'title' => 'Submit',
                      'classes' => 'margin-top-20'
                     ])
                </div>
            
             </div>
           </div>
+          </div>
+
+          <div class="add_utf_listing_section margin-top-45">
+            <div class="utf_add_listing_part_headline_part">
+               <h3><i class="sl sl-icon-book-open"></i> Admission Form</h3>
+            </div>
+
+            <?php
+              if($admission['form_id'] === '')
+              {
+
+              
+            ?>
+              <p>You have not created an admission form for this session. Click the button below to create one.</p>
+              @include('components.button',[
+                     'href' => url('add-school-admission-form').'?xf='.$admission['id'],
+                     'id' => 'nf-btn',
+                     'title' => 'Create form',
+                     'classes' => 'margin-top-20'
+                    ])
+            <?php
+              }
+              else
+              {
+            ?>
+              <p> Click the button below to view/edit your admission form.</p>
+              @include('components.button',[
+                     'href' => url('school-admission-form').'?xf='.$admission['id'],
+                     'id' => 'nf-btn',
+                     'title' => 'Edit form',
+                     'classes' => 'margin-top-20'
+                    ])
+            <?php
+              }
+            ?>
+            <p></p>
           </div>
      </div>
        

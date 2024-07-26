@@ -13,7 +13,7 @@ class FormFields extends Model
      * @var array
      */
     protected $fillable = [
-        'form_id', 'title','type','description'
+        'form_id','section_id', 'title','type','description','bs_length','options'
     ];
     
 }

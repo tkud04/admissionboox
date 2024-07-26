@@ -258,11 +258,10 @@ const addSchoolClass = async (fd,successCallback,errorCallback) => {
  
 }
 
-const removeSchoolClass = async (fd,successCallback,errorCallback) => {
-  const url = 'api/remove-school-class'
+const removeSchoolClass = async (id,successCallback,errorCallback) => {
+   const url = `api/remove-school-class?xf=${id}`
   const response = await fetch(url, {
-      method: "POST",
-      body: fd
+      method: "GET",
     })
   if(response.status === 200){
     const responseJSON = await response.json()
@@ -309,11 +308,10 @@ const updateAdmissionSession = async (fd,successCallback,errorCallback) => {
  
 }
 
-const removeAdmissionSession = async (fd,successCallback,errorCallback) => {
-  const url = 'api/remove-school-admission'
+const removeAdmissionSession = async (id,successCallback,errorCallback) => {
+  const url = `api/remove-school-admission?xf=${id}`
   const response = await fetch(url, {
-      method: "POST",
-      body: fd
+      method: "GET"
     })
   if(response.status === 200){
     const responseJSON = await response.json()
@@ -343,8 +341,80 @@ const addAdmissionForm = async (fd,successCallback,errorCallback) => {
  
 }
 
-const removeAdmissionForm = async (fd,successCallback,errorCallback) => {
-  const url = 'api/remove-admission-form'
+const removeAdmissionForm = async (id,successCallback,errorCallback) => {
+  const url = `api/remove-admission-form?xf=${id}`
+  const response = await fetch(url, {
+      method: "GET"
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const addFormSection = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-form-section'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeFormSection = async (id,successCallback,errorCallback) => {
+  const url = 'api/remove-form-section'
+  const fd = new FormData()
+  fd.append('xf',id)
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const addFormField = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-form-field'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeFormField = async (id,successCallback,errorCallback) => {
+  const url = 'api/remove-form-field'
+  const fd = new FormData()
+  fd.append('xf',id)
+  
   const response = await fetch(url, {
       method: "POST",
       body: fd

@@ -15,8 +15,7 @@ class SchoolInfo extends Model
     protected $fillable = [
         'school_id', 'boarding_type', 'hbu',
         'hbu_other','school_name','school_type',
-        'school_curriculum', 'school_fees','wcu',
-        'school_coords'
+        'school_curriculum', 'school_fees','wcu'
     ];
     
 }

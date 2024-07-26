@@ -158,7 +158,7 @@ $useSidebar = true;
                    @include('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',
-                     'title' => 'Next',
+                     'title' => 'Submit',
                      'classes' => 'margin-top-20'
                     ])
                </div>

@@ -1,31 +1,27 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Helpers\Helper;
 
-class HelperServiceProvider extends ServiceProvider {
+class HelperServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+            foreach (glob(app_path().'/Helpers/*.php') as $filename){
+                require_once($filename);
+            }
 
-        /**
-         * Bootstrap the application services.
-         *
-         * @return void
-         */
-        public function boot()
-        {
-                //
-        }
+    }
 
-        /**
-         * Register the application services.
-         *
-         * @return void
-         */
-        public function register()
-        {
-                $this->app->singleton('App\Helpers\Contracts\HelperContract', function(){
-              return new Helper();                                                                 });
-        }
-
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        //
+    }
 }
-
-?>

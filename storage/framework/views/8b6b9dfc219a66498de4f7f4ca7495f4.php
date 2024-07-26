@@ -68,28 +68,46 @@ $useSidebar = true;
                   {
                     $xf = $a['id'];
                     $vu = url('school-admission')."?xf={$xf}";
+                    $term = ['name' => "", 'value' => '0'];
+                    $classesString = "";
+
+                    for($i = 0; $i < count($a['classes']); $i++)
+                    {
+                      $ac = $a['classes'][$i]; $acClass = $ac['class'];
+                      $classesString .= $acClass['class_name'];
+
+                      if($i < count($a['classes']) - 1) $classesString .= ", ";
+                    }
+                    foreach($terms as $t)
+                    {
+                      if($t['value'] === $a['term_id']) $term = $t;
+                    }
 
               ?>
                     <li>
                       <div class="utf_list_box_listing_item">
-                        <div class="utf_list_box_listing_item-img"><a href="#"><img src="images/utf_listing_item-01.jpg" alt=""></a></div>
+                        <div class="utf_list_box_listing_item-img"><a href="#"><img src="<?php echo e($school['logo']); ?>" alt=""></a></div>
                         <div class="utf_list_box_listing_item_content">
                           <div class="inner">
-                            <h3>Chontaduro Barcelona</h3>
-				                	  <span><i class="im im-icon-Hotel"></i> Hotels</span> 
-                            <span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-					                  <span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>
+                            <h3><?php echo e($a['session']); ?> Session</h3>
+				                	  <span><i class="im im-icon-Calendar"></i> <?php echo e($term['name']); ?> </span> 
+				                	  <span><i class="im im-icon-Building"></i> <?php echo e($classesString); ?> </span> 
+                            <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['end_date_formatted']); ?></span>
+					                  <span><i class="im im-icon-Folders"></i> <?php echo e(count($a['applications'])); ?> applications</span>
 					            
+                           <!-- 
                             <div class="utf_star_rating_section" data-rating="4.5">
 							                <div class="utf_counter_star_rating">(4.5)</div>							
-						                    <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star half"></span></div>
+						                    <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star half"></span>
+                             </div>
+                             -->
 						                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar.</p>
                            </div>
                         </div>
                       </div>
                       <div class="buttons-to-right"> 
 					              <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
-					              <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Delete</a> 
+					              <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
 				              </div>
                    </li>
               <?php

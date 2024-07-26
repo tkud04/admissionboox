@@ -1,7 +1,9 @@
 <?php
 $notificationsArr = isset($notifications) ? $notifications : [];
-$fnameString2 = isset($fname) ? $fname : "";
+$fnameString2 = $user->fname;
 $fnameString = strlen($fnameString2) <= 7 ? $fnameString2 : substr($fnameString2,0,5)."..";
+$imageString2 = "";
+$imageString = strlen($imageString2) > 0 ? $imageString2 : "images/dashboard-avatar.jpg";
 
 ?>
 <div class="dashboard_header_button_item has-noti js-item-menu">
@@ -34,13 +36,11 @@ $fnameString = strlen($fnameString2) <= 7 ? $fnameString2 : substr($fnameString2
     </div>
 </div>
 <div class="utf_user_menu">
-    <div class="utf_user_name"><span><img src="images/dashboard-avatar.jpg" alt=""></span>Hi, <?php echo e($fnameString); ?>!</div>
+    <div class="utf_user_name"><span><img src="<?php echo e($imageString); ?>" alt=""></span>Hi, <?php echo e($fnameString); ?>!</div>
     <ul>
         <li><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-layers"></i> Dashboard</a></li>
-        <li><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-user"></i> My Profile</a></li>
-        <li><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-list"></i> My Listing</a></li>
-        <li><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-envelope-open"></i> Messages</a></li>
-        <li><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-docs"></i> Booking</a></li>
+        <li><a href="<?php echo e(url('profile')); ?>"><i class="sl sl-icon-user"></i> My Profile</a></li>
+        <li><a href="<?php echo e(url('messages')); ?>"><i class="sl sl-icon-envelope-open"></i> Messages</a></li>
         <li><a href="<?php echo e(url('bye')); ?>"><i class="sl sl-icon-power"></i> Logout</a></li>
     </ul>
 </div><?php /**PATH /Users/mac/repos/admissionboox/resources/views/components/auth-menu.blade.php ENDPATH**/ ?>

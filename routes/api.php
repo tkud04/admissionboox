@@ -43,13 +43,24 @@ Route::post('usi', [SchoolAdminController::class,'postUpdateSchoolInfo']);
 
 Route::post('add-school-admission', [SchoolAdminController::class,'postAddSchoolAdmission']);
 Route::post('update-school-admission', [SchoolAdminController::class,'postSchoolAdmission']);
+Route::get('remove-school-admission', [SchoolAdminController::class,'getRemoveSchoolAdmission']);
+
 Route::post('add-school-admission-form', [SchoolAdminController::class,'postAddSchoolAdmissionForm']);
 Route::post('school-admission-form', [SchoolAdminController::class,'postSchoolAdmissionForm']);
+Route::get('remove-school-admission-form', [SchoolAdminController::class,'getRemoveSchoolAdmissionForm']);
+
+Route::post('add-form-section', [SchoolAdminController::class,'postAddFormSection']);
+Route::post('remove-form-section', [SchoolAdminController::class,'postRemoveFormSection']);
+Route::post('add-form-field', [SchoolAdminController::class,'postAddFormField']);
+Route::post('remove-form-field', [SchoolAdminController::class,'postRemoveFormField']);
 
 Route::post('school-application', [SchoolAdminController::class,'postSchoolApplication']);
 Route::post('add-school-application', [SchoolAdminController::class,'postAddSchoolApplication']);
+Route::get('remove-school-application', [SchoolAdminController::class,'getRemoveSchoolApplication']);
+
 
 Route::post('add-school-class', [SchoolAdminController::class,'postAddSchoolClass']);
+Route::get('remove-school-class', [SchoolAdminController::class,'getRemoveSchoolClass']);
 
 
 

@@ -61,7 +61,7 @@ $useSidebar = true;
 
                 if(data.status === 'ok'){
                     alert('Admission session created!')
-                    window.location = `school-admission?xf=<?php echo e($school['id']); ?>`
+                    window.location = `school-admissions`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -158,7 +158,7 @@ $useSidebar = true;
                    <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',
-                     'title' => 'Next',
+                     'title' => 'Submit',
                      'classes' => 'margin-top-20'
                     ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>

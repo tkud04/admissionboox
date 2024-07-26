@@ -47,7 +47,7 @@ $useSidebar = true;
             classValues.push(elem.getAttribute('data-value'))
            })
            const fd = new FormData()
-              fd.append('xf',"<?php echo e($admission['id']); ?>")
+              fd.append('xf',"<?php echo e($admission['form_id']); ?>")
               fd.append('session',naSession)
               fd.append('term',naTerm)
               fd.append('end_date',naEndDate)
@@ -92,7 +92,7 @@ $useSidebar = true;
              <h3><i class="sl sl-icon-book-open"></i> Basic Information</h3>
           </div>
        
-        <div class="utf_submit_section">
+         <div class="utf_submit_section">
           <div class="row with-forms">
                <div class="col-md-6">
                  <?php echo $__env->make('components.form-validation', ['id' => "na-session-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -162,13 +162,49 @@ $useSidebar = true;
                    <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'na-btn',
-                     'title' => 'Next',
+                     'title' => 'Submit',
                      'classes' => 'margin-top-20'
                     ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>
            
             </div>
           </div>
+          </div>
+
+          <div class="add_utf_listing_section margin-top-45">
+            <div class="utf_add_listing_part_headline_part">
+               <h3><i class="sl sl-icon-book-open"></i> Admission Form</h3>
+            </div>
+
+            <?php
+              if($admission['form_id'] === '')
+              {
+
+              
+            ?>
+              <p>You have not created an admission form for this session. Click the button below to create one.</p>
+              <?php echo $__env->make('components.button',[
+                     'href' => url('add-school-admission-form').'?xf='.$admission['id'],
+                     'id' => 'nf-btn',
+                     'title' => 'Create form',
+                     'classes' => 'margin-top-20'
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php
+              }
+              else
+              {
+            ?>
+              <p> Click the button below to view/edit your admission form.</p>
+              <?php echo $__env->make('components.button',[
+                     'href' => url('school-admission-form').'?xf='.$admission['id'],
+                     'id' => 'nf-btn',
+                     'title' => 'Edit form',
+                     'classes' => 'margin-top-20'
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php
+              }
+            ?>
+            <p></p>
           </div>
      </div>
        
