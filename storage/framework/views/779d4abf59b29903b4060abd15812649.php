@@ -7,6 +7,37 @@ $ac = "dashboard";
 <?php $__env->startSection('dashboard-title', $school['name']); ?>
 
 
+<?php
+function isInSchoolFacility($item,$list)
+{
+  $ret = false;
+   foreach($list as $l)
+   {
+     $f = $l['facility'];
+     if($item === $f)
+     {
+       $ret = true;
+     }
+   }
+
+   return $ret;
+}
+
+function isInSchoolClub($item,$list)
+    {
+      $ret = false;
+       foreach($list as $l)
+       {
+         if($item === $l)
+         {
+           $ret = true;
+         }
+       }
+
+       return $ret;
+    }
+?>
+
 <?php $__env->startSection('scripts'); ?>
 <?php if(!$hasCompletedSignup): ?>
   <script>
@@ -296,7 +327,7 @@ $ac = "dashboard";
             <?php
     for ($i = 0; $i < count($clubs); $i++) {
     $club = $clubs[$i];
-    if(in_array($club,$school['clubs'])){}
+    if(isInSchoolClub($club,$school['clubs'])){}
     else{
             ?>
             <li>
@@ -391,9 +422,11 @@ $ac = "dashboard";
           <div class="checkboxes in-row amenities_checkbox">
           <ul>
             <?php
+    
     for ($i = 0; $i < count($facilities); $i++) {
     $facility = $facilities[$i];
-    if(in_array($facility,$school['facilities'])){}
+    //$facility = $f['facility'];
+    if(isInSchoolFacility($facility,$school['facilities'])){}
     else{
             ?>
             <li>

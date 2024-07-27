@@ -2675,7 +2675,7 @@ EOD;
            function getSchoolAddress($school_id)
            {
                $ret = [];
-               $s = SchoolAddresses::where('id',$school_id)->first();
+               $s = SchoolAddresses::where('school_id',$school_id)->first();
 
                if($s != null)
                {
@@ -3750,6 +3750,7 @@ EOD;
 
           function checkSchoolSignup($s)
           {
+           
             $ret = true;
             if(count($s['resources']) < 1) $ret = false; 
             if(count($s['clubs']) < 1) $ret = false; 

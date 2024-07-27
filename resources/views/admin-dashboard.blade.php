@@ -1,6 +1,7 @@
 <?php
 $ac = "dashboard";
 $useAdminSidebar = true;
+echo json_encode($facilities);
 ?>
 @extends('dashboard_layout')
 
@@ -347,18 +348,22 @@ $useAdminSidebar = true;
 				<?php
                   if(isset($facilities) && count($facilities) > 0)
                   {
-                    foreach($facilities as $f)
+                    foreach($facilities as $facility)
                     {
+						$f = $facility['facility'];
                        $fid = $f['id'];
-						$ru = url('remove-facility')."?xf={$f['id']}";
+					   $fname = $f['facility_name'];
+					   $fvalue = $f['facility_value'];
+					   $ficon = $f['icon'];
+					   $fdate = $f['date'];
+					   $ru = url('remove-facility')."?xf={$fid}";
                  ?>
+				
 				  <tr>
-					<td>{{$f['facility_name']}}</td>
-					<td>{{$f['facility_value']}}</td>
-					<td>
-						<div style="background: #efefef; border-radius: 2px;">{{$p['value']}}</div>
-					</td>
-					<td>{{$p['date']}}</td>
+					<td>{{$fname}}</td>
+					<td>{{$fvalue}}</td>
+					<td><i class="im {{$ficon}}" style="font-size: 20px;"></i></td>
+					<td>{{$fdate}}</td>
 					<td><a href="#" onclick="confirmDeletefacility('{{$fid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php
@@ -381,7 +386,6 @@ $useAdminSidebar = true;
 					<th>Name</th>
 					<th>Value</th>
 					<th>Image</th>
-					<th>Date Added</th>
 					<th>Action</th>
 				  </tr>
 				</thead>
@@ -391,14 +395,16 @@ $useAdminSidebar = true;
                   {
                     foreach($clubs as $c)
                     {
+						$cnamee = $c['club_name'];
+						$cvalue = $c['club_value'];
+						$cicon = $c['icon'];
                        $cid = $c['id'];
 						$ru = url('remove-club')."?xf={$c['id']}";
                  ?>
 				  <tr>
-					<td>{{$c['club_name']}}</td>
-					<td>{{$c['club_value']}}</td>
-					<td><img alt="{{$c['club_name']}}" class="img-fluid rounded-circle shadow-lg" src="{{$c['img_url']}}" width="50" height="50"></td>
-					<td>{{$c['date']}}</td>
+					<td>club_name</td>
+					<td>{{$cvalue}}</td>
+					<td><i class="im {{$cicon}}" style="font-size: 20px;"></i></td>
 					<td><a href="#" onclick="confirmDeleteClub('{{$cid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php

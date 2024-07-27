@@ -41,10 +41,6 @@ class SchoolAdminController extends Controller {
 
 				#dd($req);
 				$validator = Validator::make($req, [
-					'address' => 'required',
-					'state' => 'required',
-					'latitude' => 'required|numeric',
-					'longitude' => 'required|numeric',
 					'clubs' => 'required',
 					'facilities' => 'required',
 					'xf' => 'required|numeric'

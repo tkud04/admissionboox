@@ -1,6 +1,7 @@
 <?php
 $ac = "dashboard";
 $useAdminSidebar = true;
+echo json_encode($facilities);
 ?>
 
 
@@ -347,18 +348,22 @@ $useAdminSidebar = true;
 				<?php
                   if(isset($facilities) && count($facilities) > 0)
                   {
-                    foreach($facilities as $f)
+                    foreach($facilities as $facility)
                     {
+						$f = $facility['facility'];
                        $fid = $f['id'];
-						$ru = url('remove-facility')."?xf={$f['id']}";
+					   $fname = $f['facility_name'];
+					   $fvalue = $f['facility_value'];
+					   $ficon = $f['icon'];
+					   $fdate = $f['date'];
+					   $ru = url('remove-facility')."?xf={$fid}";
                  ?>
+				
 				  <tr>
-					<td><?php echo e($f['facility_name']); ?></td>
-					<td><?php echo e($f['facility_value']); ?></td>
-					<td>
-						<div style="background: #efefef; border-radius: 2px;"><?php echo e($p['value']); ?></div>
-					</td>
-					<td><?php echo e($p['date']); ?></td>
+					<td><?php echo e($fname); ?></td>
+					<td><?php echo e($fvalue); ?></td>
+					<td><i class="im <?php echo e($ficon); ?>" style="font-size: 20px;"></i></td>
+					<td><?php echo e($fdate); ?></td>
 					<td><a href="#" onclick="confirmDeletefacility('<?php echo e($fid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php
@@ -381,7 +386,6 @@ $useAdminSidebar = true;
 					<th>Name</th>
 					<th>Value</th>
 					<th>Image</th>
-					<th>Date Added</th>
 					<th>Action</th>
 				  </tr>
 				</thead>
@@ -391,14 +395,16 @@ $useAdminSidebar = true;
                   {
                     foreach($clubs as $c)
                     {
+						$cnamee = $c['club_name'];
+						$cvalue = $c['club_value'];
+						$cicon = $c['icon'];
                        $cid = $c['id'];
 						$ru = url('remove-club')."?xf={$c['id']}";
                  ?>
 				  <tr>
-					<td><?php echo e($c['club_name']); ?></td>
-					<td><?php echo e($c['club_value']); ?></td>
-					<td><img alt="<?php echo e($c['club_name']); ?>" class="img-fluid rounded-circle shadow-lg" src="<?php echo e($c['img_url']); ?>" width="50" height="50"></td>
-					<td><?php echo e($c['date']); ?></td>
+					<td>club_name</td>
+					<td><?php echo e($cvalue); ?></td>
+					<td><i class="im <?php echo e($cicon); ?>" style="font-size: 20px;"></i></td>
 					<td><a href="#" onclick="confirmDeleteClub('<?php echo e($cid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
 				  </tr>
 				<?php

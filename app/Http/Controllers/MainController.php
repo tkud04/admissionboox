@@ -176,7 +176,8 @@ class MainController extends Controller {
 		if($user->role === 'school_admin')
 		{
             $school =$this->helpers->getSchool($user->email);
-          	$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
+			
+			$hasCompletedSignup = $this->helpers->checkSchoolSignup($school);
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
@@ -205,7 +206,7 @@ class MainController extends Controller {
 		  $users = $this->helpers->getUsers(); 
 		  $dashboardStats = [];
 		  array_push($c,'schools','facilities','clubs','users','dashboardStats');
-		 # dd($schools);
+		
 		  return view('admin-dashboard',compact($c));
 		}
 		else
