@@ -3227,7 +3227,7 @@ EOD;
          
               if(isset($data['xf']))
                {
-               	    $a = SchoolAdmissions::where('admission_id', $data['xf'])->first();
+               	    $a = SchoolAdmissions::where('id', $data['xf'])->first();
  
                         if($a != null)
                         {

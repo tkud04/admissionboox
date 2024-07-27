@@ -1,7 +1,6 @@
 <?php
 $ac = "dashboard";
 $useAdminSidebar = true;
-echo json_encode($facilities);
 ?>
 
 
