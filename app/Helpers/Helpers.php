@@ -26,6 +26,7 @@ use App\Models\AdmissionForms;
 use App\Models\FormFields;
 use App\Models\SchoolApplications;
 use App\Models\ApplicationData;
+use App\Models\FormSections;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -3412,10 +3413,12 @@ EOD;
            function addFormField($data)
            {
             $ret = FormFields::create([
-                'form_id' => $data['form_id'],
+                'section_id' => $data['section_id'],
                 'title' => $data['title'],
                 'type' => $data['type'],
-                'description' => $data['description']
+                'description' => $data['description'],
+                'bs_length' => $data['bs_length'],
+                'options' => $data['options'],
             ]);
 
             return $ret;
@@ -3423,24 +3426,23 @@ EOD;
 
          
 
-           function getFormFields($form_id='all')
+           function getFormFields($section_id='all')
            {
                $ret = [];
-               $forms_fields = [];
+               $form_fields = [];
 
-               if($form_id === 'all')
+               if($section_id === 'all')
                {
-                  $forms_fields = FormFields::where('id','>','0')->get();
+                  $form_fields = FormFields::where('id','>','0')->get();
                }
                else
                {
-                $forms_fields = FormFields::where('form_id',$form_id)
-                                   ->orWhere('title',$form_id)->get();
+                $form_fields = FormFields::where('section_id',$section_id)->get();
                }
                
-               if($forms_fields != null)
+               if($form_fields != null)
                {
-                  foreach($forms_fields as $f)
+                  foreach($form_fields as $f)
                   {
                       $temp = $this->getFormField($f->id);
                       array_push($ret,$temp);
@@ -3458,10 +3460,12 @@ EOD;
                if($f != null)
                {
                    $ret['id'] = $f->id;
-                   $ret['form_id'] = $f->form_id;
+                   $ret['section_id'] = $f->section_id;
                    $ret['title'] = $f->title;
                    $ret['type'] = $f->type;
                    $ret['description'] = $f->description;
+                   $ret['bs_length'] = $f->bs_length;
+                   $ret['options'] = $f->options;
                }
 
                return $ret;
@@ -3473,6 +3477,90 @@ EOD;
            {
                $f = FormFields::where('id',$id)->first();
                if($f != null) $f->delete();
+           }
+
+           function removeFormFields($section_id)
+           {
+               $f = FormSections::where('id',$section_id)->first();
+               if($f != null)
+               {
+                $form_fields = $this->getFormFields($f->id);
+
+                if(count($form_fields) > 0)
+                {
+                    foreach($form_fields as $ff)
+                    {
+                        $this->removeFormField($ff['id']);
+                    }
+                }
+               } 
+           }
+
+           function addFormSection($data)
+           {
+            $ret = FormSections::create([
+                'form_id' => $data['form_id'],
+                'title' => $data['title'],
+                'description' => $data['description']
+            ]);
+
+            return $ret;
+           }
+
+         
+
+           function getFormSections($form_id='all')
+           {
+               $ret = [];
+               $form_sections = [];
+
+               if($form_id === 'all')
+               {
+                  $form_sections = FormSections::where('id','>','0')->get();
+               }
+               else
+               {
+                $form_sections = FormSections::where('form_id',$form_id)->get();
+               }
+               
+               if($form_sections != null)
+               {
+                  foreach($form_sections as $f)
+                  {
+                      $temp = $this->getFormSection($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getFormSection($id)
+           {
+               $ret = [];
+               $f = FormSections::where('id',$id)->first();
+
+               if($f != null)
+               {
+                   $ret['id'] = $f->id;
+                   $ret['form_id'] = $f->form_id;
+                   $ret['title'] = $f->title;
+                   $ret['type'] = $f->type;
+                   $ret['description'] = $f->description;
+                   $ret['form_fields'] = $this->getFormFields($f->id);
+               }
+
+               return $ret;
+           }
+
+           function removeFormSection($id)
+           {
+               $f = FormSections::where('id',$id)->first();
+               if($f != null)
+               {
+                $this->removeFormFields($f->id);
+                $f->delete();
+               } 
            }
 
 

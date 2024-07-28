@@ -2,15 +2,15 @@
 $ac = "admissions";
 $useSidebar = true;
 ?>
-@extends('dashboard_layout')
 
-@section('dashboard-title',"Form Builder - {$admission['session']} Session")
 
-@section('dashboard-styles')
+<?php $__env->startSection('dashboard-title',"Form Builder - {$admission['session']} Session"); ?>
+
+<?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-scripts'); ?>
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
@@ -46,7 +46,7 @@ $useSidebar = true;
             removeFormSection(xf,
 				      () => {
 			       		alert('Form section removed')
-					       window.location = `school-admission-form?xf={{$admission['form_id']}}`
+					       window.location = `school-admission-form?xf=<?php echo e($admission['form_id']); ?>`
 				      },
 				      (err) => {
 				       	alert('Failed to remove form section: ',err)
@@ -62,7 +62,7 @@ $useSidebar = true;
             removeFormField(xf,
 				      () => {
 			       		alert('Form field removed')
-					       window.location = `school-admission-form?xf={{$admission['form_id']}}`
+					       window.location = `school-admission-form?xf=<?php echo e($admission['form_id']); ?>`
 				      },
 				      (err) => {
 				       	alert('Failed to remove form field: ',err)
@@ -107,7 +107,7 @@ $useSidebar = true;
             $('#fbas-btn').hide()
             $('#fbas-loading').fadeIn()
             const fd = new FormData()
-            fd.append('form_id',"{{$admission['form_id']}}")
+            fd.append('form_id',"<?php echo e($admission['form_id']); ?>")
             fd.append('title',fbasTitle)
             fd.append('description',fbasDescription)
 
@@ -119,7 +119,7 @@ $useSidebar = true;
 
                 if(data.status === 'ok'){
                     alert('Form section added!')
-                    window.location = `school-admission-form?xf={{$admission['form_id']}}`
+                    window.location = `school-admission-form?xf=<?php echo e($admission['form_id']); ?>`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -190,7 +190,7 @@ $useSidebar = true;
             $('#fbaf-btn').hide()
             $('#fbaf-loading').fadeIn()
             const fd = new FormData()
-            fd.append('form_id',"{{$admission['form_id']}}")
+            fd.append('form_id',"<?php echo e($admission['form_id']); ?>")
             fd.append('section_id',fbafSection)
             fd.append('title',fbafTitle)
             fd.append('description',fbafDescription)
@@ -206,7 +206,7 @@ $useSidebar = true;
 
                 if(data.status === 'ok'){
                     alert('Form field added!')
-                    window.location = `school-admission-form?xf={{$admission['form_id']}}`
+                    window.location = `school-admission-form?xf=<?php echo e($admission['form_id']); ?>`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -246,9 +246,9 @@ $useSidebar = true;
 		
 	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 
 <div class="row"> 
      <div class="col-lg-12 col-md-12" id="edit-div">
@@ -286,11 +286,11 @@ $useSidebar = true;
            <tr>
             <td>Section</td>
             <td>
-              <p>Title: {{$fs['title']}}</p>
-              <p>Description: {{$fs['description']}}</p>
+              <p>Title: <?php echo e($fs['title']); ?></p>
+              <p>Description: <?php echo e($fs['description']); ?></p>
             </td>
             <td>
-              <a href="#" onclick="confirmRemoveFormSection('{{$xf}}')">Remove <i class="fa fa-trash"></i></a>
+              <a href="#" onclick="confirmRemoveFormSection('<?php echo e($xf); ?>')">Remove <i class="fa fa-trash"></i></a>
             </td>
            </tr>
           <?php
@@ -308,13 +308,13 @@ $useSidebar = true;
                 }
           ?>
            <tr>
-             <td>{{$fieldType === null ? 'Unknown' : $fieldType['label']}}</td>
+             <td><?php echo e($fieldType === null ? 'Unknown' : $fieldType['label']); ?></td>
              <td>
-              <p>Title: {{$ff['title']}}</p>
-              <p>Description: {{$ff['description']}}</p>
+              <p>Title: <?php echo e($ff['title']); ?></p>
+              <p>Description: <?php echo e($ff['description']); ?></p>
             </td>
             <td>
-              <a href="#" onclick="confirmRemoveFormField('{{$xy}}')">Remove <i class="fa fa-trash"></i></a>
+              <a href="#" onclick="confirmRemoveFormField('<?php echo e($xy); ?>')">Remove <i class="fa fa-trash"></i></a>
             </td>
            </tr>
           <?php
@@ -337,28 +337,28 @@ $useSidebar = true;
             <h4 class="headline_part" style="margin-top: 20px;">What would you like to do?</h4>
             </div>
             <div class="col-md-4">
-               @include('components.button',[
+               <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fb-preview-btn',
                      'title' => 'Preview form',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
             <div class="col-md-4">
-               @include('components.button',[
+               <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fb-show-form-field-btn',
                      'title' => 'Add form field',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
             <div class="col-md-4">
-               @include('components.button',[
+               <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fb-show-form-section-btn',
                      'title' => 'Add form section',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
           </div>
 
@@ -374,12 +374,12 @@ $useSidebar = true;
                   
                    <div class="col-md-6">
                     <h5>Title</h5>
-                    @include('components.form-validation', ['id' => "fbas-title-validation",'style' => "margin-top: 10px;"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "fbas-title-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <input type="text" class="input-text" name="fbas-title" id="fbas-title" placeholder="Title">
                    </div>
                    <div class="col-md-6">
                     <h5>Description</h5>
-                    @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
                    </div>
                   
@@ -387,13 +387,13 @@ $useSidebar = true;
                </div>
 
                <div class="col-md-12">
-               @include('components.generic-loading', ['message' => 'Adding section', 'id' => "fbas-loading"])
-               @include('components.button',[
+               <?php echo $__env->make('components.generic-loading', ['message' => 'Adding section', 'id' => "fbas-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+               <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fbas-btn',
                      'title' => 'Add section',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>
                </div>
             </div>
@@ -410,32 +410,32 @@ $useSidebar = true;
                <div class="col-md-12" id="fbaf-div">
                   <div class="row with-forms">
                   <div class="col-md-6">
-                   @include('components.form-validation', ['id' => "fbaf-section-validation",'style' => "margin-top: 10px;"])
+                   <?php echo $__env->make('components.form-validation', ['id' => "fbaf-section-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                    <h5>Section</h5>
-                   <select id="fbaf-section" class="selectpicker default" data-selected-text-format="count" data-size="{{count($formSections)}}"
+                   <select id="fbaf-section" class="selectpicker default" data-selected-text-format="count" data-size="<?php echo e(count($formSections)); ?>"
                     title="Select term" tabindex="-98">
                      <option class="bs-title-option" value="none">Select section</option>
                      <?php
                       foreach($formSections as $fs)
                        {
                      ?>
-                       <option value="{{$fs['id']}}">{{$fs['title']}}</option>
+                       <option value="<?php echo e($fs['id']); ?>"><?php echo e($fs['title']); ?></option>
                      <?php
                        }
                      ?>
                    </select>
                    </div>
                    <div class="col-md-6">
-                   @include('components.form-validation', ['id' => "fbaf-type-validation",'style' => "margin-top: 10px;"])
+                   <?php echo $__env->make('components.form-validation', ['id' => "fbaf-type-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                    <h5>Field type</h5>
-                   <select id="fbaf-type" class="selectpicker default" data-selected-text-format="count" data-size="{{count($fieldTypes)}}"
+                   <select id="fbaf-type" class="selectpicker default" data-selected-text-format="count" data-size="<?php echo e(count($fieldTypes)); ?>"
                     title="Select term" tabindex="-98">
                      <option class="bs-title-option" value="none">Select field type</option>
                      <?php
                       foreach($fieldTypes as $ft)
                        {
                      ?>
-                       <option value="{{$ft['value']}}">{{$ft['label']}}</option>
+                       <option value="<?php echo e($ft['value']); ?>"><?php echo e($ft['label']); ?></option>
                      <?php
                        }
                      ?>
@@ -443,17 +443,17 @@ $useSidebar = true;
                    </div>
                    <div class="col-md-6">
                     <h5>Title</h5>
-                    @include('components.form-validation', ['id' => "fbaf-title-validation",'style' => "margin-top: 10px;"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "fbaf-title-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <input type="text" class="input-text" name="fbaf-title" id="fbaf-title" placeholder="Title">
                    </div>
                    <div class="col-md-6">
                     <h5>Description</h5>
-                    @include('components.form-validation', ['id' => "fbaf-description-validation",'style' => "margin-top: 10px;"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "fbaf-description-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <input type="text" class="input-text" name="fbaf-description" id="fbaf-description" placeholder="Description">
                    </div>
                    <div class="col-md-6">
                    <h5>Field size (between 1 to 12)</h5>
-                    @include('components.form-validation', ['id' => "fbaf-bslength-validation",'style' => "margin-top: 10px;"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "fbaf-bslength-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <input type="number" class="input-text" name="fbaf-bslength" id="fbaf-bslength" placeholder="Field size">
                    </div>
                    <div class="col-md-12" id="options-div">
@@ -466,21 +466,21 @@ $useSidebar = true;
                       </div>
                        <div class="col-md-6">
                          <h5>Name</h5>
-                          @include('components.form-validation', ['id' => "fbaf-add-option-name-validation",'style' => "margin-top: 10px;"])
+                          <?php echo $__env->make('components.form-validation', ['id' => "fbaf-add-option-name-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                           <input type="text" class="input-text" id="fbaf-add-option-name" placeholder="Name">
                        </div>
                        <div class="col-md-6">
                          <h5>Value</h5>
-                          @include('components.form-validation', ['id' => "fbaf-add-option-value-validation",'style' => "margin-top: 10px;"])
+                          <?php echo $__env->make('components.form-validation', ['id' => "fbaf-add-option-value-validation",'style' => "margin-top: 10px;"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                           <input type="text" class="input-text" id="fbaf-add-option-value" placeholder="Value">
                        </div>
                        <div class="col-md-12">
-                   @include('components.button',[
+                   <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fbaf-add-option-btn',
                      'title' => 'Add option',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>
                     </div>
                    </div>
@@ -488,12 +488,12 @@ $useSidebar = true;
                </div>
 
                <div class="col-md-12">
-                   @include('components.button',[
+                   <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fbaf-btn',
                      'title' => 'Add field',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                </div>
                </div>
             </div>
@@ -504,12 +504,12 @@ $useSidebar = true;
      </div>
 
      <div class="col-lg-12 col-md-12" id="preview-div">
-     @include('components.button',[
+     <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'id' => 'fb-preview-back-btn',
                      'title' => 'Back to form builder',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
        <?php
          foreach($formSections as $fs)
          {
@@ -517,7 +517,7 @@ $useSidebar = true;
        ?>
         <div class="add_utf_listing_section margin-top-45">
            <div class="utf_add_listing_part_headline_part">
-               <h3><i class="sl sl-icon-book-open"></i> {{$fs['title']}}</h3>
+               <h3><i class="sl sl-icon-book-open"></i> <?php echo e($fs['title']); ?></h3>
             </div>
         </div>
 
@@ -540,4 +540,5 @@ $useSidebar = true;
        
     </div>
       
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/admission-form.blade.php ENDPATH**/ ?>

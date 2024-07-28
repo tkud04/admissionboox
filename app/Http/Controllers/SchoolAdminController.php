@@ -550,7 +550,7 @@ class SchoolAdminController extends Controller {
 				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
 				$acList = $this->helpers->extractAdmissionClasses($admissionClasses);
 
-				dd(['sc' => $schoolClasses,'admissionClasses' => $admissionClasses, 'ac' => $acList]);
+				#dd(['sc' => $schoolClasses,'admissionClasses' => $admissionClasses, 'ac' => $acList]);
 				array_push($c,'school','admission','availableSessions','acList','schoolClasses','terms');
 				return view('my-admission',compact($c));
 			  }
@@ -914,7 +914,6 @@ class SchoolAdminController extends Controller {
 				$req = $request->all();
 				
 				$validator = Validator::make($req, [
-					'form_id' => 'required',
 					'section_id' => 'required',
 					'title' => 'required',
 					'type' => 'required|not_in:none',
