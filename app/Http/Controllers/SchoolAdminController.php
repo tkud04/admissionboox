@@ -360,6 +360,7 @@ class SchoolAdminController extends Controller {
 				$school = $this->helpers->getSchool($user->email);
 				$admissions = $this->helpers->getSchoolAdmissions($school['id']);
 				$terms = $this->helpers->getTerms();
+				#dd($admissions);
 				array_push($c,'school','admissions','terms');
 				return view('my-admissions',compact($c));
 			}
@@ -549,7 +550,7 @@ class SchoolAdminController extends Controller {
 				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
 				$acList = $this->helpers->extractAdmissionClasses($admissionClasses);
 
-				#dd(['sc' => $schoolClasses,'admissionClasses' => $admissionClasses, 'ac' => $acList]);
+				dd(['sc' => $schoolClasses,'admissionClasses' => $admissionClasses, 'ac' => $acList]);
 				array_push($c,'school','admission','availableSessions','acList','schoolClasses','terms');
 				return view('my-admission',compact($c));
 			  }

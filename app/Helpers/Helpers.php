@@ -3211,10 +3211,13 @@ EOD;
                {
                    $ret['id'] = $a->id;
                    $ret['school_id'] = $a->school_id;
+                   $ret['classes'] = $this->getAdmissionClasses($a->id);
+                   $ret['applications'] = $this->getSchoolApplications($a->id);
                    $ret['session'] = $a->session;
                    $ret['term_id'] = $a->term_id;
                    $ret['form_id'] = $a->form_id;
                    $ret['date'] = $a->created_at->format("jS F, Y");
+                   $ret['end_date_formatted'] = $a->created_at->format("jS F, Y");
                    $ret['end_date'] = $a->end_date;
                }
 
