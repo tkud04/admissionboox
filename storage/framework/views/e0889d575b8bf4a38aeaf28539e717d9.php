@@ -1,5 +1,5 @@
 <?php
-$ac = "admissions";
+$ac = "email";
 $useSidebar = true;
 ?>
 

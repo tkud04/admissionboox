@@ -18,7 +18,7 @@ function getActiveClass($activeClass,$currentClass)
                         <!--<li><a href="#">Admission forms</a></li>-->
                     </ul>
                 </li>
-                <li class="{{getActiveClass('send-email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
+                <li class="{{getActiveClass('email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
                 <li class="{{getActiveClass('applications',$ac)}}">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Applications</a>
                     <ul>
