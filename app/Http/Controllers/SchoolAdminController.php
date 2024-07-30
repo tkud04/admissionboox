@@ -400,6 +400,60 @@ class SchoolAdminController extends Controller {
          } 
     }
 
+	public function postSendEmail(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$school = $this->helpers->getSchool($user->email);
+                
+				$validator = Validator::make($req, [
+					'to' => 'required|email',
+					'subject' => 'required',
+					'msg' => 'required',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$emailPayload = $this->helpers->getCurrentSender();
+					$emailPayload['se'] = $emailPayload['se'];
+					$emailPayload['sn'] = $school['name'];
+					$emailPayload['to'] = $req['to'];
+					$emailPayload['subject'] = $req['subject'];
+					$emailPayload['htmlContent'] = $req['msg'];
+					$this->helpers->symfonySendMail($emailPayload);
+					$ret = ['status'=> "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
 	public function getSchoolAdmissions(Request $request)
     {
 		$user = null;

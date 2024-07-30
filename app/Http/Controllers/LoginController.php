@@ -271,8 +271,7 @@ class LoginController extends Controller {
 
            
                                                     
-             //TODO: after creating the user/school, send email with link to verify email andcomplete signup
-             $verificationLink = url('set-password').'?em='.$user->email;
+              $verificationLink = url('set-password').'?em='.$user->email;
              $emailPayload = $this->helpers->getCurrentSender();
              $emailPayload['from'] = $emailPayload['se'];
              $emailPayload['to'] = $req['email'];

@@ -12,9 +12,9 @@ $useSidebar = true;
 
 @section('dashboard-scripts')
   <script src="lib/datatables/datatables.min.js"></script>
+  <script src="lib/ckeditor/ckeditor.js"></script>
 
   <script>
-
 
 	 const clearValidations = () => {
           $('#se-admission-validation').hide()
@@ -26,11 +26,15 @@ $useSidebar = true;
         }
 
 
+        $(() => {
+                CKEDITOR.replace('se-2-content')
+                $('#logs-loading').hide()
+                $('#mailer-results').hide()
+        })
     
 
     $(document).ready(() =>{
        
-
       $('#se-btn-2-back').click((e) => {
         e.preventDefault()
         window.location = 'send-email'
@@ -41,53 +45,59 @@ $useSidebar = true;
       $('#se-btn-2').click((e) => {
         e.preventDefault()
         clearValidations()
-         const naSession = $('#na-session').val(), naTerm = $('#na-term').val(),
-         naClasses = $('input.na-classes:checked'), naEndDate = $('#na-end-date').val()
+         const admissionId = $('#xf1').val(), emailType = $('#xf2').val(),
+         se2Classes = $('input.se-2-leads:checked'), se2Lead = $('#se-2-lead').val(),
+         subject = $('#se-2-subject').val(),  content = CKEDITOR.instances['se-2-content'].getData()
          
-         //console.log({naSession,naTerm,naClass,naEndDate})
+       
 
-         const v = naSession === 'none' || naTerm === 'none' || naClasses.length < 1 || naEndDate === ''
+         const v = (emailType === 'group' && se2Classes.length < 1) ||
+                   (emailType === 'single' && se2Lead === '') || 
+                   subject === '' || content === '' 
+
+                     console.log({
+                        emailType,
+                        se2Classes: se2Classes.length,
+                        se2Lead,
+                        subject,
+                        content,
+                        v})
 
          if(v){
-           if(naSession === 'none') $('#na-session-validation').fadeIn()
-           if(naTerm === 'none') $('#na-term-validation').fadeIn()
-           if(naClasses.length < 1) $('#na-class-validation').fadeIn()
-           if(naEndDate === '') $('#na-end-date-validation').fadeIn()
+           if(emailType === 'group' || se2Classes.length < 1) $('#se-2-leads-validation').fadeIn()
+           if(emailType === 'single' ||se2Lead === '') $('#se-2-lead-validation').fadeIn()
+           if(subject === '') $('#se-2-subject-validation').fadeIn()
+           if(content === '') $('#se-2-content-validation').fadeIn()
          }
          else{
-          $('#na-btn').hide()
-          $('#na-loading').fadeIn()
+          $('#se-buttons-div').hide()
+
           const classValues = []
-          naClasses.each((i,elem) => {
+
+          if(emailType === 'single'){
+            classValues.push(se2Lead)
+          }
+          else if(emailType === 'group'){
+            se2Classes.each((i,elem) => {
             classValues.push(elem.getAttribute('data-value'))
            })
-           const fd = new FormData()
-              fd.append('xf',"{{$school['id']}}")
-              fd.append('session',naSession)
-              fd.append('term',naTerm)
-              fd.append('end_date',naEndDate)
-              fd.append('classes',JSON.stringify(classValues))
+          }
+          
+           bomb({
+            ll: classValues,
+            subject,
+            msg: content
+           },() => {
+            alert('Email(s) sent!')
+            window.location = 'send-email'
+           },
+           (err) => {
+            alert('failed to send email: ',err)
 
-              addAdmissionSession(fd,
-              (data) => {
-                
-                $('#na-loading').hide()
-              $('#na-btn').fadeIn()
-
-                if(data.status === 'ok'){
-                    alert('Admission session created!')
-                    window.location = `school-admissions`
-                }
-                else if(data.status === 'error'){
-                   handleResponseError(data)
-                }
-              },
-              (err) => {
-                $('#na-loading').hide()
-              $('#na-btn').fadeIn()
-                alert(`Failed to add admission: ${err}`)
-              }
-            )
+            $('#logs-loading').hide()
+            $('#mailer-results').hide()
+            $('#se-buttons-div').fadeIn()
+           })
          }
          
          
@@ -102,7 +112,10 @@ $useSidebar = true;
 @section('dashboard-content')
 
 <div class="row"> 
-   
+   <div>
+    <input type="hidden" id="xf1" value="{{$admissionId}}"/>
+    <input type="hidden" id="xf2" value="{{$emailType}}"/>
+   </div>
      <div class="col-lg-12 col-md-12" id="send-email-div-2">
        <div class="add_utf_listing_section margin-top-45">
           <div class="utf_add_listing_part_headline_part">
@@ -115,7 +128,7 @@ $useSidebar = true;
                 if($emailType === 'single')
                 {
                ?>
-               <div class="col-md-6" id="se-2-lead-div">
+               <div class="col-md-12" id="se-2-lead-div">
                  @include('components.form-validation', ['id' => "se-2-lead-validation",'style' => "margin-top: 10px;"])
                  <h5>Select Applicant</h5>
                  <select id="se-2-lead" class="selectpicker default" data-selected-text-format="count"
@@ -159,10 +172,28 @@ $useSidebar = true;
                <?php
                 }
                ?>
-              
+
+
                <div class="col-md-12">
-               @include('components.generic-loading', ['message' => 'Sending email(s)', 'id' => "na-loading"])
-                   @include('components.button',[
+               @include('components.form-validation', ['id' => "se-2-subject-validation",'style' => "margin-top: 10px;"])
+               <h5>Subject</h5>
+                  <input type="text" class="input-text" id="se-2-subject" placeholder="Subject">
+               </div>
+               <div class="col-md-12" style="margin-top: 10px;">
+               @include('components.form-validation', ['id' => "se-2-content-validation",'style' => "margin-top: 10px;"])
+               <h5>Your Message</h5>
+                 <textarea id="se-2-content" rows="10" cols="80" placeholder="Your message">
+                   
+                 </textarea>
+               </div>
+              
+               <div class="col-md-12" style="margin-top: 10px">
+                <div id="logs-loading"></div>
+                <div id="mailer-results"></div>
+               </div>
+               <div class="col-md-12" style="margin-top: 10px;" id="se-buttons-div">
+              
+               @include('components.button',[
                      'href' => '#',
                      'id' => 'se-btn-2',
                      'title' => 'Send',

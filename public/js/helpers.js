@@ -1,3 +1,5 @@
+let emailIndex = 0
+
 const confirmAction = (actionId,callback) => {
   const v = confirm('Are you sure? This action cannot be undone')
 
@@ -449,4 +451,62 @@ const updateAdmissionForm = async ({id='',status='pending'},successCallback,erro
    errorCallback(ret)
   }
  
+}
+
+
+function bomb({
+  ll=[],
+  subject='',
+  msg='',
+},successCallback,errorCallback){
+  let url = `api/send-email`
+
+const to = ll[emailIndex],dt = new FormData()
+dt.append('msg',msg)
+dt.append('subject',subject)
+dt.append('to',to)
+
+$('#logs-loading').fadeIn()
+$('#mailer-results').fadeIn()
+
+
+$.ajax({ 
+ type : 'POST',
+ url  : url,
+ data : dt,
+ processData: false,
+ contentType: false,
+ beforeSend: () => {
+  $("#logs-loading").html('<div class="alert alert-info" role="alert" style=" text-align: center;"><strong class="block" style="font-weight: bold;">  Processing <img src="images/loading.gif" class="img img-esponsive" style="width: 20px; height: 20px;"></strong></div>');
+
+ },
+ success : (response) => {
+   $('#logs-loading').hide()
+    let ret = JSON.parse(response)
+   console.log({response})
+    
+   if(ret['status'] == "ok" || ret['status'] == "sent"){
+     $('#mailer-results').append("<p class='text-success'>Email sent to " + to + "</p>")   
+   }
+   else{
+     $('#mailer-results').append("<p class='text-danger'>An error occured sending to " + to + "</p>")
+   }
+   
+   
+   setTimeout(function(){
+     //console.log("data sent: " + dt);
+     ++emailIndex; 
+      if(emailIndex < ll.length){
+        bomb({ll,subject,msg})
+      } 
+      else{
+        typeof successCallback === 'function' && successCallback()
+      }
+     },5000)
+   
+   },
+   error: (err) => {
+    typeof errorCallback === 'function' && errorCallback(err)
+   }
+ })
 }
