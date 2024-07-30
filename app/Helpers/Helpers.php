@@ -4002,6 +4002,45 @@ EOD;
             return $ret;
           }
 
+          function numPages($data,$itemsPerPage=7)
+           {
+             return ceil(count($data) / $itemsPerPage);
+           }
+
+
+          function prevPage($data,$currentPage)
+          {
+            $ret = [];
+
+            if ($currentPage > 1) {
+                --$currentPage;
+                $ret = $this->changePage($data,$currentPage);
+            }
+          }
+
+          function nextPage($data,$currentPage)
+          {
+            $ret = [];
+
+            if ($currentPage < $this->numPages($data)) {
+                ++$currentPage;
+                $ret = $this->changePage($data,$currentPage);
+            }
+          }
+
+          function changePage($data=[],$currentPage=1,$itemsPerPage=7)
+          {
+            $ret = [];
+            if ($currentPage < 1) $currentPage = 1;
+            if ($currentPage > $this->numPages($data)) $currentPage = $this->numPages($data);
+
+            for($i = ($currentPage - 1) * $itemsPerPage; $i < ($currentPage * $itemsPerPage) && $i < count($data); $i++)
+            {
+                array_push($ret,$data[$i]);
+            }
+            return $ret;
+          }
+
          
           
 		   

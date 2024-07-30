@@ -469,11 +469,19 @@ class SchoolAdminController extends Controller {
 	 	        $plugins = $this->helpers->getPlugins();
 		        $c = $this->compactValues;
 
+				$req = $request->all();
+
+				$currentPage = isset($req['page']) ? $req['page'] : "1";
+  
 				$school = $this->helpers->getSchool($user->email);
-				$admissions = $this->helpers->getSchoolAdmissions($school['id']);
+				$allAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
 				$terms = $this->helpers->getTerms();
-				#dd($admissions);
-				array_push($c,'school','admissions','terms');
+				
+
+                $numPages = $this->helpers->numPages($allAdmissions);
+				$admissions = $this->helpers->changePage($allAdmissions,$currentPage);
+				
+				array_push($c,'school','admissions','numPages','currentPage','terms');
 				return view('my-admissions',compact($c));
 			}
 			else

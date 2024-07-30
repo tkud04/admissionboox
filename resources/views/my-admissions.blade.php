@@ -49,15 +49,19 @@ $useSidebar = true;
         <div class="col-lg-12 col-md-12">
           <div class="utf_dashboard_list_box margin-top-0">
 			     <div class="sort-by my_sort_by">
-                <div class="utf_sort_by_select_item">
-                  <select data-placeholder="Default Listing" class="utf_chosen_select_single" style="display: none;" id="sort-select">
-                    <option>Default Listing</option>
-				            <option>Active Listing</option>
-				            <option>Pending Listing</option>
-                    <option>Expired Listing</option>
+           <div class="utf_sort_by_select_item">
+                  <select data-placeholder="Items per page" class="utf_chosen_select_single" style="display: none;" id="items-select">
+                    <option>7 items per page</option>
                   </select>
                   
                 </div>
+                <div class="utf_sort_by_select_item" style="margin-right: 10px;">
+                  <select data-placeholder="All admissions" class="utf_chosen_select_single" style="display: none;" id="admissions-select">
+                    <option>All admissions</option>
+                  </select>
+                  
+                </div>
+                
             </div>
             <h4><i class="sl sl-icon-list"></i> Admissions</h4>
             <ul>
@@ -141,17 +145,11 @@ $useSidebar = true;
           </div>
 		      <div class="clearfix"></div>
           @if(count($admissions) > 0)
-          <div class="utf_pagination_container_part margin-top-30 margin-bottom-30">
-             <nav class="pagination">
-              <ul>
-			          <li><a href="#"><i class="sl sl-icon-arrow-left"></i></a></li>
-                <li><a href="#" class="current-page">1</a></li>
-                <li><a href="#">2</a></li>
-				        <li><a href="#">3</a></li>
-                <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
-              </ul>
-             </nav>
-          </div>
+            @include('components.pagination',[
+              'url' => "school-admissions",
+              'currentPage' => $currentPage,
+              'numPages' => $numPages,
+              ])
           @endif
         </div>
        

@@ -1,5 +1,5 @@
 <?php
-$ac = "admissions";
+$ac = "classes";
 $useSidebar = true;
 ?>
 @extends('dashboard_layout')
