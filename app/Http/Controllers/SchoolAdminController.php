@@ -317,14 +317,74 @@ class SchoolAdminController extends Controller {
     public function getSendEmail(Request $request)
     {
 		$user = null;
-		$ret = ['status' => "ok","message" => "nothing happened"];
-
+		$req = $request->all();
+		
 		if(Auth::check())
 		{
 			$user = Auth::user();
 
 			if($user->role === 'school_admin')
 			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				$schoolAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
+				
+				array_push($c,'school','schoolAdmissions');
+
+				if(isset($req['xf1']) && isset($req['xf2']))
+				{
+					$admissionId = $req['xf1'];
+					$emailType = $req['xf2'];
+					$admission = null;
+					
+					foreach($schoolAdmissions as $sa)
+					{
+						if($sa['id'] == $req['xf1'])
+						{
+							$admission = $sa;
+						} 
+					}
+
+					if($admission !== null)
+					{
+						$leads = [
+							'admissionId' => $admission['id'],
+							'applicants' => [],
+						];
+
+						$applicants = $admission['applications'];
+
+						foreach($applicants as $applicant)
+                         {
+						   $u = $applicant['user'];
+                           $applicantName =  $u['fname'].' '.$u['lname'];
+                           $applicantEmail = $u['email'];
+						   array_push($leads['applicants'],[
+							'name' => $applicantName,
+							'email' => $applicantEmail,
+						   ]);
+						 }
+						 //Test data
+						 array_push($leads['applicants'],
+						 ['name' => "Test Applicant 1",'email' => "kudayisitobi@gmail.com"],
+						 ['name' => "Test Applicant 2",'email' => "kkudayisitobi@gmail.com"],
+						 ['name' => "Test Applicant 3",'email' => "tobi.kudayisi@vfdtech.ng"],
+						);
+						
+						 array_push($c,'leads','admissionId','emailType');
+						return view('send-email-email-options',compact($c));
+					}
+				  
+				}
+
+				else
+				{
+                    return view('send-email-get-audience',compact($c));
+				}
 				
 			}
 			else
@@ -338,8 +398,6 @@ class SchoolAdminController extends Controller {
          {
 			return redirect()->intended('dashboard');
          } 
-
-		 return json_encode($ret); 
     }
 
 	public function getSchoolAdmissions(Request $request)

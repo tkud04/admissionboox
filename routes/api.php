@@ -63,6 +63,8 @@ Route::get('remove-school-application', [SchoolAdminController::class,'getRemove
 Route::post('add-school-class', [SchoolAdminController::class,'postAddSchoolClass']);
 Route::get('remove-school-class', [SchoolAdminController::class,'getRemoveSchoolClass']);
 
+Route::post('send-email', [SchoolAdminController::class,'postSendEmail']);
+
 
 
 //Admin routes

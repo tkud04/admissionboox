@@ -3727,7 +3727,7 @@ EOD;
                if($a != null)
                {
                    $ret['id'] = $a->id;
-                   $ret['admission_id'] = $a->form_id;
+                   $ret['admission_id'] = $a->admission_id;
                    $ret['user'] = $this->getUser($a->user_id);
                    $ret['date'] = $a->created_at->format("jS F, Y");
                }
@@ -3740,7 +3740,19 @@ EOD;
            function removeSchoolApplication($id)
            {
                $a = SchoolApplications::where('id',$id)->first();
-               if($a != null) $a->delete();
+               if($a != null)
+               {
+                  $data = ApplicationData::where('application_id',$id)->get();
+
+                  if($data !== null)
+                  {
+                    foreach($data as $d)
+                    {
+                        $d->delete();
+                    }
+                  }
+                  $a->delete();
+               } 
            }
 
 
