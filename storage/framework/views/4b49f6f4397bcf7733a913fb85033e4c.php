@@ -86,10 +86,10 @@ $useSidebar = true;
               ?>
                     <li>
                       <div class="utf_list_box_listing_item">
-                        <div class="utf_list_box_listing_item-img"><a href="#"><img src="<?php echo e($school['logo']); ?>" alt=""></a></div>
+                        <div class="utf_list_box_listing_item-img"><a href="<?php echo e($vu); ?>"><img src="<?php echo e($school['logo']); ?>" alt=""></a></div>
                         <div class="utf_list_box_listing_item_content">
                           <div class="inner">
-                            <h3><?php echo e($a['session']); ?> Session</h3>
+                            <h3><a href="<?php echo e($vu); ?>"><?php echo e($a['session']); ?> Session</a></h3>
 				                	  <span><i class="im im-icon-Calendar"></i> <?php echo e($term['name']); ?> </span> 
 				                	  <span><i class="im im-icon-Building"></i> <?php echo e($classesString); ?> </span> 
                             <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['end_date_formatted']); ?></span>

@@ -467,7 +467,7 @@ class SchoolAdminController extends Controller {
 					$admission = $this->helpers->addSchoolAdmission($admissionPayload);
 					$admissionForm = $this->helpers->addAdmissionForm([
 						'admission_id' => $admission->id,
-						'status' => 'active'
+						'status' => 'pending'
 					]);
 
 					if($admissionForm !== null)
@@ -546,12 +546,13 @@ class SchoolAdminController extends Controller {
 
 				$school = $this->helpers->getSchool($user->email);
 				$admission = $this->helpers->getSchoolAdmission($req['xf']);
+				$admissionForm = $this->helpers->getAdmissionForm($admission['form_id']);
 				$admissionClasses = $this->helpers->getAdmissionClasses($req['xf']);
 				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
 				$acList = $this->helpers->extractAdmissionClasses($admissionClasses);
 
 				#dd(['sc' => $schoolClasses,'admissionClasses' => $admissionClasses, 'ac' => $acList]);
-				array_push($c,'school','admission','availableSessions','acList','schoolClasses','terms');
+				array_push($c,'school','admission','admissionForm','availableSessions','acList','schoolClasses','terms');
 				return view('my-admission',compact($c));
 			  }
 			  else
@@ -1007,6 +1008,48 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	public function postUpdateAdmissionForm(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			  if(isset($req['xf']) && isset($req['status']))
+			  {
+				$f = $this->helpers->getAdmissionForm($req['xf']);
+	
+				if(count($f) > 0)
+				{
+					$this->helpers->updateAdmissionForm([
+						'xf' => $req['xf'],
+						'status' => $req['status']
+					]);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
+
+
 
 
 
@@ -1200,5 +1243,37 @@ class SchoolAdminController extends Controller {
 	   return json_encode(($ret));
     }
 
+	public function getApiTester(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
 
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			$signals = $this->helpers->signals;
+			$senders = $this->helpers->getSenders();
+			 $plugins = $this->helpers->getPlugins();
+			$c = $this->compactValues;
+
+			$school = $this->helpers->getSchool($user->email);
+			return view('api-test',compact($c));
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
+
+
+	
 }

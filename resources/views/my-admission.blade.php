@@ -22,6 +22,26 @@ $useSidebar = true;
           $('#na-end-date-validation').hide()
         }
 
+        const confirmDeployForm = (fid) => {
+            confirmAction(fid, 
+			    (xf) => {
+            const payload = {
+              id: xf,
+              status: '<?= $admissionForm['status'] === 'pending' ? 'active' : 'pending'?>'
+            }
+            updateAdmissionForm(payload,
+				      () => {
+			       		alert('Form updated!')
+					       window.location.reload()
+				      },
+				      (err) => {
+				       	alert('Failed to update form: ',err)
+				      }
+			       )
+           })
+        
+        }
+
     $(document).ready(() =>{
       $('#na-btn').click((e) => {
         e.preventDefault()
@@ -76,6 +96,11 @@ $useSidebar = true;
          }
          
          
+      })
+
+      $('#df-btn').click((e) => {
+        e.preventDefault()
+        confirmDeployForm("{{$admission['form_id']}}")
       })
     })
 		
@@ -194,11 +219,17 @@ $useSidebar = true;
               else
               {
             ?>
-              <p> Click the button below to view/edit your admission form.</p>
+              <p> Click 'Edit form' to view/edit your admission form. Click 'Publish/Unpublish form' to deploy your admission form.</p>
               @include('components.button',[
                      'href' => url('school-admission-form').'?xf='.$admission['id'],
-                     'id' => 'nf-btn',
+                     'id' => 'na-btn',
                      'title' => 'Edit form',
+                     'classes' => 'margin-top-20'
+                    ])
+                    @include('components.button',[
+                     'href' => '#',
+                     'id' => 'df-btn',
+                     'title' => $admissionForm['status'] === 'active' ? 'Unpublish form' : 'Publish form',
                      'classes' => 'margin-top-20'
                     ])
             <?php

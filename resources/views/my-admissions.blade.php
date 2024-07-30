@@ -86,10 +86,10 @@ $useSidebar = true;
               ?>
                     <li>
                       <div class="utf_list_box_listing_item">
-                        <div class="utf_list_box_listing_item-img"><a href="#"><img src="{{$school['logo']}}" alt=""></a></div>
+                        <div class="utf_list_box_listing_item-img"><a href="{{$vu}}"><img src="{{$school['logo']}}" alt=""></a></div>
                         <div class="utf_list_box_listing_item_content">
                           <div class="inner">
-                            <h3>{{$a['session']}} Session</h3>
+                            <h3><a href="{{$vu}}">{{$a['session']}} Session</a></h3>
 				                	  <span><i class="im im-icon-Calendar"></i> {{$term['name']}} </span> 
 				                	  <span><i class="im im-icon-Building"></i> {{$classesString}} </span> 
                             <span><i class="im im-icon-Timer-2"></i> {{$a['end_date_formatted']}}</span>

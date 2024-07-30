@@ -429,3 +429,24 @@ const removeFormField = async (id,successCallback,errorCallback) => {
   }
  
 }
+
+const updateAdmissionForm = async ({id='',status='pending'},successCallback,errorCallback) => {
+  const url = 'api/uaf'
+  const fd = new FormData()
+  fd.append('xf',id)
+  fd.append('status',status)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}

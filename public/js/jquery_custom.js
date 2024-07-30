@@ -1,9 +1,3 @@
-/*
-	Theme Name: U-Listing
-	Description: U-Listing Directory - Listing Html Template
-	Version: 1.0.5
-*/
-
 (function($) {
     "use strict";
     $(document).ready(function() {

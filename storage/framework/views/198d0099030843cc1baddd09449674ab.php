@@ -15,7 +15,7 @@ function getActiveClass($activeClass,$currentClass)
                     <ul>
                         <li><a href="<?php echo e(url('school-admissions')); ?>">View admissions </a></li>
                         <li><a href="<?php echo e(url('add-school-admission')); ?>">New admission</a></li>
-                        <li><a href="<?php echo e(url('school-admission-forms')); ?>">Admission forms</a></li>
+                        <!--<li><a href="#">Admission forms</a></li>-->
                     </ul>
                 </li>
                 <li class="<?php echo e(getActiveClass('send-email',$ac)); ?>"><a href="<?php echo e(url('send-email')); ?>"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>

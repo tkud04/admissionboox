@@ -15,7 +15,7 @@ function getActiveClass($activeClass,$currentClass)
                     <ul>
                         <li><a href="{{url('school-admissions')}}">View admissions </a></li>
                         <li><a href="{{url('add-school-admission')}}">New admission</a></li>
-                        <li><a href="{{url('school-admission-forms')}}">Admission forms</a></li>
+                        <!--<li><a href="#">Admission forms</a></li>-->
                     </ul>
                 </li>
                 <li class="{{getActiveClass('send-email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>

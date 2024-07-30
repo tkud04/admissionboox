@@ -90,6 +90,8 @@ $useSidebar = true;
           $('#preview-div').hide()
           $('#form-section-div').hide()
           $('#form-field-div').hide()
+
+          $('.selectpicker').selectpicker()
 	      })
 
     $(() =>{
@@ -238,9 +240,18 @@ $useSidebar = true;
         $('#form-section-div').fadeIn()
       })
 
+      $('#fb-form-section-back-btn').click(e => {
+        e.preventDefault()
+        $('#form-section-div').hide()
+      })
+
       $('#fb-show-form-field-btn').click(e => {
         e.preventDefault()
         $('#form-field-div').fadeIn()
+      })
+      $('#fb-form-field-back-btn').click(e => {
+        e.preventDefault()
+        $('#form-field-div').hide()
       })
     })
 		
@@ -388,12 +399,27 @@ $useSidebar = true;
 
                <div class="col-md-12">
                @include('components.generic-loading', ['message' => 'Adding section', 'id' => "fbas-loading"])
-               @include('components.button',[
+              
+               <div class="row">
+                <div class="col-md-6">
+                  @include('components.button',[
                      'href' => '#',
                      'id' => 'fbas-btn',
                      'title' => 'Add section',
                      'classes' => 'margin-top-20'
                     ])
+                </div>
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fb-form-section-back-btn',
+                     'title' => 'Back',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+
+               </div>
+              
                </div>
                </div>
             </div>
@@ -488,12 +514,25 @@ $useSidebar = true;
                </div>
 
                <div class="col-md-12">
-                   @include('components.button',[
+               <div class="row">
+                <div class="col-md-6">
+                  @include('components.button',[
                      'href' => '#',
                      'id' => 'fbaf-btn',
                      'title' => 'Add field',
                      'classes' => 'margin-top-20'
                     ])
+                </div>
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fb-form-field-back-btn',
+                     'title' => 'Back',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+
+               </div>
                </div>
                </div>
             </div>
@@ -519,21 +558,109 @@ $useSidebar = true;
            <div class="utf_add_listing_part_headline_part">
                <h3><i class="sl sl-icon-book-open"></i> {{$fs['title']}}</h3>
             </div>
-        </div>
 
-        <div class="utf_submit_section">
+            <div class="utf_submit_section">
           <div class="row with-forms">
+
             <?php
               foreach($fs['form_fields'] as $ff)
               {
-                
-            ?>
+                $fieldId = $ff['id'];
+                $fieldType = $ff['type'];
+                $fieldHTML = $ff['ui'];
+                $fieldBsLength = $ff['bs_length'];
 
-            <?php
+               if($fieldType === 'select')
+                {
+                  $fieldOptions = json_decode($ff['options']);
+                  
+               ?>
+                 <div class="col-md-{{$fieldBsLength}}">
+                   @include('components.form-validation', ['class' => "fbld-validation",'style' => "margin-top: 10px;"])
+                   <h5>{{$ff['title']}}</h5>
+                   <select class="selectpicker default" data-selected-text-format="count" title="Select term" tabindex="-98">
+                     <option class="bs-title-option" value="none">Select an option</option>
+                     <?php
+                      foreach($fieldOptions as $fo)
+                       {
+                        $foName = $fo->name;
+                        $foValue = $fo->value;
+                     ?>
+                       <option value="{{$foValue}}">{{$foName}}</option>
+                     <?php
+                       }
+                     ?>
+                   </select>
+                   </div>
+               <?php
+                }
+                else if($fieldType === 'checkbox')
+                {
+                ?>
+                <div class="col-md-{{$fieldBsLength}}">
+                   @include('components.form-validation', ['class' => "fbld-validation",'style' => "margin-top: 10px;"])
+                   <h5>{{$ff['title']}}</h5>
+                   
+                  <div class="checkboxes in-row amenities_checkbox">
+                   <ul>
+                   <?php
+                   foreach($fieldOptions as $fo)
+                   {
+                    $foName = $fo->name;
+                        $foValue = $fo->value;
+                   ?>
+                    <li>
+                     <input id="fbld-checkbox-{{$fieldId}}" class="fbld-checkbox-{{$fieldId}}" type="checkbox" data-value="{{$foValue}}">
+                     <label >{{$foName}}</label>
+                    </li>
+                   <?php
+                   }
+                  ?>
+                  </ul>
+                 </div>
+                 </div>
+                <?php
+                }
+                else if($fieldType === 'radio')
+                {
+                ?>
+                <div class="col-md-{{$fieldBsLength}}">
+                   @include('components.form-validation', ['class' => "fbld-validation",'style' => "margin-top: 10px;"])
+                   <h5>{{$ff['title']}}</h5>
+                   
+                  <div class="checkboxes in-row amenities_checkbox">
+                   <ul>
+                   <?php
+                   foreach($fieldOptions as $fo)
+                   {
+                    $foName = $fo->name;
+                        $foValue = $fo->value;
+                   ?>
+                    <li>
+                     <input id="fbld-radio-{{$fieldId}}" class="fbld-checkbox-{{$fieldId}}" type="checkbox" data-value="{{$foValue}}">
+                     <label for="fbld-radio-{{$fieldId}}">{{$foName}}</label>
+                    </li>
+                   <?php
+                   }
+                  ?>
+                  </ul>
+                 </div>
+                 </div>
+                <?php
+                }
+                else
+                {
+                ?>
+                {!! $fieldHTML !!}
+              <?php
+                }
               }
             ?>
           </div>
         </div>
+        </div>
+
+       
        <?php
          }
        ?>

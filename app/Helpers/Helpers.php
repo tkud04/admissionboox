@@ -3310,6 +3310,26 @@ EOD;
                return $ret;
            }
 
+           function updateAdmissionForm($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	    $f = AdmissionForms::where('id', $data['xf'])->first();
+ 
+                        if($f != null)
+                        {
+							$payload = [];
+                            if(isset($data['status'])) $payload['status'] = $data['status'];
+                           
+                        	$f->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
+           }
+
           
 
            function removeAdmissionForm($id)
@@ -3466,6 +3486,8 @@ EOD;
                    $ret['description'] = $f->description;
                    $ret['bs_length'] = $f->bs_length;
                    $ret['options'] = $f->options;
+                   $ret['options'] = $f->options;
+                   $ret['ui'] = $this->getFormUI($f);
                }
 
                return $ret;
@@ -3494,6 +3516,103 @@ EOD;
                     }
                 }
                } 
+           }
+
+           function getFormUI($formField)
+           {
+                 $fieldType = $formField->type;
+                 $title = $formField->title;
+                 $id = $formField->id;
+                 $description = $formField->description;
+                 $bs_length = $formField->bs_length;
+                 $options = json_decode($formField->options);
+                 $optionsLength = count($options) + 1;
+                 $optionsText = "";
+                 
+                 if($optionsLength > 1)
+                 {
+                   
+                     foreach($options as $option)
+                     {
+                         $name = $option->name;
+                         $value = $option->value;
+                         $optionsText .= "<option class='bs-title-option' value='$value'>$name</option>";
+                     }
+                 }
+ 
+                 $ret = "";
+ 
+                 switch($fieldType)
+                 {
+                   case "text":
+                     $ret = <<<EOD
+                     <input type="text" class="input-text" data-bld-type="$fieldType" id="fbld-$id" placeholder="Fill in your answer">
+ EOD;
+                   break;
+ 
+                   case "password":
+                     $ret = <<<EOD
+                     <input type="text" class="input-text" data-bld-type="$fieldType" id="fbld-$id" placeholder="Enter password">
+ EOD;
+                   break;
+ 
+                   case "date":
+                     $ret = <<<EOD
+                     <input type="date" class="input-text" data-bld-type="$fieldType" id="fbld-$id">
+ EOD;
+                   break;
+ 
+                   case "select":
+                     $ret = <<<EOD
+                      <select id="fbld-$id" class="selectpicker default" data-selected-text-format="count" data-bld-type="$fieldType"  data-size="{$optionsLength}"
+                       title="$title" tabindex="-98">
+                        <option class="bs-title-option" value="none">Select an option</option>
+                        $optionsText
+                      </select>
+                    
+ EOD;
+                   break;
+ 
+                   case "checkbox":
+                     $ret = <<<EOD
+                     <div class="col-md-6">
+                     <h5>Description</h5>
+                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                     <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
+                    </div>
+ EOD;
+                   break;
+ 
+                   case "radio":
+                     $ret = <<<EOD
+                     <div class="col-md-6">
+                     <h5>Description</h5>
+                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                     <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
+                    </div>
+ EOD;
+                   break;
+ 
+                   case "file":
+                     $ret = <<<EOD
+                     <div class="col-md-6">
+                     <h5>Description</h5>
+                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                     <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
+                    </div>
+ EOD;
+                   break;
+                 }
+ 
+ 
+                 $fieldHTML = <<<EOD
+                 <div class="col-md-$bs_length">
+                     <h5>$title</h5>
+                     $ret
+                    </div>
+ EOD;
+ 
+                 return $fieldHTML;
            }
 
            function addFormSection($data)
@@ -3870,6 +3989,8 @@ EOD;
 
             return $ret;
           }
+
+         
           
 		   
 
