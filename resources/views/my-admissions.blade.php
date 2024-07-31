@@ -146,7 +146,7 @@ $useSidebar = true;
 		      <div class="clearfix"></div>
           @if(count($admissions) > 0)
             @include('components.pagination',[
-              'url' => "school-admissions",
+              'url' => "school-admissions?xf=".$xf,
               'currentPage' => $currentPage,
               'numPages' => $numPages,
               ])

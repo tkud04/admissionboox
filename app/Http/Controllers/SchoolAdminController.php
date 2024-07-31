@@ -1190,7 +1190,48 @@ class SchoolAdminController extends Controller {
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
-				dd($school);
+				$req = $request->all();
+
+				$currentPage = isset($req['page']) ? $req['page'] : "1";		
+
+				if(isset($req['xf']))
+				{
+					$admission = $this->helpers->getSchoolAdmission($req['xf']);
+					//$allApplications = $admission['applications'];
+					$ret = $admission['applications'];
+					$debugApplications = [];
+
+					for($i = 0; $i < 102; $i++)
+					{
+						$ret2 = [
+							'id' => $i,
+							'admission_id' => $admission['id'],
+							'user' => $user,
+							'date' => '25th July, 2024'
+						];
+						array_push($debugApplications,$ret2);
+					}
+
+					$allApplications = $debugApplications;
+					$admissionId = $admission['id'];
+	
+					$numPages = $this->helpers->numPages($allApplications);
+					$applications = $this->helpers->changePage($allApplications,$currentPage);
+					$hasSelectedAdmission = true;
+					#dd($applications);
+					array_push($c,'school','applications','admissionId','hasSelectedAdmission','numPages','currentPage');
+				}
+
+				else
+				{
+					$schoolAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
+					$applications = [];
+					$hasSelectedAdmission = false;
+					$currentPage = "1";
+					array_push($c,'school','schoolAdmissions','hasSelectedAdmission','applications','currentPage');
+				}
+				
+				return view('my-applications',compact($c));
 			}
 			else
 			{

@@ -20,12 +20,7 @@ function getActiveClass($activeClass,$currentClass)
                 </li>
                 <li class="{{getActiveClass('email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
                 <li class="{{getActiveClass('applications',$ac)}}">
-                    <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Applications</a>
-                    <ul>
-                        <li><a href="{{url('school-applications?status=active')}}">Active <span class="nav-tag green">10</span></a></li>
-                        <li><a href="{{url('school-applications?status=pending')}}">Pending <span class="nav-tag yellow">4</span></a></li>
-                        <li><a href="{{url('school-applications?status=expired')}}">Expired <span class="nav-tag red">8</span></a></li>
-                    </ul>
+                    <a href="{{url('school-applications')}}"><i class="sl sl-icon-layers"></i> Applications</a>
                 </li>
                 <li class="{{getActiveClass('classes',$ac)}}">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Classes</a>
