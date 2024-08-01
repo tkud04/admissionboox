@@ -75,12 +75,13 @@ $void = 'javascript:void(0)';
             {
               foreach($schools as $s)
               {
-                
+                $vu = "#";
+                $logo = strlen($s['logo'] > 0) ? $s['logo'] : "images/utf_listing_item-01.jpg";
           ?>
           <div class="col-lg-12 col-md-12">
-            <div class="utf_listing_item-container list-layout"> <a href="listings_single_page_1.html" class="utf_listing_item">
+            <div class="utf_listing_item-container list-layout"> <a href="{{$vu}}" class="utf_listing_item">
               <div class="utf_listing_item-image"> 
-				  <img src="images/utf_listing_item-01.jpg" alt=""> 
+				  <img src="{{$logo}}" alt=""> 
 				  <span class="like-icon"></span> 
 				  <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span> 
 				  <div class="utf_listing_prige_block utf_half_list">							
@@ -91,7 +92,7 @@ $void = 'javascript:void(0)';
 			  <span class="utf_open_now">Open Now</span>
               <div class="utf_listing_item_content">
                 <div class="utf_listing_item-inner">
-                  <h3>Chontaduro Barcelona</h3>
+                  <h3>{{$s['name']}}</h3>
                   <span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
 				  <span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>
                   <div class="utf_star_rating_section" data-rating="4.5">
