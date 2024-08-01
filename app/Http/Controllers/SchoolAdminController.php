@@ -310,6 +310,80 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postUpdateSchoolProfile(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+
+				#dd($req);
+				$validator = Validator::make($req, [
+					'address' => 'required',
+					'state' => 'required',
+					'longitude' => 'required',
+					'latitude' => 'required',
+					'xf' => 'required|numeric'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation"];
+	              //dd($messages);
+                }
+				else
+				{
+					$xf = $req['xf'];
+					
+					
+
+					//Address
+					$addressPayload = [
+                      'school_id' => $xf,
+                      'school_state' => $req['state'],
+                      'school_address' => $req['address'],
+                      'latitude' => $req['latitude'],
+                      'longitude' => $req['longitude']
+					];
+
+					$this->helpers->updateSchoolAddress($addressPayload);
+					
+					$ret = ['status' => 'ok'];
+				}
+
+			}
+			else
+			{
+				$ret = ['status' => "error",'message' => 'invalid-session'];
+
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+
+
 		/**
 	 * Show the application welcome screen to the user.
 	 *

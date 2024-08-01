@@ -19,6 +19,7 @@ use App\Http\Controllers\SchoolAdminController;
 
 //AdmissionBoox routes
 Route::get('/', [MainController::class,'getIndex']);
+Route::get('schools', [MainController::class,'getSchools']);
 
 
 //Auth routes

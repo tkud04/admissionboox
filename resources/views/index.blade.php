@@ -21,7 +21,7 @@ $void = 'javascript:void(0)';
 @stop
 
 @section('content')
-  @include('components.home-search',['locations' => $locations])
+  @include('components.home-search',['locations' => $locations,'facilities' => $facilities])
   @include('components.listing-categories',['categories' => $categories])
   @include('components.listing-categories',['categories' => $viewMoreCategories,'title'=>"More Categories",'ssm' => false])
 @stop

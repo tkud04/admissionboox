@@ -42,40 +42,46 @@ class MainController extends Controller {
 
 		$testUniqueLink = $this->helpers->getUniqueLinkValue("4","dasf");
 	
-		
-		$typedTexts = ['Student','School'];
-		array_push($c,'typedTexts');
+		$facilities = $this->helpers->getFacilities();
+       $typedTexts = ['Student','School'];
+		array_push($c,'typedTexts','facilities');
 
 		$categories = [
 			[
 				'name' => 'Early Years',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 18
+				'numListings' => $this->helpers->getSchoolCount('early'),
+				'xf' => 'early'
 			],
 			[
 				'name' => 'Primary',
 				'image' => 'images/popular-location-02.jpg',
-				'numListings' => 26
+				'numListings' => $this->helpers->getSchoolCount('primary'),
+				'xf' => 'primary'
 			],
 			[
 				'name' => 'Secondary',
 				'image' => 'images/popular-location-03.jpg',
-				'numListings' => 19
+				'numListings' => $this->helpers->getSchoolCount('secondary'),
+				'xf' => 'secondary'
 			],
 			[
 				'name' => 'Tertiary',
 				'image' => 'images/popular-location-04.jpg',
-				'numListings' => 22
+				'numListings' => $this->helpers->getSchoolCount('tertiary'),
+				'xf' => 'tertiary'
 			],
 			[
 				'name' => 'Faith-based',
 				'image' => 'images/popular-location-05.jpg',
-				'numListings' => 19
+				'numListings' => $this->helpers->getSchoolCount('faith'),
+				'xf' => 'faith'
 			],
 			[
 				'name' => 'Boarding',
 				'image' => 'images/popular-location-06.jpg',
-				'numListings' => 33
+				'numListings' => $this->helpers->getSchoolCount('boarding'),
+				'xf' => 'boarding'
 			]
 		];
 		array_push($c,'categories');
@@ -84,27 +90,32 @@ class MainController extends Controller {
 			[
 				'name' => 'Private',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 11
+				'numListings' => 11,
+				'xf' => 'private'
 			],
 			[
 				'name' => 'Public',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 18
+				'numListings' => 18,
+				'xf' => 'public'
 			],
 			[
 				'name' => 'Boys',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 13
+				'numListings' => 13,
+				'xf' => 'boys'
 			],
 			[
 				'name' => 'Girls',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 19
+				'numListings' => 19,
+				'xf' => 'girls'
 			],
 			[
 				'name' => 'Day Care',
 				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 10
+				'numListings' => 10,
+				'xf' => 'day-care'
 			],
 		];
 		array_push($c,'viewMoreCategories');
@@ -140,6 +151,41 @@ class MainController extends Controller {
 		#dd($plugins);
 
         return view('index',compact($c));
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSchools(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+		$req = $request->all();
+		$signals = $this->helpers->signals;
+		$senders = $this->helpers->getSenders();
+		$plugins = $this->helpers->getPlugins();
+		$c = $this->compactValues;
+		$category = isset($req['category']) ? $req['category'] : "all";
+		$currentPage = isset($req['page']) ? $req['page'] : "1";
+		$currentPage = intval($currentPage);	
+
+		$allSchools = $this->helpers->filterSchools($category);
+		$numPages = $this->helpers->numPages($allSchools);
+		$schools = $this->helpers->changePage($allSchools,$currentPage);
+
+		array_push($c,'schools','category','numPages','currentPage');
+
+        
+		#dd($plugins);
+
+        return view('schools',compact($c));
     }
 
 	/**
@@ -255,7 +301,7 @@ class MainController extends Controller {
 		{
             $school =$this->helpers->getSchool($user->email);
 			array_push($c,'school');
-		   return view('school-profile',compact($c));
+			return view('school-profile',compact($c));
 		}
 		else
 		{

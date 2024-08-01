@@ -2,12 +2,12 @@
 $ac = "profile";
 $useSidebar = true;
 ?>
-@extends('dashboard_layout')
-
-@section('dashboard-title',"Profile")
 
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-title',"Profile"); ?>
+
+
+<?php $__env->startSection('dashboard-scripts'); ?>
 
   <script>
 
@@ -50,7 +50,7 @@ $useSidebar = true;
          $('#profile-loading').fadeIn()
 
         const fd = new FormData()
-              fd.append('xf',"{{$school['id']}}")
+              fd.append('xf',"<?php echo e($school['id']); ?>")
               fd.append('address',address)
               fd.append('latitude',coordsArr[0])
               fd.append('longitude',coordsArr[1])
@@ -85,9 +85,9 @@ $useSidebar = true;
 		
 	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 
 <div class="row">
 
@@ -99,7 +99,7 @@ $useSidebar = true;
           <div class="utf_dashboard_list_box margin-top-0">
             <h4 class="gray"><i class="sl sl-icon-user"></i> Profile Details</h4>
             <div class="utf_dashboard_list_box-static"> 
-              <div class="edit-profile-photo"> <img src="{{$avatar}}" alt="">
+              <div class="edit-profile-photo"> <img src="<?php echo e($avatar); ?>" alt="">
                 <div class="change-photo-btn">
                   <div class="photoUpload"> <span><i class="fa fa-upload"></i> Upload Photo</span>
                     <input type="file" class="upload">
@@ -110,19 +110,19 @@ $useSidebar = true;
 			    <div class="row with-forms">
 					<div class="col-md-4">
 						<label>First Name</label>						
-						<input type="text" class="input-text" placeholder="Alex Daniel" value="{{$user->fname}}" disabled>
+						<input type="text" class="input-text" placeholder="Alex Daniel" value="<?php echo e($user->fname); ?>" disabled>
 					</div>
           <div class="col-md-4">
 						<label>Last Name</label>						
-						<input type="text" class="input-text" placeholder="Alex Daniel" value="{{$user->lname}}" disabled>
+						<input type="text" class="input-text" placeholder="Alex Daniel" value="<?php echo e($user->lname); ?>" disabled>
 					</div>
 					<div class="col-md-4">
 						<label>Phone</label>						
-						<input type="text" class="input-text" placeholder="(123) 123-456" value="{{$user->phone}}" disabled>
+						<input type="text" class="input-text" placeholder="(123) 123-456" value="<?php echo e($user->phone); ?>" disabled>
 					</div>
 					<div class="col-md-6">
 						<label>Email</label>						
-						<input type="text" class="input-text" placeholder="test@example.com" value="{{$user->email}}" disabled>
+						<input type="text" class="input-text" placeholder="test@example.com" value="<?php echo e($user->email); ?>" disabled>
 					</div>
 					<div class="col-md-6">
 						<label>Role</label>						
@@ -130,25 +130,25 @@ $useSidebar = true;
 					</div>
 
           <div class="col-md-12">
-          @include('components.form-validation', ['id' => "profile-address-validation"])
+          <?php echo $__env->make('components.form-validation', ['id' => "profile-address-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Address</label>						
-						<input type="text" id="profile-address" class="input-text" placeholder="Full address" value="{{$address['school_address']}}">
+						<input type="text" id="profile-address" class="input-text" placeholder="Full address" value="<?php echo e($address['school_address']); ?>">
 					</div>
 					<div class="col-md-6">
-          @include('components.form-validation', ['id' => "profile-state-validation"])
+          <?php echo $__env->make('components.form-validation', ['id' => "profile-state-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>State</label>						
-						<input type="text" id="profile-state" class="input-text" placeholder="e.g Lagos" value="{{$address['school_state']}}">
+						<input type="text" id="profile-state" class="input-text" placeholder="e.g Lagos" value="<?php echo e($address['school_state']); ?>">
 					</div>
           <div class="col-md-6">
-            @include('components.form-validation', ['id' => "profile-coords-validation"])
+            <?php echo $__env->make('components.form-validation', ['id' => "profile-coords-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Co-ordinates (Latitude,Longitude)</label>						
-						<input type="text" id="profile-coords" class="input-text" placeholder="e.g 134.111,-34.12" value="{{$coords}}">
+						<input type="text" id="profile-coords" class="input-text" placeholder="e.g 134.111,-34.12" value="<?php echo e($coords); ?>">
 					</div>
 					
 					
 				  </div>	
               </div>
-              @include('components.generic-loading', ['message' => 'Updating school info', 'id' => "profile-loading"])
+              <?php echo $__env->make('components.generic-loading', ['message' => 'Updating school info', 'id' => "profile-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
               <button class="button preview btn_center_item margin-top-15" id="profile-btn">Save Changes</button>
             </div>
           </div>
@@ -156,4 +156,5 @@ $useSidebar = true;
        
 </div>
       
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/school-profile.blade.php ENDPATH**/ ?>

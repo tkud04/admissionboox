@@ -19,7 +19,7 @@
                                           foreach($locations as $l)
                                           {
                                         ?>
-                                         <option value="{{$l['value']}}">{{$l['name']}}</option>  
+                                         <option value="<?php echo e($l['value']); ?>"><?php echo e($l['name']); ?></option>  
                                         <?php
                                           }
                                         ?>
@@ -55,8 +55,8 @@
                                         $icon = $facility['icon'];
                                     ?>
                                     <li> <a href="#">
-                                            <div class="utf_box"> <i class="im {{$icon}}" aria-hidden="true"></i>
-                                                <p>{{$facility['facility_name']}}</p>
+                                            <div class="utf_box"> <i class="im <?php echo e($icon); ?>" aria-hidden="true"></i>
+                                                <p><?php echo e($facility['facility_name']); ?></p>
                                             </div>
                                         </a>
                                     </li>
@@ -72,4 +72,4 @@
                 </div>
             </div>
         </div>
-<!-- HOME SEARCH COMPONENT -->
+<!-- HOME SEARCH COMPONENT --><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/components/home-search.blade.php ENDPATH**/ ?>

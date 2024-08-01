@@ -40,6 +40,7 @@ Route::post('usr', [SchoolAdminController::class,'postUpdateSchoolResources']);
 Route::post('usl', [SchoolAdminController::class,'postUpdateSchoolLogo']);
 Route::post('ust', [SchoolAdminController::class,'postUpdateSchoolLandingPage']);
 Route::post('usi', [SchoolAdminController::class,'postUpdateSchoolInfo']);
+Route::post('usp', [SchoolAdminController::class,'postUpdateSchoolProfile']);
 
 Route::post('add-school-admission', [SchoolAdminController::class,'postAddSchoolAdmission']);
 Route::post('update-school-admission', [SchoolAdminController::class,'postSchoolAdmission']);

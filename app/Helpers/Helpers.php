@@ -4078,6 +4078,97 @@ EOD;
             return $ret;
           }
 
+          function getSchoolCount($type)
+          {
+            $ret = 0;
+
+            if($type === 'early')
+            {
+              $ret = SchoolInfo::where('school_curriculum','early-only')
+                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+            }
+            else if($type === 'primary')
+            {
+              $ret = SchoolInfo::where('school_curriculum','primary-only')
+                               ->orWhere('school_curriculum','primary-secondary')
+                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+            }
+            else if($type === 'secondary')
+            {
+              $ret = SchoolInfo::where('school_curriculum','secondary-only')
+                               ->orWhere('school_curriculum','primary-secondary')
+                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+            }
+            else if($type === 'day')
+            {
+              $ret = SchoolInfo::where('boarding_type','day')
+                                ->orWhere('boarding_type','both')->count();
+            }
+            else if($type === 'boarding')
+            {
+                $ret = SchoolInfo::where('boarding_type','boarding')
+                                 ->orWhere('boarding_type','both')->count();
+            }
+
+            return $ret;
+          }
+
+          
+
+          function filterSchools($category)
+          {
+            $ret = []; $schools = null;
+
+            if($category === 'all')
+            {
+              $ret = $this->getSchools();
+            }
+            else
+            {
+                if($category === 'early')
+                {
+                  $schools = SchoolInfo::where('school_curriculum','early-only')
+                                   ->orWhere('school_curriculum','early-primary-secondary')->get();
+                }
+                else if($category === 'primary')
+                {
+                  $schools = SchoolInfo::where('school_curriculum','primary-only')
+                  ->orWhere('school_curriculum','primary-secondary')
+                  ->orWhere('school_curriculum','early-primary-secondary')->get();
+                }
+    
+                else if($category === 'secondary')
+                {
+                  $schools = SchoolInfo::where('school_curriculum','secondary-only')
+                  ->orWhere('school_curriculum','primary-secondary')
+                  ->orWhere('school_curriculum','early-primary-secondary')->get();
+                }
+                else if($category === 'day')
+                {
+                    $schools = SchoolInfo::where('boarding_type','day')
+                    ->orWhere('boarding_type','both')->get();
+                }
+                else if($category === 'boarding')
+                {
+                  $schools  = SchoolInfo::where('boarding_type','day')
+                  ->orWhere('boarding_type','both')->get();
+                }
+                
+    
+                if($schools !== null)
+                {
+                    foreach($schools as $s)
+                    {
+                        $temp = $this->getSchool($s->id);
+                        array_push($ret,$temp);
+                    }
+                }
+            }
+            
+
+            return $ret;
+          }
+
          
           
 		   
