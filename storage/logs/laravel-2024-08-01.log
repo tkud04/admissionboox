@@ -1,8 +1,176 @@
-[2024-08-01 13:58:20] local.ERROR: Undefined variable $currentPage {"view":{"view":"/Users/tobikudayisi/repos/admissionboox/resources/views/school-profile.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-482752763 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#310</a><samp data-depth=1 class=sf-dump-expanded>
+[2024-08-01 14:17:18] local.ERROR: Method App\Http\Controllers\LoginController::getChangePassword does not exist. {"userId":1,"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\LoginController::getChangePassword does not exist. at /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php:68)
+[stacktrace]
+#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): Illuminate\\Routing\\Controller->__call('getChangePasswo...', Array)
+#1 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('getChangePasswo...', Array)
+#2 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\LoginController), 'getChangePasswo...')
+#3 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#4 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#5 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#6 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#14 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#21 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#22 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#23 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#24 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#25 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#32 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#49 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#50 /Users/tobikudayisi/repos/admissionboox/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#51 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/tobikuda...')
+#52 {main}
+"} 
+[2024-08-01 14:18:01] local.ERROR: Method App\Http\Controllers\LoginController::getChangePassword does not exist. {"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\LoginController::getChangePassword does not exist. at /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php:68)
+[stacktrace]
+#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): Illuminate\\Routing\\Controller->__call('getChangePasswo...', Array)
+#1 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('getChangePasswo...', Array)
+#2 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\LoginController), 'getChangePasswo...')
+#3 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#4 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#5 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#6 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#14 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#21 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#22 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#23 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#24 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#25 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#32 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#49 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#50 /Users/tobikudayisi/repos/admissionboox/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#51 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/tobikuda...')
+#52 {main}
+"} 
+[2024-08-01 14:18:09] local.ERROR: Method App\Http\Controllers\LoginController::getChangePassword does not exist. {"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\LoginController::getChangePassword does not exist. at /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php:68)
+[stacktrace]
+#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): Illuminate\\Routing\\Controller->__call('getChangePasswo...', Array)
+#1 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('getChangePasswo...', Array)
+#2 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\LoginController), 'getChangePasswo...')
+#3 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#4 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#5 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#6 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#14 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#21 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#22 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#23 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#24 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#25 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#32 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#49 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#50 /Users/tobikudayisi/repos/admissionboox/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#51 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/tobikuda...')
+#52 {main}
+"} 
+[2024-08-01 14:22:13] local.ERROR: Undefined variable $em {"view":{"view":"/Users/tobikudayisi/repos/admissionboox/resources/views/change-password.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-907044091 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#310</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
-</pre><script>Sfdump(\"sf-dump-482752763\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","user":"<pre class=sf-dump id=sf-dump-1579216942 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Models\\User</span> {<a class=sf-dump-ref>#673</a><samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-907044091\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","user":"<pre class=sf-dump id=sf-dump-214648208 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Models\\User</span> {<a class=sf-dump-ref>#673</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
   #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"5 characters\">users</span>\"
   #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
@@ -27,7 +195,7 @@
     \"<span class=sf-dump-key>verified</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
     \"<span class=sf-dump-key>complete_signup</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
     \"<span class=sf-dump-key>password</span>\" => \"<span class=sf-dump-str title=\"60 characters\">$2y$10$XMlYy.5BgPgpJD7S2fip6e/lQ6.3mS3srf5GwPFutpI6EskCaqlhS</span>\"
-    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"60 characters\">Qor3zxQj4naGhCKyOREZAkfXluWYVoZqedXxyP0xFXU0QVH8zva8njgVcHFK</span>\"
+    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"60 characters\">v4XJJ1zySa3gn1LoeLSgU9bwgGEKUUIUHOpQMp4Kc82pfTp8WbjG83Lq9U8z</span>\"
     \"<span class=sf-dump-key>reset_code</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
     \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"2 characters\">ok</span>\"
     \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-07-26 16:27:45</span>\"
@@ -45,7 +213,7 @@
     \"<span class=sf-dump-key>verified</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
     \"<span class=sf-dump-key>complete_signup</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
     \"<span class=sf-dump-key>password</span>\" => \"<span class=sf-dump-str title=\"60 characters\">$2y$10$XMlYy.5BgPgpJD7S2fip6e/lQ6.3mS3srf5GwPFutpI6EskCaqlhS</span>\"
-    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"60 characters\">Qor3zxQj4naGhCKyOREZAkfXluWYVoZqedXxyP0xFXU0QVH8zva8njgVcHFK</span>\"
+    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"60 characters\">v4XJJ1zySa3gn1LoeLSgU9bwgGEKUUIUHOpQMp4Kc82pfTp8WbjG83Lq9U8z</span>\"
     \"<span class=sf-dump-key>reset_code</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
     \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"2 characters\">ok</span>\"
     \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-07-26 16:27:45</span>\"
@@ -90,10 +258,10 @@
   #<span class=sf-dump-protected title=\"Protected property\">rememberTokenName</span>: \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
   #<span class=sf-dump-protected title=\"Protected property\">accessToken</span>: <span class=sf-dump-const>null</span>
 </samp>}
-</pre><script>Sfdump(\"sf-dump-1579216942\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","plugins":"<pre class=sf-dump id=sf-dump-1015102879 data-indent-pad=\"  \">[]
-</pre><script>Sfdump(\"sf-dump-1015102879\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","senders":"<pre class=sf-dump id=sf-dump-1319983426 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-214648208\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","plugins":"<pre class=sf-dump id=sf-dump-1121935478 data-indent-pad=\"  \">[]
+</pre><script>Sfdump(\"sf-dump-1121935478\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","senders":"<pre class=sf-dump id=sf-dump-1119164788 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
   <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
     \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
     \"<span class=sf-dump-key>ss</span>\" => \"<span class=sf-dump-str title=\"14 characters\">smtp-pulse.com</span>\"
@@ -109,8 +277,8 @@
     \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"14 characters\">20th May, 2024</span>\"
   </samp>]
 </samp>]
-</pre><script>Sfdump(\"sf-dump-1319983426\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","signals":"<pre class=sf-dump id=sf-dump-513083050 data-indent-pad=\"  \"><span class=sf-dump-note>array:2</span> [<samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-1119164788\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","signals":"<pre class=sf-dump id=sf-dump-1249932770 data-indent-pad=\"  \"><span class=sf-dump-note>array:2</span> [<samp data-depth=1 class=sf-dump-expanded>
   \"<span class=sf-dump-key>okays</span>\" => <span class=sf-dump-note>array:7</span> [<samp data-depth=2 class=sf-dump-compact>
     \"<span class=sf-dump-key>login-status</span>\" => \"<span class=sf-dump-str title=\"18 characters\">Sign in successful</span>\"
     \"<span class=sf-dump-key>add-sender-status</span>\" => \"<span class=sf-dump-str title=\"13 characters\">Sender added!</span>\"
@@ -128,160 +296,8 @@
     \"<span class=sf-dump-key>tracking-status-error</span>\" => \"<span class=sf-dump-str title=\"29 characters\">Tracking info does not exist!</span>\"
   </samp>]
 </samp>]
-</pre><script>Sfdump(\"sf-dump-513083050\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","currentClass":"<pre class=sf-dump id=sf-dump-1588059854 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"9 characters\">dashboard</span>\"
-</pre><script>Sfdump(\"sf-dump-1588059854\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","school":"<pre class=sf-dump id=sf-dump-1181417969 data-indent-pad=\"  \"><span class=sf-dump-note>array:15</span> [<samp data-depth=1 class=sf-dump-expanded>
-  \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-  \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Test School</span>\"
-  \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"23 characters\">kkudayisitobi@gmail.com</span>\"
-  \"<span class=sf-dump-key>country</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Nigeria</span>\"
-  \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"10 characters\">7054291601</span>\"
-  \"<span class=sf-dump-key>url</span>\" => \"<span class=sf-dump-str title=\"11 characters\">testschools</span>\"
-  \"<span class=sf-dump-key>logo</span>\" => \"<span class=sf-dump-str title=\"90 characters\">https://res.cloudinary.com/admissionboox/image/upload/v1722103103/rtk6wnecop3kyzbxi5y9.jpg</span>\"
-  \"<span class=sf-dump-key>landing_page_pic</span>\" => \"<span class=sf-dump-str title=\"90 characters\">https://res.cloudinary.com/admissionboox/image/upload/v1722103113/ozbjmpui9w9mnw7eopzf.jpg</span>\"
-  \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"7 characters\">pending</span>\"
-  \"<span class=sf-dump-key>owner</span>\" => <span class=sf-dump-note>array:5</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-    \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Ashaka</span>\"
-    \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"22 characters\">ashaka@testschools.com</span>\"
-    \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"11 characters\">08079284917</span>\"
-  </samp>]
-  \"<span class=sf-dump-key>info</span>\" => <span class=sf-dump-note>array:10</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-    \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-    \"<span class=sf-dump-key>boarding_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">both</span>\"
-    \"<span class=sf-dump-key>hbu</span>\" => \"<span class=sf-dump-str title=\"5 characters\">other</span>\"
-    \"<span class=sf-dump-key>hbu_other</span>\" => \"<span class=sf-dump-str title=\"14 characters\">Testing others</span>\"
-    \"<span class=sf-dump-key>school_name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Test School</span>\"
-    \"<span class=sf-dump-key>school_type</span>\" => \"<span class=sf-dump-str title=\"23 characters\">early-primary-secondary</span>\"
-    \"<span class=sf-dump-key>school_curriculum</span>\" => \"<span class=sf-dump-str title=\"10 characters\">early-only</span>\"
-    \"<span class=sf-dump-key>school_fees</span>\" => \"<span class=sf-dump-str title=\"7 characters\">151-300</span>\"
-    \"<span class=sf-dump-key>wcu</span>\" => \"<span class=sf-dump-str title=\"157 characters\">This is an awesome description of our great school. We   have a lot of facilities and equipment to ensure your child has a wonderful environment to learn in.</span>\"
-  </samp>]
-  \"<span class=sf-dump-key>facilities</span>\" => <span class=sf-dump-note>array:10</span> [<samp data-depth=2 class=sf-dump-compact>
-    <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>2</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>3</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>4</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>5</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>6</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>7</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>7</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>8</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>8</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>9</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    <span class=sf-dump-index>9</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>10</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>facility</span>\" => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-  </samp>]
-  \"<span class=sf-dump-key>resources</span>\" => <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
-    <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>url</span>\" => \"<span class=sf-dump-str title=\"90 characters\">https://res.cloudinary.com/admissionboox/image/upload/v1722103029/aysnxgugodwzqtqywjno.jpg</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">27th July, 2024</span>\"
-    </samp>]
-  </samp>]
-  \"<span class=sf-dump-key>clubs</span>\" => <span class=sf-dump-note>array:7</span> [<samp data-depth=2 class=sf-dump-compact>
-    <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Ballet</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"6 characters\">ballet</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"20 characters\">im-icon-Ballet-Shoes</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>2</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"5 characters\">Chess</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"5 characters\">chess</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"13 characters\">im-icon-Chess</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>3</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Scrabble</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"8 characters\">scrabble</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"12 characters\">im-icon-Book</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>4</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Football</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"8 characters\">football</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"18 characters\">im-icon-Football-2</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>5</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Swimming</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"8 characters\">swimming</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"16 characters\">im-icon-Swimming</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>6</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"9 characters\">Taekwondo</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"9 characters\">taekwondo</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"18 characters\">im-icon-Aerobics-2</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-    <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>7</span>
-      \"<span class=sf-dump-key>club_name</span>\" => \"<span class=sf-dump-str title=\"5 characters\">Music</span>\"
-      \"<span class=sf-dump-key>club_value</span>\" => \"<span class=sf-dump-str title=\"5 characters\">music</span>\"
-      \"<span class=sf-dump-key>icon</span>\" => \"<span class=sf-dump-str title=\"19 characters\">im-icon-Music-Note2</span>\"
-      \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    </samp>]
-  </samp>]
-  \"<span class=sf-dump-key>address</span>\" => <span class=sf-dump-note>array:6</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-    \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-    \"<span class=sf-dump-key>school_state</span>\" => \"<span class=sf-dump-str title=\"9 characters\">undefined</span>\"
-    \"<span class=sf-dump-key>school_address</span>\" => \"<span class=sf-dump-str title=\"9 characters\">undefined</span>\"
-    \"<span class=sf-dump-key>longitude</span>\" => \"<span class=sf-dump-str title=\"9 characters\">undefined</span>\"
-    \"<span class=sf-dump-key>latitude</span>\" => \"<span class=sf-dump-str title=\"9 characters\">undefined</span>\"
-  </samp>]
-</samp>]
-</pre><script>Sfdump(\"sf-dump-1181417969\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined variable $currentPage at /Users/tobikudayisi/repos/admissionboox/resources/views/school-profile.blade.php:44)
+</pre><script>Sfdump(\"sf-dump-1249932770\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined variable $em at /Users/tobikudayisi/repos/admissionboox/resources/views/change-password.blade.php:43)
 [stacktrace]
 #0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Users/tobikuda...')
 #1 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
@@ -344,10 +360,10 @@
 #58 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/tobikuda...')
 #59 {main}
 
-[previous exception] [object] (ErrorException(code: 0): Undefined variable $currentPage at /Users/tobikudayisi/repos/admissionboox/storage/framework/views/fea98f3b4bae4defafa855a40099fbc3.php:44)
+[previous exception] [object] (ErrorException(code: 0): Undefined variable $em at /Users/tobikudayisi/repos/admissionboox/storage/framework/views/6336c3ef5596ee0266089d98c27c1fd1.php:43)
 [stacktrace]
-#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', '/Users/tobikuda...', 44)
-#1 /Users/tobikudayisi/repos/admissionboox/storage/framework/views/fea98f3b4bae4defafa855a40099fbc3.php(44): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', '/Users/tobikuda...', 44)
+#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', '/Users/tobikuda...', 43)
+#1 /Users/tobikudayisi/repos/admissionboox/storage/framework/views/6336c3ef5596ee0266089d98c27c1fd1.php(43): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', '/Users/tobikuda...', 43)
 #2 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Users/tobikuda...')
 #3 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #4 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('/Users/tobikuda...', Array)

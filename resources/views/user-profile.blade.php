@@ -90,7 +90,7 @@ $useSidebar = true;
 					</div>
                     <div class="col-md-4">
 						<label>Gender</label>						
-						<input type="text" class="input-text" placeholder="20 March 2000" value="{{ucwords($user->gender)}}" disabled>
+						<input type="text" class="input-text" placeholder="Gender" value="{{ucwords($user->gender)}}" disabled>
 					</div>
 					<div class="col-md-12">
 						<label>Address</label>

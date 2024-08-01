@@ -439,6 +439,35 @@ class LoginController extends Controller {
           return json_encode($ret);    
     }
 
+    public function getChangePassword(Request $request)
+    {
+       $user = null;
+     
+
+       $return = isset($req['return']) ? $req['return'] : '/';
+	   
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			
+            $signals = $this->helpers->signals;
+            $senders = $this->helpers->getSenders();
+             $plugins = $this->helpers->getPlugins();
+            $c = $this->compactValues;
+            $em = $user->email;
+            array_push($c,'em');
+            
+            return view('change-password',compact($c)); 
+		}
+
+       
+        else
+        {
+            return redirect()->intended($return);
+        }
+    	
+    }
+
     public function postChangePassword(Request $request)
     {
         $ret = ['status' => 'error','message' => "nothing happened"];

@@ -4,11 +4,11 @@ $useSidebar = true;
 $ac = "dashboard";
 ?>
 
-@extends('dashboard_layout')
 
-@section('dashboard-title',"Change Password")
 
-@section('scripts')
+<?php $__env->startSection('dashboard-title',"Change Password"); ?>
+
+<?php $__env->startSection('scripts'); ?>
 <script>
     $(document).ready(() => {
 
@@ -40,7 +40,7 @@ $ac = "dashboard";
               const fd = new FormData()
               fd.append('password',pass)
               fd.append('password_confirmation',pass2)
-              fd.append('email',"{{$em}}")
+              fd.append('email',"<?php echo e($em); ?>")
               changePassword(fd,
               (data) => {
                 
@@ -68,9 +68,9 @@ $ac = "dashboard";
         })
     })
 </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 <div class="row"> 
         <div class="col-lg-12 col-md-12">
           <div class="utf_dashboard_list_box margin-top-0">
@@ -79,19 +79,19 @@ $ac = "dashboard";
               <div class="my-profile">
 			    <div class="row with-forms">
 					<div class="col-md-6">
-                        @include('components.form-validation', ['id' => "set-password-password-validation"])
-                        @include('components.form-validation', ['id' => "set-password-password2-validation2",'message' => "Passwords must match"])
-                        @include('components.form-validation', ['id' => "set-password-password2-validation3",'message' => "Passwords must be at least 6 characters"])
+                        <?php echo $__env->make('components.form-validation', ['id' => "set-password-password-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <?php echo $__env->make('components.form-validation', ['id' => "set-password-password2-validation2",'message' => "Passwords must match"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <?php echo $__env->make('components.form-validation', ['id' => "set-password-password2-validation3",'message' => "Passwords must be at least 6 characters"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>New Password</label>						
 						<input type="password" class="input-text" id="set-password-password" placeholder="*********" value="">
 					</div>
 					<div class="col-md-6">
-                    @include('components.form-validation', ['id' => "set-password-password2-validation"])
+                    <?php echo $__env->make('components.form-validation', ['id' => "set-password-password2-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<label>Confirm New Password</label>
 						<input type="password" class="input-text" id="set-password-password2" placeholder="*********" value="">
 					</div>
 					<div class="col-md-12">
-                         @include('components.generic-loading', ['message' => 'Updating your password', 'id' => "set-password-loading"])
+                         <?php echo $__env->make('components.generic-loading', ['message' => 'Updating your password', 'id' => "set-password-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						<button class="button btn_center_item margin-top-15" id="set-password-btn">Change Password</button>
 					</div>
 				</div>
@@ -100,4 +100,5 @@ $ac = "dashboard";
           </div>
         </div>
       </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/change-password.blade.php ENDPATH**/ ?>
