@@ -24,7 +24,7 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
     
      @if($v3)
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
-       @if($v2)
+       @if($user->role === 'admin' || $user->role === 'su')
          @include('components.admin-sidebar',['ac' => $ac])
        @else
         @if($user->role === 'school_admin')

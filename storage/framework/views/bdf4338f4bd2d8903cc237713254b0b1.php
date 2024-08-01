@@ -24,7 +24,7 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
     
      <?php if($v3): ?>
      <a href="#" class="utf_dashboard_nav_responsive"><i class="fa fa-reorder"></i> Dashboard Sidebar Menu</a>
-       <?php if($v2): ?>
+       <?php if($user->role === 'admin' || $user->role === 'su'): ?>
          <?php echo $__env->make('components.admin-sidebar',['ac' => $ac], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
        <?php else: ?>
         <?php if($user->role === 'school_admin'): ?>
