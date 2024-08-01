@@ -2196,6 +2196,53 @@ class Helper //implements HelperContract
                 'Zamfara',
              ];
 
+        public $schoolCategories = [
+			[
+				'name' => 'Early Years',
+				'xf' => 'early'
+			],
+			[
+				'name' => 'Primary',
+				'xf' => 'primary'
+			],
+			[
+				'name' => 'Secondary',
+				'xf' => 'secondary'
+			],
+			[
+				'name' => 'Tertiary',
+				'xf' => 'tertiary'
+			],
+			[
+				'name' => 'Faith-based',
+				'xf' => 'faith'
+			],
+			[
+				'name' => 'Boarding',
+				'xf' => 'boarding'
+            ],
+            [
+				'name' => 'Private',
+				'xf' => 'private'
+			],
+			[
+				'name' => 'Public',
+				'xf' => 'public'
+			],
+			[
+				'name' => 'Boys',
+				'xf' => 'boys'
+			],
+			[
+				'name' => 'Girls',
+				'xf' => 'girls'
+			],
+			[
+				'name' => 'Day Care',
+				'xf' => 'day-care'
+			],
+		];
+
            function symfonySendMail($data){
             
               $email = (new Email())

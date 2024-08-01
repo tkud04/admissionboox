@@ -9,6 +9,32 @@ $void = 'javascript:void(0)';
 
 @stop
 
+<?php
+if(!function_exists('getPriceTag'))
+{
+  function getPriceTag($category)
+  {
+    $ret = "";
+
+   /* <option value="50-100">&#8358;50,000 - &#8358;150,000</option>
+    <option value="151-300">&#8358;151,000 - &#8358;300,000</option>
+    <option value="301-500">&#8358;301,000 - &#8358;500,000</option>
+    <option value="501-750">&#8358;501,000 - &#8358;750,000</option>
+    <option value="751-1m">&#8358;751,000 - &#8358;1,000,000</option>
+    <option value="above-1m">Above &#8358;1,000,000</option>
+    */
+
+    if($category === "50-100") $ret = "&#8358;50,000 - &#8358;150,000";
+    if($category === "151-300") $ret = "&#8358;151,000 - &#8358;300,000";
+    if($category === "301-500") $ret = "&#8358;301,000 - &#8358;500,000";
+    if($category === "501-750") $ret = "&#8358;501,000 - &#8358;750,000";
+    if($category === "751-1m") $ret = "&#8358;751,000 - &#8358;1,000,000";
+    if($category === "above-1m") $ret = "Above &#8358;1,000,000";
+
+    return $ret;
+  }
+}
+?>
 @section('content')
 <div class="row">
       <div class="col-lg-8 col-md-8">
@@ -75,17 +101,21 @@ $void = 'javascript:void(0)';
             {
               foreach($schools as $s)
               {
-                $vu = "#";
+                $vu = url("school")."?xf=".$s['id'];
                 $logo = strlen($s['logo'] > 0) ? $s['logo'] : "images/utf_listing_item-01.jpg";
+                $info = $s['info'];
+                $address = $s['address'];
+                $priceTag = getPriceTag($info['school_fees']);
           ?>
           <div class="col-lg-12 col-md-12">
-            <div class="utf_listing_item-container list-layout"> <a href="{{$vu}}" class="utf_listing_item">
+            <div class="utf_listing_item-container list-layout">
+               <a href="{{$vu}}" class="utf_listing_item">
               <div class="utf_listing_item-image"> 
 				  <img src="{{$logo}}" alt=""> 
-				  <span class="like-icon"></span> 
-				  <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span> 
+				 <!-- <span class="like-icon"></span> -->
+				  <span class="tag"><i class="im im-icon-Hotel"></i> {{$address['school_state']}}</span> 
 				  <div class="utf_listing_prige_block utf_half_list">							
-					<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $45</span>					
+					<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {!! $priceTag !!}</span>					
 					<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
 				  </div>
 			  </div>
@@ -93,12 +123,12 @@ $void = 'javascript:void(0)';
               <div class="utf_listing_item_content">
                 <div class="utf_listing_item-inner">
                   <h3>{{$s['name']}}</h3>
-                  <span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-				  <span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>
+                  <span><i class="fa fa-map-marker"></i> {{$address['school_address']}}</span>
+				  <span><i class="fa fa-phone"></i>{{$s['phone']}}</span>
                   <div class="utf_star_rating_section" data-rating="4.5">
                     <div class="utf_counter_star_rating">(4.5)</div>
-                  <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star half"></span></div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
+                  </div>
+                  <p>{{$info['wcu']}}</p>
                 </div>
               </div>
               </a> 
@@ -139,22 +169,18 @@ $void = 'javascript:void(0)';
 			<a href="#" class="more-search-options-trigger margin-bottom-10" data-open-title="More Filters Options" data-close-title="More Filters Options"></a>
             <div class="more-search-options relative">
 				<div class="checkboxes one-in-row margin-bottom-15">
-					<input id="check-a" type="checkbox" name="check">
-					<label for="check-a">Real Estate</label>
-					<input id="check-b" type="checkbox" name="check">
-					<label for="check-b">Friendly Workspace</label>
-					<input id="check-c" type="checkbox" name="check">
-					<label for="check-c">Instant Book</label>
-					<input id="check-d" type="checkbox" name="check">
-					<label for="check-d">Wireless Internet</label>
-					<input id="check-e" type="checkbox" name="check">
-					<label for="check-e">Free Parking</label>
-					<input id="check-f" type="checkbox" name="check">
-					<label for="check-f">Elevator in Building</label>
-					<input id="check-g" type="checkbox" name="check">
-					<label for="check-g">Restaurant</label>	
-					<input id="check-h" type="checkbox" name="check">
-					<label for="check-h">Dance Floor</label>
+          <?php
+            for($j = 6; $j < count($schoolCategories); $j++)
+            {
+              $sc = $schoolCategories[$j];
+          ?>
+            <input id="check-{$j}" type="checkbox" name="check">
+            <label for="check-{$j}">{{$sc['name']}}</label>
+          <?php
+            }
+          ?>
+					
+					
 				</div>				
 			</div>			
             <button class="button fullwidth_block margin-top-5">Update</button>
@@ -162,12 +188,16 @@ $void = 'javascript:void(0)';
           <div class="utf_box_widget margin-top-35 margin-bottom-75">
             <h3><i class="sl sl-icon-folder-alt"></i> Categories</h3>
             <ul class="utf_listing_detail_sidebar">
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Travel</a></li>
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Nightlife</a></li>
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Fitness</a></li>
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Real Estate</a></li>
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Restaurant</a></li>
-              <li><i class="fa fa-angle-double-right"></i> <a href="#">Dance Floor</a></li>
+              <?php
+                for($i = 0; $i < 6 && $i < count($schoolCategories); $i++)
+                {
+                  $sc = $schoolCategories[$i];
+                  $scu = url('schools')."?xf=".$sc['xf'];
+              ?>
+              <li><i class="fa fa-angle-double-right"></i> <a href="{{$scu}}">{{$sc['name']}}</a></li>
+              <?php
+                }
+              ?>
             </ul>
           </div>
         </div>

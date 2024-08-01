@@ -46,78 +46,30 @@ class MainController extends Controller {
        $typedTexts = ['Student','School'];
 		array_push($c,'typedTexts','facilities');
 
-		$categories = [
-			[
-				'name' => 'Early Years',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => $this->helpers->getSchoolCount('early'),
-				'xf' => 'early'
-			],
-			[
-				'name' => 'Primary',
-				'image' => 'images/popular-location-02.jpg',
-				'numListings' => $this->helpers->getSchoolCount('primary'),
-				'xf' => 'primary'
-			],
-			[
-				'name' => 'Secondary',
-				'image' => 'images/popular-location-03.jpg',
-				'numListings' => $this->helpers->getSchoolCount('secondary'),
-				'xf' => 'secondary'
-			],
-			[
-				'name' => 'Tertiary',
-				'image' => 'images/popular-location-04.jpg',
-				'numListings' => $this->helpers->getSchoolCount('tertiary'),
-				'xf' => 'tertiary'
-			],
-			[
-				'name' => 'Faith-based',
-				'image' => 'images/popular-location-05.jpg',
-				'numListings' => $this->helpers->getSchoolCount('faith'),
-				'xf' => 'faith'
-			],
-			[
-				'name' => 'Boarding',
-				'image' => 'images/popular-location-06.jpg',
-				'numListings' => $this->helpers->getSchoolCount('boarding'),
-				'xf' => 'boarding'
-			]
-		];
+		$schoolCategories = $this->helpers->schoolCategories;
+
+		$categories = [];
+		for($i = 0; $i < 6 && $i < count($schoolCategories); $i++)
+		{
+			$temp = $schoolCategories[$i];
+			$id = $i + 1;
+			$temp['image'] = "images/popular-location-0{$id}.jpg";
+			$temp['numListings'] = $this->helpers->getSchoolCount($temp['xf']);
+			array_push($categories,$temp);
+		}
+		
 		array_push($c,'categories');
 
-		$viewMoreCategories = [
-			[
-				'name' => 'Private',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 11,
-				'xf' => 'private'
-			],
-			[
-				'name' => 'Public',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 18,
-				'xf' => 'public'
-			],
-			[
-				'name' => 'Boys',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 13,
-				'xf' => 'boys'
-			],
-			[
-				'name' => 'Girls',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 19,
-				'xf' => 'girls'
-			],
-			[
-				'name' => 'Day Care',
-				'image' => 'images/popular-location-01.jpg',
-				'numListings' => 10,
-				'xf' => 'day-care'
-			],
-		];
+		$viewMoreCategories = [];
+
+		for($i = 6; $i < 10 && $i < count($schoolCategories); $i++)
+		{
+			$temp = $schoolCategories[$i];
+			$temp['image'] = 'images/popular-location-01.jpg';
+			$temp['numListings'] = 11;
+			array_push($viewMoreCategories,$temp);
+		}
+			
 		array_push($c,'viewMoreCategories');
 
 		$locations = [
@@ -179,8 +131,9 @@ class MainController extends Controller {
 		$allSchools = $this->helpers->filterSchools($category);
 		$numPages = $this->helpers->numPages($allSchools);
 		$schools = $this->helpers->changePage($allSchools,$currentPage);
+		$schoolCategories = $this->helpers->schoolCategories;
 
-		array_push($c,'schools','category','numPages','currentPage');
+		array_push($c,'schools','category','schoolCategories','numPages','currentPage');
 
         
 		#dd($plugins);
