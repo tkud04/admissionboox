@@ -2284,6 +2284,7 @@ EOD;
                                                      'email' => $data['email'], 
                                                      'phone' => $data['phone'], 
                                                      'role' => $data['role'], 
+                                                     'avatar' => $data['avatar'], 
                                                      'gender' => $data['gender'], 
                                                      'status' => $data['status'], 
                                                     'verified' => $data['verified'], 
@@ -2309,6 +2310,7 @@ EOD;
                        $temp['phone'] = $u->phone;
                        $temp['email'] = $u->email; 
                        $temp['role'] = $u->role; 
+                       $temp['avatar'] = $u->avatar; 
                        $temp['status'] = $u->status; 
                        $temp['verified'] = $u->verified; 
                        $temp['complete_signup'] = $u->complete_signup; 
@@ -2355,6 +2357,7 @@ EOD;
                             if(isset($data['password'])) $payload['password'] = $data['password'];
                             if(isset($data['gender'])) $payload['gender'] = $data['gender'];
                             if(isset($data['role'])) $payload['role'] = $data['role'];
+                            if(isset($data['avatar'])) $payload['avatar'] = $data['avatar'];
                             if(isset($data['status'])) $payload['status'] = $data['status'];
                             if(isset($data['verified'])) $payload['verified'] = $data['verified'];
                             if(isset($data['complete_signup'])) $payload['complete_signup'] = $data['complete_signup'];
@@ -3218,8 +3221,8 @@ EOD;
                    $ret['term_id'] = $a->term_id;
                    $ret['form_id'] = $a->form_id;
                    $ret['date'] = $a->created_at->format("jS F, Y");
-                   $ret['end_date_formatted'] = $a->created_at->format("jS F, Y");
                    $ret['end_date'] = $a->end_date;
+                   $ret['end_date_formatted'] = Carbon::parse($a->end_date)->format("jS F, Y");
                }
 
                return $ret;
@@ -3687,7 +3690,8 @@ EOD;
            {
             $ret = SchoolApplications::create([
                 'admission_id' => $data['admission_id'],
-                'user_id' => $data['user_id']
+                'user_id' => $data['user_id'],
+                'status' => $data['status'],
             ]);
 
             return $ret;
@@ -3728,11 +3732,32 @@ EOD;
                {
                    $ret['id'] = $a->id;
                    $ret['admission_id'] = $a->admission_id;
+                   $ret['status'] = $a->status;
                    $ret['user'] = $this->getUser($a->user_id);
                    $ret['date'] = $a->created_at->format("jS F, Y");
                }
 
                return $ret;
+           }
+
+           function updateSchoolApplication($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	    $a = SchoolApplications::where('id', $data['xf'])->first();
+ 
+                        if($a != null)
+                        {
+							$payload = [];
+                            if(isset($data['status'])) $payload['status'] = $data['status'];
+                           
+                        	$a->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
            }
 
           
@@ -4030,14 +4055,23 @@ EOD;
 
           function changePage($data=[],$currentPage=1,$itemsPerPage=7)
           {
-            $ret = [];
-            if ($currentPage < 1) $currentPage = 1;
-            if ($currentPage > $this->numPages($data)) $currentPage = $this->numPages($data);
+            $ret = []; $numPages = $this->numPages($data);
+           
 
-            for($i = ($currentPage - 1) * $itemsPerPage; $i < ($currentPage * $itemsPerPage) && $i < count($data); $i++)
+            if ($currentPage < 1) $currentPage = 1;
+            if ($currentPage > $numPages) $currentPage = $numPages;
+
+            $temp = [];
+
+            if($currentPage > 0)
             {
-                array_push($ret,$data[$i]);
+                for($i = ($currentPage - 1) * $itemsPerPage; $i < ($currentPage * $itemsPerPage) && $i < count($data); $i++)
+                {
+                    
+                    array_push($ret,$data[$i]);
+                }
             }
+            
             return $ret;
           }
 

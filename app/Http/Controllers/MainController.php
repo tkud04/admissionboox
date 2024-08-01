@@ -224,6 +224,50 @@ class MainController extends Controller {
 		
     }
 
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getProfile()
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+		else{
+			return redirect()->intended('/');
+		}
+
+		$signals = $this->helpers->signals;
+		$senders = $this->helpers->getSenders();
+		$plugins = $this->helpers->getPlugins();
+		$c = $this->compactValues;
+
+		$currentClass = "dashboard";
+
+		array_push($c,"currentClass");
+
+		if($user->role === 'school_admin')
+		{
+            $school =$this->helpers->getSchool($user->email);
+			array_push($c,'school');
+		   return view('school-profile',compact($c));
+		}
+		else
+		{
+		   $ua = $this->helpers->getUserAddress($user->id);
+		   array_push($c,'ua');
+		  #dd($ua);
+           return view('user-profile',compact($c));	
+		}
+
+		
+    }
+
 	
 
 

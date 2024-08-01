@@ -140,6 +140,7 @@ class LoginController extends Controller {
             {
                  #dd($req);
              $req['role'] = "user";
+             $req['avatar'] = "";
              $req['status'] = "ok";  
              $req['verified'] = "yes";       			
              $req['complete_signup'] = "yes";       			
@@ -217,6 +218,7 @@ class LoginController extends Controller {
                 'complete_signup' => "no",
                 'gender' => "",
                 'role' => 'school_admin',
+                'avatar' => '',
                 'verified' => 'yes',
                 'password' => "",
                 'status' => "ok",

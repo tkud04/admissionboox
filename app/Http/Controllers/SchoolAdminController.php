@@ -926,6 +926,8 @@ class SchoolAdminController extends Controller {
          } 
     }
 
+	
+
 
 	public function postAddFormSection(Request $request)
     {
@@ -1192,34 +1194,24 @@ class SchoolAdminController extends Controller {
 				$school = $this->helpers->getSchool($user->email);
 				$req = $request->all();
 
-				$currentPage = isset($req['page']) ? $req['page'] : "1";		
+				$currentPage = isset($req['page']) ? $req['page'] : "1";
+				$currentPage = intval($currentPage);	
 
 				if(isset($req['xf']))
 				{
 					$admission = $this->helpers->getSchoolAdmission($req['xf']);
-					//$allApplications = $admission['applications'];
-					$ret = $admission['applications'];
-					$debugApplications = [];
-
-					for($i = 0; $i < 102; $i++)
-					{
-						$ret2 = [
-							'id' => $i,
-							'admission_id' => $admission['id'],
-							'user' => $user,
-							'date' => '25th July, 2024'
-						];
-						array_push($debugApplications,$ret2);
-					}
-
-					$allApplications = $debugApplications;
+					$allApplications = $admission['applications'];
 					$admissionId = $admission['id'];
+
+
 	
 					$numPages = $this->helpers->numPages($allApplications);
+					
+
 					$applications = $this->helpers->changePage($allApplications,$currentPage);
 					$hasSelectedAdmission = true;
-					#dd($applications);
-					array_push($c,'school','applications','admissionId','hasSelectedAdmission','numPages','currentPage');
+					
+					array_push($c,'school','applications','admission','hasSelectedAdmission','numPages','currentPage');
 				}
 
 				else
@@ -1246,6 +1238,130 @@ class SchoolAdminController extends Controller {
          } 
     }
 
+
+	public function getSchoolApplication(Request $request)
+    {
+		$user = null;
+		$req = $request->all();
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+                if(isset($req['xf']))
+				{
+     
+					$signals = $this->helpers->signals;
+					$senders = $this->helpers->getSenders();
+					 $plugins = $this->helpers->getPlugins();
+					$c = $this->compactValues;
+	
+					$school = $this->helpers->getSchool($user->email);
+					$application = $this->helpers->getSchoolApplication($req['xf']);
+					$applicationData = $this->helpers->getApplicationData($application['id']);
+
+					$admission = $this->helpers->getSchoolAdmission($application['admisison_id']);
+					$formSections = $this->helpers->getFormSections($admission['form_id']);
+					
+					$componentObjs = [
+						['label' => 'Form Section','value' => 'section'],
+						['label' => 'Form field', 'value' => 'field']
+					];
+					$fieldTypes = [
+						['label' => 'Text input','value' => 'text'],
+						['label' => 'Date input','value' => 'date'],
+						['label' => 'Password input','value' => 'password'],
+						['label' => 'Dropdown','value' => 'select'],
+						['label' => 'Checkboxes','value' => 'checkbox'],
+						['label' => 'Radio buttons','value' => 'radio'],
+						['label' => 'File upload','value' => 'file'],
+					];
+					
+					array_push($c,'school','admission','formSections',
+					'application','applicationData',
+					'componentObjs','fieldTypes'
+				);
+					return view('application-form',compact($c));
+				}
+				else
+				{
+					return redirect()->intended('dashboard');
+				}
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function postSchoolApplication(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'xf' => 'required',
+					'status' => 'required|not_in:none',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$xf = $req['xf'];
+
+					$applicationPayload = [
+						'admission_id' => $xf,
+						'status' => $req['status']
+					];
+
+					 $this->helpers->updateSchoolApplication($applicationPayload);
+
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
 	public function getSchoolClasses(Request $request)
     {
 		$user = null;
@@ -1253,7 +1369,7 @@ class SchoolAdminController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
-
+           
 			if($user->role === 'school_admin')
 			{
 				$signals = $this->helpers->signals;

@@ -10,7 +10,7 @@ function getActiveClass($activeClass,$currentClass)
             <ul>
                 <li class="<?php echo e(getActiveClass('dashboard',$ac)); ?>"><a href="<?php echo e(url('dashboard')); ?>"><i class="sl sl-icon-layers"></i> Dashboard</a></li>
                 </li>
-                <li class="<?php echo e(getActiveClass('admissions',$ac)); ?>">
+                <li class="">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Admissions</a>
                     <ul>
                         <li><a href="<?php echo e(url('school-admissions')); ?>">View admissions </a></li>
@@ -22,7 +22,7 @@ function getActiveClass($activeClass,$currentClass)
                 <li class="<?php echo e(getActiveClass('applications',$ac)); ?>">
                     <a href="<?php echo e(url('school-applications')); ?>"><i class="sl sl-icon-layers"></i> Applications</a>
                 </li>
-                <li class="<?php echo e(getActiveClass('classes',$ac)); ?>">
+                <li class="">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Classes</a>
                     <ul>
                        <li><a href="<?php echo e(url('school-classes')); ?>">View classes</a></li>

@@ -10,7 +10,7 @@ function getActiveClass($activeClass,$currentClass)
             <ul>
                 <li class="{{getActiveClass('dashboard',$ac)}}"><a href="{{url('dashboard')}}"><i class="sl sl-icon-layers"></i> Dashboard</a></li>
                 </li>
-                <li class="{{getActiveClass('admissions',$ac)}}">
+                <li class="">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Admissions</a>
                     <ul>
                         <li><a href="{{url('school-admissions')}}">View admissions </a></li>
@@ -22,7 +22,7 @@ function getActiveClass($activeClass,$currentClass)
                 <li class="{{getActiveClass('applications',$ac)}}">
                     <a href="{{url('school-applications')}}"><i class="sl sl-icon-layers"></i> Applications</a>
                 </li>
-                <li class="{{getActiveClass('classes',$ac)}}">
+                <li class="">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> Classes</a>
                     <ul>
                        <li><a href="{{url('school-classes')}}">View classes</a></li>

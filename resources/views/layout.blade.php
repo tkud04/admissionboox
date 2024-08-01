@@ -1008,7 +1008,7 @@ $headerDivClass = $v ? "not-sticky":"";
             e.preventDefault()
             $('.form-validation').hide()
 
-            const fname = $('#parent-signup-fname').val(),lname = $('#parent-signup-fname').val(), gender = $('#parent-signup-gender').val(), 
+            const fname = $('#parent-signup-fname').val(),lname = $('#parent-signup-lname').val(), gender = $('#parent-signup-gender').val(), 
             email = $('#parent-signup-email').val(), phone = $('#parent-signup-phone').val(),
             country = $('#parent-signup-country').val(), city = $('#parent-signup-city').val(), address = $('#parent-signup-address').val(),
             pass = $('#parent-signup-password').val(), pass2 = $('#parent-signup-password2').val()

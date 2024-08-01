@@ -4,7 +4,7 @@ $useSidebar = true;
 ?>
 @extends('dashboard_layout')
 
-@section('dashboard-title',"New Admission Session")
+@section('dashboard-title',"New Class")
 
 @section('dashboard-styles')
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>

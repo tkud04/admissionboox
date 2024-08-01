@@ -29,6 +29,7 @@ Route::get('set-password', [LoginController::class,'getSetPassword']);
 Route::get('bye', [LoginController::class,'getLogout']);
 
 Route::get('dashboard', [MainController::class,'getDashboard']);
+Route::get('profile', [MainController::class,'getProfile']);
 
 
 //Admin routes

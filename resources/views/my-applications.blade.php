@@ -15,12 +15,28 @@ $useSidebar = true;
 
   <script>
 
-	 const confirmUpdateApplication = (pid) => {
+	 const confirmApproveApplication = (pid) => {
             confirmAction(pid, 
 			    (xf) => {
-            updateApplication(xf,
+            updateApplication(xf,'approved',
 				      () => {
-			       		alert('Application updated!')
+			       		alert('Application approved!')
+					      window.location = 'school-applications'
+				      },
+				      (err) => {
+				       	alert('Failed to remove application: ',err)
+				      }
+			       )
+           })
+        
+        }
+
+        const confirmDeclineApplication = (pid) => {
+            confirmAction(pid, 
+			    (xf) => {
+            updateApplication(xf,'declined',
+				      () => {
+			       		alert('Application declined!')
 					      window.location = 'school-applications'
 				      },
 				      (err) => {
@@ -86,59 +102,72 @@ $useSidebar = true;
                {
                 foreach($applications as $a)
                 {
+                  $u = $a['user'];
+                  $applicationId = $a['id'];
+                  $status = $a['status']; $v = $status === 'active';
+                  $styleString = "";
+                  $isDeclined = $status === 'declined';
+
+                  if($status === 'approved')
+                  {
+                    $styleString = "";
+                  }
+                  else if($status === 'pending')
+                  {
+                    $pendingStyleString = " style=\"background-color: orange; \"";
+                    $styleString = " ".$pendingStyleString;
+                  }
+                  else if($status === "expired")
+                  {
+                    $expiredStyleString = " style=\"background-color: gray; \"";
+                    $styleString = " ".$expiredStyleString;
+                  }
+                  else
+                  {
+                    $expiredStyleString = " style=\"background-color: red; \"";
+                    $styleString = " ".$expiredStyleString;
+                  }
+                  
+                  $avatar = strlen($u['avatar']) > 0 ? $u['avatar'] : "images/profile.png";
+                  
+                   $statusText = ucwords($status);
+
+                   $vu = "school-application?xf={$applicationId}";
               ?>
                  <li class="utf_approved_booking_listing">
 				<div class="utf_list_box_listing_item bookings">
-				  <div class="utf_list_box_listing_item-img"><img src="images/client-avatar1.jpg" alt=""></div>
+				  <div class="utf_list_box_listing_item-img"><img src="{{$avatar}}" alt=""></div>
 				  <div class="utf_list_box_listing_item_content">
 					<div class="inner">
-					  <h3>Francis Burton <span class="utf_booking_listing_status">Approved</span></h3>
+					  <h3>{{$u['fname']}} {{$u['lname']}} <span class="utf_booking_listing_status"{!!$styleString!!}>{{$statusText}}</span></h3>
 					  <div class="utf_inner_booking_listing_list">
-						<h5>Booking Item:-</h5>
+						<h5>Date Applied:-</h5>
 						<ul class="utf_booking_listing_list">
-						  <li>Vintage Italian Beer Bar &amp; Restaurant</li>						  						  
+						  <li class="highlighted">{{$a['date']}}</li>
 						</ul>
 					  </div>
 					  <div class="utf_inner_booking_listing_list">
-						<h5>Start Date:-</h5>
+						<h5>Application Deadline:-</h5>
 						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">18 November 2022 at 12:00 am</li>
+						  <li class="highlighted">{{$admission['end_date_formatted']}}</li>
 						</ul>
-					  </div>
-					  <div class="utf_inner_booking_listing_list">
-						<h5>End Date:-</h5>
-						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">19 November 2022 at 12:00 pm</li>
-						</ul>
-					  </div>
-					  <div class="utf_inner_booking_listing_list">
-						<h5>Booking Details:-</h5>
-						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">2 Adults</li>
-						</ul>
-					  </div>
-					  <div class="utf_inner_booking_listing_list">
-						<h5>Email Address:-</h5>
-						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">info@example.com</li>
-						</ul>
-					  </div>
-					  <div class="utf_inner_booking_listing_list">
-						<h5>Phone Number:-</h5>
-						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">+(012) 1123-254-456</li>
-						</ul>
-					  </div>
-					  <div class="utf_inner_booking_listing_list">
-						<h5>Price:-</h5>
-						<ul class="utf_booking_listing_list">
-						  <li class="highlighted">$ 199</li>
-						</ul>
-					  </div>					  					  
+					  </div>	  					  
 					</div>
 				  </div>
 				</div>
-				<div class="buttons-to-right"> <a href="#" class="button gray reject"><i class="sl sl-icon-close"></i> Cancel</a> </div>
+				<div class="buttons-to-right"> 
+        <a href="{{$vu}}" class="button gray"><i class="fa fa-eye"></i> View</a> 
+          <?php
+           if($status === "pending")
+           {
+          ?>
+             <a href="#" onclick="confirmApproveApplication('{{$applicationId}}')" class="button gray"><i class="fa fa-check"></i> Approve</a> 
+             <a href="#" onclick="confirmDeclineApplication('{{$applicationId}}')" class="button gray reject"><i class="sl sl-icon-close"></i> Decline</a> 
+          <?php
+           }
+          ?>
+         
+        </div>
 			  </li>
               <?php
                 }
@@ -165,7 +194,7 @@ $useSidebar = true;
 		      <div class="clearfix"></div>
           @if(count($applications) > 0)
             @include('components.pagination',[
-              'url' => "school-applications?xf=".$admissionId,
+              'url' => "school-applications?xf=".$admission['id'],
               'currentPage' => $currentPage,
               'numPages' => $numPages,
               ])
