@@ -12,8 +12,8 @@
         <div class="col-lg-3 col-md-6">
           <div class="utf_dashboard_stat color-2">
             <div class="utf_dashboard_stat_content">
-              <h4><?php echo e($dashboardStats['applications']); ?></h4>
-              <span>Applications</span>
+              <h4><?php echo e($dashboardStats['classes']); ?></h4>
+              <span>Classes</span>
 			</div>
             <div class="utf_dashboard_stat_icon"><i class="im im-icon-Folders"></i></div>
           </div>

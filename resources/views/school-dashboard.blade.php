@@ -8,7 +8,10 @@ $ac = "dashboard";
 
 
 <?php
-function isInSchoolFacility($item,$list)
+
+if(!function_exists('isInSchoolFacility'))
+{
+  function isInSchoolFacility($item,$list)
 {
   $ret = false;
    foreach($list as $l)
@@ -22,8 +25,11 @@ function isInSchoolFacility($item,$list)
 
    return $ret;
 }
+}
 
-function isInSchoolClub($item,$list)
+if(!function_exists('isInSchoolClub'))
+{
+  function isInSchoolClub($item,$list)
     {
       $ret = false;
        foreach($list as $l)
@@ -36,6 +42,10 @@ function isInSchoolClub($item,$list)
 
        return $ret;
     }
+}
+
+
+
 ?>
 
 @section('scripts')

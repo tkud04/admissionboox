@@ -184,7 +184,7 @@ class MainController extends Controller {
 			
 			array_push(
 				$c,'school','hasCompletedSignup',
-			    'facilities','clubs','ngStates'
+			    'facilities','clubs','ngStates',
 			);
 
 		   $notifications = [

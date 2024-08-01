@@ -1,8 +1,12 @@
 <?php
-function getActiveClass($activeClass,$currentClass)
+if(!function_exists('getActiveClass'))
+{
+    function getActiveClass($activeClass,$currentClass)
 {
    return $activeClass === $currentClass ? 'active' : '';
 }
+}
+
 
 ?>
 <div class="utf_dashboard_navigation js-scrollbar">

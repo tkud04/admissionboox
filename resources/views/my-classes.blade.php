@@ -52,9 +52,9 @@ $useSidebar = true;
             <h4><i class="sl sl-icon-list"></i> Classes</h4>
             <ul>
               <?php
-               if(count($classes) > 0)
+               if(count($schoolClasses) > 0)
                {
-                  foreach($classes as $c)
+                  foreach($schoolClasses as $c)
                   {
                     $xf = $c['id'];
 

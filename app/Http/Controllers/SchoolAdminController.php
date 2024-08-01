@@ -1378,8 +1378,8 @@ class SchoolAdminController extends Controller {
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
-				$classes = $this->helpers->getSchoolClasses($school['id']);
-				array_push($c,'school','classes');
+				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
+				array_push($c,'school','schoolClasses');
 				return view('my-classes',compact($c));
 			}
 			else

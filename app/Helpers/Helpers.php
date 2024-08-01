@@ -4017,10 +4017,13 @@ EOD;
 
           function getSchoolDashboardStats($s)
           {
+            $admissions = $this->getSchoolAdmissions($s['id']);
+            $schoolClasses = $this->getSchoolClasses($s['id']);
+           
              $ret = [
                 'facilities' => count($s['facilities']),
-                'admissions'=> 0,
-                'applications' => 0,
+                'admissions' => count($admissions),
+                'classes' => count($schoolClasses),
                 'reviews' => 0
             ];
 

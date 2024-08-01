@@ -1,7 +1,10 @@
 <?php
-function getActiveClass($activeClass,$currentClass)
+if(!function_exists('getActiveClass'))
+{
+    function getActiveClass($activeClass,$currentClass)
 {
    return $activeClass === $currentClass ? 'active' : '';
+}
 }
 
 ?>
