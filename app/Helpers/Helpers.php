@@ -19,6 +19,7 @@ use App\Models\SchoolAddresses;
 use App\Models\SchoolFacilities;
 use App\Models\SchoolOwners;
 use App\Models\SchoolResources;
+use App\Models\SchoolBanners;
 use App\Models\Terms;
 use App\Models\SchoolClasses;
 use App\Models\SchoolAdmissions;
@@ -2590,7 +2591,8 @@ EOD;
            {
                $ret = [];
                $s = Schools::where('id',$id)
-                           ->orWhere('email',$id)->first();
+                           ->orWhere('email',$id)
+                           ->orWhere('url',$id)->first();
 
                if($s != null)
                {
@@ -2609,6 +2611,7 @@ EOD;
                    $ret['resources'] =$this->getSchoolResources($s->id);
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
                    $ret['address'] =$this->getSchoolAddress($s->id);
+                   $ret['banners'] =$this->getSchoolBanners($s->id);
                }
 
                return $ret;
@@ -2771,6 +2774,56 @@ EOD;
            function removeSchoolAddress($id)
            {
                $p = SchoolAddresses::where('id',$id)->first();
+               if($p != null) $p->delete();
+           }
+
+           function addSchoolBanner($data)
+           {
+            $ret = SchoolBanners::create([
+                'school_id' => $data['school_id'],
+                'url' => $data['url']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolBanners($school_id)
+           {
+               $ret = [];
+               $facilities = SchoolBanners::where('school_id',$school_id)->get();
+
+               if($facilities != null)
+               {
+                  foreach($facilities as $f)
+                  {
+                      $temp = $this->getSchoolBanner($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolBanner($id)
+           {
+               $ret = [];
+               $s = SchoolBanners::where('id',$id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['url'] = $s->url;
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolBanner($id)
+           {
+               $p = SchoolBanners::where('id',$id)->first();
                if($p != null) $p->delete();
            }
 
@@ -4044,13 +4097,13 @@ EOD;
 
           function checkSchoolSignup($s)
           {
-           
+
             $ret = true;
             if(count($s['resources']) < 1) $ret = false; 
             if(count($s['clubs']) < 1) $ret = false; 
             if(count($s['facilities']) < 1) $ret = false; 
             if(strlen($s['logo']) < 1) $ret = false;
-            if(strlen($s['landing_page_pic']) < 1) $ret = false;
+            if(count($s['banners']) < 1) $ret = false;
             
             $addr = $s['address'];
             
@@ -4060,6 +4113,7 @@ EOD;
             if(strlen($addr['latitude']) < 1) $ret = false;
 
             return $ret;
+
           }
 
           function getSchoolDashboardStats($s)

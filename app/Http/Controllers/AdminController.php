@@ -22,7 +22,73 @@ class AdminController extends Controller {
     }
 
 
-   
+    /**
+	 * Show the application about view to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddSender(Request $request)
+    {
+       $user = null;
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins();
+	   $senders = $this->helpers->getSenders();
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+    	return view('add-sender',compact(['user','senders','signals','plugins']));
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddSender(Request $request)
+    {
+		$user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+    	$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'su' => 'required',
+                             'spp' => 'required',
+                             'sn' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			$req['current'] = "no";
+			$req['ss'] = "smtp.gmail.com";
+			$req['sp'] = "587";
+			$req['status'] = "enabled";
+			$req['sa'] = "yes";
+			$req['sec'] = "tls";
+			$req['se'] = $req['su'];
+			$this->helpers->createSender($req);
+			 
+	        session()->flash("add-sender-status","ok");
+			return redirect()->intended('add-sender');
+         } 	  
+    }
+	
+	
+    
 
 	 /**
 	 * Show the application welcome screen to the user.

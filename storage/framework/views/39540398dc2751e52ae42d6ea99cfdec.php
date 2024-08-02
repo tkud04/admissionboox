@@ -16,14 +16,6 @@ if(!function_exists('getPriceTag'))
   {
     $ret = "";
 
-   /* <option value="50-100">&#8358;50,000 - &#8358;150,000</option>
-    <option value="151-300">&#8358;151,000 - &#8358;300,000</option>
-    <option value="301-500">&#8358;301,000 - &#8358;500,000</option>
-    <option value="501-750">&#8358;501,000 - &#8358;750,000</option>
-    <option value="751-1m">&#8358;751,000 - &#8358;1,000,000</option>
-    <option value="above-1m">Above &#8358;1,000,000</option>
-    */
-
     if($category === "50-100") $ret = "&#8358;50,000 - &#8358;150,000";
     if($category === "151-300") $ret = "&#8358;151,000 - &#8358;300,000";
     if($category === "301-500") $ret = "&#8358;301,000 - &#8358;500,000";
@@ -101,7 +93,7 @@ if(!function_exists('getPriceTag'))
             {
               foreach($schools as $s)
               {
-                $vu = url("school")."?xf=".$s['id'];
+                $vu = url("school")."?xf=".$s['url'];
                 $logo = strlen($s['logo'] > 0) ? $s['logo'] : "images/utf_listing_item-01.jpg";
                 $info = $s['info'];
                 $address = $s['address'];

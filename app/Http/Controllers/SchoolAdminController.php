@@ -283,11 +283,11 @@ class SchoolAdminController extends Controller {
 
 					   $uu = $this->helpers->cloudinaryUploadImage($file);
 					   $payload = [
-						'id' => $school['id'],
-						'landing_page_pic' => $uu
+						'school_id' => $school['id'],
+						'url' => $uu
 					   ];
 
-					   $this->helpers->updateSchool($payload);
+					   $this->helpers->addSchoolBanner($payload);
 					   $ret = ['status' => "ok"];
 				    }
 				}

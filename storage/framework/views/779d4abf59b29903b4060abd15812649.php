@@ -463,7 +463,7 @@ if(!function_exists('isInSchoolClub'))
         </div>
          <?php endif; ?>
 
-         <?php if(strlen($school['landing_page_pic']) < 1): ?>
+         <?php if(count($school['banners']) < 1): ?>
         <div class="add_utf_listing_section margin-top-45">
           <div class="utf_add_listing_part_headline_part">
           <h3><i class="sl sl-icon-folder-alt"></i> School Landing Page</h3>

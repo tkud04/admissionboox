@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 28, 2024 at 09:54 AM
+-- Generation Time: Aug 02, 2024 at 11:37 AM
 -- Server version: 8.0.35
 -- PHP Version: 8.3.8
 
@@ -42,8 +42,9 @@ CREATE TABLE `admission_classes` (
 INSERT INTO `admission_classes` (`id`, `admission_id`, `class_id`, `created_at`, `updated_at`) VALUES
 (1, '3', '1', '2024-07-27 17:24:14', '2024-07-27 17:24:14'),
 (2, '3', '4', '2024-07-27 17:24:14', '2024-07-27 17:24:14'),
-(3, '4', '1', '2024-07-28 06:07:30', '2024-07-28 06:07:30'),
-(4, '4', '4', '2024-07-28 06:07:30', '2024-07-28 06:07:30');
+(11, '4', '1', '2024-07-29 13:40:39', '2024-07-29 13:40:39'),
+(12, '4', '3', '2024-07-29 13:40:39', '2024-07-29 13:40:39'),
+(13, '4', '4', '2024-07-29 13:40:39', '2024-07-29 13:40:39');
 
 -- --------------------------------------------------------
 
@@ -64,10 +65,7 @@ CREATE TABLE `admission_forms` (
 --
 
 INSERT INTO `admission_forms` (`id`, `admission_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, '1', 'active', '2024-07-27 17:21:09', '2024-07-27 17:21:09'),
-(2, '2', 'active', '2024-07-27 17:21:28', '2024-07-27 17:21:28'),
-(3, '3', 'active', '2024-07-27 17:24:14', '2024-07-27 17:24:14'),
-(4, '4', 'active', '2024-07-28 06:07:30', '2024-07-28 06:07:30');
+(4, '4', 'pending', '2024-07-28 06:07:30', '2024-07-30 07:53:13');
 
 -- --------------------------------------------------------
 
@@ -78,7 +76,8 @@ INSERT INTO `admission_forms` (`id`, `admission_id`, `status`, `created_at`, `up
 CREATE TABLE `application_data` (
   `id` int UNSIGNED NOT NULL,
   `application_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `form_field_value` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `form_field_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -199,7 +198,9 @@ INSERT INTO `form_fields` (`id`, `section_id`, `title`, `type`, `description`, `
 (1, '1', 'First name', 'text', 'Applicant\'s first name', '6', '[]', '2024-07-28 07:50:17', '2024-07-28 07:50:17'),
 (2, '1', 'Last name', 'text', 'Applicant\'s last name', '6', '[]', '2024-07-28 08:01:38', '2024-07-28 08:01:38'),
 (3, '1', 'Gender', 'select', 'Gender of applicant', '6', '[{\"id\":\"option-0\",\"name\":\"Male\",\"value\":\"male\"},{\"id\":\"option-1\",\"name\":\"Female\",\"value\":\"female\"}]', '2024-07-28 08:02:38', '2024-07-28 08:02:38'),
-(4, '1', 'Date of Birth', 'date', 'Applicant\'s date of birth', '6', '[]', '2024-07-28 08:49:56', '2024-07-28 08:49:56');
+(4, '1', 'Date of Birth', 'date', 'Applicant\'s date of birth', '6', '[]', '2024-07-28 08:49:56', '2024-07-28 08:49:56'),
+(5, '1', 'Checkbox Test', 'checkbox', 'Applicant checkbox test', '6', '[{\"id\":\"option-0\",\"name\":\"Option 1\",\"value\":\"option-1\"},{\"id\":\"option-1\",\"name\":\"Option 2\",\"value\":\"option-2\"},{\"id\":\"option-2\",\"name\":\"Option 3\",\"value\":\"option-3\"}]', '2024-07-28 16:50:35', '2024-07-28 16:50:35'),
+(6, '2', 'Relationship', 'select', 'Relationship to guardian', '6', '[{\"id\":\"option-0\",\"name\":\"Father\",\"value\":\"father\"},{\"id\":\"option-1\",\"name\":\"Mother\",\"value\":\"mother\"},{\"id\":\"option-2\",\"name\":\"Sibling\",\"value\":\"sibling\"},{\"id\":\"option-3\",\"name\":\"Other\",\"value\":\"other\"}]', '2024-07-28 17:14:24', '2024-07-28 17:14:24');
 
 -- --------------------------------------------------------
 
@@ -221,7 +222,8 @@ CREATE TABLE `form_sections` (
 --
 
 INSERT INTO `form_sections` (`id`, `form_id`, `title`, `description`, `created_at`, `updated_at`) VALUES
-(1, '4', 'Personal Information', 'Submit applicant information', '2024-07-28 07:45:55', '2024-07-28 07:45:55');
+(1, '4', 'Personal Information', 'Submit applicant information', '2024-07-28 07:45:55', '2024-07-28 07:45:55'),
+(2, '4', 'Guardian Information', 'Information about sponsor/guardian', '2024-07-28 17:12:58', '2024-07-28 17:12:58');
 
 -- --------------------------------------------------------
 
@@ -263,7 +265,7 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`id`, `name`, `email`, `country`, `phone`, `url`, `status`, `logo`, `landing_page_pic`, `created_at`, `updated_at`) VALUES
-(1, 'Test School', 'kkudayisitobi@gmail.com', 'Nigeria', '7054291601', 'testschools', 'pending', 'https://res.cloudinary.com/admissionboox/image/upload/v1722103103/rtk6wnecop3kyzbxi5y9.jpg', 'https://res.cloudinary.com/admissionboox/image/upload/v1722103113/ozbjmpui9w9mnw7eopzf.jpg', '2024-07-26 15:27:45', '2024-07-27 16:58:33');
+(1, 'Test School', 'kkudayisitobi@gmail.com', 'Nigeria', '7054291601', 'testschools', 'pending', 'https://res.cloudinary.com/admissionboox/image/upload/v1722594984/hpalphwtic861kvxumxt.png', '', '2024-07-26 15:27:45', '2024-08-02 09:36:25');
 
 -- --------------------------------------------------------
 
@@ -286,7 +288,7 @@ CREATE TABLE `school_addresses` (
 --
 
 INSERT INTO `school_addresses` (`id`, `school_id`, `school_state`, `school_address`, `school_coords`, `created_at`, `updated_at`) VALUES
-(1, '1', 'undefined', 'undefined', 'undefined,undefined', '2024-07-26 15:27:45', '2024-07-27 17:01:17');
+(1, '1', 'Lagos', '1, My School Compound', '132.778,145.3232', '2024-07-26 15:27:45', '2024-08-01 16:46:13');
 
 -- --------------------------------------------------------
 
@@ -322,9 +324,31 @@ CREATE TABLE `school_applications` (
   `id` int UNSIGNED NOT NULL,
   `admission_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `user_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_banners`
+--
+
+CREATE TABLE `school_banners` (
+  `id` int UNSIGNED NOT NULL,
+  `school_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '2024-05-16 22:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Dumping data for table `school_banners`
+--
+
+INSERT INTO `school_banners` (`id`, `school_id`, `url`, `created_at`, `updated_at`) VALUES
+(1, '1', 'https://res.cloudinary.com/admissionboox/image/upload/v1722592841/koy0jdksv1zyeueqflvh.jpg', '2024-08-02 09:00:41', '2024-08-02 09:00:41');
 
 -- --------------------------------------------------------
 
@@ -549,6 +573,7 @@ CREATE TABLE `users` (
   `phone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `gender` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `role` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `avatar` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
   `verified` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `complete_signup` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
@@ -563,9 +588,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `fname`, `lname`, `phone`, `gender`, `role`, `verified`, `complete_signup`, `password`, `remember_token`, `reset_code`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'kkudayisitobi@gmail.com', 'Test School', '', '7054291601', '', 'school_admin', 'yes', 'yes', '$2y$10$XMlYy.5BgPgpJD7S2fip6e/lQ6.3mS3srf5GwPFutpI6EskCaqlhS', 'jwGOpR49WKE3MFthEO2buwak8WUlQvqP9SxQTUnucyCKpF34sSuvy67rHF0F', 'default', 'ok', '2024-07-26 15:27:45', '2024-07-26 15:29:19'),
-(2, 'kudayisitobi@gmail.com', 'Tobi', 'Tobi', '08063378465', 'male', 'admin', 'yes', 'yes', '$2y$10$AR8.zf5rncwDn7xAmDA5me.V.bXOpPjwN9UciWqnaAcveNPm3Srnu', 'F0VlmFUigbkY8ycYraJ9pHrOHL6ORbKrsZ8xpdbmXFlTiLecemVbJYByVZGN', 'default', 'ok', '2024-07-26 15:31:27', '2024-07-26 15:31:27');
+INSERT INTO `users` (`id`, `email`, `fname`, `lname`, `phone`, `gender`, `role`, `avatar`, `verified`, `complete_signup`, `password`, `remember_token`, `reset_code`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'kkudayisitobi@gmail.com', 'Test School', '', '7054291601', '', 'school_admin', '', 'yes', 'yes', '$2y$10$D5jxoTUEIdrFKCw/QCu1wO/0guE6IrkyhGVzoD9ms6LLKxZoJjXj.', 'HrKIMxVgSX5bifphgeJ9NZbhxEbPH69UyxyTOXpJcuUpssVSnuikY79mW3Av', 'default', 'ok', '2024-07-26 15:27:45', '2024-08-01 13:26:17'),
+(2, 'kudayisitobi@gmail.com', 'Tobi', 'Kudayisi', '08063378465', 'male', 'admin', '', 'yes', 'yes', '$2y$10$AR8.zf5rncwDn7xAmDA5me.V.bXOpPjwN9UciWqnaAcveNPm3Srnu', 'OcMCWrmv1OcQoY7npiQrFCkm4oWzQaCI4yVaPoAkBoljtJJ9EoiBot32vpTq', 'default', 'ok', '2024-07-26 15:31:27', '2024-07-26 15:31:27'),
+(3, 'uwantbrendacolson@gmail.com', 'Brenda', 'Colson', '08063378465', 'female', 'user', '', 'yes', 'yes', '$2y$10$8HUkCKPDnxyl8j8Eo1rYne.bh7P2A2C45FQNUeelgAdACR/042k7G', 'default', 'default', 'ok', '2024-08-01 09:05:45', '2024-08-01 09:05:45');
 
 -- --------------------------------------------------------
 
@@ -588,7 +614,8 @@ CREATE TABLE `user_addresses` (
 --
 
 INSERT INTO `user_addresses` (`id`, `user_id`, `country`, `city`, `address`, `created_at`, `updated_at`) VALUES
-(1, '2', 'nigeria', 'Lagos', 'Patience St', '2024-07-26 15:31:27', '2024-07-26 15:31:27');
+(1, '2', 'nigeria', 'Lagos', 'Patience St', '2024-07-26 15:31:27', '2024-07-26 15:31:27'),
+(2, '3', 'nigeria', 'Lagos', '56 Brickfield Rd', '2024-08-01 09:05:45', '2024-08-01 09:05:45');
 
 --
 -- Indexes for dumped tables
@@ -667,6 +694,12 @@ ALTER TABLE `school_applications`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `school_banners`
+--
+ALTER TABLE `school_banners`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `school_classes`
 --
 ALTER TABLE `school_classes`
@@ -734,7 +767,7 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT for table `admission_classes`
 --
 ALTER TABLE `admission_classes`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `admission_forms`
@@ -764,13 +797,13 @@ ALTER TABLE `facilities`
 -- AUTO_INCREMENT for table `form_fields`
 --
 ALTER TABLE `form_fields`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `form_sections`
 --
 ALTER TABLE `form_sections`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `plugins`
@@ -801,6 +834,12 @@ ALTER TABLE `school_admissions`
 --
 ALTER TABLE `school_applications`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_banners`
+--
+ALTER TABLE `school_banners`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `school_classes`
@@ -854,13 +893,13 @@ ALTER TABLE `terms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

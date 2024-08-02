@@ -782,7 +782,7 @@
                 }
             });
         });
-        $(".listing-nav li:first-child a, a.utf_add_review-btn, a[href='#utf_add_review']").on('click', function(e) {
+        $(".listing-nav li:first-child a, a.utf_add_review-btn, a[href='#utf_add_review'], a[href='#share-school-div']").on('click', function(e) {
             e.preventDefault();
             $('html,body').scrollTo(this.hash, this.hash, {
                 gap: {

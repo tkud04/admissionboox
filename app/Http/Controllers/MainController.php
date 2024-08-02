@@ -146,6 +146,44 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function getSchool(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+		$req = $request->all();
+		
+		if(isset($req['xf']))
+		{
+			$signals = $this->helpers->signals;
+			$senders = $this->helpers->getSenders();
+			$plugins = $this->helpers->getPlugins();
+			$c = $this->compactValues;
+			
+			$school = $this->helpers->getSchool($req['xf']);
+			$schoolCategories = $this->helpers->schoolCategories;
+	
+			array_push($c,'school','schoolCategories');
+	         #dd($school);
+			return view('school',compact($c));
+		}
+		else
+		{
+           return redirect()->intended('schools');
+		}
+		
+    }
+
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
 	public function getDashboard()
     {
        $user = null;
@@ -191,7 +229,7 @@ class MainController extends Controller {
 			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
 			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
 		   ];
-		
+		   
 		   $dashboardStats = $this->helpers->getSchoolDashboardStats($school);
 		   array_push($c,"notifications",'dashboardStats');
 
@@ -313,73 +351,7 @@ class MainController extends Controller {
 
 
 	
-	 /**
-	 * Show the application about view to the user.
-	 *
-	 * @return Response
-	 */
-	public function getAddSender(Request $request)
-    {
-       $user = null;
-	   $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins();
-	   $senders = $this->helpers->getSenders();
-
-		if(Auth::check())
-		{
-			$user = Auth::user();
-		}
-
-    	return view('add-sender',compact(['user','senders','signals','plugins']));
-    }
-
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postAddSender(Request $request)
-    {
-		$user = null;
-
-		if(Auth::check())
-		{
-			$user = Auth::user();
-		}
-
-    	$req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'su' => 'required',
-                             'spp' => 'required',
-                             'sn' => 'required'
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-			$req['current'] = "no";
-			$req['ss'] = "smtp.gmail.com";
-			$req['sp'] = "587";
-			$req['status'] = "enabled";
-			$req['sa'] = "yes";
-			$req['sec'] = "tls";
-			$req['se'] = $req['su'];
-			$this->helpers->createSender($req);
-			 
-	        session()->flash("add-sender-status","ok");
-			return redirect()->intended('add-sender');
-         } 	  
-    }
 	
-	
-    
     /**
 	 * Show the application welcome screen to the user.
 	 *
