@@ -6,7 +6,8 @@ composer install --no-dev --working-dir=/var/www/html
 echo "Caching config..."
 php artisan config:cache
 
-echo "Caching routes..."
+echo "Clearing and Caching routes..."
+php artisan route:clear
 php artisan route:cache
 
 echo "Running migrations..."
