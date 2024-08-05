@@ -333,10 +333,10 @@ $headerDivClass = $v ? "not-sticky":"";
                                            <label for="fname">
                                            <select class="selectpicker default" data-selected-text-format="count" value="none" data-size="3" title="School Curriculum" id="school-signup-school-curriculum">
                                              	<option value="none">Select an option</option>
-                                             	<option value="early-only">Nigeria</option>
-                                             	<option value="primary-only">British</option>
-                                             	<option value="secondary-only">British Nigeria</option>
-                                             	<option value="early-primary-secondary">Montessori</option>
+                                             	<option value="nigeria">Nigeria</option>
+                                             	<option value="british">British</option>
+                                             	<option value="british-nigeria">British Nigeria</option>
+                                             	<option value="montessori">Montessori</option>
                                            </select>
                                          </label>
                                         </p>

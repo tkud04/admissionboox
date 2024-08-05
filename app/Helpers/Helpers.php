@@ -3115,6 +3115,74 @@ EOD;
                if($p != null) $p->delete();
            }
 
+           function addSchoolFaq($data)
+           {
+            $ret = SchoolInfo::create([
+                'school_id' => $data['school_id'],
+                'boarding_type' => $data['boarding_type'],
+                'hbu' => $data['hbu'],
+                'hbu_other' => $data['hbu_other'],
+                'school_name' => $data['school_name'],
+                'school_type' => $data['school_type'],
+                'school_curriculum' => $data['school_curriculum'],
+                'school_fees' => $data['school_fees'],
+                'wcu' => $data['wcu'],
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolFaq($school_id)
+           {
+               $ret = [];
+               $s = SchoolInfo::where('id',$school_id)->first();
+
+               if($s != null)
+               {
+                   $ret['id'] = $s->id;
+                   $ret['school_id'] = $s->school_id;
+                   $ret['boarding_type'] = $s->boarding_type;
+                   $ret['hbu'] = $s->hbu;
+                   $ret['hbu_other'] = $s->hbu_other;
+                   $ret['school_name'] = $s->school_name;
+                   $ret['school_type'] = $s->school_type;
+                   $ret['school_curriculum'] = $s->school_curriculum;
+                   $ret['school_fees'] = $s->school_fees;
+                   $ret['wcu'] = $s->wcu;
+               }
+
+               return $ret;
+           }
+
+           function updateSchoolFaq($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolInfo::where('id',$data['school_id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['boarding_type'])) $payload['boarding_type'] = $data['boarding_type'];
+                    if(isset($data['hbu'])) $payload['hbu'] = $data['hbu'];
+                    if(isset($data['hbu_other'])) $payload['hbu_other'] = $data['hbu_other'];
+                    if(isset($data['school_name'])) $payload['school_name'] = $data['school_name'];
+                    if(isset($data['school_type'])) $payload['school_type'] = $data['school_type'];
+                    if(isset($data['school_curriculum'])) $payload['school_curriculum'] = $data['school_curriculum'];
+                    if(isset($data['school_fees'])) $payload['school_fees'] = $data['school_fees'];
+                    if(isset($data['wcu'])) $payload['wcu'] = $data['wcu'];
+                    
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeSchoolFaq($id)
+           {
+               $f = SchoolFaqs::where('id',$id)->first();
+               if($f != null) $f->delete();
+           }
+
            function addClub($data)
            {
             $ret = Clubs::create([
@@ -4185,20 +4253,20 @@ EOD;
 
             if($type === 'early')
             {
-              $ret = SchoolInfo::where('school_curriculum','early-only')
-                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+              $ret = SchoolInfo::where('school_type','early-only')
+                               ->orWhere('school_type','early-primary-secondary')->count();
             }
             else if($type === 'primary')
             {
-              $ret = SchoolInfo::where('school_curriculum','primary-only')
-                               ->orWhere('school_curriculum','primary-secondary')
-                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+              $ret = SchoolInfo::where('school_type','primary-only')
+                               ->orWhere('school_type','primary-secondary')
+                               ->orWhere('school_type','early-primary-secondary')->count();
             }
             else if($type === 'secondary')
             {
-              $ret = SchoolInfo::where('school_curriculum','secondary-only')
-                               ->orWhere('school_curriculum','primary-secondary')
-                               ->orWhere('school_curriculum','early-primary-secondary')->count();
+              $ret = SchoolInfo::where('school_type','secondary-only')
+                               ->orWhere('school_type','primary-secondary')
+                               ->orWhere('school_type','early-primary-secondary')->count();
             }
             else if($type === 'day')
             {
@@ -4228,21 +4296,21 @@ EOD;
             {
                 if($category === 'early')
                 {
-                  $schools = SchoolInfo::where('school_curriculum','early-only')
-                                   ->orWhere('school_curriculum','early-primary-secondary')->get();
+                  $schools = SchoolInfo::where('school_type','early-only')
+                                   ->orWhere('school_type','early-primary-secondary')->get();
                 }
                 else if($category === 'primary')
                 {
-                  $schools = SchoolInfo::where('school_curriculum','primary-only')
-                  ->orWhere('school_curriculum','primary-secondary')
-                  ->orWhere('school_curriculum','early-primary-secondary')->get();
+                  $schools = SchoolInfo::where('school_type','primary-only')
+                  ->orWhere('school_type','primary-secondary')
+                  ->orWhere('school_type','early-primary-secondary')->get();
                 }
     
                 else if($category === 'secondary')
                 {
-                  $schools = SchoolInfo::where('school_curriculum','secondary-only')
-                  ->orWhere('school_curriculum','primary-secondary')
-                  ->orWhere('school_curriculum','early-primary-secondary')->get();
+                  $schools = SchoolInfo::where('school_type','secondary-only')
+                  ->orWhere('school_type','primary-secondary')
+                  ->orWhere('school_type','early-primary-secondary')->get();
                 }
                 else if($category === 'day')
                 {
