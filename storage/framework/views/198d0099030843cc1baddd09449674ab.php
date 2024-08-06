@@ -33,6 +33,13 @@ if(!function_exists('getActiveClass'))
                        <li><a href="<?php echo e(url('add-school-class')); ?>">New class</a></li>
                     </ul>
                 </li>
+                <li class="">
+                    <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> FAQs</a>
+                    <ul>
+                       <li><a href="<?php echo e(url('school-faqs')); ?>">View FAQs</a></li>
+                       <li><a href="<?php echo e(url('add-school-faq')); ?>">New FAQ</a></li>
+                    </ul>
+                </li>
                 <li class="<?php echo e(getActiveClass('reviews',$ac)); ?>">
                     <a href="<?php echo e(url('reviews')); ?>"><i class="sl sl-icon-star"></i> Reviews</a>
                 </li>

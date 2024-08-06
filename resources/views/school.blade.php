@@ -171,21 +171,25 @@ if(!function_exists('getPriceTag'))
         </div>
 		
 		<div id="utf_listing_faq" class="utf_listing_section">
-          <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">Listing FAQ's</h3>
+          <h3 class="utf_listing_headline_part margin-top-50 margin-bottom-40">FAQs</h3>
           <div class="style-2">
 			<div class="accordion">
-			  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all"><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (1) How to Open an Account?</h3>
+			 <?php 
+			   $faqs = $school['faqs'];
+               for($i = 0; $i < count($faqs); $i++)
+			   {
+				$f = $faqs[$i];
+			 ?>
+			  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all">
+				<span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> ({{$i+1}}) {!! $f['faq_question'] !!}
+			</h3>
 			  <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-utf_widget_content" style="display: none;">
-				<p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+				<p>{!! $f['faq_answer'] !!}</p>
 			  </div>
-			  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all"><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (2) How to Add Listing?</h3>
-			  <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-utf_widget_content" style="display: none;">
-				<p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
-			  </div>
-			  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all"><span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (3) What is Featured Listing?</h3>
-			  <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-utf_widget_content" style="display: none;">
-				<p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
-			  </div>			  			  				  			  
+			  
+			<?php
+			   }
+			?>
 			</div>
 		  </div>
         </div>

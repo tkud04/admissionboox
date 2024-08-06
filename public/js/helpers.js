@@ -453,12 +453,74 @@ const updateAdmissionForm = async ({id='',status='pending'},successCallback,erro
  
 }
 
+const addSchoolFaq = async (fd,successCallback,errorCallback) => {
+  const url = 'api/add-school-faq'
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
 
-function bomb({
-  ll=[],
-  subject='',
-  msg='',
-},successCallback,errorCallback){
+const updateSchoolFaq = async ({id='',question='',answer=''},successCallback,errorCallback) => {
+  const url = 'api/school-faq'
+  const fd = new FormData()
+  fd.append('xf',id)
+  fd.append('question',question)
+  fd.append('answer',answer)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeFaq = async (id='',successCallback,errorCallback) => {
+  const url = 'api/remove-school-faq'
+  const fd = new FormData()
+  fd.append('xf',id)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const bomb = (
+  {
+    ll=[],
+    subject='',
+    msg='',
+  },
+successCallback,
+errorCallback
+) => {
   let url = `api/send-email`
 
 const to = ll[emailIndex],dt = new FormData()

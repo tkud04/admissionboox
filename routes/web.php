@@ -62,4 +62,8 @@ Route::get('add-school-application', [SchoolAdminController::class,'getAddSchool
 Route::get('school-classes', [SchoolAdminController::class,'getSchoolClasses']);
 Route::get('add-school-class', [SchoolAdminController::class,'getAddSchoolClass']);
 
+Route::get('school-faqs', [SchoolAdminController::class,'getSchoolFaqs']);
+Route::get('school-faq', [SchoolAdminController::class,'getSchoolFaq']);
+Route::get('add-school-faq', [SchoolAdminController::class,'getAddSchoolFaq']);
+
 Route::get('api-test', [SchoolAdminController::class,'getApiTester']);

@@ -28,6 +28,7 @@ use App\Models\FormFields;
 use App\Models\SchoolApplications;
 use App\Models\ApplicationData;
 use App\Models\FormSections;
+use App\Models\SchoolFaqs;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -2612,6 +2613,7 @@ EOD;
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
                    $ret['address'] =$this->getSchoolAddress($s->id);
                    $ret['banners'] =$this->getSchoolBanners($s->id);
+                   $ret['faqs'] =$this->getSchoolFaqs($s->id);
                }
 
                return $ret;
@@ -3117,60 +3119,69 @@ EOD;
 
            function addSchoolFaq($data)
            {
-            $ret = SchoolInfo::create([
+            $ret = SchoolFaqs::create([
                 'school_id' => $data['school_id'],
-                'boarding_type' => $data['boarding_type'],
-                'hbu' => $data['hbu'],
-                'hbu_other' => $data['hbu_other'],
-                'school_name' => $data['school_name'],
-                'school_type' => $data['school_type'],
-                'school_curriculum' => $data['school_curriculum'],
-                'school_fees' => $data['school_fees'],
-                'wcu' => $data['wcu'],
+                'faq_question' => $data['faq_question'],
+                'faq_answer' => $data['faq_answer']
             ]);
 
             return $ret;
            }
 
-           function getSchoolFaq($school_id)
+           function getSchoolFaqs($school_id='all')
            {
                $ret = [];
-               $s = SchoolInfo::where('id',$school_id)->first();
+               $faqs = [];
+
+               if($school_id === 'all')
+               {
+                $faqs = SchoolFaqs::where('id','>','0')->get();
+               }
+
+               else
+               {
+                $faqs = SchoolFaqs::where('school_id',$school_id)->get();
+               }
+              
+
+               if($faqs != null)
+               {
+                  foreach($faqs as $f)
+                  {
+                      $temp = $this->getSchoolFaq($f->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolFaq($id)
+           {
+               $ret = [];
+               $s = SchoolFaqs::where('id',$id)->first();
 
                if($s != null)
                {
                    $ret['id'] = $s->id;
                    $ret['school_id'] = $s->school_id;
-                   $ret['boarding_type'] = $s->boarding_type;
-                   $ret['hbu'] = $s->hbu;
-                   $ret['hbu_other'] = $s->hbu_other;
-                   $ret['school_name'] = $s->school_name;
-                   $ret['school_type'] = $s->school_type;
-                   $ret['school_curriculum'] = $s->school_curriculum;
-                   $ret['school_fees'] = $s->school_fees;
-                   $ret['wcu'] = $s->wcu;
+                   $ret['faq_question'] = $s->faq_question;
+                   $ret['faq_answer'] = $s->faq_answer;
                }
 
                return $ret;
            }
 
            function updateSchoolFaq($data)
-           {      
-                  
-            $ret = [];
+           {         
+            $ret = "";
             $s = SchoolInfo::where('id',$data['school_id'])->first();
             
             if($s != null)
             {
                     $payload = [];
-                    if(isset($data['boarding_type'])) $payload['boarding_type'] = $data['boarding_type'];
-                    if(isset($data['hbu'])) $payload['hbu'] = $data['hbu'];
-                    if(isset($data['hbu_other'])) $payload['hbu_other'] = $data['hbu_other'];
-                    if(isset($data['school_name'])) $payload['school_name'] = $data['school_name'];
-                    if(isset($data['school_type'])) $payload['school_type'] = $data['school_type'];
-                    if(isset($data['school_curriculum'])) $payload['school_curriculum'] = $data['school_curriculum'];
-                    if(isset($data['school_fees'])) $payload['school_fees'] = $data['school_fees'];
-                    if(isset($data['wcu'])) $payload['wcu'] = $data['wcu'];
+                    if(isset($data['faq_question'])) $payload['faq_question'] = $data['faq_question'];
+                    if(isset($data['faq_answer'])) $payload['faq_answer'] = $data['faq_answer'];
                     
                     $s->update($payload);
                      $ret = "ok";      

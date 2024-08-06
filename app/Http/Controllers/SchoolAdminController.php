@@ -1594,6 +1594,267 @@ class SchoolAdminController extends Controller {
 	   return json_encode(($ret));
     }
 
+	public function getSchoolFaqs(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+           
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				array_push($c,'school');
+				return view('my-faqs',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function getAddSchoolFaq(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins();
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				return view('new-faq',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+
+	public function postAddSchoolFaq(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'question' => 'required',
+					'answer' => 'required',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$payload = [
+						'school_id' => $school['id'],
+						'faq_question' => $req['question'],
+						'faq_answer' => $req['answer'],
+					];
+
+					 $this->helpers->addSchoolFaq($payload);
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+	public function getSchoolFaq(Request $request)
+    {
+		$user = null;
+		$req = $request->all();
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+                if(isset($req['xf']))
+				{
+     
+					$signals = $this->helpers->signals;
+					$senders = $this->helpers->getSenders();
+					 $plugins = $this->helpers->getPlugins();
+					$c = $this->compactValues;
+	
+					$school = $this->helpers->getSchool($user->email);
+					$faq = $this->helpers->getSchoolFaq($req['xf']);
+	
+					array_push($c,'school','faq');
+					return view('my-faq',compact($c));
+				}
+				else
+				{
+					return redirect()->intended('dashboard');
+				}
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function postSchoolFaq(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				$payload = [];
+				$school = $this->helpers->getSchool($user->email);
+
+				
+                
+				$validator = Validator::make($req, [
+					'xf' => 'required',
+					'question' => 'required',
+					'answer' => 'required',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$xf = $req['xf'];
+
+					$payload = [
+						'school_id' => $xf,
+						'faq_question' => $req['question'],
+						'faq_answer' => $req['answer'],
+					];
+
+					 $this->helpers->updateSchoolFaq($payload);
+
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+	public function postRemoveSchoolFaq(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			  if(isset($req['xf']))
+			  {
+				$f = $this->helpers->getSchoolFaq($req['xf']);
+	
+				if(count($f) > 0)
+				{
+					$this->helpers->removeSchoolFaq($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
 	public function getApiTester(Request $request)
     {
 		$user = null;

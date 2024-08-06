@@ -33,6 +33,13 @@ if(!function_exists('getActiveClass'))
                        <li><a href="{{url('add-school-class')}}">New class</a></li>
                     </ul>
                 </li>
+                <li class="">
+                    <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> FAQs</a>
+                    <ul>
+                       <li><a href="{{url('school-faqs')}}">View FAQs</a></li>
+                       <li><a href="{{url('add-school-faq')}}">New FAQ</a></li>
+                    </ul>
+                </li>
                 <li class="{{getActiveClass('reviews',$ac)}}">
                     <a href="{{url('reviews')}}"><i class="sl sl-icon-star"></i> Reviews</a>
                 </li>
