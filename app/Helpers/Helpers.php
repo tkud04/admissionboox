@@ -3175,7 +3175,7 @@ EOD;
            function updateSchoolFaq($data)
            {         
             $ret = "";
-            $s = SchoolInfo::where('id',$data['school_id'])->first();
+            $s = SchoolFaqs::where('id',$data['school_id'])->first();
             
             if($s != null)
             {

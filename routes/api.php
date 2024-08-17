@@ -64,7 +64,7 @@ Route::get('remove-school-application', [SchoolAdminController::class,'getRemove
 Route::post('add-school-class', [SchoolAdminController::class,'postAddSchoolClass']);
 Route::get('remove-school-class', [SchoolAdminController::class,'getRemoveSchoolClass']);
 
-Route::post('school-faq', [SchoolAdminController::class,'getSchoolFaq']);
+Route::post('school-faq', [SchoolAdminController::class,'postSchoolFaq']);
 Route::post('add-school-faq', [SchoolAdminController::class,'postAddSchoolFaq']);
 Route::post('remove-school-faq', [SchoolAdminController::class,'postRemoveSchoolFaq']);
 

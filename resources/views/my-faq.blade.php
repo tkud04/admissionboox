@@ -4,7 +4,7 @@ $useSidebar = true;
 ?>
 @extends('dashboard_layout')
 
-@section('dashboard-title',"New FAQ")
+@section('dashboard-title',"Edit FAQ")
 
 @section('dashboard-styles')
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
@@ -36,17 +36,20 @@ $useSidebar = true;
           $('#fa-btn').hide()
               $('#fa-loading').fadeIn()
               
-              const fd = new FormData()
-              fd.append('question',q)
-              fd.append('answer',a)
-              addSchoolFaq(fd,
+              const payload = {
+                id: $('#xf').val(),
+                question: q,
+                answer: a 
+              }
+              
+              updateSchoolFaq(payload,
               (data) => {
                 
                 $('#fa-loading').hide()
               $('#fa-btn').fadeIn()
 
                 if(data.status === 'ok'){
-                    alert('FAQ Added!')
+                    alert('FAQ Updated!')
                     window.location = 'school-faqs'
                 }
                 else if(data.status === 'error'){
@@ -56,7 +59,7 @@ $useSidebar = true;
               (err) => {
                 $('#fa-loading').hide()
                 $('#fa-btn').fadeIn()
-                alert(`Failed to add faq: ${err}`)
+                alert(`Failed to update faq: ${err}`)
               }
             )
         }
@@ -68,27 +71,33 @@ $useSidebar = true;
 @stop
 
 @section('dashboard-content')
+<?php
+$fid = $faq['id'];
+$question = $faq['faq_question'];
+$answer = $faq['faq_answer'];
+?>
 
 <div class="row"> 
      <div class="col-lg-12 col-md-12">
        <div class="add_utf_listing_section margin-top-45">
           <div class="utf_add_listing_part_headline_part">
-             <h3><i class="sl sl-icon-book-open"></i>Add FAQ</h3>
+             <h3><i class="sl sl-icon-book-open"></i>Edit FAQ</h3>
           </div>
 
           <div class="utf_submit_section">
           <div class="row with-forms">
+            <input type="hidden" id="xf" value="{{$fid}}"/>
                
                <div class="col-md-6">
                  @include('components.form-validation', ['id' => "fa-question-validation"])
                  <h5>Question</h5>
-                 <input type="text" class="input-text" name="address" id="fa-question">
+                 <input type="text" class="input-text" id="fa-question" value="{{$question}}">
                </div>
 
                <div class="col-md-6">
                  @include('components.form-validation', ['id' => "fa-answer-validation"])
                  <h5>Answer</h5>
-                 <input type="text" class="input-text" name="value" id="fa-answer">
+                 <input type="text" class="input-text" id="fa-answer" value="{{$answer}}">
                </div>
 
 
@@ -96,7 +105,7 @@ $useSidebar = true;
                   @include('components.generic-loading', ['message' => 'Processing', 'id' => "fa-loading"])
                   @include('components.button',[
                      'href' => '#',
-                     'title' => 'Add new faq',
+                     'title' => 'Submit',
                      'classes' => 'margin-top-20',
                      'id' => 'fa-btn'
                     ])

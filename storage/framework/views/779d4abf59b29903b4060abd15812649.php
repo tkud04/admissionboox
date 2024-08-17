@@ -230,13 +230,17 @@ if(!function_exists('isInSchoolClub'))
     </div>
     <div class="col-lg-6 col-md-12">
     <div class="utf_dashboard_list_box invoices with-icons margin-top-20">
-      <h4>All Order Invoices</h4>
+      <h4>Recent Applications</h4>
       <ul>
       <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Premium Plan <span
           class="paid">Paid</span></strong>
         <ul>
-        <li><span>Order Number:-</span> 004128641</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
+        <li>
+          <p>
+            <span>Order Number:-</span> 004128641<br>
+            <span>Order Number:-</span> 004128641
+          </p>
+        </li>
         </ul>
         <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
           class="sl sl-icon-printer"></i> Invoice</a> </div>

@@ -1,5 +1,5 @@
 <?php
-$ac = "applications";
+$ac = "";
 $useSidebar = true;
 ?>
 
@@ -66,7 +66,7 @@ $useSidebar = true;
                  foreach($faqs as $f)
                  {
                     $fid = $f['id'];
-                     $ru = "#";
+                     $vu = url('school-faq')."?xf=".$fid;
               ?>
                <tr>
                  <td><?php echo e($f['faq_question']); ?></td>
@@ -74,7 +74,11 @@ $useSidebar = true;
                      <?php echo e($f['faq_answer']); ?>
 
                  </td>
-                 <td><a href="#" onclick="confirmRemoveFaq('<?php echo e($fid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+                 <td>
+                    <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-eye"></i> </a>
+                    <a href="#" onclick="confirmRemoveFaq('<?php echo e($fid); ?>'); return false;" class="button gray"><i class="fa fa-trash"></i> </a>
+                   
+                </td>
                </tr>
              <?php
                  }

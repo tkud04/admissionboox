@@ -1,5 +1,5 @@
 <?php
-$ac = "applications";
+$ac = "";
 $useSidebar = true;
 ?>
 @extends('dashboard_layout')
@@ -66,14 +66,18 @@ $useSidebar = true;
                  foreach($faqs as $f)
                  {
                     $fid = $f['id'];
-                     $ru = "#";
+                     $vu = url('school-faq')."?xf=".$fid;
               ?>
                <tr>
                  <td>{{$f['faq_question']}}</td>
                  <td>
                      {{$f['faq_answer']}}
                  </td>
-                 <td><a href="#" onclick="confirmRemoveFaq('{{$fid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a></td>
+                 <td>
+                    <a href="{{$vu}}" class="button gray"><i class="fa fa-eye"></i> </a>
+                    <a href="#" onclick="confirmRemoveFaq('{{$fid}}'); return false;" class="button gray"><i class="fa fa-trash"></i> </a>
+                   
+                </td>
                </tr>
              <?php
                  }
