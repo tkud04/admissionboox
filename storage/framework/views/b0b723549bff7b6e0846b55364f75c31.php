@@ -12,33 +12,42 @@ $ibl = true;
 
 <?php $__env->startSection('dashboard-content'); ?>
 <a href="javascript:window.print()" class="print-button">Print Invoice</a> 
+<?php
+  $a = $schoolApplication['admission'];
+  $u = $schoolApplication['user'];
+  $sa = $school['address'];
+?>
 <!-- Invoice -->
 <div id="invoice"> 
   <div class="row">
     <div class="col-md-6">
-      <div id="logo"><a href="index_1.html"><img src="images/logo.png" alt=""></a></div>
+      <div id="logo"><a href="<?php echo e(url('dashboard')); ?>"><img src="images/logo.png" alt=""></a></div>
     </div>
     <div class="col-md-6">
       <p id="details"> 
-	    <strong>Order Number:-</strong> 0043128641<br>
-		<strong>Email:-</strong> support@example.com<br>
-        <strong>Phone Number:-</strong> +1 (0123) 456 7890
+	    <strong>Name:-</strong> <?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?><br>
+		<strong>Email:-</strong> <?php echo e($u['email']); ?><br>
+        <strong>Phone Number:-</strong> <?php echo e($u['phone']); ?>
+
       </p>
     </div>
   </div>
   
   <div class="row">
     <div class="col-md-12">
-      <h2 class="invoice_title">U-Listing Invoice</h2>
+      <h2 class="invoice_title">Invoice</h2>
     </div>
     <div class="col-md-6">
-      <p><strong>Billed To:</strong><br>
-        1789 Williamson Plaza, Maggieberg,<br> MT 878, United States
+      <p><strong>Vendor:</strong><br>
+        <?php echo e($school['name']); ?>
+
       </p>
     </div>
     <div class="col-md-6 fl_right"> 
-      <p><strong>Shipped To:</strong><br>
-        267 Suzanne Throughway, Breannabury,<br> OR 45801, United States
+      <p><strong>Product:</strong><br>
+      <?php echo e($a['session']); ?><br>
+      <?php echo e($sa['school_address']); ?>, <?php echo e($sa['school_state']); ?>
+
       </p>
     </div>
 	<div class="col-md-6">
@@ -49,7 +58,8 @@ $ibl = true;
     </div>
     <div class="col-md-6 fl_right"> 
       <p><strong>Order Date:</strong><br>
-        22 January 2022
+      <?php echo e($schoolApplication['date']); ?>
+
       </p>
     </div>
   </div>

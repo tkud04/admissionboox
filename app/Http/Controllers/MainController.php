@@ -218,7 +218,7 @@ class MainController extends Controller {
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
-			$schoolApplications = ['','',''];
+			$schoolApplications = $this->helpers->getSchoolApplications();
 
 			array_push(
 				$c,'school','hasCompletedSignup',
@@ -226,13 +226,11 @@ class MainController extends Controller {
 				'schoolApplications'
 			);
 
-		   $notifications = [
-			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
-			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
-			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
-		   ];
-		   
+			$rawNotifications = $this->helpers->getSchoolNotifications($school['id']);
+
+		   $notifications = $this->helpers->parseSchoolNotifications($school,$rawNotifications);
 		   $dashboardStats = $this->helpers->getSchoolDashboardStats($school);
+	
 		   array_push($c,"notifications",'dashboardStats');
 
 		   return view('school-dashboard',compact($c));

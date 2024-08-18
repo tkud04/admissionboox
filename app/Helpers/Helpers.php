@@ -29,6 +29,7 @@ use App\Models\SchoolApplications;
 use App\Models\ApplicationData;
 use App\Models\FormSections;
 use App\Models\SchoolFaqs;
+use App\Models\SchoolNotifications;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -4022,6 +4023,62 @@ EOD;
                if($a != null) $a->delete();
            }
 
+           function addSchoolNotification($data)
+           {
+            $ret = SchoolNotifications::create([
+                'school_id' => $data['school_id'],
+                'action_id' => $data['action_id'],
+                'notification_type' => $data['notification_type']
+            ]);
+
+            return $ret;
+           }
+
+           function getSchoolNotifications($school_id)
+           {
+               $ret = [];
+               $data = [];
+
+                $data = SchoolNotifications::where('id',$school_id)->get();
+              
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getSchoolNotification($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolNotification($id)
+           {
+               $ret = [];
+               $a = SchoolNotifications::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['school_id'] = $a->school_id;
+                   $ret['action_id'] = $a->action_id;
+                   $ret['notification_type'] = $a->notification_type;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeSchoolNotification($id)
+           {
+               $a = SchoolNotifications::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
 
 
 
@@ -4346,6 +4403,52 @@ EOD;
             }
             
 
+            return $ret;
+          }
+
+          function parseSchoolNotifications($school,$data)
+          {
+            $ret = [];
+            $sname = $school['name'];
+            $vu = url('school')."?xf=".$school['url'];
+
+            if(count($data) > 0)
+            {
+                foreach($data as $n)
+                {
+                    $temp = ['icon' => "", 'content' => ""];
+
+                    switch($n['notification_type'])
+                    {
+                        case 'bookmark':
+                            $temp['icon'] = 'sl-icon-eye';
+                            $temp['content'] = <<<EOD
+                            Someone Bookmarked <strong><a href="$vu">$sname</a></strong>
+EOD;          
+                        break;
+
+                        case 'review':
+                            $u = $this->getUser($data['action_id']);
+                            $temp['icon'] = 'sl-icon-layers';
+                            $uname = $u['fname']." ".$u['lname'];
+                            $temp['content'] = <<<EOD
+                            $uname Left A Review On <strong><a href="$vu">$sname</a></strong>
+EOD;
+                        break;
+                    }
+                    array_push($ret,$temp);
+
+                    
+                }
+            /*
+             [
+			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+		   ];
+            */
+            }
+            
             return $ret;
           }
 

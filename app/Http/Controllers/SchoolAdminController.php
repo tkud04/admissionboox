@@ -1456,8 +1456,7 @@ class SchoolAdminController extends Controller {
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
-					//$schoolApplication = $this->helpers->getSchoolApplication($req['xf']);
-					$schoolApplication = [];
+					$schoolApplication = $this->helpers->getSchoolApplication($req['xf']);
 	
 					array_push($c,'school','schoolApplication');
 					return view('application-invoice',compact($c));
