@@ -40,7 +40,20 @@ $void = "javascript:void(0)";
 $v = isset($isDashboard) && $isDashboard;
 $headerClass = $v ? "fixed fullwidth_block dashboard" : "fullwidth";
 $headerDivClass = $v ? "not-sticky":"";
+
 ?>
+<?php
+if(isset($isBlankLayout) && $isBlankLayout)
+{
+?>
+<body>
+  @yield('content')
+</body>
+<?php
+}
+else
+{
+  ?>
 <body class="header-one"> 
   <div id="main_wrapper">
     <!-- Header -->
@@ -1113,6 +1126,9 @@ if (isset($signals)) {
 ?>
 <!------------------------------------->
 
-
 </body>
+<?php
+}
+?>
+
 </html>

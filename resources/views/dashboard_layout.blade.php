@@ -3,6 +3,7 @@ $void = 'javascript:void(0)';
 $isDashboard = true;
 $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
 $v3 = isset($useSidebar) ? $useSidebar : true;
+$isBlankLayout = isset($ibl) ? $ibl : false;
 ?>
 
 @extends('layout')
@@ -20,6 +21,17 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
 @stop
 
 @section('content')
+<?php
+if($isBlankLayout)
+{
+?>
+@yield('dashboard-content')
+<?php
+}
+
+else
+{
+?>
 <div id="dashboard">
     
      @if($v3)
@@ -57,4 +69,7 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
          </div>
      </div> 
 </div>
+<?php
+}
+?>
 @stop

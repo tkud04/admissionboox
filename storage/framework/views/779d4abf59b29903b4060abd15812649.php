@@ -232,64 +232,28 @@ if(!function_exists('isInSchoolClub'))
     <div class="utf_dashboard_list_box invoices with-icons margin-top-20">
       <h4>Recent Applications</h4>
       <ul>
+        <?php
+         foreach($schoolApplications as $sa)
+         {
+          $iid = "shdj3";
+          $iu = url('application-invoice')."?xf=".$iid;
+        ?>
       <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Premium Plan <span
           class="paid">Paid</span></strong>
         <ul>
         <li>
           <p>
             <span>Order Number:-</span> 004128641<br>
-            <span>Order Number:-</span> 004128641
+            <span>Applicant:-</span> John Doe
           </p>
         </li>
         </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
+        <div class="buttons-to-right"> <a href="<?php echo e($iu); ?>" target="_blank" class="button gray"><i
           class="sl sl-icon-printer"></i> Invoice</a> </div>
       </li>
-      <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Platinum Plan <span
-          class="paid">Paid</span></strong>
-        <ul>
-        <li><span>Order Number:-</span> 004312641</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
-        </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
-          class="sl sl-icon-printer"></i> Invoice</a> </div>
-      </li>
-      <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Platinum Plan <span
-          class="paid">Paid</span></strong>
-        <ul>
-        <li><span>Order Number:-</span> 004312641</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
-        </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
-          class="sl sl-icon-printer"></i> Invoice</a> </div>
-      </li>
-      <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Basic Plan <span
-          class="unpaid">Unpaid</span></strong>
-        <ul>
-        <li><span>Order Number:-</span> 004031281</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
-        </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
-          class="sl sl-icon-printer"></i> Invoice</a> </div>
-      </li>
-      <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Basic Plan <span
-          class="unpaid">Unpaid</span></strong>
-        <ul>
-        <li><span>Order Number:-</span> 004031281</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
-        </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
-          class="sl sl-icon-printer"></i> Invoice</a> </div>
-      </li>
-      <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>Basic Plan <span
-          class="unpaid">Unpaid</span></strong>
-        <ul>
-        <li><span>Order Number:-</span> 004031281</li>
-        <li><span>Date:-</span> 12 Jan 2022</li>
-        </ul>
-        <div class="buttons-to-right"> <a href="dashboard_invoice.html" class="button gray"><i
-          class="sl sl-icon-printer"></i> Invoice</a> </div>
-      </li>
+       <?php
+         }
+       ?>
       </ul>
     </div>
     </div>

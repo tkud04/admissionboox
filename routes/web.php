@@ -58,6 +58,7 @@ Route::get('add-school-admission-form', [SchoolAdminController::class,'getAddSch
 Route::get('school-applications', [SchoolAdminController::class,'getSchoolApplications']);
 Route::get('school-application', [SchoolAdminController::class,'getSchoolApplication']);
 Route::get('add-school-application', [SchoolAdminController::class,'getAddSchoolApplication']);
+Route::get('application-invoice', [SchoolAdminController::class,'getApplicationInvoice']);
 
 Route::get('school-classes', [SchoolAdminController::class,'getSchoolClasses']);
 Route::get('add-school-class', [SchoolAdminController::class,'getAddSchoolClass']);

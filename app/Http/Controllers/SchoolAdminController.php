@@ -1436,6 +1436,51 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	public function getApplicationInvoice(Request $request)
+    {
+		$user = null;
+		$req = $request->all();
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+                if(isset($req['xf']))
+				{
+     
+					$signals = $this->helpers->signals;
+					$senders = $this->helpers->getSenders();
+					 $plugins = $this->helpers->getPlugins();
+					$c = $this->compactValues;
+	
+					$school = $this->helpers->getSchool($user->email);
+					//$schoolApplication = $this->helpers->getSchoolApplication($req['xf']);
+					$schoolApplication = [];
+	
+					array_push($c,'school','schoolApplication');
+					return view('application-invoice',compact($c));
+				}
+				else
+				{
+					return redirect()->intended('dashboard');
+				}
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
 	public function getSchoolClasses(Request $request)
     {
 		$user = null;

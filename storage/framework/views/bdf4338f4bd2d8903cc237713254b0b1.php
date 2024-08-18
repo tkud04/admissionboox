@@ -3,6 +3,7 @@ $void = 'javascript:void(0)';
 $isDashboard = true;
 $v2 = isset($useAdminSidebar) ? $useAdminSidebar : false;
 $v3 = isset($useSidebar) ? $useSidebar : true;
+$isBlankLayout = isset($ibl) ? $ibl : false;
 ?>
 
 
@@ -20,6 +21,17 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+<?php
+if($isBlankLayout)
+{
+?>
+<?php echo $__env->yieldContent('dashboard-content'); ?>
+<?php
+}
+
+else
+{
+?>
 <div id="dashboard">
     
      <?php if($v3): ?>
@@ -57,5 +69,8 @@ $v3 = isset($useSidebar) ? $useSidebar : true;
          </div>
      </div> 
 </div>
+<?php
+}
+?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/dashboard_layout.blade.php ENDPATH**/ ?>

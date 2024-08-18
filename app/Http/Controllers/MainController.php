@@ -218,10 +218,12 @@ class MainController extends Controller {
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
-			
+			$schoolApplications = ['','',''];
+
 			array_push(
 				$c,'school','hasCompletedSignup',
 			    'facilities','clubs','ngStates',
+				'schoolApplications'
 			);
 
 		   $notifications = [
