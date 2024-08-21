@@ -106,7 +106,12 @@ if(!function_exists('getPriceTag'))
 		?>
 	</div>
   </div>    
-
+  <?php
+        $rating = $calculatedRating['rating'];
+		$ratingEnvironment = $calculatedRating['environment'];
+		$ratingService = $calculatedRating['service'];
+		$ratingPrice = $calculatedRating['price'];
+	?>
 <div class="container">
     <div class="row utf_sticky_main_wrapper">
       <div class="col-lg-8 col-md-8">
@@ -115,8 +120,8 @@ if(!function_exists('getPriceTag'))
            <h2>{{$school['name']}} <span class="listing-tag">{{strtoupper($school['status'])}}</span></h2>		   
             <span> <a href="#utf_listing_location" class="listing-address"> <i class="sl sl-icon-location"></i> {{$address['school_state']}}</a> </span>			
 			<span class="call_now"><i class="sl sl-icon-phone"></i> <a href="tel:{{$school['phone']}}">{{$school['phone']}}</a></span>
-            <div class="utf_star_rating_section" data-rating="4.5">
-              <div class="utf_counter_star_rating">(4.5) / (3 Reviews)</div>
+            <div class="utf_star_rating_section" data-rating="{{$rating}}">
+              <div class="utf_counter_star_rating">({{$rating}}) / ({{count($reviews)}} Reviews)</div>
             </div>
 			<?php
               $bmu = "#".url("bookmark-school")."?xf=".$school['url'];
@@ -258,12 +263,7 @@ if(!function_exists('getPriceTag'))
             <a href="#" id="utf_street_view_btn">Street View</a> 
 		  </div>
         </div>
-		<?php
-        $rating = $calculatedRating['rating'];
-		$ratingEnvironment = $calculatedRating['environment'];
-		$ratingService = $calculatedRating['service'];
-		$ratingPrice = $calculatedRating['price'];
-		?>
+		
         <div id="utf_listing_reviews" class="utf_listing_section">
           <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>({{count($reviews)}})</span></h3>
           <div class="clearfix"></div>
@@ -402,7 +402,11 @@ if(!function_exists('getPriceTag'))
       
       <!-- Sidebar -->
       <div class="col-lg-4 col-md-4 margin-top-75 sidebar-search">
-        <div class="verified-badge with-tip margin-bottom-30" data-tip-content="Listing has been verified and belongs business owner or manager."> <i class="sl sl-icon-check"></i> Now Available<div class="tip-content" style="width: 720px; max-width: 720px;">Listing has been verified and belongs business owner or manager.</div></div>
+      <?php
+	  if(false)
+	  {
+	  ?>
+	   <div class="verified-badge with-tip margin-bottom-30" data-tip-content="Listing has been verified and belongs business owner or manager."> <i class="sl sl-icon-check"></i> Now Available<div class="tip-content" style="width: 720px; max-width: 720px;">Listing has been verified and belongs business owner or manager.</div></div>
         <div class="utf_box_widget booking_widget_box">
           <h3><i class="fa fa-calendar"></i> Booking
 			<div class="price">
@@ -521,16 +525,20 @@ if(!function_exists('getPriceTag'))
 		  <button class="like-button add_to_wishlist"><span class="like-icon"></span> Add to Wishlist</button>
           <div class="clearfix"></div>
         </div>
+		<?php
+	  }
+	    $owner = $school['owner'];
+		?>
         <div class="utf_box_widget margin-top-35">
-          <h3><i class="sl sl-icon-phone"></i> Contact Info</h3>
-          <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing"><img src="images/dashboard-avatar.jpg" alt=""></a>
-            <h4><a href="#">Kathy Brown</a><span>Posted 3 Days Ago</span>
-              <span><i class="sl sl-icon-location"></i> Lonsdale St, Melbourne</span>
+          <h3><i class="sl sl-icon-phone"></i> Owner Info</h3>
+          <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing"><img src="images/profile.png" alt=""></a>
+            <h4><a href="#">{{$owner['name']}}</a><span>Posted on: {{$school['date']}}</span>
+              <span><i class="sl sl-icon-location"></i> {{$address['school_address']}}, {{$address['school_state']}}</span>
             </h4>
           </div>
 		  <ul class="utf_social_icon rounded margin-top-10">
-            <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
-            <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
             <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
             <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
             <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            

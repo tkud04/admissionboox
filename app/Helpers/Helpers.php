@@ -2617,6 +2617,7 @@ EOD;
                   // $ret['reviews'] =$this->getSchoolReviews($s->id);
                    $ret['banners'] =$this->getSchoolBanners($s->id);
                    $ret['faqs'] =$this->getSchoolFaqs($s->id);
+                   $ret['date'] = $s->created_at->format("jS F, Y");  
                }
 
                return $ret;
