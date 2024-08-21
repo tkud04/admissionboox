@@ -1899,6 +1899,118 @@ class SchoolAdminController extends Controller {
 	   return json_encode(($ret));
     }
 
+	public function getSchoolReviews(Request $request)
+    {
+		$user = null;
+		$req = $request->all();
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+                
+					$signals = $this->helpers->signals;
+					$senders = $this->helpers->getSenders();
+					 $plugins = $this->helpers->getPlugins();
+					$c = $this->compactValues;
+	
+					$school = $this->helpers->getSchool($user->email);
+					$reviews = $this->helpers->getSchoolReviews($school['id']);
+	
+					array_push($c,'school','reviews');
+					return view('my-reviews',compact($c));
+				
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	public function postUpdateSchoolReview(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			  if(isset($req['xf']))
+			  {
+				$f = $this->helpers->getSchoolReview($req['xf']);
+	
+				if(count($f) > 0)
+				{
+					$this->helpers->updateSchoolReview($req);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
+	public function postRemoveSchoolReview(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+	   $req = $request->all();
+
+
+	   if(Auth::check())
+	   {
+		   $user = Auth::user();
+		   if($user->role === 'school_admin')
+		   {
+			  if(isset($req['xf']))
+			  {
+				$f = $this->helpers->getSchoolReview($req['xf']);
+	
+				if(count($f) > 0)
+				{
+					$this->helpers->removeSchoolReview($req['xf']);
+					$ret = ['status' => "ok"];
+				}
+			  }
+			  else
+			  {
+				$ret['message'] = "validation";
+			  }
+		   }
+	   }
+	   else
+	   {
+		 $ret['message'] = "auth";
+	   }
+
+	   return json_encode(($ret));
+    }
+
 	public function getApiTester(Request $request)
     {
 		$user = null;

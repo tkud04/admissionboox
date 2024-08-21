@@ -41,7 +41,7 @@ if(!function_exists('getActiveClass'))
                     </ul>
                 </li>
                 <li class="{{getActiveClass('reviews',$ac)}}">
-                    <a href="{{url('reviews')}}"><i class="sl sl-icon-star"></i> Reviews</a>
+                    <a href="{{url('school-reviews')}}"><i class="sl sl-icon-star"></i> Reviews</a>
                 </li>
                 <li class="{{getActiveClass('profile',$ac)}}"><a href="{{url('profile')}}"><i class="sl sl-icon-user"></i> My Profile</a></li>
                 <li class="{{getActiveClass('change-password',$ac)}}"><a href="{{url('change-password')}}"><i class="sl sl-icon-key"></i> Change Password</a></li>

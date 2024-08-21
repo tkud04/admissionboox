@@ -41,7 +41,7 @@ if(!function_exists('getActiveClass'))
                     </ul>
                 </li>
                 <li class="<?php echo e(getActiveClass('reviews',$ac)); ?>">
-                    <a href="<?php echo e(url('reviews')); ?>"><i class="sl sl-icon-star"></i> Reviews</a>
+                    <a href="<?php echo e(url('school-reviews')); ?>"><i class="sl sl-icon-star"></i> Reviews</a>
                 </li>
                 <li class="<?php echo e(getActiveClass('profile',$ac)); ?>"><a href="<?php echo e(url('profile')); ?>"><i class="sl sl-icon-user"></i> My Profile</a></li>
                 <li class="<?php echo e(getActiveClass('change-password',$ac)); ?>"><a href="<?php echo e(url('change-password')); ?>"><i class="sl sl-icon-key"></i> Change Password</a></li>

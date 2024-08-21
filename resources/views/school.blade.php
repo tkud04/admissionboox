@@ -84,8 +84,6 @@ if(!function_exists('getPriceTag'))
 			<a href="#" class="facebook-link"><i class="fa fa-facebook"></i> Facebook</a>
 			<a href="#" class="twitter-link"><i class="fa fa-twitter"></i> Twitter</a>
 			<a href="#" class="instagram-link"><i class="fa fa-instagram"></i> Instagram</a>
-			<a href="#" class="linkedin-link"><i class="fa fa-linkedin"></i> Linkedin</a>
-			<a href="#" class="youtube-link"><i class="fa fa-youtube-play"></i> Youtube</a>
 		  </div>		  		 
         </div>
 		
@@ -201,63 +199,53 @@ if(!function_exists('getPriceTag'))
             <a href="#" id="utf_street_view_btn">Street View</a> 
 		  </div>
         </div>
+		<?php
+        $reviews = $school['reviews'];
+		$rating = $calculatedRating['rating'];
+		$ratingEnvironment = $calculatedRating['environment'];
+		$ratingService = $calculatedRating['service'];
+		$ratingPrice = $calculatedRating['price'];
+		?>
         <div id="utf_listing_reviews" class="utf_listing_section">
-          <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>(08)</span></h3>
+          <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>({{count($reviews)}})</span></h3>
           <div class="clearfix"></div>
 		  <div class="reviews-container">
 			<div class="row">
 				<div class="col-lg-3">
 					<div id="review_summary">
-						<strong>4.5</strong>
-						<em>Superb Reviews</em>
-						<small>Out of 15 Reviews</small>
+					<strong>{{$rating}}</strong>
+					@if($rating > 0)
+					<div style="display: flex; justify-content: center;"><div class="utf_star_rating_section text-center" data-rating="{{$rating}}"></div></div>
+					@endif
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="row">
-						<div class="col-lg-2 review_progres_title"><small><strong>Quality</strong></small></div>
+						<div class="col-lg-2 review_progres_title"><small><strong>Environment</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: {{$ratingEnvironment}}%" aria-valuenow="{{$ratingEnvironment}}" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>77</strong></small></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-2 review_progres_title"><small><strong>Space</strong></small></div>
-						<div class="col-lg-9">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>15</strong></small></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-2 review_progres_title"><small><strong>Price</strong></small></div>
-						<div class="col-lg-9">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>18</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingEnvironment}}</strong></small></div>
 					</div>
 					<div class="row">
 						<div class="col-lg-2 review_progres_title"><small><strong>Service</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: {{$ratingService}}%" aria-valuenow="{{$ratingService}}" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>10</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingService}}</strong></small></div>
 					</div>
 					<div class="row">
-						<div class="col-lg-2 review_progres_title"><small><strong>Location</strong></small></div>
+						<div class="col-lg-2 review_progres_title"><small><strong>Price</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: {{$ratingPrice}}%" aria-valuenow="{{$ratingPrice}}" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>05</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingPrice}}</strong></small></div>
 					</div>
 				</div>
 			</div>
@@ -265,61 +253,13 @@ if(!function_exists('getPriceTag'))
           <div class="comments utf_listing_reviews">
             <ul>
               <li>
-                <div class="avatar"><img src="images/client-avatar1.jpg" alt=""></div>
+                <div class="avatar"><img src="images/profile.png" alt=""></div>
                 <div class="utf_comment_content">
                   <div class="utf_arrow_comment"></div>
                   <div class="utf_star_rating_section" data-rating="5"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
 				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>                   
                   <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                                    
-				</div>
-              </li>
-              <li>
-                <div class="avatar"><img src="images/client-avatar2.jpg" alt=""> </div>
-                <div class="utf_comment_content">
-                  <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="4"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star empty"></span></div>
-				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>                  
-                  <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
-				</div>
-              </li>
-			  <li>
-                <div class="avatar"><img src="images/client-avatar3.jpg" alt=""> </div>
-                <div class="utf_comment_content">
-                  <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="4"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star empty"></span></div>                  
-                  <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
-				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
-				</div>
-              </li>
-              <li>
-                <div class="avatar"><img src="images/client-avatar1.jpg" alt=""></div>
-                <div class="utf_comment_content">
-                  <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="4.5"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star half"></span></div>                  
-                  <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
-				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a> 
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>
-                  <div class="review-images utf_gallery_container"> 
-				    <a href="images/review-image-01.jpg" class="utf_gallery"><img src="images/review-image-01.jpg" alt=""></a> 
-					<a href="images/review-image-02.jpg" class="utf_gallery"><img src="images/review-image-02.jpg" alt=""></a> 
-					<a href="images/review-image-03.jpg" class="utf_gallery"><img src="images/review-image-03.jpg" alt=""></a> 
-					<a href="images/review-image-01.jpg" class="utf_gallery"><img src="images/review-image-01.jpg" alt=""></a> 
-					<a href="images/review-image-02.jpg" class="utf_gallery"><img src="images/review-image-02.jpg" alt=""></a> 
-					<a href="images/review-image-03.jpg" class="utf_gallery"><img src="images/review-image-03.jpg" alt=""></a> 
-				  </div>                  
-				</div>
-              </li>
-			  <li>
-                <div class="avatar"><img src="images/client-avatar3.jpg" alt=""> </div>
-                <div class="utf_comment_content">
-                  <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="4"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star empty"></span></div>                  
-                  <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
-				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                  
 				</div>
               </li>
             </ul>

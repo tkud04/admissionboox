@@ -30,6 +30,7 @@ use App\Models\ApplicationData;
 use App\Models\FormSections;
 use App\Models\SchoolFaqs;
 use App\Models\SchoolNotifications;
+use App\Models\SchoolReviews;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -2613,6 +2614,7 @@ EOD;
                    $ret['resources'] =$this->getSchoolResources($s->id);
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
                    $ret['address'] =$this->getSchoolAddress($s->id);
+                   $ret['reviews'] =$this->getSchoolReviews($s->id);
                    $ret['banners'] =$this->getSchoolBanners($s->id);
                    $ret['faqs'] =$this->getSchoolFaqs($s->id);
                }
@@ -4079,12 +4081,91 @@ EOD;
                if($a != null) $a->delete();
            }
 
+           function addSchoolReview($data)
+           {
+            $ret = SchoolReviews::create([
+                'school_id' => $data['school_id'],
+                'user_id' => $data['user_id'],
+                'environment' => $data['environment'],
+                'service' => $data['service'],
+                'price' => $data['price'],
+                'comment' => $data['comment'],
+                'status' => 'pending',
+            ]);
+
+            return $ret;
+           }
 
 
+           function getSchoolReviews($school_id)
+           {
+               $ret = [];
+               $data = [];
 
-		   
-		  
-		   
+                $data = SchoolReviews::where('id',$school_id)->get();
+              
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getSchoolReview($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolReview($id)
+           {
+               $ret = [];
+               $a = SchoolReviews::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['school_id'] = $a->school_id;
+                   $ret['user'] = $this->getUser($a->user_id);
+                   $ret['environment'] = $a->environment;
+                   $ret['service'] = $a->service;
+                   $ret['price'] = $a->price;
+                   $ret['comment'] = $a->comment;
+                   $ret['status'] = $a->status;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+           function updateSchoolReview($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['email']))
+               {
+               	$r = SchoolReviews::where('id', $data['xf'])->first();
+ 
+                        if($r != null)
+                        {
+							$payload = [];
+                            if(isset($data['status'])) $payload['status'] = $data['status'];
+                           
+                        	$r->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
+           }
+
+          
+
+           function removeSchoolReview($id)
+           {
+               $a = SchoolReviews::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
 		   function getTestimonials()
            {
 
@@ -4448,6 +4529,28 @@ EOD;
 		   ];
             */
             }
+            
+            return $ret;
+          }
+
+          function calculateRating($reviews)
+          {
+            //dd($reviews);
+            $ret = [
+                'rating' => 0,
+                'environment' => 0,
+                'service' => 0,
+                'price' => 0
+            ];
+
+            foreach($reviews as $r)
+            {
+               $ret['environment'] += $r['environment'];
+               $ret['service'] += $r['service'];
+               $ret['price'] += $r['price'];
+            }
+
+            $ret['rating'] = (($ret['environment'] + $ret['service'] + $ret['price']) / 20) / 3; 
             
             return $ret;
           }

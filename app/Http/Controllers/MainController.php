@@ -166,8 +166,9 @@ class MainController extends Controller {
 			
 			$school = $this->helpers->getSchool($req['xf']);
 			$schoolCategories = $this->helpers->schoolCategories;
+			$calculatedRating = $this->helpers->calculateRating($school['reviews']);
 	
-			array_push($c,'school','schoolCategories');
+			array_push($c,'school','schoolCategories','calculatedRating');
 	         #dd($school);
 			return view('school',compact($c));
 		}

@@ -610,3 +610,44 @@ const updateSchoolProfile = async (fd,successCallback,errorCallback) => {
   }
  
 }
+
+const updateSchoolReview = async (xf,status='',successCallback,errorCallback) => {
+  const url = `api/update-school-review`
+  const fd = new FormData()
+  fd.append('xf',xf)
+  fd.append('status',status)
+
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const removeSchoolReview = async (id='',successCallback,errorCallback) => {
+  const url = 'api/remove-school-review'
+  const fd = new FormData()
+  fd.append('xf',id)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}

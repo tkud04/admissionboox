@@ -68,6 +68,9 @@ Route::post('school-faq', [SchoolAdminController::class,'postSchoolFaq']);
 Route::post('add-school-faq', [SchoolAdminController::class,'postAddSchoolFaq']);
 Route::post('remove-school-faq', [SchoolAdminController::class,'postRemoveSchoolFaq']);
 
+Route::post('update-school-review', [SchoolAdminController::class,'postUpdateSchoolReview']);
+Route::post('remove-school-review', [SchoolAdminController::class,'postRemoveSchoolReview']);
+
 Route::post('send-email', [SchoolAdminController::class,'postSendEmail']);
 
 
