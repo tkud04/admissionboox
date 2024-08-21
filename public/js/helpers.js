@@ -20,6 +20,9 @@ const handleResponseError = (data) => {
   else if(data.message === 'invalid-user'){
    errMessage = 'User invalid, please contact support'
   }
+  else if(data.message === 'own'){
+    errMessage = 'You cannot carry out this action'
+   }
 
   alert(errMessage)
 }
@@ -636,6 +639,30 @@ const removeSchoolReview = async (id='',successCallback,errorCallback) => {
   const url = 'api/remove-school-review'
   const fd = new FormData()
   fd.append('xf',id)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const addSchoolReview = async (payload={xf:'',environment:'',service:'',price:'',comment:''},successCallback,errorCallback) => {
+  const url = 'api/add-school-review'
+  const fd = new FormData()
+  fd.append('xf',payload.xf)
+  fd.append('environment',payload.environment)
+  fd.append('service',payload.service)
+  fd.append('price',payload.price)
+  fd.append('comment',payload.comment)
   
   const response = await fetch(url, {
       method: "POST",

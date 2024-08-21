@@ -166,9 +166,18 @@ class MainController extends Controller {
 			
 			$school = $this->helpers->getSchool($req['xf']);
 			$schoolCategories = $this->helpers->schoolCategories;
-			$calculatedRating = $this->helpers->calculateRating($school['reviews']);
+			
+
+			$currentPage = isset($req['page']) ? $req['page'] : "1";
+		$currentPage = intval($currentPage);	
+
+		$allReviews = $this->helpers->getSchoolReviews($school['id']);
+		$numPages = $this->helpers->numPages($allReviews);
+		$reviews = $this->helpers->changePage($allReviews,$currentPage);
+		$schoolCategories = $this->helpers->schoolCategories;
+		$calculatedRating = $this->helpers->calculateRating($allReviews);
 	
-			array_push($c,'school','schoolCategories','calculatedRating');
+			array_push($c,'school','schoolCategories','calculatedRating','currentPage','numPages','reviews');
 	         #dd($school);
 			return view('school',compact($c));
 		}
@@ -177,6 +186,65 @@ class MainController extends Controller {
            return redirect()->intended('schools');
 		}
 		
+    }
+
+	public function postAddSchoolReview(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			$req = $request->all();
+				$payload = [];
+				$validator = Validator::make($req, [
+					'xf' => 'required',
+					'environment' => 'required|numeric',
+					'service' => 'required|numeric',
+					'price' => 'required|numeric',
+					'comment' => 'required',
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$school = $this->helpers->getSchool($req['xf']);
+					if($user->email === $school['email'])
+					{
+						$ret = ['status' => "error","message" => "own",'req' => $req];
+					}
+					else
+					{
+						$payload = [
+						  'user_id' => $user->id,
+						  'school_id' => $req['xf'],
+						  'environment' => $req['environment'],
+						  'service' => $req['service'],
+						  'price' => $req['price'],
+						  'comment' => $req['comment'],
+					    ];
+
+					    $this->helpers->addSchoolReview($payload);
+					    $ret = ['status' => "ok"];
+					}
+					
+				}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
     }
 
 

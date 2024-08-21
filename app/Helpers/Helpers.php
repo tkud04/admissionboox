@@ -2614,7 +2614,7 @@ EOD;
                    $ret['resources'] =$this->getSchoolResources($s->id);
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
                    $ret['address'] =$this->getSchoolAddress($s->id);
-                   $ret['reviews'] =$this->getSchoolReviews($s->id);
+                  // $ret['reviews'] =$this->getSchoolReviews($s->id);
                    $ret['banners'] =$this->getSchoolBanners($s->id);
                    $ret['faqs'] =$this->getSchoolFaqs($s->id);
                }

@@ -5,8 +5,67 @@ $void = 'javascript:void(0)';
 
 @section('title',$school['name'])
 
-@section('scripts')
+<?php
+$schoolUrl = $school['url'];
+?>
 
+@section('scripts')
+<script>
+const clearValidations = () => {
+  $('.form-validation').hide()
+}
+
+$(() => {
+ $('#add-review-btn').click((e) => {
+	e.preventDefault()
+	clearValidations()
+
+	const ratingEnvironment = $('#add-review-environment').val(), ratingService = $('#add-review-service').val(),
+	      ratingPrice = $('#add-review-price').val(), ratingComment = $('#add-review-comment').val(),
+		  v = ratingEnvironment === '' || ratingService === '' || ratingPrice === '' || ratingComment === ''
+	
+	if(v){
+	  if(ratingEnvironment === '') $('#add-review-environment-validation').fadeIn()
+	  if(ratingService === '') $('#add-review-service-validation').fadeIn()
+	  if(ratingPrice === '') $('#add-review-price-validation').fadeIn()
+	  if(ratingComment === '') $('#add-review-comment-validation').fadeIn()
+	}
+    else{
+		$('#add-review-btn').hide()
+              $('#add-review-loading').fadeIn()
+              
+              const payload = {
+                xf: "{{$schoolUrl}}",
+                environment: ratingEnvironment,
+                service: ratingService,
+                price: ratingPrice,
+                comment: ratingComment,
+              }
+              
+              addSchoolReview(payload,
+              (data) => {
+                
+                $('#add-review-loading').hide()
+              $('#add-review-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Review Added! Adins would review shortly')
+                    window.location = 'school?xf={{$schoolUrl}}'
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#add-review-loading').hide()
+                $('#add-review-btn').fadeIn()
+                alert(`Failed to add review: ${err}`)
+              }
+            )
+	}
+ })
+})
+</script>
 @stop
 
 <?php
@@ -200,8 +259,7 @@ if(!function_exists('getPriceTag'))
 		  </div>
         </div>
 		<?php
-        $reviews = $school['reviews'];
-		$rating = $calculatedRating['rating'];
+        $rating = $calculatedRating['rating'];
 		$ratingEnvironment = $calculatedRating['environment'];
 		$ratingService = $calculatedRating['service'];
 		$ratingPrice = $calculatedRating['price'];
@@ -252,86 +310,91 @@ if(!function_exists('getPriceTag'))
 		  </div>	 	
           <div class="comments utf_listing_reviews">
             <ul>
+			  <?php
+                foreach($reviews as $review)
+				{
+					$reviewRating = $review['rating'];
+					$reviewEnviroment = $review['environment'];
+					$reviewService = $review['service'];
+					$reviewPrice = $review['price'];
+					$u = $review['user'];
+			  ?>
               <li>
                 <div class="avatar"><img src="images/profile.png" alt=""></div>
                 <div class="utf_comment_content">
                   <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="5"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-				  <a href="#" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>                   
-                  <div class="utf_by_comment">Francis Burton<span class="date"><i class="fa fa-clock-o"></i> Jan 05, 2022 - 8:52 am</span> </div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat.</p>                                    
+                  <div class="utf_star_rating_section" data-rating="{{$rating}}"></div>
+				  <a href="javascript:void(0)" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>                   
+                  <div class="utf_by_comment">{{$u['fname']}} {{$u['lname']}}<span class="date"><i class="fa fa-clock-o"></i> {{$review['date']}}</span> </div>
+                  <p>{{$review['comment']}}</p>                                    
 				</div>
               </li>
+			  <?php
+				}
+			  ?>
             </ul>
           </div>
           <div class="clearfix"></div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="utf_pagination_container_part margin-top-30">
-                <nav class="pagination">
-                  <ul>
-                    <li><a href="#"><i class="sl sl-icon-arrow-left"></i></a></li>
-                    <li><a href="#" class="current-page">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
+		  @if(count($reviews) > 0)
+            @include('components.pagination',[
+              'url' => "school?xf=".$school['url'],
+              'currentPage' => $currentPage,
+              'numPages' => $numPages,
+              ])
+          @endif
           <div class="clearfix"></div>
         </div>
         <div id="utf_add_review" class="utf_add_review-box">
           <h3 class="utf_listing_headline_part margin-bottom-20">Add Your Review</h3>
           <span class="utf_leave_rating_title">Your email address will not be published.</span>
-          <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <div class="clearfix"></div>
-              <div class="utf_leave_rating margin-bottom-30">
-                <input type="radio" name="rating" id="rating-1" value="1">
-                <label for="rating-1" class="fa fa-star"></label>
-                <input type="radio" name="rating" id="rating-2" value="2">
-                <label for="rating-2" class="fa fa-star"></label>
-                <input type="radio" name="rating" id="rating-3" value="3">
-                <label for="rating-3" class="fa fa-star"></label>
-                <input type="radio" name="rating" id="rating-4" value="4">
-                <label for="rating-4" class="fa fa-star"></label>
-                <input type="radio" name="rating" id="rating-5" value="5">
-                <label for="rating-5" class="fa fa-star"></label>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <div class="add-review-photos margin-bottom-30">
-                <div class="photoUpload"> <span>Upload Photo <i class="sl sl-icon-arrow-up-circle"></i></span>
-                  <input type="file" class="upload">
-                </div>
-              </div>
-            </div>
-          </div>
+         
           <form id="utf_add_comment" class="utf_add_comment">
             <fieldset>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <label>Name:</label>
-                  <input type="text" placeholder="Name" value="">
+                  <input type="text" placeholder="Name" value="{{$user->fname}} {{$user->lname}}" disabled>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <label>Email:</label>
-                  <input type="text" placeholder="Email" value="">
+                  <input type="text" placeholder="Email" value="{{$user->email}}" disabled>
                 </div>
-                <div class="col-md-4">
-                  <label>Subject:</label>
-                  <input type="text" placeholder="Subject" value="">
-                </div>
+                
               </div>
+			  <div class="row">
+				<div class='col-md-12'>
+				<span class="utf_leave_rating_title">Please give your feedback <strong>(1 to 100)</strong> on each of the school's ratings below:</span>
+				</div>
+			   <div class="col-md-4">
+                  <label>Enviroment:</label>
+				  @include('components.form-validation', ['id' => "add-review-environment-validation"])
+                  <input type="number" min="1" max="100" placeholder="Environment" id="add-review-environment" >
+                </div>
+				<div class="col-md-4">
+                  <label>Service:</label>
+				  @include('components.form-validation', ['id' => "add-review-service-validation"])
+                  <input type="number" min="1" max="100" placeholder="Service" id="add-review-service" >
+                </div>
+				<div class="col-md-4">
+                  <label>Price:</label>
+				  @include('components.form-validation', ['id' => "add-review-price-validation"])
+                  <input type="number" min="1" max="100" placeholder="Price" id="add-review-price" >
+                </div>
+
+			  </div>
               <div>
                 <label>Review:</label>
-                <textarea cols="40" placeholder="Your Message..." rows="3"></textarea>
+				@include('components.form-validation', ['id' => "add-review-comment-validation"])
+                <textarea cols="40" placeholder="Your Message..." rows="3" id="add-review-comment"></textarea>
               </div>
             </fieldset>
-            <button class="button">Submit Review</button>
+			@include('components.generic-loading', ['message' => 'Processing', 'id' => "add-review-loading"])
+                  @include('components.button',[
+                     'href' => '#',
+                     'title' => 'Submit',
+                     'classes' => 'margin-top-20',
+                     'id' => 'add-review-btn'
+                    ])
             <div class="clearfix"></div>
           </form>
         </div>
