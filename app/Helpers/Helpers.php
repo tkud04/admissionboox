@@ -28,6 +28,7 @@ use App\Models\FormFields;
 use App\Models\SchoolApplications;
 use App\Models\ApplicationData;
 use App\Models\FormSections;
+use App\Models\SchoolBookmarks;
 use App\Models\SchoolFaqs;
 use App\Models\SchoolNotifications;
 use App\Models\SchoolReviews;
@@ -2629,7 +2630,7 @@ EOD;
                    $ret['resources'] =$this->getSchoolResources($s->id);
                    $ret['clubs'] =$this->getSchoolClubs($s->id);
                    $ret['address'] =$this->getSchoolAddress($s->id);
-                  // $ret['reviews'] =$this->getSchoolReviews($s->id);
+                  $ret['bookmarks'] =$this->getSchoolBookmarks($s->id);
                    $ret['banners'] =$this->getSchoolBanners($s->id);
                    $ret['faqs'] =$this->getSchoolFaqs($s->id);
                    $ret['date'] = $s->created_at->format("jS F, Y");  
@@ -4182,6 +4183,59 @@ EOD;
                if($a != null) $a->delete();
            }
 
+           function addSchoolBookmark($data)
+           {
+            $ret = SchoolBookmarks::create([
+                'school_id' => $data['school_id'],
+                'user_id' => $data['user_id'],
+            ]);
+
+            return $ret;
+           }
+
+
+           function getSchoolBookmarks($school_id)
+           {
+               $ret = [];
+               $data = [];
+
+                $data = SchoolBookmarks::where('id',$school_id)->get();
+              
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getSchoolBookmark($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSchoolBookmark($id)
+           {
+               $ret = [];
+               $a = SchoolBookmarks::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['school_id'] = $a->school_id;
+                   $ret['user_id'] = $a->user_id;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+           function removeSchoolBookmark($id)
+           {
+               $a = SchoolBookmarks::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
 		   function getTestimonials()
            {
 
@@ -4568,6 +4622,24 @@ EOD;
 
             $ret['rating'] = (($ret['environment'] + $ret['service'] + $ret['price']) / 20) / 3; 
             
+            return $ret;
+          }
+
+          function getSimilarSchools($s)
+          {
+            $ret = [];
+           
+            //Facilities
+            $schools = $this->getSchools();
+            
+
+            foreach($schools as $s)
+            {
+                $allReviews = $this->getSchoolReviews($s['id']);
+                $s['calculatedRating'] = $this->calculateRating($allReviews);
+                array_push($ret,$s);
+            }
+
             return $ret;
           }
 

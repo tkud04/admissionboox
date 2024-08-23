@@ -190,10 +190,12 @@ class MainController extends Controller {
 			'private' => false,
 			'public' => false,
 		];
+
+		$similarSchools = $this->helpers->getSimilarSchools($school);
 	
 			array_push($c,
 			'school','schoolCategories','calculatedRating',
-			'currentPage','numPages','reviews','tags'
+			'currentPage','numPages','reviews','tags','similarSchools'
 		);
 	         #dd($school);
 			return view('school',compact($c));
@@ -304,6 +306,99 @@ class MainController extends Controller {
 						$emailPayload['subject'] = $req['contactName']." sent a message to ".$school['name'];
 						$emailPayload['htmlContent'] = $this->helpers->getEmailContent('contact-school',$htmlContentData);
 						$this->helpers->symfonySendMail($emailPayload);
+						$ret = ['status'=> "ok"];
+					}
+					else
+					{
+                        $ret = ['status' => "error","message" => "invalid-session"];
+					}
+					
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "auth"];
+			}
+
+
+		 return json_encode($ret); 
+    }
+
+	public function postAddSchoolBookmark(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		    if(Auth::check())
+		    {
+			    $user = Auth::user();
+				$req = $request->all();
+				
+				$validator = Validator::make($req, [
+					'xf' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$school = $this->helpers->getSchool($req['xf']);
+
+					if(count($school) > 0)
+					{
+						$payload = [
+							'user_id' => $user->id,
+							'school_id' => $req['xf'],
+						];
+
+						$this->helpers->addSchoolBookmark($payload);
+						$ret = ['status'=> "ok"];
+					}
+					else
+					{
+                        $ret = ['status' => "error","message" => "invalid-session"];
+					}
+					
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "auth"];
+			}
+
+
+		 return json_encode($ret); 
+    }
+
+	public function postRemoveSchoolBookmark(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		    if(Auth::check())
+		    {
+			    $user = Auth::user();
+				$req = $request->all();
+				
+				$validator = Validator::make($req, [
+					'xf' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$b = $this->helpers->getSchoolBookmark($req['xf']);
+
+					if(count($b) > 0)
+					{
+						$this->helpers->removeSchoolBookmark($b['id']);
 						$ret = ['status'=> "ok"];
 					}
 					else

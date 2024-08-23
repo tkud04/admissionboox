@@ -6,6 +6,28 @@ $void = 'javascript:void(0)';
 <?php $__env->startSection('title',$school['name']); ?>
 
 <?php
+if(!function_exists('hasBookmarkedSchool'))
+{
+  function hasBookmarkedSchool($s,$uid)
+  {
+	$ret = 'false';
+    $bookmarks = $s['bookmarks'];
+	if(count($bookmarks) > 0)
+	{
+       foreach($bookmarks as $b)
+	   {
+		 if($b['user_id'] === $uid)
+		 {
+            $ret = 'true';
+		 }
+	   }
+	}
+
+	return $ret;
+  }
+}
+
+$hbs = hasBookmarkedSchool($school,$user->id);
 $schoolUrl = $school['url'];
 $url2 = url('school').'?xf='.$schoolUrl;
 
@@ -16,6 +38,7 @@ $reviewerEmail = $user === null ? '' : $user->email;
 
 <?php $__env->startSection('scripts'); ?>
 <script>
+	console.log('hbs: ',"<?php echo e($hbs); ?>")
 const clearValidations = () => {
   $('.form-validation').hide()
 }
@@ -116,6 +139,32 @@ $(() => {
             )
 	}
  })
+
+ $('.bookmark-school').click((e) => {
+	e.preventDefault()
+	clearValidations()
+      
+              const payload = {
+                xf: "<?php echo e($schoolUrl); ?>"
+              }
+              
+              bookmarkSchool(payload,
+              (data) => {
+              
+                if(data.status === 'ok'){
+                    alert('Bookmarked!')
+                    window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+				 alert(`Failed to add bookmark: ${err}`)
+              }
+            )
+
+ })
 })
 </script>
 <?php $__env->stopSection(); ?>
@@ -176,12 +225,16 @@ if(!function_exists('getPriceTag'))
               <div class="utf_counter_star_rating">(<?php echo e($rating); ?>) / (<?php echo e(count($reviews)); ?> Reviews)</div>
             </div>
 			<?php
-              $bmu = "#".url("bookmark-school")."?xf=".$school['url'];
               $aru = "#utf_add_review";
               $ssu = "#share-school-div";
 			?>
             <ul class="listing_item_social">
-              <li><a href="<?php echo e($bmu); ?>"><i class="fa fa-bookmark"></i> Bookmark</a></li>
+			 <?php if($hbs): ?>
+			 <li><a href="#"><i class="fa fa-bookmark"></i> Bookmarked</a></li>
+			 <?php else: ?>
+			 <li><a href="#" class="bookmark-school"><i class="fa fa-bookmark"></i> Bookmark</a></li>
+			 <?php endif; ?>
+
 			  <li><a href="<?php echo e($aru); ?>"><i class="fa fa-star"></i> Add Review</a></li>
               <li><a href="<?php echo e($ssu); ?>"><i class="fa fa-share"></i> Share</a></li>
 			 <!-- <li><a href="#" class="now_open">Open Now</a></li> -->
@@ -632,7 +685,7 @@ if(!function_exists('getPriceTag'))
             <li>Waiter Service: <span>Yes</span></li>
           </ul>
         </div>
-		<div class="utf_box_widget opening-hours margin-top-35">
+		<div class="utf_box_widget opening-hours margin-top-35" id="contactform-div">
 			
 		<h3><i class="sl sl-icon-envelope-open"></i> Contact Us</h3>
           <form id="contactform">
@@ -659,40 +712,32 @@ if(!function_exists('getPriceTag'))
                     ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
           </form>
         </div>
-		<div class="utf_box_widget opening-hours margin-top-35">
-          <h3><i class="sl sl-icon-info"></i> Google AdSense</h3>
-          <span><img src="images/google_adsense.jpg" alt=""></span>
-        </div>
+		<?php echo $__env->make('components.school-regular-ad', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="utf_box_widget margin-top-35">
-          <h3><i class="sl sl-icon-phone"></i> Quick Contact to Help?</h3>
-          <p>Excepteur sint occaecat non proident, sunt in culpa officia deserunt mollit anim id est laborum.</p>
-          <ul class="utf_social_icon rounded">
-            <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
-            <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
-            <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
-            <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
-            <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
-          </ul>
-          <a class="utf_progress_button button fullwidth_block margin-top-5" href="contact.html">Contact Us<div class="progress-bar"></div></a> 
+          <h3><i class="sl sl-icon-phone"></i> Enquiries or Complaints?</h3>
+          <p>We would love to hear from you! You can reach out to us for your enquiries, requests or complaints, or even just to say hi :)</p>
+          <a class="utf_progress_button button fullwidth_block margin-top-5" href="#contactform-div">Contact Us<div class="progress-bar"></div></a> 
 		</div>
         <div class="utf_box_widget listing-share margin-top-35 margin-bottom-40 no-border">
-          <h3><i class="sl sl-icon-pin"></i> Bookmark Listing</h3>
-		  <span>1275 People Bookmarked Listings</span>
-          <button class="like-button"><span class="like-icon"></span> Login to Bookmark Listing</button>          
-          <ul class="utf_social_icon rounded margin-top-35">
-            <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
-            <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
-            <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
-            <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
-            <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
-          </ul>
+          <h3><i class="sl sl-icon-pin"></i> Bookmark School</h3>
+		  <span><?php echo e(count($school['bookmarks'])); ?> People Bookmarked</span>
+		  <?php if($user === null): ?>
+          <button class="like-button"> Login to Bookmark School</button>          
+          <?php else: ?>
+		    <?php if($hbs): ?>
+			<button class="like-button" disabled><span class="like-icon liked"></span> Bookmarked!</button>
+			 <?php else: ?>
+			 <button class="like-button bookmark-school"><span class="like-icon"></span> Bookmark School</button>
+			 <?php endif; ?>
+		           
+          <?php endif; ?>
           <div class="clearfix"></div>
         </div>
 		<div class="utf_box_widget opening-hours review-avg-wrapper margin-top-35">
           <h3><i class="sl sl-icon-star"></i>  Rating Average </h3>
           <div class="box-inner">
 			  <div class="rating-avg-wrapper text-theme clearfix">
-				<div class="rating-avg">4.8</div>
+				<div class="rating-avg"><?php echo e($calculatedRating['rating']); ?></div>
 				<div class="rating-after">
 				  <div class="rating-mode">/5 Average</div>
 				  
@@ -700,25 +745,18 @@ if(!function_exists('getPriceTag'))
 			  </div>
 			  <div class="ratings-avg-wrapper">
 				<div class="ratings-avg-item">
-				  <div class="rating-label">Quality</div>
-				  <div class="rating-value text-theme">5.0</div>
-				</div>
-				<div class="ratings-avg-item">
-				  <div class="rating-label">Location</div>
-				  <div class="rating-value text-theme">4.5</div>
-				</div>
-				<div class="ratings-avg-item">
-				  <div class="rating-label">Space</div>
-				  <div class="rating-value text-theme">3.5</div>
-				</div>
-				<div class="ratings-avg-item">
 				  <div class="rating-label">Service</div>
-				  <div class="rating-value text-theme">4.0</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['service']); ?></div>
 				</div>
 				<div class="ratings-avg-item">
 				  <div class="rating-label">Price</div>
-				  <div class="rating-value text-theme">5.0</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['price']); ?></div>
 				</div>
+				<div class="ratings-avg-item">
+				  <div class="rating-label">Environment</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['environment']); ?></div>
+				</div>
+				
 			  </div>
 			</div>
         </div>
@@ -735,126 +773,43 @@ if(!function_exists('getPriceTag'))
 		 <div class="row">
 			<div class="col-md-12">
 			<div class="simple_slick_carousel_block utf_dots_nav"> 
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-01.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span> <span class="featured_tag">Featured</span>
-					  <span class="utf_open_now">Open Now</span>
+				<?php
+                 foreach($similarSchools as $ss)
+				 {
+					$ssu = url('school')."?xf=".$ss['url'];
+					$ssInfo = $ss['info'];
+					$ssAddress = $ss['address'];
+					$isFeatured = false;
+					$hasAdmission = true;
+					$scr = $ss['calculatedRating'];
+					$ssBookmarkCount = count($ss['bookmarks']);
+				?>
+				  <div class="utf_carousel_item"> <a href="<?php echo e($ssu); ?>" class="utf_listing_item-container compact">
+					<div class="utf_listing_item"> <img src="<?php echo e($ss['logo']); ?>" alt=""> 
+					<?php if($hasAdmission): ?><span class="tag"><i class="im im-icon-File"></i> Admission open</span> <?php endif; ?>
+					<?php if($isFeatured): ?><span class="featured_tag">Featured</span><?php endif; ?>
+					  <span class="utf_open_now"><?php echo e(ucwords($ss['status'])); ?></span>
 					  <div class="utf_listing_item_content">
 					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
-							<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
+							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> <?php echo getPriceTag($ssInfo['school_fees']); ?></span>							
+							<!--<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>-->
 						</div>
-						<h3>Chontaduro Barcelona</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>											
+						<h3><?php echo e($ss['name']); ?></h3>
+						<span><i class="fa fa-map-marker"></i> <?php echo e($ssAddress['school_state']); ?></span>
+						<span><i class="fa fa-phone"></i> <?php echo e($ss['phone']); ?></span>											
 					  </div>					  
 					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
+					<div class="utf_star_rating_section" data-rating="<?php echo e($scr['rating']); ?>">
+						<div class="utf_counter_star_rating">(<?php echo e($scr['rating']); ?>)</div>
+						<span class="utf_view_count"><i class="fa fa-bookmark"></i> <?php echo e($ssBookmarkCount); ?>+</span>
 						<span class="like-icon"></span>
 					</div>
 					</a> 
 				  </div>
+				  <?php
+				 }
+				  ?>
 				  
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-02.jpg" alt=""> <span class="tag"><i class="im im-icon-Electric-Guitar"></i> Events</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-						</div>
-						<h3>The Lounge & Bar</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>												
-					  </div>
-					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-						<span class="like-icon"></span>
-					</div>
-					</a> 
-				  </div>
-				  
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-03.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span>
-					  <span class="utf_closed">Closed</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $55</span>							
-						</div>
-						<h3>Westfield Sydney</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>												
-					  </div>
-					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-						<span class="like-icon"></span>
-					</div>
-					</a> 
-				  </div>
-				  
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-04.jpg" alt=""> <span class="tag"><i class="im im-icon-Dumbbell"></i> Fitness</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-							<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
-						</div>
-						<h3>Ruby Beauty Center</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>												
-					  </div>
-					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-						<span class="like-icon"></span>
-					</div>
-					</a> 
-				  </div>
-				  
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-05.jpg" alt=""> <span class="tag"><i class="im im-icon-Hotel"></i> Hotels</span> <span class="featured_tag">Featured</span>
-					  <span class="utf_closed">Closed</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $45 - $70</span>							
-						</div>
-						<h3>UK Fitness Club</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>												
-					  </div>
-					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-						<span class="like-icon"></span>
-					</div>
-					</a> 
-				   </div>
-				  
-				  <div class="utf_carousel_item"> <a href="listings_single_page_1.html" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="images/utf_listing_item-06.jpg" alt=""> <span class="tag"><i class="im im-icon-Chef-Hat"></i> Restaurant</span>
-					  <span class="utf_open_now">Open Now</span>
-					  <div class="utf_listing_item_content">
-					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> $25 - $45</span>							
-							<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>
-						</div>
-						<h3>Fairmont Pacific Rim</h3>
-						<span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
-						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>											
-					  </div>
-					</div>
-					<div class="utf_star_rating_section" data-rating="4.5">
-						<div class="utf_counter_star_rating">(4.5)</div>
-						<span class="utf_view_count"><i class="fa fa-eye"></i> 822+</span>
-						<span class="like-icon"></span>
-					</div>
-					</a>
-				  </div>
 				</div>
 			  </div>
 		  </div>
