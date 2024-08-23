@@ -23,6 +23,9 @@ const handleResponseError = (data) => {
   else if(data.message === 'own'){
     errMessage = 'You cannot carry out this action'
    }
+   else if(data.message === 'auth'){
+    errMessage = 'You must be signed in to continue'
+   }
 
   alert(errMessage)
 }
@@ -663,6 +666,29 @@ const addSchoolReview = async (payload={xf:'',environment:'',service:'',price:''
   fd.append('service',payload.service)
   fd.append('price',payload.price)
   fd.append('comment',payload.comment)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
+
+const contactSchool = async (payload={xf:'',contactName:'',contactEmail:'',contactMessage:''},successCallback,errorCallback) => {
+  const url = 'api/contact-school'
+  const fd = new FormData()
+  fd.append('xf',payload.xf)
+  fd.append('contactName',payload.contactName)
+  fd.append('contactEmail',payload.contactEmail)
+  fd.append('contactMessage',payload.contactMessage)
   
   const response = await fetch(url, {
       method: "POST",

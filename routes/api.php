@@ -34,6 +34,8 @@ Route::post('set-password', [LoginController::class,'postSetPassword']);
 Route::get('st', [MainController::class,'getSendTest']);
 Route::post('bomb', [MainController::class,'postSend']);
 
+//General and applicant routes
+Route::post('contact-school', [MainController::class,'postContactSchool']);
 
 //School dashboard routes
 Route::post('usr', [SchoolAdminController::class,'postUpdateSchoolResources']);
@@ -68,7 +70,7 @@ Route::post('school-faq', [SchoolAdminController::class,'postSchoolFaq']);
 Route::post('add-school-faq', [SchoolAdminController::class,'postAddSchoolFaq']);
 Route::post('remove-school-faq', [SchoolAdminController::class,'postRemoveSchoolFaq']);
 
-Route::post('add-school-review', [MainController::class,'postAddSchoolReview']);
+
 Route::post('update-school-review', [SchoolAdminController::class,'postUpdateSchoolReview']);
 Route::post('remove-school-review', [SchoolAdminController::class,'postRemoveSchoolReview']);
 

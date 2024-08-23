@@ -2284,6 +2284,21 @@ class Helper //implements HelperContract
 EOD;
              }
 
+             else if($type === 'contact-school' && (isset($data['contactName']) && isset($data['contactEmail'])) && isset($data['contactMessage']) && isset($data['schoolName']))
+             {
+                $name = $data['contactName']; $email = $data['contactEmail']; $msg = $data['contactMessage']; $schoolName = $data['schoolName'];
+                $ret = <<<EOD
+                <div style="padding: 10px;">
+                   <h4 style="">New message for $schoolName</h4>
+                   <p style="">Name: <strong>$name,</strong></p>
+                   <p style="">Email address: <strong>$email</strong></p>
+                   <blockquote style=" background: rgba(0, 0, 0, 0.02); padding: 20px; margin: 0 0 20px; font-size: 16px; line-height: 28px; color: #707070; border-left: 5px solid #eeeeee;">
+                     $msg
+                   </blockquote>
+                </div>
+EOD;
+             }
+
              return $ret;
            }
 

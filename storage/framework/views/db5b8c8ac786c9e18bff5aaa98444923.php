@@ -7,6 +7,11 @@ $void = 'javascript:void(0)';
 
 <?php
 $schoolUrl = $school['url'];
+$url2 = url('school').'?xf='.$schoolUrl;
+
+$reviewerFname = $user === null ? '' : $user->fname;
+$reviewerLname = $user === null ? '' : $user->lname;
+$reviewerEmail = $user === null ? '' : $user->email;
 ?>
 
 <?php $__env->startSection('scripts'); ?>
@@ -49,7 +54,7 @@ $(() => {
               $('#add-review-btn').fadeIn()
 
                 if(data.status === 'ok'){
-                    alert('Review Added! Adins would review shortly')
+                    alert('Review Added! Admins would review shortly')
                     window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
                 }
                 else if(data.status === 'error'){
@@ -60,6 +65,53 @@ $(() => {
                 $('#add-review-loading').hide()
                 $('#add-review-btn').fadeIn()
                 alert(`Failed to add review: ${err}`)
+              }
+            )
+	}
+ })
+
+ $('#contact-school-btn').click((e) => {
+	e.preventDefault()
+	clearValidations()
+
+	const contactName = $('#contact-school-name').val(), contactEmail = $('#contact-school-email').val(),
+	      contactMessage = $('#contact-school-message').val(),
+		  v = contactName === '' || contactEmail === '' || contactMessage === ''
+	
+	if(v){
+	  if(contactName === '') $('#contact-school-name-validation').fadeIn()
+	  if(contactEmail === '') $('#contact-school-email-validation').fadeIn()
+	  if(contactMessage === '') $('#contact-school-message-validation').fadeIn()
+	}
+    else{
+		$('#contact-school-btn').hide()
+              $('#contact-school-loading').fadeIn()
+              
+              const payload = {
+                xf: "<?php echo e($schoolUrl); ?>",
+                contactName,
+				contactEmail,
+				contactMessage
+              }
+              
+              contactSchool(payload,
+              (data) => {
+                
+                $('#contact-school-loading').hide()
+               $('#contact-school-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Message sent! We would get back to you shortly.')
+                    window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+				$('#contact-school-loading').hide()
+				$('#contact-school-btn').fadeIn()
+                alert(`Failed to contact school: ${err}`)
               }
             )
 	}
@@ -142,7 +194,7 @@ if(!function_exists('getPriceTag'))
 		  <div id="utf_listing_tags" class="utf_listing_section listing_tags_section margin-bottom-10 margin-top-0">          
 		    <a href="tel:<?php echo e($school['phone']); ?>"><i class="sl sl-icon-phone" aria-hidden="true"></i> <?php echo e($school['phone']); ?></a>			
 			<a href="mailto:<?php echo e($school['email']); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i> <?php echo e($school['email']); ?></a>	
-			<a href="#"><i class="sl sl-icon-globe" aria-hidden="true"></i> www.example.com</a>			
+			<a href="<?php echo e($url2); ?>"><i class="sl sl-icon-globe" aria-hidden="true"></i> View school website</a>	
           </div>
 		  <div id="share-school-div" class="social-contact">
 			<a href="#" class="facebook-link"><i class="fa fa-facebook"></i> Facebook</a>
@@ -154,19 +206,7 @@ if(!function_exists('getPriceTag'))
 		<div id="utf_listing_tags" class="utf_listing_section listing_tags_section">
           <h3 class="utf_listing_headline_part margin-top-30 margin-bottom-40">Tags</h3>
 		   <?php
-            $tags = [
-				'day' => false,
-				'boarding' => false,
-				'early' => false,
-				'primary' => false,
-				'secondary' => false,
-				'tertiary' => false,
-				'boys' => false,
-				'girls' => false,
-				'faith' => false,
-				'private' => false,
-				'public' => false,
-			];
+           
 
 			if($info['boarding_type'] === 'day' || $info['boarding_type'] === "both") $tags['day'] = true;
 			if($info['boarding_type'] === 'boarding' || $info['boarding_type'] === "both") $tags['boarding'] = true;
@@ -354,11 +394,11 @@ if(!function_exists('getPriceTag'))
               <div class="row">
                 <div class="col-md-6">
                   <label>Name:</label>
-                  <input type="text" placeholder="Name" value="<?php echo e($user->fname); ?> <?php echo e($user->lname); ?>" disabled>
+                  <input type="text" placeholder="Name" value="<?php echo e($reviewerFname); ?> <?php echo e($reviewerLname); ?>" disabled>
                 </div>
                 <div class="col-md-6">
                   <label>Email:</label>
-                  <input type="text" placeholder="Email" value="<?php echo e($user->email); ?>" disabled>
+                  <input type="text" placeholder="Email" value="<?php echo e($reviewerEmail); ?>" disabled>
                 </div>
                 
               </div>
@@ -529,6 +569,7 @@ if(!function_exists('getPriceTag'))
 		<?php
 	  }
 	    $owner = $school['owner'];
+		$ownerEmail = $owner['email'];
 		?>
         <div class="utf_box_widget margin-top-35">
           <h3><i class="sl sl-icon-phone"></i> Owner Info</h3>
@@ -537,57 +578,49 @@ if(!function_exists('getPriceTag'))
               <span><i class="sl sl-icon-location"></i> <?php echo e($address['school_address']); ?>, <?php echo e($address['school_state']); ?></span>
             </h4>
           </div>
-		  <ul class="utf_social_icon rounded margin-top-10">
-            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
-            <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
-            <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
-            <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>            
-          </ul>
           <ul class="utf_listing_detail_sidebar">
-            <li><i class="sl sl-icon-map"></i> 12345 Little Lonsdale St, Melbourne</li>
-            <li><i class="sl sl-icon-phone"></i> +(012) 1123-254-456</li>
-            <li><i class="sl sl-icon-globe"></i> <a href="#">www.example.com</a></li>
-            <li><i class="fa fa-envelope-o"></i> <a href="mailto:info@example.com">info@example.com</a></li>
+            <li><i class="sl sl-icon-map"></i> [provided upon request]</li>
+            <li><i class="sl sl-icon-phone"></i> [provided upon request]</li>
+            <li><i class="sl sl-icon-globe"></i> <a href="<?php echo e($url2); ?>">View school website</a></li>
+            <li><i class="fa fa-envelope-o"></i> <a href="mailto:<?php echo e($ownerEmail); ?>">Send an email</a></li>
           </ul>		  
         </div>
         <div class="utf_box_widget margin-top-35">
           <h3><i class="sl sl-icon-folder-alt"></i> Categories</h3>
           <ul class="utf_listing_detail_sidebar">
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Travel</a></li>
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Nightlife</a></li>
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Fitness</a></li>
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Real Estate</a></li>
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Restaurant</a></li>
-            <li><i class="fa fa-angle-double-right"></i> <a href="#">Dance Floor</a></li>
+		  <?php
+           
+			if($info['boarding_type'] === 'day' || $info['boarding_type'] === "both") $tags['day'] = true;
+			if($info['boarding_type'] === 'boarding' || $info['boarding_type'] === "both") $tags['boarding'] = true;
+			if($info['school_type'] === 'early-only' || $info['school_type'] === "early-primary-secondary") $tags['early'] = true;
+			if($info['school_type'] === 'primary-only' || $info['school_type'] === "primary-secondary" || $info['school_type'] === "early-primary-secondary") $tags['primary'] = true;
+			if($info['school_type'] === 'secondary-only' || $info['school_type'] === "primary-secondary"  || $info['school_type'] === "early-primary-secondary") $tags['secondary'] = true;
+			if($info['school_type'] === 'tertiary-only') $tags['tertiary'] = true;
+
+			foreach($tags as $k => $v)
+			{
+				if($v)
+				{
+					$vu = url('schools')."?xf=".$k;
+		   ?>
+			<li><i class="fa fa-angle-double-right"></i> <a href="<?php echo e($vu); ?>"> <?php echo e(ucwords($k)); ?></a></li>
+			<?php
+			    }
+		    }
+			?>
           </ul>
         </div>
         <div class="utf_box_widget opening-hours margin-top-35">
-          <h3><i class="sl sl-icon-clock"></i> Business Hours</h3>
+          <h3><i class="sl sl-icon-clock"></i> School Hours</h3>
           <ul>
-            <li>Monday <span>09:00 AM - 09:00 PM</span></li>
-            <li>Tuesday <span>09:00 AM - 09:00 PM</span></li>
-            <li>Wednesday <span>09:00 AM - 09:00 PM</span></li>
-            <li>Thursday <span>09:00 AM - 09:00 PM</span></li>
-            <li>Friday <span>09:00 AM - 09:00 PM</span></li>
-            <li>Saturday <span>09:00 AM - 10:00 PM</span></li>
-            <li>Sunday <span>09:00 AM - 10:00 PM</span></li>
+            <li>Monday <span>09:00 AM - 04:00 PM</span></li>
+            <li>Tuesday <span>09:00 AM - 04:00 PM</span></li>
+            <li>Wednesday <span>09:00 AM - 04:00 PM</span></li>
+            <li>Thursday <span>09:00 AM - 04:00 PM</span></li>
+            <li>Friday <span>09:00 AM - 04:00 PM</span></li>
           </ul>
         </div>	
-		<div class="opening-hours margin-top-35">
-			<div class="utf_coupon_widget" style="background-image: url(images/coupon-bg-1.jpg);">
-				<div class="utf_coupon_overlay"></div>
-				<a href="#" class="utf_coupon_top">
-					<h3>Book Now &amp; Get 50% Discount</h3>
-					<div class="utf_coupon_expires_date">Date of Expires 05/08/2022</div>	
-					<div class="utf_coupon_used"><strong>How to use?</strong> Just show us this coupon on a screen</div>	
-				</a>
-				<div class="utf_coupon_bottom">
-					<p>Coupon Code</p>
-					<div class="utf_coupon_code">DL76T</div>
-				</div>
-			</div>
-		</div>
+		<?php echo $__env->make('components.school-premium-ad', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="utf_box_widget opening-hours margin-top-35">
           <h3><i class="sl sl-icon-info"></i> Additional Information</h3>
           <ul>
@@ -600,23 +633,30 @@ if(!function_exists('getPriceTag'))
           </ul>
         </div>
 		<div class="utf_box_widget opening-hours margin-top-35">
-          <h3><i class="sl sl-icon-envelope-open"></i> Sidebar Form</h3>
+			
+		<h3><i class="sl sl-icon-envelope-open"></i> Contact Us</h3>
           <form id="contactform">
             <div class="row">              
-              <div class="col-md-12">                
-                  <input name="name" type="text" placeholder="Name" required="">                
+              <div class="col-md-12">  
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-name-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>              
+                  <input  type="text" placeholder="Name" id="contact-school-name" value="<?php echo e($reviewerFname); ?> <?php echo e($reviewerLname); ?>" required="">                
               </div>
-              <div class="col-md-12">                
-                  <input name="email" type="email" placeholder="Email" required="">                
+              <div class="col-md-12">    
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-email-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>            
+                  <input name="email" type="email" placeholder="Email" id="contact-school-email" value="<?php echo e($reviewerEmail); ?>" required="">                
               </div>    
-			  <div class="col-md-12">                
-                  <input name="phone" type="text" placeholder="Phone" required="">                
-              </div>	
 			  <div class="col-md-12">
-				  <textarea name="comments" cols="40" rows="2" id="comments" placeholder="Your Message" required=""></textarea>
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-message-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+				  <textarea name="comments" cols="40" rows="2" id="contact-school-message" placeholder="Your Message" required=""></textarea>
 			  </div>
             </div>            
-            <input type="submit" class="submit button" id="submit" value="Contact Agent">
+            <?php echo $__env->make('components.generic-loading', ['message' => 'Processing', 'id' => "contact-school-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                  <?php echo $__env->make('components.button',[
+                     'href' => '#',
+                     'title' => 'Submit',
+                     'classes' => 'margin-top-20',
+                     'id' => 'contact-school-btn'
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
           </form>
         </div>
 		<div class="utf_box_widget opening-hours margin-top-35">
