@@ -87,7 +87,7 @@ if(!function_exists('getPriceTag'))
           </div>
         </div>
         -->
-        <div class="row" srtyle="margin-top: 10px;">
+        <div class="row" style="margin-top: 10px;">
           <?php
             if(count($schools) > 0)
             {
@@ -128,6 +128,15 @@ if(!function_exists('getPriceTag'))
           </div>
           <?php
               }
+            }
+            else
+            {
+          ?>
+            <div class="col-lg-12 col-md-12" style="margin-top: 10px; margin-left: 10px;">
+              <h4 class="headline_part margin-top-0 margin-bottom-15">No Results</h4>
+              <p>Please check back later, schools are being added!</p>
+            </div>
+          <?php
             }
           ?>
         </div>

@@ -612,6 +612,42 @@ class AdminController extends Controller {
 
 	   return json_encode(($ret));
     }
+
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSchools(Request $request)
+    {
+        $user = null;
+       $senders = $this->helpers->getSenders();
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role === "admin" || $user->role === "su")
+            {
+				$req = $request->all();
+				$status = isset($req['status']) ? $req['status'] : "active";
+			  $currentPage = isset($req['page']) ? $req['page'] : "1";
+		       $currentPage = intval($currentPage);	
+
+		      $allSchools = $this->helpers->filterSchools($status);
+		      $numPages = $this->helpers->numPages($allSchools);
+		      $schools = $this->helpers->changePage($allSchools,$currentPage);
+
+			  array_push($c,'schools','numPages','currentPage');
+			   return view('my-schools',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+       
+    }
 	
 	
     

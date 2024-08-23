@@ -1,3 +1,14 @@
+<?php
+ $activeSchools = [];  $pendingSchools = []; 
+ foreach($schools as $s)
+ {
+    if($s['status'] === 'active') array_push($activeSchools,$s);
+    else if($s['status'] === 'pending') array_push($pendingSchools,$s);
+ }
+
+ $su = url('my-schools'); $asu = $su."?xf=active"; $psu = $su."?xf=pending";
+?>
+
 <div class="utf_dashboard_navigation js-scrollbar">
         <div class="utf_dashboard_navigation_inner_block">
             <ul>
@@ -14,9 +25,8 @@
                 <li>
                     <a href="javascript:void(0)"><i class="sl sl-icon-graduation"></i> Schools</a>
                     <ul>
-                        <li><a href="#">Active <span class="nav-tag green">10</span></a></li>
-                        <li><a href="#">Pending <span class="nav-tag yellow">4</span></a></li>
-                        <li><a href="#">Expired <span class="nav-tag red">8</span></a></li>
+                        <li><a href="{{$asu}}">Active <span class="nav-tag green">{{count($activeSchools)}}</span></a></li>
+                        <li><a href="{{$psu}}">Pending <span class="nav-tag yellow">{{count($pendingSchools)}}</span></a></li>
                     </ul>
                 </li>
                 <li>

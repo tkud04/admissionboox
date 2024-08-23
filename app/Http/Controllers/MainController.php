@@ -477,7 +477,7 @@ class MainController extends Controller {
 		}
 		else if($user->role === 'admin' || $user->role === 'su')
 		{
-		  $schools = $this->helpers->getSchools();
+		  $schools = $this->helpers->getSchools(['id' => "all","status" => "all"]);
 		   $facilities = $this->helpers->getFacilities();
 		  $clubs = $this->helpers->getClubs();
 		  $users = $this->helpers->getUsers(); 

@@ -129,6 +129,15 @@ if(!function_exists('getPriceTag'))
           <?php
               }
             }
+            else
+            {
+          ?>
+            <div class="col-lg-12 col-md-12" style="margin-top: 10px; margin-left: 10px;">
+              <h4 class="headline_part margin-top-0 margin-bottom-15">No Results</h4>
+              <p>Please check back later, schools are being added!</p>
+            </div>
+          <?php
+            }
           ?>
         </div>
         <div class="clearfix"></div>

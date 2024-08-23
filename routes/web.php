@@ -43,6 +43,8 @@ Route::get('add-facility', [AdminController::class,'getAddFacility']);
 Route::get('facilities', [AdminController::class,'getFacilities']);
 Route::get('add-club', [AdminController::class,'getAddClub']);
 Route::get('clubs', [AdminController::class,'getClubs']);
+Route::get('my-schools', [AdminController::class,'getSchools']);
+Route::get('my-school', [AdminController::class,'getSchool']);
 
 //School routes
 Route::get('send-email', [SchoolAdminController::class,'getSendEmail']);

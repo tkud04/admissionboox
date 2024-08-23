@@ -2508,7 +2508,7 @@ EOD;
                return $ret;
            }
 
-           function getPlugins()
+           function getPlugins($data=['mode' => 'all'])
            {
                $ret = [];
                $plugins = Plugins::where('id','>','0')->get();
@@ -2588,11 +2588,16 @@ EOD;
             return $ret;
            }
 
-           function getSchools($id='all')
+           function getSchools($options=['id' => "","status" => "all"])
            {
                $ret = [];
-               if($id === 'all') $schools = Schools::where('id','>','0')->get();
-               else $schools = Schools::where('email', $id)->get();
+               $id = $options['id']; $status = $options['status'];
+               $ret2 = null;
+               if($id === 'all') $ret2 = Schools::where('id','>','0');
+               else $ret2 = Schools::where('email', $id);
+               
+              if($status === "all") $schools = $ret2->get();
+              else $schools = $ret2->where('status',$status)->get();
 
                if($schools != null)
                {
@@ -4507,9 +4512,13 @@ EOD;
           {
             $ret = []; $schools = null;
 
-            if($category === 'all')
+            if($category === 'all' || $category === 'active')
             {
-              $ret = $this->getSchools();
+              $ret = $this->getSchools(['id' => "all","status" => "active"]);
+            }
+            else if($category === 'pending')
+            {
+              $ret = $this->getSchools(['id' => "all","status" => "pending"]);
             }
             else
             {
@@ -4629,8 +4638,7 @@ EOD;
           {
             $ret = [];
            
-            //Facilities
-            $schools = $this->getSchools();
+            $schools = $this->getSchools(['id' => "all","status" => "active"]);
             
 
             foreach($schools as $s)
