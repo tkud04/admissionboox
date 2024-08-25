@@ -53,13 +53,13 @@
                     </ul>
                 </li>
                
-                 <li>
+                 <!--<li>
                     <a href="javascript:void(0)"><i class="sl sl-icon-star"></i> Reviews</a>
                     <ul>
                         <li><a href="<?php echo e(url('reviews')); ?>">Approved <span class="nav-tag green">4</span></a></li>
                         <li><a href="<?php echo e(url('reviews')); ?>">Pending <span class="nav-tag yellow">5</span></a></li>
                     </ul>
-                </li>
+                </li>-->
                 <li><a href="<?php echo e(url('profile')); ?>"><i class="sl sl-icon-user"></i> My Profile</a></li>
                 <li><a href="<?php echo e(url('change-password')); ?>"><i class="sl sl-icon-key"></i> Change Password</a></li>
                 <li><a href="<?php echo e(url('bye')); ?>"><i class="sl sl-icon-power"></i> Logout</a></li>
