@@ -45,6 +45,7 @@ Route::get('add-club', [AdminController::class,'getAddClub']);
 Route::get('clubs', [AdminController::class,'getClubs']);
 Route::get('my-schools', [AdminController::class,'getSchools']);
 Route::get('my-school', [AdminController::class,'getSchool']);
+Route::get('admin-school-admissions', [AdminController::class,'getSchoolAdmissions']);
 
 //School routes
 Route::get('send-email', [SchoolAdminController::class,'getSendEmail']);

@@ -2598,7 +2598,7 @@ EOD;
                
               if($status === "all") $schools = $ret2->get();
               else $schools = $ret2->where('status',$status)->get();
-
+             
                if($schools != null)
                {
                   foreach($schools as $s)
@@ -4556,7 +4556,7 @@ EOD;
                 {
                     foreach($schools as $s)
                     {
-                        $temp = $this->getSchool($s->id);
+                        $temp = $this->getSchool($s->school_id);
                         array_push($ret,$temp);
                     }
                 }

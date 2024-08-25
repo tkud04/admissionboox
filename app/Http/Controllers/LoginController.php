@@ -456,7 +456,13 @@ class LoginController extends Controller {
             $c = $this->compactValues;
             $em = $user->email;
             array_push($c,'em');
-            
+
+           if($user->role === 'admin')
+		   {
+			$menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+			array_push($c,'menuSchools');
+		   }
+           
             return view('change-password',compact($c)); 
 		}
 

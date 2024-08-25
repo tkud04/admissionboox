@@ -1,6 +1,6 @@
 <?php
  $activeSchools = [];  $pendingSchools = []; 
- foreach($schools as $s)
+ foreach($menuSchools as $s)
  {
     if($s['status'] === 'active') array_push($activeSchools,$s);
     else if($s['status'] === 'pending') array_push($pendingSchools,$s);
@@ -15,12 +15,7 @@
                 <li><a href="{{url('dashboard')}}"><i class="sl sl-icon-layers"></i> Dashboard</a></li>
                
                 <li>
-                    <a href="javascript:void(0)"><i class="sl sl-icon-doc"></i> Admissions</a>
-                    <ul>
-                        <li><a href="#">Active <span class="nav-tag green">10</span></a></li>
-                        <li><a href="#">Pending <span class="nav-tag yellow">4</span></a></li>
-                        <li><a href="#">Expired <span class="nav-tag red">8</span></a></li>
-                    </ul>
+                    <a href="{{url('admin-school-admissions')}}"><i class="sl sl-icon-doc"></i> Admissions</a>
                 </li>
                 <li>
                     <a href="javascript:void(0)"><i class="sl sl-icon-graduation"></i> Schools</a>

@@ -30,16 +30,21 @@ class AdminController extends Controller {
 	public function getAddSender(Request $request)
     {
        $user = null;
-	   $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins();
 	   $senders = $this->helpers->getSenders();
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
+
+	   $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
 
 		if(Auth::check())
 		{
 			$user = Auth::user();
 		}
 
-    	return view('add-sender',compact(['user','senders','signals','plugins']));
+		array_push($c,'menuSchools');
+
+    	return view('add-sender',compact($c));
     }
 
 	/**
@@ -98,17 +103,20 @@ class AdminController extends Controller {
 	public function getPlugins()
     {
         $user = null;
-       $senders = $this->helpers->getSenders();
-	   //$plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
-       $c = $this->compactValues;
+		$senders = $this->helpers->getSenders();
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins(['mode' => "all"]);
+		$c = $this->compactValues;
+
+	    $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+        array_push($c,'menuSchools');
 
 		if(Auth::check())
 		{
 			$user = Auth::user();
             if($user->role === "admin" || $user->role === "su")
             {
+				
 			   return view('plugins',compact($c));
             }
 		}
@@ -125,10 +133,13 @@ class AdminController extends Controller {
 	public function getAddPlugin(Request $request)
     {
        $user = null;
-       $senders = $this->helpers->getSenders();
-	   $plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-       $c = $this->compactValues;
+	   $senders = $this->helpers->getSenders();
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+	   $c = $this->compactValues;
+
+	   $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+	   array_push($c,'menuSchools');
 
 	   if(Auth::check())
 		{
@@ -197,7 +208,14 @@ class AdminController extends Controller {
 	public function getPlugin(Request $request)
     {
        $user = null;
-	   $signals = $this->helpers->signals;
+	   $senders = $this->helpers->getSenders();
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins(['mode' => "all"]);
+		$c = $this->compactValues;
+
+	    $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+        array_push($c,'menuSchools');
+
 	   $req = $request->all();
 
 	   if(Auth::check())
@@ -327,11 +345,13 @@ class AdminController extends Controller {
 	public function getFacilities()
     {
         $user = null;
-       $senders = $this->helpers->getSenders();
-	   //$plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
-       $c = $this->compactValues;
+        $senders = $this->helpers->getSenders();
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins(['mode' => "all"]);
+		$c = $this->compactValues;
+
+	    $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+        array_push($c,'menuSchools');
 
 		if(Auth::check())
 		{
@@ -356,10 +376,13 @@ class AdminController extends Controller {
 	public function getAddFacility(Request $request)
     {
        $user = null;
-       $senders = $this->helpers->getSenders();
-	   $plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-       $c = $this->compactValues;
+        $senders = $this->helpers->getSenders();
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins(['mode' => "all"]);
+		$c = $this->compactValues;
+
+	    $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+        array_push($c,'menuSchools');
 
 	   if(Auth::check())
 		{
@@ -474,11 +497,13 @@ class AdminController extends Controller {
 	public function getClubs()
     {
         $user = null;
-       $senders = $this->helpers->getSenders();
-	   //$plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
-       $c = $this->compactValues;
+        $senders = $this->helpers->getSenders();
+		$signals = $this->helpers->signals;
+		$plugins = $this->helpers->getPlugins(['mode' => "all"]);
+		$c = $this->compactValues;
+
+	    $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+        array_push($c,'menuSchools');
 
 		if(Auth::check())
 		{
@@ -503,11 +528,13 @@ class AdminController extends Controller {
 	public function getAddClub(Request $request)
     {
        $user = null;
-       $senders = $this->helpers->getSenders();
-	   $plugins = $this->helpers->getPlugins();
-       $signals = $this->helpers->signals;
-       $c = $this->compactValues;
+	   $senders = $this->helpers->getSenders();
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+	   $c = $this->compactValues;
 
+	   $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+	   array_push($c,'menuSchools');
 	   if(Auth::check())
 		{
 			$user = Auth::user();
@@ -625,6 +652,8 @@ class AdminController extends Controller {
 	   $signals = $this->helpers->signals;
 	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
        $c = $this->compactValues;
+	   $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+	   array_push($c,'menuSchools');
 
 		if(Auth::check())
 		{
@@ -632,16 +661,64 @@ class AdminController extends Controller {
             if($user->role === "admin" || $user->role === "su")
             {
 				$req = $request->all();
-				$status = isset($req['status']) ? $req['status'] : "active";
+				$status = isset($req['xf']) ? $req['xf'] : "active";
 			  $currentPage = isset($req['page']) ? $req['page'] : "1";
 		       $currentPage = intval($currentPage);	
-
+             
 		      $allSchools = $this->helpers->filterSchools($status);
 		      $numPages = $this->helpers->numPages($allSchools);
 		      $schools = $this->helpers->changePage($allSchools,$currentPage);
 
 			  array_push($c,'schools','numPages','currentPage');
 			   return view('my-schools',compact($c));
+            }
+		}
+
+		return redirect()->intended('/');
+       
+    }
+
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSchoolAdmissions(Request $request)
+    {
+        $user = null;
+       $senders = $this->helpers->getSenders();
+	   $signals = $this->helpers->signals;
+	   $plugins = $this->helpers->getPlugins(['mode' => "all"]);
+       $c = $this->compactValues;
+	   $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+	   array_push($c,'menuSchools');
+      
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			
+            if($user->role === "admin" || $user->role === "su")
+            {
+			  $req = $request->all();
+			  $currentPage = isset($req['page']) ? $req['page'] : "1";
+		      $currentPage = intval($currentPage);	
+             
+		      $ret2 = $this->helpers->getSchoolAdmissions(['school' => true]);
+			  $allAdmissions = [];
+
+			  foreach($ret2 as $r2)
+			  {
+				$ret = $r2;
+				$r2['school'] = $this->helpers->getSchool(($r2['school_id']));
+                array_push($allAdmissions,$r2);
+			  }
+		     # $allAdmissions = $this->helpers->getSchoolAdmissions(['school' => true]);
+		      $numPages = $this->helpers->numPages($allAdmissions);
+		      $admissions = $this->helpers->changePage($allAdmissions,$currentPage);
+             # dd($admissions);
+			  $terms = $this->helpers->getTerms();
+			  array_push($c,'terms','admissions','numPages','currentPage');
+			  return view('school-admissions',compact($c));
             }
 		}
 

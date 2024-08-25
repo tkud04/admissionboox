@@ -482,6 +482,8 @@ class MainController extends Controller {
 		  $clubs = $this->helpers->getClubs();
 		  $users = $this->helpers->getUsers(); 
 		  $dashboardStats = [];
+		  $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+			array_push($c,'menuSchools');
 		  array_push($c,'schools','facilities','clubs','users','dashboardStats');
 		
 		  return view('admin-dashboard',compact($c));
@@ -538,6 +540,11 @@ class MainController extends Controller {
 		{
 		   $ua = $this->helpers->getUserAddress($user->id);
 		   array_push($c,'ua');
+		   if($user->role === 'admin')
+		   {
+			$menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
+			array_push($c,'menuSchools');
+		   }
 		  #dd($ua);
            return view('user-profile',compact($c));	
 		}
