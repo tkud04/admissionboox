@@ -458,7 +458,7 @@ class MainController extends Controller {
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
-			$schoolApplications = $this->helpers->getSchoolApplications();
+			$schoolApplications = $this->helpers->fetchAllSchoolApplications($school['id']);
 
 			array_push(
 				$c,'school','hasCompletedSignup',
@@ -485,10 +485,13 @@ class MainController extends Controller {
 		  $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
 			array_push($c,'menuSchools');
 			$rawNotifications = $this->helpers->getAdminNotifications();
-
+            $schoolApplications = $this->helpers->getSchoolApplications('all');
 		   $notifications = $this->helpers->parseAdminNotifications($rawNotifications);
 		   $dashboardStats = $this->helpers->getAdminDashboardStats();
-		  array_push($c,'notifications','schools','facilities','clubs','users','dashboardStats');
+		  array_push($c,
+		  'notifications','schools','facilities',
+		  'clubs','users','dashboardStats','schoolApplications'
+		);
 		
 		  return view('admin-dashboard',compact($c));
 		}

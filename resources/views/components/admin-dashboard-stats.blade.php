@@ -13,7 +13,7 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
               <h4>{{$dashboardStats['schools']}}</h4>
               <span>{{$schoolText}}</span>
 			      </div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Map2"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Open-Book"></i></div>
           </div>
         </div>
         
@@ -23,7 +23,7 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
             <h4>{{$dashboardStats['admissions']}}</h4>
             <span>{{$admissionText}}</span>
 			    </div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Add-UserStar"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Student-Hat"></i></div>
           </div>
         </div>
         
@@ -33,7 +33,7 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
             <h4>{{$dashboardStats['applications']}}</h4>
             <span>{{$applicationText}}</span>
 			</div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Align-JustifyRight"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Student-MaleFemale"></i></div>
           </div>
         </div>
         
@@ -43,7 +43,7 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
             <h4>{{$dashboardStats['users']}}</h4>
             <span>{{$userText}}</span>
 			</div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Diploma"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-User"></i></div>
           </div>
         </div>
 	
@@ -51,9 +51,9 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
           <div class="utf_dashboard_stat color-5">
             <div class="utf_dashboard_stat_content">
             <h4>{{$dashboardStats['smtp']}}</h4>
-            <span>{{$userText}}</span>
+            <span>{{$smtpText}}</span>
 			</div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Eye-Visible"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Email"></i></div>
           </div>
         </div>
 		
@@ -61,9 +61,9 @@ $pluginText = intval($dashboardStats['plugins']) === 1 ? "Plugin" : "Plugins";
           <div class="utf_dashboard_stat color-6">
             <div class="utf_dashboard_stat_content">
             <h4>{{$dashboardStats['plugins']}}</h4>
-            <span>{{$userText}}</span>
+            <span>{{$pluginText}}</span>
 			</div>
-            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Star"></i></div>
+            <div class="utf_dashboard_stat_icon"><i class="im im-icon-Gear"></i></div>
           </div>
         </div>
       </div>

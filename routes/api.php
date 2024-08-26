@@ -94,5 +94,7 @@ Route::get('remove-facility', [AdminController::class,'getRemoveFacility']);
 Route::post('add-club', [AdminController::class,'postAddClub']);
 Route::get('remove-club', [AdminController::class,'getRemoveClub']);
 
+Route::post('update-school', [AdminController::class,'postUpdateSchool']);
+
 
 

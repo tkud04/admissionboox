@@ -87,7 +87,7 @@ if(!function_exists('getPriceTag'))
           </div>
         </div>
         -->
-        <div class="row" srtyle="margin-top: 10px;">
+        <div class="row" style="margin-top: 10px;">
           <?php
             if(count($schools) > 0)
             {

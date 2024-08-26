@@ -2649,7 +2649,8 @@ EOD;
            function updateSchool($data)
            {
             $ret = [];
-            $s = Schools::where('id',$data['id'])->first();
+            $s = Schools::where('id',$data['id'])
+                        ->orWhere('url',$data['id'])->first();
             
             if($s != null)
             {
@@ -3921,7 +3922,7 @@ EOD;
                {
                   foreach($applications as $a)
                   {
-                      $temp = $this->getSchoolApplication($a->id);
+                      $temp = $this->getSchoolApplication($a->id,$admission_id === 'all');
                       array_push($ret,$temp);
                   }
                }
@@ -3929,7 +3930,7 @@ EOD;
                return $ret;
            }
 
-           function getSchoolApplication($id)
+           function getSchoolApplication($id,$admission=false)
            {
                $ret = [];
                $a = SchoolApplications::where('id',$id)->first();
@@ -3938,6 +3939,7 @@ EOD;
                {
                    $ret['id'] = $a->id;
                    $ret['admission_id'] = $a->admission_id;
+                   if($admission) $ret['admission'] = $this->getSchoolAdmission($a->admission_id);
                    $ret['status'] = $a->status;
                    $ret['user'] = $this->getUser($a->user_id);
                    $ret['date'] = $a->created_at->format("jS F, Y");
@@ -3984,6 +3986,27 @@ EOD;
                   }
                   $a->delete();
                } 
+           }
+
+           function fetchAllSchoolApplications($school_id='all')
+           {
+              $ret = [];
+              $admissions = $this->getSchoolAdmissions($school_id);
+              
+              if(count($admissions) > 0)
+              {
+                 foreach($admissions as $a)
+                 {
+                    $applications = $this->getSchoolApplications($a['id']);
+
+                    if(count($applications) > 0)
+                    {
+                        foreach($applications as $application) array_push($ret,$application);
+                    }
+                 }
+              }
+             
+              return $ret;
            }
 
 

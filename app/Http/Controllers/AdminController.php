@@ -169,7 +169,7 @@ class AdminController extends Controller {
         if(Auth::check())
 		{
 			$user = Auth::user();
-            if($user->role !== "admin")
+            if($user->role !== "admin" || $user->role !== "su")
             {
                 $ret['message'] = "auth";
             }
@@ -221,7 +221,7 @@ class AdminController extends Controller {
 	   if(Auth::check())
 	   {
 		   $user = Auth::user();
-		   if($user->role !== "admin")
+		   if($user->role !== "admin" || $user->role !== "su")
 		   {
 			   return redirect()->intended('/');
 		   }
@@ -260,7 +260,7 @@ class AdminController extends Controller {
     	if(Auth::check())
 		{
 			$user = Auth::user();
-            if($user->role !== "admin")
+            if($user->role !== "admin" || $user->role !== "su")
             {
                 return redirect()->intended('/');
             }
@@ -414,7 +414,7 @@ class AdminController extends Controller {
         if(Auth::check())
 		{
 			$user = Auth::user();
-            if($user->role !== "admin")
+            if($user->role !== "admin" || $user->role !== "su")
             {
                 $ret['message'] = "auth";
             }
@@ -565,7 +565,7 @@ class AdminController extends Controller {
         if(Auth::check())
 		{
 			$user = Auth::user();
-            if($user->role !== "admin")
+            if($user->role !== "admin" || $user->role !== "su")
             {
                 $ret['message'] = "auth";
             }
@@ -724,6 +724,53 @@ class AdminController extends Controller {
 
 		return redirect()->intended('/');
        
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postUpdateSchool(Request $request)
+    {
+        $req = $request->all();
+		$ret = ['status' => 'error','message' => "nothing happened"];
+
+        if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role !== "admin" || $user->role !== "su")
+            {
+                $ret['message'] = "auth";
+            }
+		}
+        else
+        {
+			$ret['message'] = "auth";
+        }
+		
+		$validator = Validator::make($req, [
+                             'xf' => 'required',
+                             'ss' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+			$ret['message'] = "validation";
+         }
+         
+         else
+         {
+			 $req['status'] = "active";
+             $ret = $this->helpers->updateSchool([
+				'id' => $req['xf'],
+				'status' => $req['ss']
+			 ]);
+			 
+			 $ret = ['status' => 'ok'];
+         }
+
+		 return json_encode($ret);
     }
 	
 	

@@ -724,3 +724,24 @@ const bookmarkSchool = async (payload={xf:''},successCallback,errorCallback) => 
   }
  
 }
+
+const updateSchoolStatus = async (payload={xf:'',ss:''},successCallback,errorCallback) => {
+  const url = 'api/update-school'
+  const fd = new FormData()
+  fd.append('xf',payload.xf)
+  fd.append('ss',payload.ss)
+  
+  const response = await fetch(url, {
+      method: "POST",
+      body: fd
+    })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+ 
+}
