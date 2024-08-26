@@ -1,7 +1,8 @@
 <?php
 namespace App\Helpers;
 
-use App\Helpers\Contracts\HelperContract; 
+use App\Helpers\Contracts\HelperContract;
+use App\Models\AdminNotifications;
 use App\Models\AdmissionClasses;
 use App\Models\SchoolClubs;
 use Crypt;
@@ -2511,7 +2512,8 @@ EOD;
            function getPlugins($data=['mode' => 'all'])
            {
                $ret = [];
-               $plugins = Plugins::where('id','>','0')->get();
+               if($data['mode'] === 'all') $plugins = Plugins::where('id','>','0')->get();
+               else $plugins = Plugins::where('status',$data['mode'])->get();
 
                if($plugins != null)
                {
@@ -4103,6 +4105,60 @@ EOD;
                if($a != null) $a->delete();
            }
 
+           function addAdminNotification($data)
+           {
+            $ret = AdminNotifications::create([
+                'action_id' => $data['action_id'],
+                'notification_type' => $data['notification_type']
+            ]);
+
+            return $ret;
+           }
+
+           function getAdminNotifications()
+           {
+               $ret = [];
+               $data = [];
+
+                $data = AdminNotifications::where('id','>','0')->get();
+              
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getAdminNotification($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getAdminNotification($id)
+           {
+               $ret = [];
+               $a = AdminNotifications::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['action_id'] = $a->action_id;
+                   $ret['notification_type'] = $a->notification_type;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeAdminNotification($id)
+           {
+               $a = AdminNotifications::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
            function addSchoolReview($data)
            {
             $ret = SchoolReviews::create([
@@ -4423,6 +4479,28 @@ EOD;
             return $ret;
           }
 
+          function getAdminDashboardStats()
+          {
+            $admissions = $this->getSchoolAdmissions('all');
+            $schools = $this->getSchools(['id' => 'all','status' => 'all']);
+            $applications = $this->getSchoolApplications('all');
+            $normalUsers = $this->getUsers('user');
+            $adminUsers = $this->getUsers('admin');
+            $plugins = $this->getPlugins(['mode' => 'all']);
+            $smtp = $this->getSenders();
+           
+             $ret = [
+                'schools' => count($schools),
+                'admissions' => count($admissions),
+                'applications' => count($applications),
+                'users' => count($normalUsers) + count($adminUsers),
+                'smtp' => count($smtp),
+                'plugins' => count($plugins),
+            ];
+
+            return $ret;
+          }
+
           function numPages($data,$itemsPerPage=7)
            {
              return ceil(count($data) / $itemsPerPage);
@@ -4571,6 +4649,52 @@ EOD;
             $ret = [];
             $sname = $school['name'];
             $vu = url('school')."?xf=".$school['url'];
+
+            if(count($data) > 0)
+            {
+                foreach($data as $n)
+                {
+                    $temp = ['icon' => "", 'content' => ""];
+
+                    switch($n['notification_type'])
+                    {
+                        case 'bookmark':
+                            $temp['icon'] = 'sl-icon-eye';
+                            $temp['content'] = <<<EOD
+                            Someone Bookmarked <strong><a href="$vu">$sname</a></strong>
+EOD;          
+                        break;
+
+                        case 'review':
+                            $u = $this->getUser($data['action_id']);
+                            $temp['icon'] = 'sl-icon-layers';
+                            $uname = $u['fname']." ".$u['lname'];
+                            $temp['content'] = <<<EOD
+                            $uname Left A Review On <strong><a href="$vu">$sname</a></strong>
+EOD;
+                        break;
+                    }
+                    array_push($ret,$temp);
+
+                    
+                }
+            /*
+             [
+			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+		   ];
+            */
+            }
+            
+            return $ret;
+          }
+
+          function parseAdminNotifications($data)
+          {
+            $ret = [];
+            $sname = '';
+            $vu = '#';
 
             if(count($data) > 0)
             {

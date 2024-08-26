@@ -401,7 +401,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -540,7 +540,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$req = $request->all();
@@ -583,7 +583,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -724,7 +724,7 @@ class SchoolAdminController extends Controller {
 				
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 				$availableSessions = [];
 				$currentYear = date('Y');
@@ -897,7 +897,7 @@ class SchoolAdminController extends Controller {
      
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -957,7 +957,7 @@ class SchoolAdminController extends Controller {
      
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -1262,7 +1262,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -1329,7 +1329,7 @@ class SchoolAdminController extends Controller {
      
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -1452,7 +1452,7 @@ class SchoolAdminController extends Controller {
      
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -1492,7 +1492,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -1525,7 +1525,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -1650,7 +1650,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -1682,7 +1682,7 @@ class SchoolAdminController extends Controller {
 			{
 				$signals = $this->helpers->signals;
 		        $senders = $this->helpers->getSenders();
-	 	        $plugins = $this->helpers->getPlugins();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		        $c = $this->compactValues;
 
 				$school = $this->helpers->getSchool($user->email);
@@ -1774,7 +1774,7 @@ class SchoolAdminController extends Controller {
      
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -1913,7 +1913,7 @@ class SchoolAdminController extends Controller {
                 
 					$signals = $this->helpers->signals;
 					$senders = $this->helpers->getSenders();
-					 $plugins = $this->helpers->getPlugins();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 					$c = $this->compactValues;
 	
 					$school = $this->helpers->getSchool($user->email);
@@ -2026,7 +2026,7 @@ class SchoolAdminController extends Controller {
 		   {
 			$signals = $this->helpers->signals;
 			$senders = $this->helpers->getSenders();
-			 $plugins = $this->helpers->getPlugins();
+			 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 			$c = $this->compactValues;
 
 			$school = $this->helpers->getSchool($user->email);

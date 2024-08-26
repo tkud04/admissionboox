@@ -353,7 +353,7 @@ class LoginController extends Controller {
     {
        $user = null;
        $senders = $this->helpers->getSenders();
-	   $plugins = $this->helpers->getPlugins();
+	   $plugins = $this->helpers->getPlugins(['mode' => 'active']);
        $signals = $this->helpers->signals;
        $c = $this->compactValues;
 
@@ -452,7 +452,7 @@ class LoginController extends Controller {
 			
             $signals = $this->helpers->signals;
             $senders = $this->helpers->getSenders();
-             $plugins = $this->helpers->getPlugins();
+             $plugins = $this->helpers->getPlugins(['mode' => 'active']);
             $c = $this->compactValues;
             $em = $user->email;
             array_push($c,'em');

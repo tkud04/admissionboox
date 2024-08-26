@@ -37,7 +37,7 @@ class MainController extends Controller {
 
 		$signals = $this->helpers->signals;
 		$senders = $this->helpers->getSenders();
-		$plugins = $this->helpers->getPlugins();
+		$plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		$c = $this->compactValues;
 
 		$testUniqueLink = $this->helpers->getUniqueLinkValue("4","dasf");
@@ -122,7 +122,7 @@ class MainController extends Controller {
 		$req = $request->all();
 		$signals = $this->helpers->signals;
 		$senders = $this->helpers->getSenders();
-		$plugins = $this->helpers->getPlugins();
+		$plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		$c = $this->compactValues;
 		$category = isset($req['category']) ? $req['category'] : "all";
 		$currentPage = isset($req['page']) ? $req['page'] : "1";
@@ -161,7 +161,7 @@ class MainController extends Controller {
 		{
 			$signals = $this->helpers->signals;
 			$senders = $this->helpers->getSenders();
-			$plugins = $this->helpers->getPlugins();
+			$plugins = $this->helpers->getPlugins(['mode' => 'active']);
 			$c = $this->compactValues;
 			
 			$school = $this->helpers->getSchool($req['xf']);
@@ -438,7 +438,7 @@ class MainController extends Controller {
 
 		$signals = $this->helpers->signals;
 		$senders = $this->helpers->getSenders();
-		$plugins = $this->helpers->getPlugins();
+		$plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		$c = $this->compactValues;
 
 		$currentClass = "dashboard";
@@ -481,10 +481,14 @@ class MainController extends Controller {
 		   $facilities = $this->helpers->getFacilities();
 		  $clubs = $this->helpers->getClubs();
 		  $users = $this->helpers->getUsers(); 
-		  $dashboardStats = [];
+		  
 		  $menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
 			array_push($c,'menuSchools');
-		  array_push($c,'schools','facilities','clubs','users','dashboardStats');
+			$rawNotifications = $this->helpers->getAdminNotifications();
+
+		   $notifications = $this->helpers->parseAdminNotifications($rawNotifications);
+		   $dashboardStats = $this->helpers->getAdminDashboardStats();
+		  array_push($c,'notifications','schools','facilities','clubs','users','dashboardStats');
 		
 		  return view('admin-dashboard',compact($c));
 		}
@@ -523,7 +527,7 @@ class MainController extends Controller {
 
 		$signals = $this->helpers->signals;
 		$senders = $this->helpers->getSenders();
-		$plugins = $this->helpers->getPlugins();
+		$plugins = $this->helpers->getPlugins(['mode' => 'active']);
 		$c = $this->compactValues;
 
 		$currentClass = "dashboard";
@@ -567,7 +571,7 @@ class MainController extends Controller {
     {
        $user = null;
 	   $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins();
+	   $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 
 		if(Auth::check())
 		{
@@ -586,7 +590,7 @@ class MainController extends Controller {
     {
        $user = null;
 	   $signals = $this->helpers->signals;
-	   $plugins = $this->helpers->getPlugins();
+	   $plugins = $this->helpers->getPlugins(['mode' => 'active']);
 
 		if(Auth::check())
 		{
