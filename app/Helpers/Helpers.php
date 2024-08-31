@@ -3381,7 +3381,8 @@ EOD;
                 'session' => $data['session'],
                 'term_id' => $data['term_id'],
                 'form_id' => $data['form_id'],
-                'end_date' => $data['end_date']
+                'end_date' => $data['end_date'],
+                'status' => $data['status']
             ]);
 
             return $ret;
@@ -3429,6 +3430,7 @@ EOD;
                    $ret['form_id'] = $a->form_id;
                    $ret['date'] = $a->created_at->format("jS F, Y");
                    $ret['end_date'] = $a->end_date;
+                   $ret['status'] = $a->status;
                    $ret['end_date_formatted'] = Carbon::parse($a->end_date)->format("jS F, Y");
                }
 
@@ -3450,6 +3452,7 @@ EOD;
                             if(isset($data['term_id'])) $payload['term_id'] = $data['term_id'];
                             if(isset($data['form_id'])) $payload['form_id'] = $data['form_id'];
                             if(isset($data['end_date'])) $payload['end_date'] = $data['end_date'];
+                            if(isset($data['status'])) $payload['status'] = $data['status'];
                            
                         	$a->update($payload);
                              $ret = "ok";
@@ -4711,6 +4714,24 @@ EOD;
             }
             
             return $ret;
+          }
+
+          function checkAdmissionStatus($school_id)
+          {
+            $ret = false;
+
+             $activeAdmissions = $this->getSchoolAdmissions($school_id);
+
+             if(count($activeAdmissions) > 0)
+             {
+                foreach($activeAdmissions as $aa)
+                {
+                    $af = $this->getAdmissionForm($aa['id']);
+                    if($af['status'] === 'active') $ret = true;
+                }
+             }
+             
+             return $ret;
           }
 
           function parseAdminNotifications($data)

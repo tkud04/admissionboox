@@ -166,7 +166,7 @@ class MainController extends Controller {
 			
 			$school = $this->helpers->getSchool($req['xf']);
 			$schoolCategories = $this->helpers->schoolCategories;
-			
+			$hasActiveAdmission = $this->helpers->checkAdmissionStatus($school['id']);
 
 			$currentPage = isset($req['page']) ? $req['page'] : "1";
 		$currentPage = intval($currentPage);	
@@ -195,7 +195,8 @@ class MainController extends Controller {
 	
 			array_push($c,
 			'school','schoolCategories','calculatedRating',
-			'currentPage','numPages','reviews','tags','similarSchools'
+			'currentPage','numPages','reviews','tags','similarSchools',
+			'hasActiveAdmission'
 		);
 	         #dd($school);
 			return view('school',compact($c));

@@ -37,7 +37,63 @@ $reviewerEmail = $user === null ? '' : $user->email;
 ?>
 
 @section('scripts')
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.js"></script>
 <script>
+
+$(function() {
+	$('#date-picker').daterangepicker({
+		"opens": "left",
+		singleDatePicker: true,
+		isInvalidDate: function(date) {
+		var disabled_start = moment('01/01/2024', 'MM/DD/YYYY');
+		var disabled_end = moment().subtract(1,'day');
+		return date.isAfter(disabled_start) && date.isBefore(disabled_end);
+		}
+	});
+});
+
+$('#date-picker').on('showCalendar.daterangepicker', function(ev, picker) {
+	$('.daterangepicker').addClass('calendar-animated');
+});
+$('#date-picker').on('show.daterangepicker', function(ev, picker) {
+	$('.daterangepicker').addClass('calendar-visible');
+	$('.daterangepicker').removeClass('calendar-hidden');
+});
+$('#date-picker').on('hide.daterangepicker', function(ev, picker) {
+	$('.daterangepicker').removeClass('calendar-visible');
+	$('.daterangepicker').addClass('calendar-hidden');
+});
+
+function close_panel_dropdown() {
+$('.panel-dropdown').removeClass("active");
+	$('.fs-inner-container.content').removeClass("faded-out");
+}
+$('.panel-dropdown a').on('click', function(e) {
+	if ($(this).parent().is(".active")) {
+		close_panel_dropdown();
+	} else {
+		close_panel_dropdown();
+		$(this).parent().addClass('active');
+		$('.fs-inner-container.content').addClass("faded-out");
+	}
+	e.preventDefault();
+});
+$('.panel-buttons button').on('click', function(e) {
+	$('.panel-dropdown').removeClass('active');
+	$('.fs-inner-container.content').removeClass("faded-out");
+});
+var mouse_is_inside = false;
+$('.panel-dropdown').hover(function() {
+	mouse_is_inside = true;
+}, function() {
+	mouse_is_inside = false;
+});
+$("body").mouseup(function() {
+	if (!mouse_is_inside) close_panel_dropdown();
+});
+
+
 	console.log('hbs: ',"{{$hbs}}")
 const clearValidations = () => {
   $('.form-validation').hide()
@@ -496,16 +552,25 @@ if(!function_exists('getPriceTag'))
       <!-- Sidebar -->
       <div class="col-lg-4 col-md-4 margin-top-75 sidebar-search">
       <?php
-	  if(false)
+	  if($hasActiveAdmission)
 	  {
 	  ?>
-	   <div class="verified-badge with-tip margin-bottom-30" data-tip-content="Listing has been verified and belongs business owner or manager."> <i class="sl sl-icon-check"></i> Now Available<div class="tip-content" style="width: 720px; max-width: 720px;">Listing has been verified and belongs business owner or manager.</div></div>
+	   <div class="verified-badge with-tip margin-bottom-30" data-tip-content="The school has been verified and belongs to the school owner or manager."> <i class="sl sl-icon-check"></i>Admissions Ongoing</div>
         <div class="utf_box_widget booking_widget_box">
-          <h3><i class="fa fa-calendar"></i> Booking
-			<div class="price">
+          <h3><i class="fa fa-calendar"></i> Apply Now
+			<!--<div class="price">
 				<span>185$<small>person</small></span>				
-			</div>
+			</div>-->
 		  </h3>
+		  <div class="with-forms" style="margin-top: 10px; margin-bottom: 10px;">
+				<div class="col-lg-12 col-md-12">
+					<select class="utf_chosen_select_single" style="display: none;">
+					  <option label="Select Time">Select Admission</option>
+					  <option>Lunch</option>
+					  <option>Dinner</option>
+					</select>
+				</div>
+			</div>
           <div class="row with-forms margin-top-0">
             <div class="col-lg-12 col-md-12 select_date_box">
               <input type="text" id="date-picker" placeholder="Select Date" readonly="readonly">
@@ -519,77 +584,77 @@ if(!function_exists('getPriceTag'))
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-1">
 								<label for="time-slot-1">
-									<strong><span>1</span> : 8:00 AM - 8:30 AM</strong>									
+									<strong><span>1</span> : 8:00 AM - 9:00 AM</strong>									
 								</label>
 							</div>
 							
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-2">
 								<label for="time-slot-2">
-									<strong><span>2</span> : 8:30 AM - 9:00 AM</strong>
+									<strong><span>2</span> : 9:00 AM - 10:00 AM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-3">
 								<label for="time-slot-3">
-									<strong><span>3</span> : 9:00 AM - 9:30 AM</strong>
+									<strong><span>3</span> : 10:00 AM - 11:00 AM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-4">
 								<label for="time-slot-4">
-									<strong><span>4</span> : 9:30 AM - 10:00 AM</strong>
+									<strong><span>4</span> : 11:00 AM - 12:00 PM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-5">
 								<label for="time-slot-5">
-									<strong><span>5</span> : 10:00 AM - 10:30 AM</strong>
+									<strong><span>5</span> : 12:00 PM - 1:00 PM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-6">
 								<label for="time-slot-6">
-									<strong><span>6</span> : 13:00 PM - 13:30 PM</strong>
+									<strong><span>6</span> : 1:00 PM - 2:00 PM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-7">
 								<label for="time-slot-7">
-									<strong><span>7</span> : 13:30 PM - 14:00 PM</strong>
+									<strong><span>7</span> : 2:00 PM - 3:00 PM</strong>
 								</label>
 							</div>
 
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-8">
 								<label for="time-slot-8">
-									<strong><span>8</span> : 14:00 PM - 14:30 PM</strong>
+									<strong><span>8</span> : 3:00 PM - 4:00 PM</strong>
 								</label>
 							</div>
 							
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-9">
 								<label for="time-slot-9">
-									<strong><span>9</span> : 15:00 PM - 15:30 PM</strong>
+									<strong><span>9</span> : 4:00 PM - 5:00 PM</strong>
 								</label>
 							</div>
 							
 							<div class="time-slot">
 								<input type="radio" name="time-slot" id="time-slot-10">
 								<label for="time-slot-10">
-									<strong><span>10</span> : 16:00 PM - 16:30 PM</strong>
+									<strong><span>10</span> : 5:00 PM - 6:00 PM</strong>
 								</label>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-12">
+			<!--<div class="col-lg-12">
 				<div class="panel-dropdown">
 					<a href="#">Guests <span class="qtyTotal" name="qtyTotal">2</span></a>
 					<div class="panel-dropdown-content">
@@ -603,16 +668,8 @@ if(!function_exists('getPriceTag'))
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="with-forms margin-top-0">
-				<div class="col-lg-12 col-md-12">
-					<select class="utf_chosen_select_single" style="display: none;">
-					  <option label="Select Time">Select Time</option>
-					  <option>Lunch</option>
-					  <option>Dinner</option>					  
-					</select><div class="chosen-container chosen-container-single chosen-container-single-nosearch" style="width: 100%;" title=""><a class="chosen-single"><span>Select Time</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div><ul class="chosen-results"></ul></div></div>
-				</div>
-			</div>
+			</div>-->
+			
           </div>          
           <a href="listing_booking.html" class="utf_progress_button button fullwidth_block margin-top-5">Request Booking<div class="progress-bar"></div></a>
 		  <button class="like-button add_to_wishlist"><span class="like-icon"></span> Add to Wishlist</button>
