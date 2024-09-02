@@ -13,7 +13,7 @@ class SchoolApplications extends Model
      * @var array
      */
     protected $fillable = [
-        'admission_id', 'user_id', 'status'
+        'admission_id', 'user_id', 'date_slot', 'time_slot', 'status'
     ];
     
 }

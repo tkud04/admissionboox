@@ -1,7 +1,7 @@
 let emailIndex = 0
 
-const confirmAction = (actionId,callback) => {
-  const v = confirm('Are you sure? This action cannot be undone')
+const confirmAction = (actionId,callback,text='Are you sure? This action cannot be undone') => {
+  const v = confirm(text)
 
   if(v){
     typeof callback === 'function' && callback(actionId)

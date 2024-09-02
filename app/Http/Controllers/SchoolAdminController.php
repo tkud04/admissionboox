@@ -655,7 +655,7 @@ class SchoolAdminController extends Controller {
 						'term_id' => $req['term'],
 						'form_id' => '',
 						'end_date' => $req['end_date'],
-						'status' => 'active'
+						'status' => 'pending'
 					];
 
 					$admission = $this->helpers->addSchoolAdmission($admissionPayload);

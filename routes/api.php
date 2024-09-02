@@ -37,7 +37,10 @@ Route::post('bomb', [MainController::class,'postSend']);
 //General and applicant routes
 Route::post('contact-school', [MainController::class,'postContactSchool']);
 Route::post('add-school-bookmark', [MainController::class,'postAddSchoolBookmark']);
-Route::post('remove-school-bookmark', [MainController::class,'postRemmoveSchoolBookmark']);
+Route::post('remove-school-bookmark', [MainController::class,'postRemoveSchoolBookmark']);
+
+Route::post('init-school-application', [MainController::class,'postInitSchoolApplication']);
+
 
 //School dashboard routes
 Route::post('usr', [SchoolAdminController::class,'postUpdateSchoolResources']);

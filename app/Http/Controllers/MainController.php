@@ -165,8 +165,12 @@ class MainController extends Controller {
 			$c = $this->compactValues;
 			
 			$school = $this->helpers->getSchool($req['xf']);
-			$schoolCategories = $this->helpers->schoolCategories;
-			
+
+			if(count($school) > 0)
+			{
+                $schoolCategories = $this->helpers->schoolCategories;
+			$schoolAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
+			$hasActiveAdmission = $this->helpers->checkAdmissionStatus($school['id']);
 
 			$currentPage = isset($req['page']) ? $req['page'] : "1";
 		$currentPage = intval($currentPage);	
@@ -192,13 +196,34 @@ class MainController extends Controller {
 		];
 
 		$similarSchools = $this->helpers->getSimilarSchools($school);
+
+		$applicationTimeSlots = [
+			'8:00 AM - 9:00 AM',
+			'9:00 AM - 10:00 AM',
+			'10:00 AM - 11:00 AM',
+			'11:00 AM - 12:00 PM',
+			'12:00 PM - 1:00 PM',
+			'1:00 PM - 2:00 PM',
+			'2:00 PM - 3:00 PM',
+			'3:00 PM - 4:00 PM',
+			'4:00 PM - 5:00 PM',
+			'5:00 PM - 6:00 PM',
+		];
 	
 			array_push($c,
 			'school','schoolCategories','calculatedRating',
-			'currentPage','numPages','reviews','tags','similarSchools'
+			'currentPage','numPages','reviews','tags','similarSchools',
+			'hasActiveAdmission','applicationTimeSlots','schoolAdmissions'
 		);
-	         #dd($school);
+	        #dd($schoolAdmissions);
 			return view('school',compact($c));
+			}
+
+		else
+		{
+           return redirect()->intended('schools');
+		}
+			
 		}
 		else
 		{
@@ -399,6 +424,60 @@ class MainController extends Controller {
 					if(count($b) > 0)
 					{
 						$this->helpers->removeSchoolBookmark($b['id']);
+						$ret = ['status'=> "ok"];
+					}
+					else
+					{
+                        $ret = ['status' => "error","message" => "invalid-session"];
+					}
+					
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "auth"];
+			}
+
+
+		 return json_encode($ret); 
+    }
+
+	public function postInitSchoolApplication(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		    if(Auth::check())
+		    {
+			    $user = Auth::user();
+				$req = $request->all();
+				
+				$validator = Validator::make($req, [
+					'xf' => 'required|numeric',
+					'date_slot' => 'required',
+					'time_slot' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					$schoolAdmission = $this->helpers->getSchoolAdmission($req['xf']);
+
+					if(count($schoolAdmission) > 0)
+					{
+						$payload = [
+							'user_id' => $user->id,
+							'admission_id' => $req['xf'],
+							'date_slot' => $req['date_slot'],
+							'time_slot' => $req['time_slot'],
+							'status' => 'pending'
+						];
+
+						$this->helpers->addSchoolApplication($payload);
 						$ret = ['status'=> "ok"];
 					}
 					else
