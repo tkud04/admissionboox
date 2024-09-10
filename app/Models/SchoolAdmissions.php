@@ -13,7 +13,7 @@ class SchoolAdmissions extends Model
      * @var array
      */
     protected $fillable = [
-        'school_id', 'session','term_id','form_id','end_date','status'
+        'school_id', 'session','term_id','form_id','end_date','application_fee','status'
     ];
     
 }

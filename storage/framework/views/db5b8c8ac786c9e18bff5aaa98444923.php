@@ -1,9 +1,9 @@
 <?php
 $void = 'javascript:void(0)';
 ?>
-@extends('layout')
 
-@section('title',$school['name'])
+
+<?php $__env->startSection('title',$school['name']); ?>
 
 <?php
 if(!function_exists('hasBookmarkedSchool'))
@@ -37,7 +37,7 @@ $reviewerLname = $user === null ? '' : $user->lname;
 $reviewerEmail = $user === null ? '' : $user->email;
 ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script src="js/moment.min.js"></script>
 <script src="js/daterangepicker.js"></script>
 <script>
@@ -95,7 +95,7 @@ $("body").mouseup(function() {
 });
 
 
-	console.log('hbs: ',"{{$hbs}}")
+	console.log('hbs: ',"<?php echo e($hbs); ?>")
 const clearValidations = () => {
   $('.form-validation').hide()
 }
@@ -120,7 +120,7 @@ $(() => {
               $('#add-review-loading').fadeIn()
               
               const payload = {
-                xf: "{{$schoolUrl}}",
+                xf: "<?php echo e($schoolUrl); ?>",
                 environment: ratingEnvironment,
                 service: ratingService,
                 price: ratingPrice,
@@ -135,7 +135,7 @@ $(() => {
 
                 if(data.status === 'ok'){
                     alert('Review Added! Admins would review shortly')
-                    window.location = 'school?xf={{$schoolUrl}}'
+                    window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -168,7 +168,7 @@ $(() => {
               $('#contact-school-loading').fadeIn()
               
               const payload = {
-                xf: "{{$schoolUrl}}",
+                xf: "<?php echo e($schoolUrl); ?>",
                 contactName,
 				contactEmail,
 				contactMessage
@@ -182,7 +182,7 @@ $(() => {
 
                 if(data.status === 'ok'){
                     alert('Message sent! We would get back to you shortly.')
-                    window.location = 'school?xf={{$schoolUrl}}'
+                    window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -202,7 +202,7 @@ $(() => {
 	clearValidations()
       
               const payload = {
-                xf: "{{$schoolUrl}}"
+                xf: "<?php echo e($schoolUrl); ?>"
               }
               
               bookmarkSchool(payload,
@@ -210,7 +210,7 @@ $(() => {
               
                 if(data.status === 'ok'){
                     alert('Bookmarked!')
-                    window.location = 'school?xf={{$schoolUrl}}'
+                    window.location = 'school?xf=<?php echo e($schoolUrl); ?>'
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -224,7 +224,7 @@ $(() => {
  })
 })
 </script>
-@stop
+<?php $__env->stopSection(); ?>
 
 <?php
 if(!function_exists('getPriceTag'))
@@ -244,7 +244,7 @@ if(!function_exists('getPriceTag'))
   }
 }
 ?>
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div id="utf_listing_gallery_part" class="utf_listing_section">
     <div class="utf_listing_slider utf_gallery_container margin-bottom-0"> 
 		<?php
@@ -255,10 +255,10 @@ if(!function_exists('getPriceTag'))
 		  {
 			$bImg = $banner['url'];
 		?>
-		<a style="width: 1920px; height: 50px;" href="{{$bImg}}" data-background-image="{{$bImg}}" class="item utf_gallery"></a> 
-		@if(count($school['banners']) === 1)
-		<a style="width: 1920px; height: 50px;" href="{{$bImg}}" data-background-image="{{$bImg}}" class="item utf_gallery"></a> 
-		@endif
+		<a style="width: 1920px; height: 50px;" href="<?php echo e($bImg); ?>" data-background-image="<?php echo e($bImg); ?>" class="item utf_gallery"></a> 
+		<?php if(count($school['banners']) === 1): ?>
+		<a style="width: 1920px; height: 50px;" href="<?php echo e($bImg); ?>" data-background-image="<?php echo e($bImg); ?>" class="item utf_gallery"></a> 
+		<?php endif; ?>
 		<?php
          }
 		?>
@@ -275,36 +275,36 @@ if(!function_exists('getPriceTag'))
       <div class="col-lg-8 col-md-8">
         <div id="titlebar" class="utf_listing_titlebar">
           <div class="utf_listing_titlebar_title">
-           <h2>{{$school['name']}} <span class="listing-tag">{{strtoupper($school['status'])}}</span></h2>		   
-            <span> <a href="#utf_listing_location" class="listing-address"> <i class="sl sl-icon-location"></i> {{$address['school_state']}}</a> </span>			
-			<span class="call_now"><i class="sl sl-icon-phone"></i> <a href="tel:{{$school['phone']}}">{{$school['phone']}}</a></span>
-            <div class="utf_star_rating_section" data-rating="{{$rating}}">
-              <div class="utf_counter_star_rating">({{$rating}}) / ({{count($reviews)}} Reviews)</div>
+           <h2><?php echo e($school['name']); ?> <span class="listing-tag"><?php echo e(strtoupper($school['status'])); ?></span></h2>		   
+            <span> <a href="#utf_listing_location" class="listing-address"> <i class="sl sl-icon-location"></i> <?php echo e($address['school_state']); ?></a> </span>			
+			<span class="call_now"><i class="sl sl-icon-phone"></i> <a href="tel:<?php echo e($school['phone']); ?>"><?php echo e($school['phone']); ?></a></span>
+            <div class="utf_star_rating_section" data-rating="<?php echo e($rating); ?>">
+              <div class="utf_counter_star_rating">(<?php echo e($rating); ?>) / (<?php echo e(count($reviews)); ?> Reviews)</div>
             </div>
 			<?php
               $aru = "#utf_add_review";
               $ssu = "#share-school-div";
 			?>
             <ul class="listing_item_social">
-			 @if($hbs)
+			 <?php if($hbs): ?>
 			 <li><a href="#"><i class="fa fa-bookmark"></i> Bookmarked</a></li>
-			 @else
+			 <?php else: ?>
 			 <li><a href="#" class="bookmark-school"><i class="fa fa-bookmark"></i> Bookmark</a></li>
-			 @endif
+			 <?php endif; ?>
 
-			  <li><a href="{{$aru}}"><i class="fa fa-star"></i> Add Review</a></li>
-              <li><a href="{{$ssu}}"><i class="fa fa-share"></i> Share</a></li>
+			  <li><a href="<?php echo e($aru); ?>"><i class="fa fa-star"></i> Add Review</a></li>
+              <li><a href="<?php echo e($ssu); ?>"><i class="fa fa-share"></i> Share</a></li>
 			 <!-- <li><a href="#" class="now_open">Open Now</a></li> -->
             </ul>			
           </div>
         </div>
         <div id="utf_listing_overview" class="utf_listing_section">
           <h3 class="utf_listing_headline_part margin-top-30 margin-bottom-30">Why Choose Us?</h3>
-           {!! $info['wcu'] !!} 
+           <?php echo $info['wcu']; ?> 
 		  <div id="utf_listing_tags" class="utf_listing_section listing_tags_section margin-bottom-10 margin-top-0">          
-		    <a href="tel:{{$school['phone']}}"><i class="sl sl-icon-phone" aria-hidden="true"></i> {{$school['phone']}}</a>			
-			<a href="mailto:{{$school['email']}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{$school['email']}}</a>	
-			<a href="{{$url2}}"><i class="sl sl-icon-globe" aria-hidden="true"></i> View school website</a>	
+		    <a href="tel:<?php echo e($school['phone']); ?>"><i class="sl sl-icon-phone" aria-hidden="true"></i> <?php echo e($school['phone']); ?></a>			
+			<a href="mailto:<?php echo e($school['email']); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i> <?php echo e($school['email']); ?></a>	
+			<a href="<?php echo e($url2); ?>"><i class="sl sl-icon-globe" aria-hidden="true"></i> View school website</a>	
           </div>
 		  <div id="share-school-div" class="social-contact">
 			<a href="#" class="facebook-link"><i class="fa fa-facebook"></i> Facebook</a>
@@ -331,7 +331,7 @@ if(!function_exists('getPriceTag'))
 				{
 					$vu = url('schools')."?xf=".$k;
 		   ?>
-			<a href="{{$vu}}"><i class="fa fa-tag" aria-hidden="true"></i> {{ucwords($k)}}</a>
+			<a href="<?php echo e($vu); ?>"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo e(ucwords($k)); ?></a>
 			<?php
 			    }
 		    }
@@ -346,7 +346,7 @@ if(!function_exists('getPriceTag'))
               <ul>
                 <li>
                   <h5><strong>Price Per Term</strong></h5>
-                  <span><strong>{!! getPriceTag($info['school_fees']) !!}</strong></span> 
+                  <span><strong><?php echo getPriceTag($info['school_fees']); ?></strong></span> 
 				</li>
               </ul>
             </div>
@@ -361,7 +361,7 @@ if(!function_exists('getPriceTag'))
 			  {
 				$f = $facility['facility'];
 			?>
-               <li>{{$f['facility_name']}} <i class="im {{$f['icon']}}"></i></li>
+               <li><?php echo e($f['facility_name']); ?> <i class="im <?php echo e($f['icon']); ?>"></i></li>
             <?php
 			  }
 			?>        
@@ -375,7 +375,7 @@ if(!function_exists('getPriceTag'))
 			  foreach($school['clubs'] as $club)
 			  {
 			?>
-               <li>{{$club['club_name']}} <i class="im {{$club['icon']}}"></i></li>
+               <li><?php echo e($club['club_name']); ?> <i class="im <?php echo e($club['icon']); ?>"></i></li>
             <?php
 			  }
 			?>        
@@ -393,10 +393,11 @@ if(!function_exists('getPriceTag'))
 				$f = $faqs[$i];
 			 ?>
 			  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all">
-				<span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> ({{$i+1}}) {!! $f['faq_question'] !!}
+				<span class="ui-accordion-header-icon ui-icon ui-accordion-icon"></span><i class="sl sl-icon-plus"></i> (<?php echo e($i+1); ?>) <?php echo $f['faq_question']; ?>
+
 			</h3>
 			  <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-utf_widget_content" style="display: none;">
-				<p>{!! $f['faq_answer'] !!}</p>
+				<p><?php echo $f['faq_answer']; ?></p>
 			  </div>
 			  
 			<?php
@@ -415,16 +416,16 @@ if(!function_exists('getPriceTag'))
         </div>
 		
         <div id="utf_listing_reviews" class="utf_listing_section">
-          <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>({{count($reviews)}})</span></h3>
+          <h3 class="utf_listing_headline_part margin-top-75 margin-bottom-20">Reviews <span>(<?php echo e(count($reviews)); ?>)</span></h3>
           <div class="clearfix"></div>
 		  <div class="reviews-container">
 			<div class="row">
 				<div class="col-lg-3">
 					<div id="review_summary">
-					<strong>{{$rating}}</strong>
-					@if($rating > 0)
-					<div style="display: flex; justify-content: center;"><div class="utf_star_rating_section text-center" data-rating="{{$rating}}"></div></div>
-					@endif
+					<strong><?php echo e($rating); ?></strong>
+					<?php if($rating > 0): ?>
+					<div style="display: flex; justify-content: center;"><div class="utf_star_rating_section text-center" data-rating="<?php echo e($rating); ?>"></div></div>
+					<?php endif; ?>
 					</div>
 				</div>
 				<div class="col-lg-9">
@@ -432,28 +433,28 @@ if(!function_exists('getPriceTag'))
 						<div class="col-lg-2 review_progres_title"><small><strong>Environment</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: {{$ratingEnvironment}}%" aria-valuenow="{{$ratingEnvironment}}" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: <?php echo e($ratingEnvironment); ?>%" aria-valuenow="<?php echo e($ratingEnvironment); ?>" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingEnvironment}}</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong><?php echo e($ratingEnvironment); ?></strong></small></div>
 					</div>
 					<div class="row">
 						<div class="col-lg-2 review_progres_title"><small><strong>Service</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: {{$ratingService}}%" aria-valuenow="{{$ratingService}}" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: <?php echo e($ratingService); ?>%" aria-valuenow="<?php echo e($ratingService); ?>" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingService}}</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong><?php echo e($ratingService); ?></strong></small></div>
 					</div>
 					<div class="row">
 						<div class="col-lg-2 review_progres_title"><small><strong>Price</strong></small></div>
 						<div class="col-lg-9">
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: {{$ratingPrice}}%" aria-valuenow="{{$ratingPrice}}" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar" style="width: <?php echo e($ratingPrice); ?>%" aria-valuenow="<?php echo e($ratingPrice); ?>" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="col-lg-1 review_progres_title"><small><strong>{{$ratingPrice}}</strong></small></div>
+						<div class="col-lg-1 review_progres_title"><small><strong><?php echo e($ratingPrice); ?></strong></small></div>
 					</div>
 				</div>
 			</div>
@@ -473,10 +474,10 @@ if(!function_exists('getPriceTag'))
                 <div class="avatar"><img src="images/profile.png" alt=""></div>
                 <div class="utf_comment_content">
                   <div class="utf_arrow_comment"></div>
-                  <div class="utf_star_rating_section" data-rating="{{$rating}}"></div>
+                  <div class="utf_star_rating_section" data-rating="<?php echo e($rating); ?>"></div>
 				  <a href="javascript:void(0)" class="rate-review">Helpful Review <i class="fa fa-thumbs-up"></i></a>                   
-                  <div class="utf_by_comment">{{$u['fname']}} {{$u['lname']}}<span class="date"><i class="fa fa-clock-o"></i> {{$review['date']}}</span> </div>
-                  <p>{{$review['comment']}}</p>                                    
+                  <div class="utf_by_comment"><?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?><span class="date"><i class="fa fa-clock-o"></i> <?php echo e($review['date']); ?></span> </div>
+                  <p><?php echo e($review['comment']); ?></p>                                    
 				</div>
               </li>
 			  <?php
@@ -485,13 +486,13 @@ if(!function_exists('getPriceTag'))
             </ul>
           </div>
           <div class="clearfix"></div>
-		  @if(count($reviews) > 0)
-            @include('components.pagination',[
+		  <?php if(count($reviews) > 0): ?>
+            <?php echo $__env->make('components.pagination',[
               'url' => "school?xf=".$school['url'],
               'currentPage' => $currentPage,
               'numPages' => $numPages,
-              ])
-          @endif
+              ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <?php endif; ?>
           <div class="clearfix"></div>
         </div>
         <div id="utf_add_review" class="utf_add_review-box">
@@ -503,11 +504,11 @@ if(!function_exists('getPriceTag'))
               <div class="row">
                 <div class="col-md-6">
                   <label>Name:</label>
-                  <input type="text" placeholder="Name" value="{{$reviewerFname}} {{$reviewerLname}}" disabled>
+                  <input type="text" placeholder="Name" value="<?php echo e($reviewerFname); ?> <?php echo e($reviewerLname); ?>" disabled>
                 </div>
                 <div class="col-md-6">
                   <label>Email:</label>
-                  <input type="text" placeholder="Email" value="{{$reviewerEmail}}" disabled>
+                  <input type="text" placeholder="Email" value="<?php echo e($reviewerEmail); ?>" disabled>
                 </div>
                 
               </div>
@@ -517,34 +518,34 @@ if(!function_exists('getPriceTag'))
 				</div>
 			   <div class="col-md-4">
                   <label>Enviroment:</label>
-				  @include('components.form-validation', ['id' => "add-review-environment-validation"])
+				  <?php echo $__env->make('components.form-validation', ['id' => "add-review-environment-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                   <input type="number" min="1" max="100" placeholder="Environment" id="add-review-environment" >
                 </div>
 				<div class="col-md-4">
                   <label>Service:</label>
-				  @include('components.form-validation', ['id' => "add-review-service-validation"])
+				  <?php echo $__env->make('components.form-validation', ['id' => "add-review-service-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                   <input type="number" min="1" max="100" placeholder="Service" id="add-review-service" >
                 </div>
 				<div class="col-md-4">
                   <label>Price:</label>
-				  @include('components.form-validation', ['id' => "add-review-price-validation"])
+				  <?php echo $__env->make('components.form-validation', ['id' => "add-review-price-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                   <input type="number" min="1" max="100" placeholder="Price" id="add-review-price" >
                 </div>
 
 			  </div>
               <div>
                 <label>Review:</label>
-				@include('components.form-validation', ['id' => "add-review-comment-validation"])
+				<?php echo $__env->make('components.form-validation', ['id' => "add-review-comment-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <textarea cols="40" placeholder="Your Message..." rows="3" id="add-review-comment"></textarea>
               </div>
             </fieldset>
-			@include('components.generic-loading', ['message' => 'Processing', 'id' => "add-review-loading"])
-                  @include('components.button',[
+			<?php echo $__env->make('components.generic-loading', ['message' => 'Processing', 'id' => "add-review-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                  <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'title' => 'Submit',
                      'classes' => 'margin-top-20',
                      'id' => 'add-review-btn'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -585,7 +586,7 @@ if(!function_exists('getPriceTag'))
                     }
 								$displayText = $a['session']." Session (".$classesString.")";
 						?>
-					      <option value='{{$admissionId}}'>{{$displayText}}</option>
+					      <option value='<?php echo e($admissionId); ?>'><?php echo e($displayText); ?></option>
 					  <?php
 							}
 						 }
@@ -609,9 +610,9 @@ if(!function_exists('getPriceTag'))
 								$counter = $i + 1;
 							?>
 							<div class="time-slot">
-								<input type="radio" name="time-slot" id="time-slot-{{$counter}}">
-								<label for="time-slot-{{$counter}}">
-									<strong><span>{{$counter}}</span> : {{$applicationTimeSlots[$i]}}</strong>									
+								<input type="radio" name="time-slot" id="time-slot-<?php echo e($counter); ?>">
+								<label for="time-slot-<?php echo e($counter); ?>">
+									<strong><span><?php echo e($counter); ?></span> : <?php echo e($applicationTimeSlots[$i]); ?></strong>									
 								</label>
 							</div>
 							<?php
@@ -650,15 +651,15 @@ if(!function_exists('getPriceTag'))
         <div class="utf_box_widget margin-top-35">
           <h3><i class="sl sl-icon-phone"></i> Owner Info</h3>
           <div class="utf_hosted_by_user_title"> <a href="#" class="utf_hosted_by_avatar_listing"><img src="images/profile.png" alt=""></a>
-            <h4><a href="#">{{$owner['name']}}</a><span>Posted on: {{$school['date']}}</span>
-              <span><i class="sl sl-icon-location"></i> {{$address['school_address']}}, {{$address['school_state']}}</span>
+            <h4><a href="#"><?php echo e($owner['name']); ?></a><span>Posted on: <?php echo e($school['date']); ?></span>
+              <span><i class="sl sl-icon-location"></i> <?php echo e($address['school_address']); ?>, <?php echo e($address['school_state']); ?></span>
             </h4>
           </div>
           <ul class="utf_listing_detail_sidebar">
             <li><i class="sl sl-icon-map"></i> [provided upon request]</li>
             <li><i class="sl sl-icon-phone"></i> [provided upon request]</li>
-            <li><i class="sl sl-icon-globe"></i> <a href="{{$url2}}">View school website</a></li>
-            <li><i class="fa fa-envelope-o"></i> <a href="mailto:{{$ownerEmail}}">Send an email</a></li>
+            <li><i class="sl sl-icon-globe"></i> <a href="<?php echo e($url2); ?>">View school website</a></li>
+            <li><i class="fa fa-envelope-o"></i> <a href="mailto:<?php echo e($ownerEmail); ?>">Send an email</a></li>
           </ul>		  
         </div>
         <div class="utf_box_widget margin-top-35">
@@ -679,7 +680,7 @@ if(!function_exists('getPriceTag'))
 				{
 					$vu = url('schools')."?xf=".$k;
 		   ?>
-			<li><i class="fa fa-angle-double-right"></i> <a href="{{$vu}}"> {{ucwords($k)}}</a></li>
+			<li><i class="fa fa-angle-double-right"></i> <a href="<?php echo e($vu); ?>"> <?php echo e(ucwords($k)); ?></a></li>
 			<?php
 			    }
 		    }
@@ -696,7 +697,7 @@ if(!function_exists('getPriceTag'))
             <li>Friday <span>09:00 AM - 04:00 PM</span></li>
           </ul>
         </div>	
-		@include('components.school-premium-ad')
+		<?php echo $__env->make('components.school-premium-ad', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="utf_box_widget opening-hours margin-top-35">
           <h3><i class="sl sl-icon-info"></i> Additional Information</h3>
           <ul>
@@ -714,28 +715,28 @@ if(!function_exists('getPriceTag'))
           <form id="contactform">
             <div class="row">              
               <div class="col-md-12">  
-			  @include('components.form-validation', ['id' => "contact-school-name-validation"])              
-                  <input  type="text" placeholder="Name" id="contact-school-name" value="{{$reviewerFname}} {{$reviewerLname}}" required="">                
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-name-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>              
+                  <input  type="text" placeholder="Name" id="contact-school-name" value="<?php echo e($reviewerFname); ?> <?php echo e($reviewerLname); ?>" required="">                
               </div>
               <div class="col-md-12">    
-			  @include('components.form-validation', ['id' => "contact-school-email-validation"])            
-                  <input name="email" type="email" placeholder="Email" id="contact-school-email" value="{{$reviewerEmail}}" required="">                
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-email-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>            
+                  <input name="email" type="email" placeholder="Email" id="contact-school-email" value="<?php echo e($reviewerEmail); ?>" required="">                
               </div>    
 			  <div class="col-md-12">
-			  @include('components.form-validation', ['id' => "contact-school-message-validation"])
+			  <?php echo $__env->make('components.form-validation', ['id' => "contact-school-message-validation"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 				  <textarea name="comments" cols="40" rows="2" id="contact-school-message" placeholder="Your Message" required=""></textarea>
 			  </div>
             </div>            
-            @include('components.generic-loading', ['message' => 'Processing', 'id' => "contact-school-loading"])
-                  @include('components.button',[
+            <?php echo $__env->make('components.generic-loading', ['message' => 'Processing', 'id' => "contact-school-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                  <?php echo $__env->make('components.button',[
                      'href' => '#',
                      'title' => 'Submit',
                      'classes' => 'margin-top-20',
                      'id' => 'contact-school-btn'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
           </form>
         </div>
-		@include('components.school-regular-ad')
+		<?php echo $__env->make('components.school-regular-ad', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="utf_box_widget margin-top-35">
           <h3><i class="sl sl-icon-phone"></i> Enquiries or Complaints?</h3>
           <p>We would love to hear from you! You can reach out to us for your enquiries, requests or complaints, or even just to say hi :)</p>
@@ -743,24 +744,24 @@ if(!function_exists('getPriceTag'))
 		</div>
         <div class="utf_box_widget listing-share margin-top-35 margin-bottom-40 no-border">
           <h3><i class="sl sl-icon-pin"></i> Bookmark School</h3>
-		  <span>{{count($school['bookmarks'])}} People Bookmarked</span>
-		  @if($user === null)
+		  <span><?php echo e(count($school['bookmarks'])); ?> People Bookmarked</span>
+		  <?php if($user === null): ?>
           <button class="like-button"> Login to Bookmark School</button>          
-          @else
-		    @if($hbs)
+          <?php else: ?>
+		    <?php if($hbs): ?>
 			<button class="like-button" disabled><span class="like-icon liked"></span> Bookmarked!</button>
-			 @else
+			 <?php else: ?>
 			 <button class="like-button bookmark-school"><span class="like-icon"></span> Bookmark School</button>
-			 @endif
+			 <?php endif; ?>
 		           
-          @endif
+          <?php endif; ?>
           <div class="clearfix"></div>
         </div>
 		<div class="utf_box_widget opening-hours review-avg-wrapper margin-top-35">
           <h3><i class="sl sl-icon-star"></i>  Rating Average </h3>
           <div class="box-inner">
 			  <div class="rating-avg-wrapper text-theme clearfix">
-				<div class="rating-avg">{{$calculatedRating['rating']}}</div>
+				<div class="rating-avg"><?php echo e($calculatedRating['rating']); ?></div>
 				<div class="rating-after">
 				  <div class="rating-mode">/5 Average</div>
 				  
@@ -769,15 +770,15 @@ if(!function_exists('getPriceTag'))
 			  <div class="ratings-avg-wrapper">
 				<div class="ratings-avg-item">
 				  <div class="rating-label">Service</div>
-				  <div class="rating-value text-theme">{{$calculatedRating['service']}}</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['service']); ?></div>
 				</div>
 				<div class="ratings-avg-item">
 				  <div class="rating-label">Price</div>
-				  <div class="rating-value text-theme">{{$calculatedRating['price']}}</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['price']); ?></div>
 				</div>
 				<div class="ratings-avg-item">
 				  <div class="rating-label">Environment</div>
-				  <div class="rating-value text-theme">{{$calculatedRating['environment']}}</div>
+				  <div class="rating-value text-theme"><?php echo e($calculatedRating['environment']); ?></div>
 				</div>
 				
 			  </div>
@@ -807,24 +808,24 @@ if(!function_exists('getPriceTag'))
 					$scr = $ss['calculatedRating'];
 					$ssBookmarkCount = count($ss['bookmarks']);
 				?>
-				  <div class="utf_carousel_item"> <a href="{{$ssu}}" class="utf_listing_item-container compact">
-					<div class="utf_listing_item"> <img src="{{$ss['logo']}}" alt=""> 
-					@if($hasAdmission)<span class="tag"><i class="im im-icon-File"></i> Admission open</span> @endif
-					@if($isFeatured)<span class="featured_tag">Featured</span>@endif
-					  <span class="utf_open_now">{{ucwords($ss['status'])}}</span>
+				  <div class="utf_carousel_item"> <a href="<?php echo e($ssu); ?>" class="utf_listing_item-container compact">
+					<div class="utf_listing_item"> <img src="<?php echo e($ss['logo']); ?>" alt=""> 
+					<?php if($hasAdmission): ?><span class="tag"><i class="im im-icon-File"></i> Admission open</span> <?php endif; ?>
+					<?php if($isFeatured): ?><span class="featured_tag">Featured</span><?php endif; ?>
+					  <span class="utf_open_now"><?php echo e(ucwords($ss['status'])); ?></span>
 					  <div class="utf_listing_item_content">
 					    <div class="utf_listing_prige_block">							
-							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> {!! getPriceTag($ssInfo['school_fees']) !!}</span>							
+							<span class="utf_meta_listing_price"><i class="fa fa-tag"></i> <?php echo getPriceTag($ssInfo['school_fees']); ?></span>							
 							<!--<span class="utp_approve_item"><i class="utf_approve_listing"></i></span>-->
 						</div>
-						<h3>{{$ss['name']}}</h3>
-						<span><i class="fa fa-map-marker"></i> {{$ssAddress['school_state']}}</span>
-						<span><i class="fa fa-phone"></i> {{$ss['phone']}}</span>											
+						<h3><?php echo e($ss['name']); ?></h3>
+						<span><i class="fa fa-map-marker"></i> <?php echo e($ssAddress['school_state']); ?></span>
+						<span><i class="fa fa-phone"></i> <?php echo e($ss['phone']); ?></span>											
 					  </div>					  
 					</div>
-					<div class="utf_star_rating_section" data-rating="{{$scr['rating']}}">
-						<div class="utf_counter_star_rating">({{$scr['rating']}})</div>
-						<span class="utf_view_count"><i class="fa fa-bookmark"></i> {{$ssBookmarkCount}}+</span>
+					<div class="utf_star_rating_section" data-rating="<?php echo e($scr['rating']); ?>">
+						<div class="utf_counter_star_rating">(<?php echo e($scr['rating']); ?>)</div>
+						<span class="utf_view_count"><i class="fa fa-bookmark"></i> <?php echo e($ssBookmarkCount); ?>+</span>
 						<span class="like-icon"></span>
 					</div>
 					</a> 
@@ -841,4 +842,5 @@ if(!function_exists('getPriceTag'))
 	  </div>
     </div>
   </section>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/school.blade.php ENDPATH**/ ?>

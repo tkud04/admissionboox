@@ -3382,6 +3382,7 @@ EOD;
                 'term_id' => $data['term_id'],
                 'form_id' => $data['form_id'],
                 'end_date' => $data['end_date'],
+                'application_fee' => $data['application_fee'],
                 'status' => $data['status']
             ]);
 
@@ -3430,6 +3431,7 @@ EOD;
                    $ret['form_id'] = $a->form_id;
                    $ret['date'] = $a->created_at->format("jS F, Y");
                    $ret['end_date'] = $a->end_date;
+                   $ret['application_fee'] = $a->application_fee;
                    $ret['status'] = $a->status;
                    $ret['end_date_formatted'] = Carbon::parse($a->end_date)->format("jS F, Y");
                }
@@ -3452,6 +3454,7 @@ EOD;
                             if(isset($data['term_id'])) $payload['term_id'] = $data['term_id'];
                             if(isset($data['form_id'])) $payload['form_id'] = $data['form_id'];
                             if(isset($data['end_date'])) $payload['end_date'] = $data['end_date'];
+                            if(isset($data['application_fee'])) $payload['application_fee'] = $data['application_fee'];
                             if(isset($data['status'])) $payload['status'] = $data['status'];
                            
                         	$a->update($payload);

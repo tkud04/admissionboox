@@ -2,15 +2,15 @@
 $ac = "admissions";
 $useSidebar = true;
 ?>
-@extends('dashboard_layout')
 
-@section('dashboard-title',"Admissions")
 
-@section('dashboard-styles')
+<?php $__env->startSection('dashboard-title',"Admissions"); ?>
+
+<?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-scripts'); ?>
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
@@ -41,9 +41,9 @@ $useSidebar = true;
 		
 	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 
 <div class="row"> 
         <div class="col-lg-12 col-md-12">
@@ -93,15 +93,15 @@ $useSidebar = true;
               ?>
                     <li>
                       <div class="utf_list_box_listing_item">
-                        <div class="utf_list_box_listing_item-img"><a href="{{$vu}}"><img src="{{$school['logo']}}" alt=""></a></div>
+                        <div class="utf_list_box_listing_item-img"><a href="<?php echo e($vu); ?>"><img src="<?php echo e($school['logo']); ?>" alt=""></a></div>
                         <div class="utf_list_box_listing_item_content">
                           <div class="inner">
-                            <h3><a href="{{$vu}}">{{$a['session']}} Session</a></h3>
-				                	  <span><i class="im im-icon-Calendar"></i> {{$term['name']}} </span> 
-				                	  <span><i class="im im-icon-Building"></i> {{$classesString}} </span> 
-                            <span><i class="im im-icon-Timer-2"></i> {{$a['end_date_formatted']}}</span>
-					                  <span><i class="im im-icon-Folders"></i> {{count($a['applications'])}} applications</span>
-					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;{{number_format($fee,2)}}</span>
+                            <h3><a href="<?php echo e($vu); ?>"><?php echo e($a['session']); ?> Session</a></h3>
+				                	  <span><i class="im im-icon-Calendar"></i> <?php echo e($term['name']); ?> </span> 
+				                	  <span><i class="im im-icon-Building"></i> <?php echo e($classesString); ?> </span> 
+                            <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['end_date_formatted']); ?></span>
+					                  <span><i class="im im-icon-Folders"></i> <?php echo e(count($a['applications'])); ?> applications</span>
+					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;<?php echo e(number_format($fee,2)); ?></span>
 					            
                            <!-- 
                             <div class="utf_star_rating_section" data-rating="4.5">
@@ -115,8 +115,8 @@ $useSidebar = true;
                         </div>
                       </div>
                       <div class="buttons-to-right"> 
-					              <a href="{{$vu}}" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
-					              <a href="#" onclick="confirmDeleteAdmission('{{$xf}}'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
+					              <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
+					              <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
 				              </div>
                    </li>
               <?php
@@ -133,11 +133,11 @@ $useSidebar = true;
                 </p>
 
                 <div class="text-center" style="margin-top: 10px;">
-                  @include('components.button',[
+                  <?php echo $__env->make('components.button',[
                      'href' => url('add-school-admission'),
                      'title' => 'Add new Admission',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
                </div>
                 
@@ -149,15 +149,16 @@ $useSidebar = true;
             </ul>
           </div>
 		      <div class="clearfix"></div>
-          @if(count($admissions) > 0)
-            @include('components.pagination',[
+          <?php if(count($admissions) > 0): ?>
+            <?php echo $__env->make('components.pagination',[
               'url' => "school-admissions?xf=".$xf,
               'currentPage' => $currentPage,
               'numPages' => $numPages,
-              ])
-          @endif
+              ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+          <?php endif; ?>
         </div>
        
       </div>
       
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/my-admissions.blade.php ENDPATH**/ ?>

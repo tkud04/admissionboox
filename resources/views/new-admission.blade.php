@@ -152,6 +152,11 @@ $useSidebar = true;
                  <h5>End Date</h5>
                  <input type="date" class="input-text" name="address" id="na-end-date">
                </div>
+               <div class="col-md-6">
+                 @include('components.form-validation', ['id' => "na-application-fee-validation",'style' => "margin-top: 10px;"])
+                 <h5>Application Fee</h5>
+                 <input type="text" class="input-text" name="address" id="na-application-fee" value="{{$admission['application_fee']}}">
+               </div>
 
                <div class="col-md-12">
                @include('components.generic-loading', ['message' => 'Creating admission session', 'id' => "na-loading"])

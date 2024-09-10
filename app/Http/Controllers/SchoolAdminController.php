@@ -640,7 +640,8 @@ class SchoolAdminController extends Controller {
 					'session' => 'required|not_in:none',
 					'term' => 'required|not_in:none',
 					'classes' => 'required',
-					'end_date' => 'required'
+					'end_date' => 'required',
+					'application_fee' => 'required',
                ]);
 
                if($validator->fails())
@@ -655,6 +656,7 @@ class SchoolAdminController extends Controller {
 						'term_id' => $req['term'],
 						'form_id' => '',
 						'end_date' => $req['end_date'],
+						'application_fee' => $req['application_fee'],
 						'status' => 'pending'
 					];
 
@@ -740,6 +742,7 @@ class SchoolAdminController extends Controller {
 
 				$school = $this->helpers->getSchool($user->email);
 				$admission = $this->helpers->getSchoolAdmission($req['xf']);
+				#dd($admission);
 				$admissionForm = $this->helpers->getAdmissionForm($admission['form_id']);
 				$admissionClasses = $this->helpers->getAdmissionClasses($req['xf']);
 				$schoolClasses = $this->helpers->getSchoolClasses($school['id']);
@@ -787,7 +790,8 @@ class SchoolAdminController extends Controller {
 					'session' => 'required|not_in:none',
 					'term' => 'required|not_in:none',
 					'classes' => 'required',
-					'end_date' => 'required'
+					'end_date' => 'required',
+					'application_fee' => 'required'
                ]);
 
                if($validator->fails())
@@ -799,10 +803,11 @@ class SchoolAdminController extends Controller {
 					$xf = $req['xf'];
 
 					$admissionPayload = [
-						'admission_id' => $xf,
+						'xf' => $xf,
 						'session' => $req['session'],
 						'term_id' => $req['term'],
-						'end_date' => $req['end_date']
+						'end_date' => $req['end_date'],
+						'application_fee' => $req['application_fee']
 					];
 
 					 $this->helpers->updateSchoolAdmission($admissionPayload);
@@ -823,7 +828,7 @@ class SchoolAdminController extends Controller {
 						}
 					}
 
-					 $ret = ['status' => "ok"];
+					 $ret = ['status' => "ok",'data' => json_encode($admissionPayload)];
 				}
 				
 			}
