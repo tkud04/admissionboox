@@ -2249,6 +2249,8 @@ class Helper //implements HelperContract
 			],
 		];
 
+        public $psSecretKey = "sk_test_6fd50bf759cd1e058c01d3b186cbd16cae2ab05b";
+
            function symfonySendMail($data){
             
               $email = (new Email())
@@ -4846,29 +4848,25 @@ EOD;
                  //'timeout'  => 2.0,
                  ]);
 
+                 $headers = isset($data['headers']) ? $data['headers'] : [];
+
                  if($data['method'] === 'POST'){
                     $res = $client->request($data['method'], $data['url'],[
-                        'json' => $data['body']
+                        'json' => $data['body'],
+                        'headers' => $headers
                     ]);
                  }
                  else{
-                    $res = $client->request($data['method'], $data['url']);
+                    $res = $client->request(
+                        $data['method'], $data['url'],[
+                            'headers' => $headers
+                        ]);
                  }
 			     
 			  
                  $ret = $res->getBody()->getContents(); 
 			 
 			     $rett = json_decode($ret);
-                 dd($ret);
-			     if($rett->status == "ok")
-			     {
-					//  $this->setNextLead();
-			    	//$lead->update(["status" =>"sent"]);					
-			     }
-			     else
-			     {
-			    	// $lead->update(["status" =>"pending"]);
-			     }
 			    }
                 else{
 				    $ret = json_encode(["status" => "ok","message" => "Validation"]);

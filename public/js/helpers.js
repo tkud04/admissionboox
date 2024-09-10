@@ -30,491 +30,486 @@ const handleResponseError = (data) => {
   alert(errMessage)
 }
 
+const fetchWithFormData = async (payload={url:'',method:'POST',fd:(new FormData())},successCallback,errorCallback) => {
+  const url = payload.url
+  const response =  await fetch(url, {
+    method: payload.method,
+    body: payload.fd
+  })
+  if(response.status === 200){
+    const responseJSON = await response.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
+   errorCallback(ret)
+  }
+}
+
+const fetchWithJson = async (payload={url:'',method:'POST',data:[{key:'',value:''}]},successCallback,errorCallback) => {
+  let response = null
+
+  if(payload.method === 'GET'){
+    let paramString = ``
+
+    if(payload.data.length > 0){
+       for(const d of payload.data){
+         paramString += `&${d.key}=${d.value}`
+       }
+    }
+    const url = `${payload.url}?${paramString}`
+     response = await fetch(url, {
+        method: "GET",
+      })
+  }
+  else{
+    const fd = new FormData()
+   
+    if(payload.data.length > 0){
+      for(const d of payload.data){
+        fd.append(`${d.key}`,d.value)
+      }
+    }
+    
+    response = await fetch(payload.url, {
+        method: payload.method,
+        body: fd
+      })
+  }
+
+  if(response?.status === 200){
+    const responseJSON = await response?.json()
+     successCallback(responseJSON)
+  }
+  else{
+   const ret = {status: 'error', message: `Request failed with status code: ${response?.status}`}
+   errorCallback(ret)
+  }
+}
+
 
 const login = async (fd,successCallback,errorCallback) => {
     const url = 'api/signin'
-    const response =  await fetch(url, {
-        method: "POST",
-        body: fd
-      })
-    if(response.status === 200){
-      const responseJSON = await response.json()
-       successCallback(responseJSON)
-    }
-    else{
-     const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-     errorCallback(ret)
-    }
+    await fetchWithFormData(
+      {
+        url,
+        fd,
+        method: 'POST',
+      },
+      successCallback,
+      errorCallback
+    )
    
 }
 
 const signup = async (fd,successCallback,errorCallback) => {
   const url = 'api/signup'
-  const response =  await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const schoolSignup = async (fd,successCallback,errorCallback) => {
   const url = 'api/school-signup'
-  const response =  await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const completeSchoolSignup = async (fd,successCallback,errorCallback) => {
   const url = 'api/set-password'
-  const response =  await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const changePassword = async (fd,successCallback,errorCallback) => {
   const url = 'api/change-password'
-  const response =  await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const rn = async (fd,successCallback,errorCallback) => {
   const url = 'api/read-notification'
-  const response =  await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addPlugin = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-plugin'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removePlugin = async (id,successCallback,errorCallback) => {
-  const url = `api/remove-plugin?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET",
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  const url = `api/remove-plugin`
+
+  await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addFacility = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-facility'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeFacility = async (id,successCallback,errorCallback) => {
-  const url = `api/remove-facility?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET",
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  const url = `api/remove-facility`
+
+  await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
+
  
 }
 
 const addClub = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-club'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeClub = async (id,successCallback,errorCallback) => {
-  const url = `api/remove-club?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET",
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  const url = `api/remove-club`
+  await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateSchoolInfo = async (fd,successCallback,errorCallback) => {
   const url = 'api/usi'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addSchoolClass = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-school-class'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeSchoolClass = async (id,successCallback,errorCallback) => {
-   const url = `api/remove-school-class?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET",
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+   const url = `api/remove-school-class`
+   await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addAdmissionSession = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-school-admission'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateAdmissionSession = async (fd,successCallback,errorCallback) => {
   const url = 'api/update-school-admission'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeAdmissionSession = async (id,successCallback,errorCallback) => {
-  const url = `api/remove-school-admission?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET"
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  const url = `api/remove-school-admission`
+  await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addAdmissionForm = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-admission-form'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeAdmissionForm = async (id,successCallback,errorCallback) => {
-  const url = `api/remove-admission-form?xf=${id}`
-  const response = await fetch(url, {
-      method: "GET"
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  const url = `api/remove-admission-form`
+  await fetchWithJson(
+    {
+       url,
+       method: 'GET',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addFormSection = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-form-section'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeFormSection = async (id,successCallback,errorCallback) => {
   const url = 'api/remove-form-section'
-  const fd = new FormData()
-  fd.append('xf',id)
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
+ 
  
 }
 
 const addFormField = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-form-field'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeFormField = async (id,successCallback,errorCallback) => {
   const url = 'api/remove-form-field'
-  const fd = new FormData()
-  fd.append('xf',id)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value:id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateAdmissionForm = async ({id='',status='pending'},successCallback,errorCallback) => {
   const url = 'api/uaf'
-  const fd = new FormData()
-  fd.append('xf',id)
-  fd.append('status',status)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: id},
+        {key: 'status',value: status},
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addSchoolFaq = async (fd,successCallback,errorCallback) => {
   const url = 'api/add-school-faq'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateSchoolFaq = async ({id='',question='',answer=''},successCallback,errorCallback) => {
   const url = 'api/school-faq'
-  const fd = new FormData()
-  fd.append('xf',id)
-  fd.append('question',question)
-  fd.append('answer',answer)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: id},
+        {key: 'question',value: question},
+        {key: 'answer',value: answer}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeFaq = async (id='',successCallback,errorCallback) => {
   const url = 'api/remove-school-faq'
-  const fd = new FormData()
-  fd.append('xf',id)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
@@ -581,167 +576,157 @@ $.ajax({
 
 const updateApplication = async (xf,status='',successCallback,errorCallback) => {
   const url = 'api/school-application'
-  const fd = new FormData()
-  fd.append('xf',xf)
-  fd.append('status',status)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: xf},
+        {key: 'status',value: status}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateSchoolProfile = async (fd,successCallback,errorCallback) => {
   const url = 'api/usp'
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const updateSchoolReview = async (xf,status='',successCallback,errorCallback) => {
   const url = `api/update-school-review`
-  const fd = new FormData()
-  fd.append('xf',xf)
-  fd.append('status',status)
-
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: xf},
+        {key: 'status',value: status}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const removeSchoolReview = async (id='',successCallback,errorCallback) => {
   const url = 'api/remove-school-review'
-  const fd = new FormData()
-  fd.append('xf',id)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: id}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const addSchoolReview = async (payload={xf:'',environment:'',service:'',price:'',comment:''},successCallback,errorCallback) => {
   const url = 'api/add-school-review'
-  const fd = new FormData()
-  fd.append('xf',payload.xf)
-  fd.append('environment',payload.environment)
-  fd.append('service',payload.service)
-  fd.append('price',payload.price)
-  fd.append('comment',payload.comment)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf},
+        {key: 'environment',value: payload.environment},
+        {key: 'service',value: payload.service},
+        {key: 'price',value: payload.price},
+        {key: 'comment',value: payload.comment}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const contactSchool = async (payload={xf:'',contactName:'',contactEmail:'',contactMessage:''},successCallback,errorCallback) => {
   const url = 'api/contact-school'
-  const fd = new FormData()
-  fd.append('xf',payload.xf)
-  fd.append('contactName',payload.contactName)
-  fd.append('contactEmail',payload.contactEmail)
-  fd.append('contactMessage',payload.contactMessage)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf},
+        {key: 'contactName',value: payload.contactName},
+        {key: 'contactEmail',value: payload.contactEmail},
+        {key: 'contactMessage',value: payload.contactMessage}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 
 const bookmarkSchool = async (payload={xf:''},successCallback,errorCallback) => {
   const url = 'api/add-school-bookmark'
-  const fd = new FormData()
-  fd.append('xf',payload.xf)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
+ 
  
 }
 
 const updateSchoolStatus = async (payload={xf:'',ss:''},successCallback,errorCallback) => {
   const url = 'api/update-school'
-  const fd = new FormData()
-  fd.append('xf',payload.xf)
-  fd.append('ss',payload.ss)
-  
-  const response = await fetch(url, {
-      method: "POST",
-      body: fd
-    })
-  if(response.status === 200){
-    const responseJSON = await response.json()
-     successCallback(responseJSON)
-  }
-  else{
-   const ret = {status: 'error', message: `Request failed with status code: ${response.status}`}
-   errorCallback(ret)
-  }
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf},
+        {key: 'ss',value: payload.ss}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
+ 
+ 
+}
+
+const initSchoolApplication = async (payload={xf:'',selectedAdmission:'',selectedDate:'',selectedTime:''},successCallback,errorCallback) => {
+  const url = 'api/init-school-application'
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf},
+        {key: 'selectedAdmission',value: payload.selectedAdmission},
+        {key: 'selectedDate',value: payload.selectedDate},
+        {key: 'selectedTime',value: payload.selectedTime},
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }

@@ -2,15 +2,15 @@
 $ac = "classes";
 $useSidebar = true;
 ?>
-@extends('dashboard_layout')
 
-@section('dashboard-title',"Classes")
 
-@section('dashboard-styles')
+<?php $__env->startSection('dashboard-title',"Classes"); ?>
+
+<?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-scripts')
+<?php $__env->startSection('dashboard-scripts'); ?>
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
@@ -41,9 +41,9 @@ $useSidebar = true;
 		
 	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 
 <div class="row"> 
         <div class="col-lg-12 col-md-12">
@@ -60,9 +60,10 @@ $useSidebar = true;
 
               ?>
                     <li>
-                      <i style="margin-right: 10px; font-size: 40px;" class="fa fa-school"></i> {{$c['class_name']}}
+                      <i style="margin-right: 10px; font-size: 40px;" class="fa fa-school"></i> <?php echo e($c['class_name']); ?>
+
                       <div style="margin-left: 20px;">
-                         <a href="#" onclick="confirmDeleteClass('{{$xf}}'); return false;"><i class="fa fa-trash"></i></a>
+                         <a href="#" onclick="confirmDeleteClass('<?php echo e($xf); ?>'); return false;"><i class="fa fa-trash"></i></a>
                       </div>
                    </li>
               <?php
@@ -79,11 +80,11 @@ $useSidebar = true;
                 </p>
 
                 <div class="text-center" style="margin-top: 10px;">
-                  @include('components.button',[
+                  <?php echo $__env->make('components.button',[
                      'href' => url('add-school-class'),
                      'title' => 'Add new class',
                      'classes' => 'margin-top-20'
-                    ])
+                    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
                </div>
                 
@@ -100,4 +101,5 @@ $useSidebar = true;
        
       </div>
       
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/my-classes.blade.php ENDPATH**/ ?>

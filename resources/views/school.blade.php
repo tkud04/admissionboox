@@ -27,6 +27,26 @@ if(!function_exists('hasBookmarkedSchool'))
   }
 }
 
+
+
+if(!function_exists('getPriceTag'))
+{
+  function getPriceTag($category)
+  {
+    $ret = "";
+
+    if($category === "50-100") $ret = "&#8358;50,000 - &#8358;150,000";
+    if($category === "151-300") $ret = "&#8358;151,000 - &#8358;300,000";
+    if($category === "301-500") $ret = "&#8358;301,000 - &#8358;500,000";
+    if($category === "501-750") $ret = "&#8358;501,000 - &#8358;750,000";
+    if($category === "751-1m") $ret = "&#8358;751,000 - &#8358;1,000,000";
+    if($category === "above-1m") $ret = "Above &#8358;1,000,000";
+
+    return $ret;
+  }
+}
+
+
 $hbs = isset($user) ? hasBookmarkedSchool($school,$user->id) : 'false';
 //$hbs =hasBookmarkedSchool($school,$user->id);
 $schoolUrl = $school['url'];
@@ -222,28 +242,64 @@ $(() => {
             )
 
  })
+
+ $('#init-btn').click((e) => {
+	e.preventDefault()
+	clearValidations()
+
+	const selectedAdmission = $('#init-admission').val(), datePicker = $('#date-picker').val(), 
+	       timeSlot = $('input.time-slot-option:checked'),today = moment(), dp = moment(datePicker,"MM/DD/YYYY")
+
+	const v = selectedAdmission === 'none' || today.isAfter(dp) || timeSlot.length < 1
+
+	console.log('v: ', v)
+
+	if(v){
+		if(selectedAdmission === 'none') $('#init-admission-validation').fadeIn()
+		if(today.isAfter(dp)) $('#date-picker-validation').fadeIn()
+		if(timeSlot.length < 1) $('#time-slot-validation').fadeIn()
+	}
+	else{
+		const selectedDate = dp.format('YYYY/MM/DD'),selectedTime = timeSlot[0].getAttribute('data-value')
+        payload = {
+         selectedAdmission,
+         selectedDate,
+		 selectedTime
+	   }
+	   console.log('init payload: ',payload)
+
+	   initSchoolApplication({
+		xf: "{{$school['id']}}",
+		selectedAdmission,
+		selectedDate,
+		selectedTime
+	   },
+	         (data) => {
+                console.log('init response: ',data)
+                $('#init-loading').hide()
+                $('#init-btn').fadeIn()
+
+                if(data.status === 'ok'){
+					const parsedData = JSON.parse(data.data)
+                    window.location = `${parsedData?.data?.authorization_url}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#init-loading').hide()
+              $('#init-btn').fadeIn()
+                alert(`Failed to init school application: ${err}`)
+              }
+	)
+	}
+	
+ })
 })
 </script>
 @stop
 
-<?php
-if(!function_exists('getPriceTag'))
-{
-  function getPriceTag($category)
-  {
-    $ret = "";
-
-    if($category === "50-100") $ret = "&#8358;50,000 - &#8358;150,000";
-    if($category === "151-300") $ret = "&#8358;151,000 - &#8358;300,000";
-    if($category === "301-500") $ret = "&#8358;301,000 - &#8358;500,000";
-    if($category === "501-750") $ret = "&#8358;501,000 - &#8358;750,000";
-    if($category === "751-1m") $ret = "&#8358;751,000 - &#8358;1,000,000";
-    if($category === "above-1m") $ret = "Above &#8358;1,000,000";
-
-    return $ret;
-  }
-}
-?>
 @section('content')
 <div id="utf_listing_gallery_part" class="utf_listing_section">
     <div class="utf_listing_slider utf_gallery_container margin-bottom-0"> 
@@ -565,6 +621,8 @@ if(!function_exists('getPriceTag'))
 		  </h3>
 		  <div class="with-forms" style="margin-top: 10px; margin-bottom: 20px;">
 				<div class="col-lg-12 col-md-12">
+					<h4>Select admission</h4>
+				@include('components.form-validation', ['id' => "init-admission-validation"])
 					<select class="utf_chosen_select_single" id="init-admission" style="display: none;">
 						<option value="none">Select an option</option>
 						<?php
@@ -595,10 +653,14 @@ if(!function_exists('getPriceTag'))
 			</div>
           <div class="row with-forms" style="margin-top: 10px;">
             <div class="col-lg-12 col-md-12 select_date_box">
-              <input type="text" id="date-picker" placeholder="Select Date" readonly="readonly">
-			  <i class="fa fa-calendar"></i>
+			<h5 style="margin-top: 15px;">Select date</h5>
+			@include('components.form-validation', ['id' => "date-picker-validation"])
+              <input type="text" id="date-picker" placeholder="Select Date" readonly="readonly">  
+			  <i class="fa fa-calendar" style="top: 55% !important;"></i>
             </div>
   		    <div class="col-lg-12">
+			  <h5 style="margin-top: 15px;">Select time</h5>
+			  @include('components.form-validation', ['id' => "time-slot-validation"])
 				<div class="panel-dropdown time-slots-dropdown">
 					<a href="#">Choose Time Slot...</a>
 					<div class="panel-dropdown-content padding-reset">
@@ -609,7 +671,7 @@ if(!function_exists('getPriceTag'))
 								$counter = $i + 1;
 							?>
 							<div class="time-slot">
-								<input type="radio" name="time-slot" id="time-slot-{{$counter}}">
+								<input type="radio" name="time-slot" class="time-slot-option" data-value="{{$counter}}" id="time-slot-{{$counter}}">
 								<label for="time-slot-{{$counter}}">
 									<strong><span>{{$counter}}</span> : {{$applicationTimeSlots[$i]}}</strong>									
 								</label>
