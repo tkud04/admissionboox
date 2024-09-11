@@ -197,18 +197,7 @@ class MainController extends Controller {
 
 		$similarSchools = $this->helpers->getSimilarSchools($school);
 
-		$applicationTimeSlots = [
-			'8:00 AM - 9:00 AM',
-			'9:00 AM - 10:00 AM',
-			'10:00 AM - 11:00 AM',
-			'11:00 AM - 12:00 PM',
-			'12:00 PM - 1:00 PM',
-			'1:00 PM - 2:00 PM',
-			'2:00 PM - 3:00 PM',
-			'3:00 PM - 4:00 PM',
-			'4:00 PM - 5:00 PM',
-			'5:00 PM - 6:00 PM',
-		];
+		$applicationTimeSlots = $this->helpers->applicationTimeSlots;
 	
 			array_push($c,
 			'school','schoolCategories','calculatedRating',
@@ -488,23 +477,25 @@ class MainController extends Controller {
                 }
 				else
 				{
-					$selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
-					$secret_key = $this->helpers->psSecretKey;
-					$initResponse = $this->helpers->callAPI([
-						'method' => 'POST',
-						'url' => 'https://api.paystack.co/transaction/initialize',
-						'headers' => [
-							"Authorization" => "Bearer {$secret_key}",
-                            "Cache-Control: no-cache",
-						],
-						'body' => [
-							"email" => $user->email,
-							"amount" => $selectedAdmission['application_fee'],
-						]
-					]);
+					if($this->helpers->hasPendingSchoolApplication($user->id))
+					{
+                        $ret = ['status' => "error","message" => "has-pending-application"];
+					}
+					else
+					{
+						$applicant = $this->helpers->addSchoolApplication([
+							'admission_id' => $req['selectedAdmission'],
+							'user_id' => $user->id,
+							'date_slot' => $req['selectedDate'],
+							'time_slot' => $req['selectedTime'],
+							'status' => 'unpaid-0',
+						]);
+
+						$ret = ['status'=> "ok",'data' => ['xf' => $applicant->id]];
+					}
 					
 
-					$ret = ['status'=> "ok","data" => $initResponse];
+					
 				}
 				
 			}
@@ -515,6 +506,56 @@ class MainController extends Controller {
 
 
 		 return json_encode($ret); 
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getCompleteSchoolApplication(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			$signals = $this->helpers->signals;
+		    $senders = $this->helpers->getSenders();
+		    $plugins = $this->helpers->getPlugins(['mode' => 'active']);
+		    $c = $this->compactValues;
+			$req = $request->all();
+
+			if(isset($req['xf']))
+			{
+               $applicant = $this->helpers->getSchoolApplication($req['xf'],true);
+			   $school = $this->helpers->getSchool($applicant['admission']['school_id']);
+			   #dd($applicant);
+
+			   if(count($applicant) > 0)
+			   {
+                 array_push($c,'applicant','school');
+				 return view('complete-application',compact($c));
+			   }
+			   else
+			   {
+				 return redirect()->intended('/');
+			   }
+			}
+			else
+			{
+				return redirect()->intended('/');
+			}
+		}
+		else
+		{
+			return redirect()->intended('/');
+		}
+
+		
+
+		
     }
 
 	public function postCompleteSchoolApplication(Request $request)

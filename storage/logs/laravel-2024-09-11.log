@@ -1,12 +1,99 @@
-[2024-09-02 11:07:19] local.ERROR: Attempt to read property "id" on null {"view":{"view":"/Users/tobikudayisi/repos/admissionboox/resources/views/school.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1385888567 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#310</a><samp data-depth=1 class=sf-dump-expanded>
+[2024-09-11 18:47:03] local.ERROR: Undefined array key "nname" {"view":{"view":"/Users/tobikudayisi/repos/admissionboox/resources/views/complete-application.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1300250404 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#310</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
-</pre><script>Sfdump(\"sf-dump-1385888567\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","user":"<pre class=sf-dump id=sf-dump-1869296435 data-indent-pad=\"  \"><span class=sf-dump-const>null</span>
-</pre><script>Sfdump(\"sf-dump-1869296435\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","plugins":"<pre class=sf-dump id=sf-dump-95659498 data-indent-pad=\"  \">[]
-</pre><script>Sfdump(\"sf-dump-95659498\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","senders":"<pre class=sf-dump id=sf-dump-464156910 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-1300250404\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","user":"<pre class=sf-dump id=sf-dump-1524964963 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Models\\User</span> {<a class=sf-dump-ref>#673</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"5 characters\">users</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:16</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"27 characters\">uwantbrendacolson@gmail.com</span>\"
+    \"<span class=sf-dump-key>fname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Brenda</span>\"
+    \"<span class=sf-dump-key>lname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Colson</span>\"
+    \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"11 characters\">08063378465</span>\"
+    \"<span class=sf-dump-key>gender</span>\" => \"<span class=sf-dump-str title=\"6 characters\">female</span>\"
+    \"<span class=sf-dump-key>role</span>\" => \"<span class=sf-dump-str title=\"4 characters\">user</span>\"
+    \"<span class=sf-dump-key>avatar</span>\" => \"\"
+    \"<span class=sf-dump-key>verified</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>complete_signup</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>password</span>\" => \"<span class=sf-dump-str title=\"60 characters\">$2y$10$8HUkCKPDnxyl8j8Eo1rYne.bh7P2A2C45FQNUeelgAdACR/042k7G</span>\"
+    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
+    \"<span class=sf-dump-key>reset_code</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
+    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"2 characters\">ok</span>\"
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-08-01 10:05:45</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-08-01 10:05:45</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:16</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"27 characters\">uwantbrendacolson@gmail.com</span>\"
+    \"<span class=sf-dump-key>fname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Brenda</span>\"
+    \"<span class=sf-dump-key>lname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Colson</span>\"
+    \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"11 characters\">08063378465</span>\"
+    \"<span class=sf-dump-key>gender</span>\" => \"<span class=sf-dump-str title=\"6 characters\">female</span>\"
+    \"<span class=sf-dump-key>role</span>\" => \"<span class=sf-dump-str title=\"4 characters\">user</span>\"
+    \"<span class=sf-dump-key>avatar</span>\" => \"\"
+    \"<span class=sf-dump-key>verified</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>complete_signup</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>password</span>\" => \"<span class=sf-dump-str title=\"60 characters\">$2y$10$8HUkCKPDnxyl8j8Eo1rYne.bh7P2A2C45FQNUeelgAdACR/042k7G</span>\"
+    \"<span class=sf-dump-key>remember_token</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
+    \"<span class=sf-dump-key>reset_code</span>\" => \"<span class=sf-dump-str title=\"7 characters\">default</span>\"
+    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"2 characters\">ok</span>\"
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-08-01 10:05:45</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-08-01 10:05:45</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>email_verified_at</span>\" => \"<span class=sf-dump-str title=\"8 characters\">datetime</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">usesUniqueIds</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"8 characters\">password</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: <span class=sf-dump-note>array:13</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"5 characters\">fname</span>\"
+    <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"5 characters\">lname</span>\"
+    <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"5 characters\">email</span>\"
+    <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"5 characters\">phone</span>\"
+    <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"8 characters\">password</span>\"
+    <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"6 characters\">gender</span>\"
+    <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"4 characters\">role</span>\"
+    <span class=sf-dump-index>7</span> => \"<span class=sf-dump-str title=\"6 characters\">avatar</span>\"
+    <span class=sf-dump-index>8</span> => \"<span class=sf-dump-str title=\"6 characters\">status</span>\"
+    <span class=sf-dump-index>9</span> => \"<span class=sf-dump-str title=\"8 characters\">verified</span>\"
+    <span class=sf-dump-index>10</span> => \"<span class=sf-dump-str title=\"15 characters\">complete_signup</span>\"
+    <span class=sf-dump-index>11</span> => \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
+    <span class=sf-dump-index>12</span> => \"<span class=sf-dump-str title=\"10 characters\">reset_code</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str>*</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">rememberTokenName</span>: \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">accessToken</span>: <span class=sf-dump-const>null</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1524964963\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","plugins":"<pre class=sf-dump id=sf-dump-700971731 data-indent-pad=\"  \">[]
+</pre><script>Sfdump(\"sf-dump-700971731\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","senders":"<pre class=sf-dump id=sf-dump-1221234405 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
   <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
     \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
     \"<span class=sf-dump-key>ss</span>\" => \"<span class=sf-dump-str title=\"14 characters\">smtp-pulse.com</span>\"
@@ -22,8 +109,8 @@
     \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"14 characters\">20th May, 2024</span>\"
   </samp>]
 </samp>]
-</pre><script>Sfdump(\"sf-dump-464156910\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","signals":"<pre class=sf-dump id=sf-dump-578775102 data-indent-pad=\"  \"><span class=sf-dump-note>array:2</span> [<samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-1221234405\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","signals":"<pre class=sf-dump id=sf-dump-489182284 data-indent-pad=\"  \"><span class=sf-dump-note>array:2</span> [<samp data-depth=1 class=sf-dump-expanded>
   \"<span class=sf-dump-key>okays</span>\" => <span class=sf-dump-note>array:7</span> [<samp data-depth=2 class=sf-dump-compact>
     \"<span class=sf-dump-key>login-status</span>\" => \"<span class=sf-dump-str title=\"18 characters\">Sign in successful</span>\"
     \"<span class=sf-dump-key>add-sender-status</span>\" => \"<span class=sf-dump-str title=\"13 characters\">Sender added!</span>\"
@@ -41,8 +128,50 @@
     \"<span class=sf-dump-key>tracking-status-error</span>\" => \"<span class=sf-dump-str title=\"29 characters\">Tracking info does not exist!</span>\"
   </samp>]
 </samp>]
-</pre><script>Sfdump(\"sf-dump-578775102\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","school":"<pre class=sf-dump id=sf-dump-1730376995 data-indent-pad=\"  \"><span class=sf-dump-note>array:19</span> [<samp data-depth=1 class=sf-dump-expanded>
+</pre><script>Sfdump(\"sf-dump-489182284\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","applicant":"<pre class=sf-dump id=sf-dump-2022598399 data-indent-pad=\"  \"><span class=sf-dump-note>array:8</span> [<samp data-depth=1 class=sf-dump-expanded>
+  \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+  \"<span class=sf-dump-key>admission_id</span>\" => \"<span class=sf-dump-str>4</span>\"
+  \"<span class=sf-dump-key>admission</span>\" => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>4</span>
+    \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
+    \"<span class=sf-dump-key>classes</span>\" => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
+      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
+      <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
+      <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
+    </samp>]
+    \"<span class=sf-dump-key>applications</span>\" => <span class=sf-dump-note>array:1</span> [<samp data-depth=3 class=sf-dump-compact>
+      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:7</span> [ &#8230;7]
+    </samp>]
+    \"<span class=sf-dump-key>session</span>\" => \"<span class=sf-dump-str title=\"9 characters\">2024/2025</span>\"
+    \"<span class=sf-dump-key>term_id</span>\" => \"<span class=sf-dump-str>1</span>\"
+    \"<span class=sf-dump-key>form_id</span>\" => \"<span class=sf-dump-str>4</span>\"
+    \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">28th July, 2024</span>\"
+    \"<span class=sf-dump-key>end_date</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2024-09-13</span>\"
+    \"<span class=sf-dump-key>application_fee</span>\" => \"<span class=sf-dump-str title=\"5 characters\">20000</span>\"
+    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>end_date_formatted</span>\" => \"<span class=sf-dump-str title=\"20 characters\">13th September, 2024</span>\"
+  </samp>]
+  \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"8 characters\">unpaid-0</span>\"
+  \"<span class=sf-dump-key>user</span>\" => <span class=sf-dump-note>array:11</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Brenda</span>\"
+    \"<span class=sf-dump-key>lname</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Colson</span>\"
+    \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"11 characters\">08063378465</span>\"
+    \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"27 characters\">uwantbrendacolson@gmail.com</span>\"
+    \"<span class=sf-dump-key>role</span>\" => \"<span class=sf-dump-str title=\"4 characters\">user</span>\"
+    \"<span class=sf-dump-key>avatar</span>\" => \"\"
+    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"2 characters\">ok</span>\"
+    \"<span class=sf-dump-key>verified</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>complete_signup</span>\" => \"<span class=sf-dump-str title=\"3 characters\">yes</span>\"
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"16 characters\">1st August, 2024</span>\"
+  </samp>]
+  \"<span class=sf-dump-key>date_slot</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2024/09/19</span>\"
+  \"<span class=sf-dump-key>time_slot</span>\" => \"<span class=sf-dump-str>3</span>\"
+  \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"20 characters\">11th September, 2024</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-2022598399\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","school":"<pre class=sf-dump id=sf-dump-1421305217 data-indent-pad=\"  \"><span class=sf-dump-note>array:19</span> [<samp data-depth=1 class=sf-dump-expanded>
   \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
   \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Test School</span>\"
   \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"23 characters\">kkudayisitobi@gmail.com</span>\"
@@ -221,199 +350,8 @@
   </samp>]
   \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
 </samp>]
-</pre><script>Sfdump(\"sf-dump-1730376995\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","schoolCategories":"<pre class=sf-dump id=sf-dump-230503194 data-indent-pad=\"  \"><span class=sf-dump-note>array:11</span> [<samp data-depth=1 class=sf-dump-expanded>
-  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Early Years</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"5 characters\">early</span>\"
-  </samp>]
-  <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Primary</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"7 characters\">primary</span>\"
-  </samp>]
-  <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"9 characters\">Secondary</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"9 characters\">secondary</span>\"
-  </samp>]
-  <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Tertiary</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"8 characters\">tertiary</span>\"
-  </samp>]
-  <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Faith-based</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"5 characters\">faith</span>\"
-  </samp>]
-  <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Boarding</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"8 characters\">boarding</span>\"
-  </samp>]
-  <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Private</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"7 characters\">private</span>\"
-  </samp>]
-  <span class=sf-dump-index>7</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Public</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"6 characters\">public</span>\"
-  </samp>]
-  <span class=sf-dump-index>8</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"4 characters\">Boys</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"4 characters\">boys</span>\"
-  </samp>]
-  <span class=sf-dump-index>9</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"5 characters\">Girls</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"5 characters\">girls</span>\"
-  </samp>]
-  <span class=sf-dump-index>10</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">Day Care</span>\"
-    \"<span class=sf-dump-key>xf</span>\" => \"<span class=sf-dump-str title=\"8 characters\">day-care</span>\"
-  </samp>]
-</samp>]
-</pre><script>Sfdump(\"sf-dump-230503194\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","calculatedRating":"<pre class=sf-dump id=sf-dump-2101405209 data-indent-pad=\"  \"><span class=sf-dump-note>array:4</span> [<samp data-depth=1 class=sf-dump-expanded>
-  \"<span class=sf-dump-key>rating</span>\" => <span class=sf-dump-num>0</span>
-  \"<span class=sf-dump-key>environment</span>\" => <span class=sf-dump-num>0</span>
-  \"<span class=sf-dump-key>service</span>\" => <span class=sf-dump-num>0</span>
-  \"<span class=sf-dump-key>price</span>\" => <span class=sf-dump-num>0</span>
-</samp>]
-</pre><script>Sfdump(\"sf-dump-2101405209\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","currentPage":"<pre class=sf-dump id=sf-dump-1540997347 data-indent-pad=\"  \"><span class=sf-dump-num>1</span>
-</pre><script>Sfdump(\"sf-dump-1540997347\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","numPages":"<pre class=sf-dump id=sf-dump-1806642218 data-indent-pad=\"  \"><span class=sf-dump-num>0.0</span>
-</pre><script>Sfdump(\"sf-dump-1806642218\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","reviews":"<pre class=sf-dump id=sf-dump-1076254612 data-indent-pad=\"  \">[]
-</pre><script>Sfdump(\"sf-dump-1076254612\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","tags":"<pre class=sf-dump id=sf-dump-577914042 data-indent-pad=\"  \"><span class=sf-dump-note>array:11</span> [<samp data-depth=1 class=sf-dump-expanded>
-  \"<span class=sf-dump-key>day</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>boarding</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>early</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>primary</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>secondary</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>tertiary</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>boys</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>girls</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>faith</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>private</span>\" => <span class=sf-dump-const>false</span>
-  \"<span class=sf-dump-key>public</span>\" => <span class=sf-dump-const>false</span>
-</samp>]
-</pre><script>Sfdump(\"sf-dump-577914042\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","similarSchools":"<pre class=sf-dump id=sf-dump-323991105 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
-  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:20</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Test School</span>\"
-    \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"23 characters\">kkudayisitobi@gmail.com</span>\"
-    \"<span class=sf-dump-key>country</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Nigeria</span>\"
-    \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"10 characters\">7054291601</span>\"
-    \"<span class=sf-dump-key>url</span>\" => \"<span class=sf-dump-str title=\"11 characters\">testschools</span>\"
-    \"<span class=sf-dump-key>logo</span>\" => \"<span class=sf-dump-str title=\"90 characters\">https://res.cloudinary.com/admissionboox/image/upload/v1722594984/hpalphwtic861kvxumxt.png</span>\"
-    \"<span class=sf-dump-key>landing_page_pic</span>\" => \"\"
-    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
-    \"<span class=sf-dump-key>owner</span>\" => <span class=sf-dump-note>array:5</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Ashaka</span>\"
-      \"<span class=sf-dump-key>email</span>\" => \"<span class=sf-dump-str title=\"22 characters\">ashaka@testschools.com</span>\"
-      \"<span class=sf-dump-key>phone</span>\" => \"<span class=sf-dump-str title=\"11 characters\">08079284917</span>\"
-    </samp>]
-    \"<span class=sf-dump-key>info</span>\" => <span class=sf-dump-note>array:10</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>boarding_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">both</span>\"
-      \"<span class=sf-dump-key>hbu</span>\" => \"<span class=sf-dump-str title=\"5 characters\">other</span>\"
-      \"<span class=sf-dump-key>hbu_other</span>\" => \"<span class=sf-dump-str title=\"14 characters\">Testing others</span>\"
-      \"<span class=sf-dump-key>school_name</span>\" => \"<span class=sf-dump-str title=\"11 characters\">Test School</span>\"
-      \"<span class=sf-dump-key>school_type</span>\" => \"<span class=sf-dump-str title=\"23 characters\">early-primary-secondary</span>\"
-      \"<span class=sf-dump-key>school_curriculum</span>\" => \"<span class=sf-dump-str title=\"10 characters\">early-only</span>\"
-      \"<span class=sf-dump-key>school_fees</span>\" => \"<span class=sf-dump-str title=\"7 characters\">151-300</span>\"
-      \"<span class=sf-dump-key>wcu</span>\" => \"<span class=sf-dump-str title=\"157 characters\">This is an awesome description of our great school. We   have a lot of facilities and equipment to ensure your child has a wonderful environment to learn in.</span>\"
-    </samp>]
-    \"<span class=sf-dump-key>facilities</span>\" => <span class=sf-dump-note>array:10</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>7</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>8</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-      <span class=sf-dump-index>9</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-    </samp>]
-    \"<span class=sf-dump-key>resources</span>\" => <span class=sf-dump-note>array:1</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-    </samp>]
-    \"<span class=sf-dump-key>clubs</span>\" => <span class=sf-dump-note>array:7</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-      <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:5</span> [ &#8230;5]
-    </samp>]
-    \"<span class=sf-dump-key>address</span>\" => <span class=sf-dump-note>array:6</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
-      \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-      \"<span class=sf-dump-key>school_state</span>\" => \"<span class=sf-dump-str title=\"5 characters\">Lagos</span>\"
-      \"<span class=sf-dump-key>school_address</span>\" => \"<span class=sf-dump-str title=\"21 characters\">1, My School Compound</span>\"
-      \"<span class=sf-dump-key>longitude</span>\" => \"<span class=sf-dump-str title=\"7 characters\">132.778</span>\"
-      \"<span class=sf-dump-key>latitude</span>\" => \"<span class=sf-dump-str title=\"8 characters\">145.3232</span>\"
-    </samp>]
-    \"<span class=sf-dump-key>bookmarks</span>\" => <span class=sf-dump-note>array:1</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-    </samp>]
-    \"<span class=sf-dump-key>banners</span>\" => <span class=sf-dump-note>array:1</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:3</span> [ &#8230;3]
-    </samp>]
-    \"<span class=sf-dump-key>faqs</span>\" => <span class=sf-dump-note>array:2</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-      <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-    </samp>]
-    \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">26th July, 2024</span>\"
-    \"<span class=sf-dump-key>calculatedRating</span>\" => <span class=sf-dump-note>array:4</span> [<samp data-depth=3 class=sf-dump-compact>
-      \"<span class=sf-dump-key>rating</span>\" => <span class=sf-dump-num>0</span>
-      \"<span class=sf-dump-key>environment</span>\" => <span class=sf-dump-num>0</span>
-      \"<span class=sf-dump-key>service</span>\" => <span class=sf-dump-num>0</span>
-      \"<span class=sf-dump-key>price</span>\" => <span class=sf-dump-num>0</span>
-    </samp>]
-  </samp>]
-</samp>]
-</pre><script>Sfdump(\"sf-dump-323991105\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","hasActiveAdmission":"<pre class=sf-dump id=sf-dump-638064909 data-indent-pad=\"  \"><span class=sf-dump-const>true</span>
-</pre><script>Sfdump(\"sf-dump-638064909\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","applicationTimeSlots":"<pre class=sf-dump id=sf-dump-168541317 data-indent-pad=\"  \"><span class=sf-dump-note>array:10</span> [<samp data-depth=1 class=sf-dump-expanded>
-  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"17 characters\">8:00 AM - 9:00 AM</span>\"
-  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"18 characters\">9:00 AM - 10:00 AM</span>\"
-  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"19 characters\">10:00 AM - 11:00 AM</span>\"
-  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"19 characters\">11:00 AM - 12:00 PM</span>\"
-  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"18 characters\">12:00 PM - 1:00 PM</span>\"
-  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"17 characters\">1:00 PM - 2:00 PM</span>\"
-  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"17 characters\">2:00 PM - 3:00 PM</span>\"
-  <span class=sf-dump-index>7</span> => \"<span class=sf-dump-str title=\"17 characters\">3:00 PM - 4:00 PM</span>\"
-  <span class=sf-dump-index>8</span> => \"<span class=sf-dump-str title=\"17 characters\">4:00 PM - 5:00 PM</span>\"
-  <span class=sf-dump-index>9</span> => \"<span class=sf-dump-str title=\"17 characters\">5:00 PM - 6:00 PM</span>\"
-</samp>]
-</pre><script>Sfdump(\"sf-dump-168541317\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-","schoolAdmissions":"<pre class=sf-dump id=sf-dump-988095569 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
-  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:11</span> [<samp data-depth=2 class=sf-dump-compact>
-    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>4</span>
-    \"<span class=sf-dump-key>school_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-    \"<span class=sf-dump-key>classes</span>\" => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
-      <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-      <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-      <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:4</span> [ &#8230;4]
-    </samp>]
-    \"<span class=sf-dump-key>applications</span>\" => []
-    \"<span class=sf-dump-key>session</span>\" => \"<span class=sf-dump-str title=\"9 characters\">2024/2025</span>\"
-    \"<span class=sf-dump-key>term_id</span>\" => \"<span class=sf-dump-str>1</span>\"
-    \"<span class=sf-dump-key>form_id</span>\" => \"<span class=sf-dump-str>4</span>\"
-    \"<span class=sf-dump-key>date</span>\" => \"<span class=sf-dump-str title=\"15 characters\">28th July, 2024</span>\"
-    \"<span class=sf-dump-key>end_date</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2024-09-13</span>\"
-    \"<span class=sf-dump-key>status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
-    \"<span class=sf-dump-key>end_date_formatted</span>\" => \"<span class=sf-dump-str title=\"20 characters\">13th September, 2024</span>\"
-  </samp>]
-</samp>]
-</pre><script>Sfdump(\"sf-dump-988095569\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
-"}},"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Attempt to read property \"id\" on null at /Users/tobikudayisi/repos/admissionboox/resources/views/school.blade.php:31)
+</pre><script>Sfdump(\"sf-dump-1421305217\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":3,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined array key \"nname\" at /Users/tobikudayisi/repos/admissionboox/resources/views/complete-application.blade.php:153)
 [stacktrace]
 #0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Users/tobikuda...')
 #1 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
@@ -476,10 +414,10 @@
 #58 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/tobikuda...')
 #59 {main}
 
-[previous exception] [object] (ErrorException(code: 0): Attempt to read property \"id\" on null at /Users/tobikudayisi/repos/admissionboox/storage/framework/views/db5b8c8ac786c9e18bff5aaa98444923.php:31)
+[previous exception] [object] (ErrorException(code: 0): Undefined array key \"nname\" at /Users/tobikudayisi/repos/admissionboox/storage/framework/views/35aa8fa789d67c6791131c73d514b0cb.php:150)
 [stacktrace]
-#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Attempt to read...', '/Users/tobikuda...', 31)
-#1 /Users/tobikudayisi/repos/admissionboox/storage/framework/views/db5b8c8ac786c9e18bff5aaa98444923.php(31): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Attempt to read...', '/Users/tobikuda...', 31)
+#0 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', '/Users/tobikuda...', 150)
+#1 /Users/tobikudayisi/repos/admissionboox/storage/framework/views/35aa8fa789d67c6791131c73d514b0cb.php(150): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', '/Users/tobikuda...', 150)
 #2 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Users/tobikuda...')
 #3 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
 #4 /Users/tobikudayisi/repos/admissionboox/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('/Users/tobikuda...', Array)

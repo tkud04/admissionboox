@@ -260,6 +260,8 @@ $(() => {
 		if(timeSlot.length < 1) $('#time-slot-validation').fadeIn()
 	}
 	else{
+		$('#init-btn').hide()
+        $('#init-loading').fadeIn()
 		const selectedDate = dp.format('YYYY/MM/DD'),selectedTime = timeSlot[0].getAttribute('data-value')
         payload = {
          selectedAdmission,
@@ -268,20 +270,19 @@ $(() => {
 	   }
 	   console.log('init payload: ',payload)
 
-	   initSchoolApplication({
+	   requestSchoolApplication({
 		xf: "{{$school['id']}}",
 		selectedAdmission,
 		selectedDate,
 		selectedTime
 	   },
 	         (data) => {
-                console.log('init response: ',data)
-                $('#init-loading').hide()
+               
+				$('#init-loading').hide()
                 $('#init-btn').fadeIn()
 
                 if(data.status === 'ok'){
-					const parsedData = JSON.parse(data.data)
-                    window.location = `${parsedData?.data?.authorization_url}`
+					 window.location = `complete-school-application?xf=${data?.data?.xf}`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)
@@ -290,7 +291,7 @@ $(() => {
               (err) => {
                 $('#init-loading').hide()
               $('#init-btn').fadeIn()
-                alert(`Failed to init school application: ${err}`)
+                alert(`Failed to request school application: ${err}`)
               }
 	)
 	}
@@ -671,8 +672,8 @@ $(() => {
 								$counter = $i + 1;
 							?>
 							<div class="time-slot">
-								<input type="radio" name="time-slot" class="time-slot-option" data-value="{{$counter}}" id="time-slot-{{$counter}}">
-								<label for="time-slot-{{$counter}}">
+								<input type="radio" name="time-slot" class="time-slot-option" data-value="{{$i}}" id="time-slot-{{$i}}">
+								<label for="time-slot-{{$i}}">
 									<strong><span>{{$counter}}</span> : {{$applicationTimeSlots[$i]}}</strong>									
 								</label>
 							</div>
@@ -699,9 +700,10 @@ $(() => {
 				</div>
 			</div>-->
 			
-          </div>          
+          </div>
+		  @include('components.generic-loading', ['message' => 'Processing', 'id' => "init-loading"])        
           <a href="#" id="init-btn" class="utf_progress_button button fullwidth_block margin-top-5">Apply<div class="progress-bar"></div></a>
-		  <!--<button class="like-button add_to_wishlist"><span class="like-icon"></span> Add to Wishlist</button>-->
+          <!--<button class="like-button add_to_wishlist"><span class="like-icon"></span> Add to Wishlist</button>-->
           <div class="clearfix"></div>
         </div>
 		<?php

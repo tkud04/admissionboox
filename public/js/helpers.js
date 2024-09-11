@@ -23,8 +23,11 @@ const handleResponseError = (data) => {
   else if(data.message === 'own'){
     errMessage = 'You cannot carry out this action'
    }
-   else if(data.message === 'auth'){
+  else if(data.message === 'auth'){
     errMessage = 'You must be signed in to continue'
+   }
+   else if(data.message === 'has-pending-application'){
+    errMessage = 'You have a school application currently pending! Cancel it to continue'
    }
 
   alert(errMessage)
@@ -709,6 +712,25 @@ const updateSchoolStatus = async (payload={xf:'',ss:''},successCallback,errorCal
     errorCallback
   )
  
+ 
+}
+
+const requestSchoolApplication = async (payload={xf:'',selectedAdmission:'',selectedDate:'',selectedTime:''},successCallback,errorCallback) => {
+  const url = 'api/init-school-application'
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf},
+        {key: 'selectedAdmission',value: payload.selectedAdmission},
+        {key: 'selectedDate',value: payload.selectedDate},
+        {key: 'selectedTime',value: payload.selectedTime},
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
  
 }
 

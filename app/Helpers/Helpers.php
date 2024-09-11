@@ -2250,6 +2250,19 @@ class Helper //implements HelperContract
 		];
 
         public $psSecretKey = "sk_test_6fd50bf759cd1e058c01d3b186cbd16cae2ab05b";
+        
+        public $applicationTimeSlots = [
+			'8:00 AM - 9:00 AM',
+			'9:00 AM - 10:00 AM',
+			'10:00 AM - 11:00 AM',
+			'11:00 AM - 12:00 PM',
+			'12:00 PM - 1:00 PM',
+			'1:00 PM - 2:00 PM',
+			'2:00 PM - 3:00 PM',
+			'3:00 PM - 4:00 PM',
+			'4:00 PM - 5:00 PM',
+			'5:00 PM - 6:00 PM',
+		];
 
            function symfonySendMail($data){
             
@@ -4019,6 +4032,14 @@ EOD;
               }
              
               return $ret;
+           }
+
+           function hasPendingSchoolApplication($user_id)
+           {
+              $applicationCount = SchoolApplications::where('user_id',$user_id)
+                                                    ->where('status','unpaid-0')->count();
+            
+              return $applicationCount > 0;
            }
 
 

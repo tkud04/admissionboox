@@ -1,20 +1,17 @@
-
-@extends('layout')
-
-@section('title',"Complete Application")
+<?php $__env->startSection('title',"Complete Application"); ?>
 
 
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
   <script>	
   </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
-@include('components.generic-banner',[
+<?php echo $__env->make('components.generic-banner',[
 	 'title' => "Complete Application"
-	])
+	], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
   <?php
    $admission = $applicant['admission'];
@@ -30,22 +27,22 @@
 			<div class="row">
 			  <div class="col-md-6">
 				<label>First Name</label>
-				<input type="text" value="{{$user->fname}}" placeholder="First Name">
+				<input type="text" value="<?php echo e($user->fname); ?>" placeholder="First Name">
 			  </div>
 			  <div class="col-md-6">
 				<label>Last Name</label>
-				<input type="text" value="{{$user->lname}}" placeholder="Last Name">
+				<input type="text" value="<?php echo e($user->lname); ?>" placeholder="Last Name">
 			  </div>
 			  <div class="col-md-6">
 				<div class="medium-icons">
 				  <label>E-Mail</label>
-				  <input type="text" value="{{$user->email}}" placeholder="Email">
+				  <input type="text" value="<?php echo e($user->email); ?>" placeholder="Email">
 				</div>
 			  </div>
 			  <div class="col-md-6">
 				<div class="medium-icons">
 				  <label>Phone</label>
-				  <input type="text" value="{{$user->phone}}" placeholder="Phone">
+				  <input type="text" value="<?php echo e($user->phone); ?>" placeholder="Phone">
 				</div>
 			  </div>
 			</div>
@@ -148,9 +145,9 @@
 	  </div>
       <div class="col-lg-4 col-md-4 margin-top-0 utf_listing_payment_section">
         <div class="utf_booking_listing_item_container compact utf_order_summary_widget_section">
-          <div class="listing-item"> <img src="{{$bImg}}" alt="">
+          <div class="listing-item"> <img src="<?php echo e($bImg); ?>" alt="">
             <div class="utf_listing_item_content">              
-              <h3>{{$school['name']}}</h3>
+              <h3><?php echo e($school['name']); ?></h3>
               <span><i class="fa fa-map-marker"></i> The Ritz-Carlton, Hong Kong</span>
 						<span><i class="fa fa-phone"></i> (+15) 124-796-3633</span>											
 			  <div class="utf_star_rating_section" data-rating="4.5">
@@ -185,4 +182,5 @@
     </div>
   </div>
 
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/tobikudayisi/repos/admissionboox/resources/views/complete-application.blade.php ENDPATH**/ ?>
