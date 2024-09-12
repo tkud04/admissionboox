@@ -4042,6 +4042,20 @@ EOD;
               return $applicationCount > 0;
            }
 
+           function getPendingSchoolApplication($user_id)
+           {
+            $ret = [];
+
+              $sa = SchoolApplications::where('user_id',$user_id)
+                                                    ->where('status','unpaid-0')->first();
+
+            if($sa !== null)
+            {
+               $ret = $this->getSchoolApplication($sa->id);
+            }
+              return $ret;
+           }
+
 
            function addApplicationData($data)
            {

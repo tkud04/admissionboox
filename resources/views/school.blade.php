@@ -61,15 +61,23 @@ $reviewerEmail = $user === null ? '' : $user->email;
 <script src="js/moment.min.js"></script>
 <script src="js/daterangepicker.js"></script>
 <script>
+  const applicationDeadlines = JSON.parse('{!!$adls!!}')
+  console.log('deadlines: ', applicationDeadlines)
 
 $(function() {
+ 
+
 	$('#date-picker').daterangepicker({
 		"opens": "left",
 		singleDatePicker: true,
 		isInvalidDate: function(date) {
-		var disabled_start = moment('01/01/2024', 'MM/DD/YYYY');
-		var disabled_end = moment().subtract(1,'day');
-		return date.isAfter(disabled_start) && date.isBefore(disabled_end);
+		const before_disabled_start = moment('01/01/2024', 'MM/DD/YYYY'),
+		before_disabled_end = moment().subtract(1,'day')
+		//after_disabled_start = moment('','MM/DD/YYYY');
+		return ( 
+			(date.isAfter(before_disabled_start) && date.isBefore(before_disabled_end))/* ||
+			(date.isAfter(before_disabled_start) && date.isBefore(before_disabled_end))*/
+		);
 		}
 	});
 });
@@ -115,7 +123,6 @@ $("body").mouseup(function() {
 });
 
 
-	console.log('hbs: ',"{{$hbs}}")
 const clearValidations = () => {
   $('.form-validation').hide()
 }
@@ -243,20 +250,30 @@ $(() => {
 
  })
 
+ $('#init-admission').change(() => {
+   const val = $('#init-admission').val(), selectedDeadline = applicationDeadlines?.find(i => parseInt(i.xf) === parseInt(val)) 
+   $('#init-admission-deadline').html('')
+
+   console.log('selected deadline: ',selectedDeadline)
+   if(selectedDeadline){
+	$('#init-admission-deadline').html(`Application deadline: ${selectedDeadline?.ed}`)
+   }
+ })
+
  $('#init-btn').click((e) => {
 	e.preventDefault()
 	clearValidations()
 
 	const selectedAdmission = $('#init-admission').val(), datePicker = $('#date-picker').val(), 
-	       timeSlot = $('input.time-slot-option:checked'),today = moment(), dp = moment(datePicker,"MM/DD/YYYY")
+	       timeSlot = $('input.time-slot-option:checked'),today = moment(), dp = moment(datePicker,"MM/DD/YYYY"),
+		   todayDisplay = today.format('DD/MM/YYYY'), dpDisplay = dp.format('DD/MM/YYYY')
 
-	const v = selectedAdmission === 'none' || today.isAfter(dp) || timeSlot.length < 1
+	const v = selectedAdmission === 'none' || (todayDisplay !== dpDisplay && today.isAfter(dp)) || timeSlot.length < 1
 
-	console.log('v: ', v)
-
+ 
 	if(v){
 		if(selectedAdmission === 'none') $('#init-admission-validation').fadeIn()
-		if(today.isAfter(dp)) $('#date-picker-validation').fadeIn()
+		if(todayDisplay !== dpDisplay && today.isAfter(dp)) $('#date-picker-validation').fadeIn()
 		if(timeSlot.length < 1) $('#time-slot-validation').fadeIn()
 	}
 	else{
@@ -268,7 +285,6 @@ $(() => {
          selectedDate,
 		 selectedTime
 	   }
-	   console.log('init payload: ',payload)
 
 	   requestSchoolApplication({
 		xf: "{{$school['id']}}",
@@ -620,6 +636,18 @@ $(() => {
 				<span>185$<small>person</small></span>				
 			</div>-->
 		  </h3>
+		  <?php
+           if(count($hbsa) > 0)
+		   {
+			$cau = url('complete-school-application')."?xf=".$hbsa['id'];
+		  ?>
+		  <div style="border: 1px solid #dedede; background-color: #dedede; border-radius: 5px; padding: 5px; margin-bottom: 10px;">
+		  <h3 class="text-warning"><strong>NOTE:</strong> have an application that is currently pending. <a href="{{$cau}}">Click here</a> to complete</h3>
+		  </div>
+		  <?php
+		   }
+		  ?>
+		 
 		  <div class="with-forms" style="margin-top: 10px; margin-bottom: 20px;">
 				<div class="col-lg-12 col-md-12">
 					<h4>Select admission</h4>
@@ -650,7 +678,9 @@ $(() => {
 						 }
 					  ?>
 					</select>
+					<h6 class="text-info" id="init-admission-deadline"></h6>
 				</div>
+				
 			</div>
           <div class="row with-forms" style="margin-top: 10px;">
             <div class="col-lg-12 col-md-12 select_date_box">

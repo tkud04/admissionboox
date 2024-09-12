@@ -8,7 +8,9 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\Auth;
 use Session; 
 use Validator; 
-use Carbon\Carbon; 
+use Carbon\Carbon;
+
+use function PHPUnit\Framework\greaterThanOrEqual;
 
 class MainController extends Controller {
 
@@ -198,13 +200,23 @@ class MainController extends Controller {
 		$similarSchools = $this->helpers->getSimilarSchools($school);
 
 		$applicationTimeSlots = $this->helpers->applicationTimeSlots;
+		$hbsa = $this->helpers->getPendingSchoolApplication($user->id);
+	
+		$applicationDeadlines = [];
+
+		foreach($schoolAdmissions as $sa)
+		{
+			array_push($applicationDeadlines,['xf' => $sa['id'],'ed' => $sa['end_date']]);
+		}
+		 $adls = json_encode($applicationDeadlines);
 	
 			array_push($c,
-			'school','schoolCategories','calculatedRating',
+			'school','schoolCategories','calculatedRating','hbsa',
 			'currentPage','numPages','reviews','tags','similarSchools',
-			'hasActiveAdmission','applicationTimeSlots','schoolAdmissions'
+			'hasActiveAdmission','applicationTimeSlots','schoolAdmissions',
+			'adls'
 		);
-	        #dd($schoolAdmissions);
+	       # dd($applicationDeadlines);
 			return view('school',compact($c));
 			}
 
@@ -471,30 +483,49 @@ class MainController extends Controller {
 					'selectedTime' => 'required'
                ]);
 
-               if($validator->fails())
+                if($validator->fails())
                 {
                   $ret = ['status' => "error","message" => "validation",'req' => $req];
                 }
 				else
 				{
-					if($this->helpers->hasPendingSchoolApplication($user->id))
+					$selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
+
+					if(count($selectedAdmission) > 0)
 					{
-                        $ret = ['status' => "error","message" => "has-pending-application"];
+						if($this->helpers->hasPendingSchoolApplication($user->id))
+						{
+							$ret = ['status' => "error","message" => "has-pending-application"];
+						}
+						else
+						{
+							
+							$applicantDate = Carbon::parse($req['selectedDate']);
+							$deadlineDate = Carbon::parse($selectedAdmission['end_date']);
+	
+							if($applicantDate->greaterThan($deadlineDate))
+							{
+								$ret = ['status' => "error","message" => "is-past-deadline"];
+							}
+							else
+							{
+								$applicant = $this->helpers->addSchoolApplication([
+									'admission_id' => $req['selectedAdmission'],
+									'user_id' => $user->id,
+									'date_slot' => $req['selectedDate'],
+									'time_slot' => $req['selectedTime'],
+									'status' => 'unpaid-0',
+								]);
+	
+								$ret = ['status'=> "ok",'data' => ['xf' => $applicant->id]];
+							}
+							
+						}
 					}
 					else
 					{
-						$applicant = $this->helpers->addSchoolApplication([
-							'admission_id' => $req['selectedAdmission'],
-							'user_id' => $user->id,
-							'date_slot' => $req['selectedDate'],
-							'time_slot' => $req['selectedTime'],
-							'status' => 'unpaid-0',
-						]);
-
-						$ret = ['status'=> "ok",'data' => ['xf' => $applicant->id]];
+						$ret = ['status' => "error","message" => "invalid-session"];
 					}
-					
-
 					
 				}
 				
@@ -531,11 +562,15 @@ class MainController extends Controller {
 			{
                $applicant = $this->helpers->getSchoolApplication($req['xf'],true);
 			   $school = $this->helpers->getSchool($applicant['admission']['school_id']);
-			   #dd($applicant);
+			   $selectedTime = $this->helpers->applicationTimeSlots[$applicant['time_slot']];
+			   $allReviews = $this->helpers->getSchoolReviews($school['id']);
+			   $calculatedRating = $this->helpers->calculateRating($allReviews);
+			   #dd($selectedTime);
 
 			   if(count($applicant) > 0)
 			   {
-                 array_push($c,'applicant','school');
+                 array_push($c,'applicant','school','selectedTime',
+				           'allReviews','calculatedRating');
 				 return view('complete-application',compact($c));
 			   }
 			   else

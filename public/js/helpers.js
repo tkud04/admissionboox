@@ -27,7 +27,10 @@ const handleResponseError = (data) => {
     errMessage = 'You must be signed in to continue'
    }
    else if(data.message === 'has-pending-application'){
-    errMessage = 'You have a school application currently pending! Cancel it to continue'
+    errMessage = 'You have a school application currently pending!'
+   }
+   else if(data.message === 'is-past-deadline'){
+    errMessage = 'Date selected has to be before the admission deadline'
    }
 
   alert(errMessage)
@@ -734,17 +737,14 @@ const requestSchoolApplication = async (payload={xf:'',selectedAdmission:'',sele
  
 }
 
-const initSchoolApplication = async (payload={xf:'',selectedAdmission:'',selectedDate:'',selectedTime:''},successCallback,errorCallback) => {
-  const url = 'api/init-school-application'
+const confirmSchoolApplication = async (payload={xf:''},successCallback,errorCallback) => {
+  const url = 'api/confirm-school-application'
   await fetchWithJson(
     {
        url,
        method: 'POST',
        data: [
-        {key: 'xf',value: payload.xf},
-        {key: 'selectedAdmission',value: payload.selectedAdmission},
-        {key: 'selectedDate',value: payload.selectedDate},
-        {key: 'selectedTime',value: payload.selectedTime},
+        {key: 'xf',value: payload.xf}
       ],
     },
     successCallback,

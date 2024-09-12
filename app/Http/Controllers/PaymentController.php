@@ -88,9 +88,6 @@ class PaymentController extends Controller {
 				
 				$validator = Validator::make($req, [
 					'xf' => 'required|numeric',
-					'selectedAdmission' => 'required',
-					'selectedDate' => 'required',
-					'selectedTime' => 'required'
                ]);
 
                if($validator->fails())
