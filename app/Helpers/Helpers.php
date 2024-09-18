@@ -28,6 +28,8 @@ use App\Models\AdmissionForms;
 use App\Models\FormFields;
 use App\Models\SchoolApplications;
 use App\Models\ApplicationData;
+use App\Models\ApplicationPermissions;
+use App\Models\ApplicationResources;
 use App\Models\FormSections;
 use App\Models\SchoolBookmarks;
 use App\Models\SchoolFaqs;
@@ -2264,6 +2266,10 @@ class Helper //implements HelperContract
 			'5:00 PM - 6:00 PM',
 		];
 
+        public $applicationStatuses = [
+            'paid','verified','submitted'
+        ];
+
            function symfonySendMail($data){
             
               $email = (new Email())
@@ -3430,7 +3436,7 @@ EOD;
                return $ret;
            }
 
-           function getSchoolAdmission($id)
+           function getSchoolAdmission($id,$applications=true)
            {
                $ret = [];
                $a = SchoolAdmissions::where('id',$id)->first();
@@ -3440,7 +3446,7 @@ EOD;
                    $ret['id'] = $a->id;
                    $ret['school_id'] = $a->school_id;
                    $ret['classes'] = $this->getAdmissionClasses($a->id);
-                   $ret['applications'] = $this->getSchoolApplications($a->id);
+                   if($applications) $ret['applications'] = $this->getSchoolApplications($a->id);
                    $ret['session'] = $a->session;
                    $ret['term_id'] = $a->term_id;
                    $ret['form_id'] = $a->form_id;
@@ -3921,6 +3927,7 @@ EOD;
                 'user_id' => $data['user_id'],
                 'date_slot' => $data['date_slot'],
                 'time_slot' => $data['time_slot'],
+                'paystack_id' => $data['paystack_id'],
                 'status' => $data['status'],
             ]);
 
@@ -3953,6 +3960,26 @@ EOD;
                return $ret;
            }
 
+           function getUserSchoolApplications($user_id='')
+           {
+               $ret = [];
+               $applications = [];
+
+               $applications = SchoolApplications::where('user_id',$user_id)->get();
+               
+               
+               if($applications != null)
+               {
+                  foreach($applications as $a)
+                  {
+                      $temp = $this->getSchoolApplication($a->id,true);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
            function getSchoolApplication($id,$admission=false)
            {
                $ret = [];
@@ -3962,11 +3989,18 @@ EOD;
                {
                    $ret['id'] = $a->id;
                    $ret['admission_id'] = $a->admission_id;
-                   if($admission) $ret['admission'] = $this->getSchoolAdmission($a->admission_id);
+                   $schoolAdmission = $this->getSchoolAdmission($a->admission_id,false);
+                   if($admission) $ret['admission'] = $schoolAdmission;
+
                    $ret['status'] = $a->status;
+                   $ret['stage'] = $this->getApplicationStatus([
+                     'origStatus' => $ret['status'],
+                     'date' => $schoolAdmission['end_date']
+                   ]);
                    $ret['user'] = $this->getUser($a->user_id);
                    $ret['date_slot'] = $a->date_slot;
                    $ret['time_slot'] = $a->time_slot;
+                   $ret['paystack_id'] = $a->paystack_id;
                    $ret['date'] = $a->created_at->format("jS F, Y");
                }
 
@@ -3985,6 +4019,7 @@ EOD;
                         {
 							$payload = [];
                             if(isset($data['status'])) $payload['status'] = $data['status'];
+                            if(isset($data['paystack_id'])) $payload['paystack_id'] = $data['paystack_id'];
                            
                         	$a->update($payload);
                              $ret = "ok";
@@ -4026,7 +4061,11 @@ EOD;
 
                     if(count($applications) > 0)
                     {
-                        foreach($applications as $application) array_push($ret,$application);
+                        foreach($applications as $application)
+                        {
+                            $application2 = $this->getSchoolApplication($application['id'],true);
+                           array_push($ret,$application2); 
+                        }
                     }
                  }
               }
@@ -4037,7 +4076,7 @@ EOD;
            function hasPendingSchoolApplication($user_id)
            {
               $applicationCount = SchoolApplications::where('user_id',$user_id)
-                                                    ->where('status','unpaid-0')->count();
+                                                    ->where('status','unpaid')->count();
             
               return $applicationCount > 0;
            }
@@ -4047,12 +4086,89 @@ EOD;
             $ret = [];
 
               $sa = SchoolApplications::where('user_id',$user_id)
-                                                    ->where('status','unpaid-0')->first();
+                                                    ->where('status','unpaid')->first();
 
             if($sa !== null)
             {
                $ret = $this->getSchoolApplication($sa->id);
             }
+              return $ret;
+           }
+
+           function getFilteredSchoolApplications($user_id)
+           {
+            $ret = [
+                'active' => [],
+                'pending' => [],
+                'expired' => [],
+            ];
+
+              $pendingApplications = SchoolApplications::where('user_id',$user_id)
+                                                    ->where('status','unpaid')->get();
+
+            if($pendingApplications !== null)
+            {
+                foreach($pendingApplications as $pa)
+                {
+                    $temp = $this->getSchoolApplication($pa->id);
+                    array_push($ret['pending'],$temp);
+                }
+            }
+
+             $activeApplications = SchoolApplications::where('user_id',$user_id)
+                                         ->where('status','unpaid')->get();
+
+             if($pendingApplications !== null)
+            {
+               foreach($pendingApplications as $pa)
+               {
+                 $temp = $this->getSchoolApplication($pa->id);
+                 array_push($ret['pending'],$temp);
+               }
+            }
+              return $ret;
+           }
+
+           function getApplicationStatus($application=['origStatus' => '','date' => ''])
+           {
+            $ret="";
+            
+            $origDate = Carbon::parse($application['date']);
+            $today = Carbon::now();
+            $vv = $origDate->lessThanOrEqualTo($today);
+
+            /*
+            dd([
+                'origDate' => $origDate,
+                'today' => $today,
+                'vv' => $vv
+            ]);
+            */
+
+            if($vv)
+            {
+              $ret = "expired";
+            }
+
+            else
+            {
+                if($application['origStatus'] === 'unpaid')
+                {
+                  $ret = "pending";
+                }
+                else
+                {
+                    if(in_array($application['origStatus'],$this->applicationStatuses))
+                    {
+                        $ret = "active";
+                    }
+                    else
+                    {
+                        $ret = "unknown";
+                    }
+                }
+            }
+
               return $ret;
            }
 
@@ -4116,6 +4232,187 @@ EOD;
            function removeApplicationData($id)
            {
                $a = ApplicationData::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
+           function addApplicationResource($data)
+           {
+            $ret = ApplicationResources::create([
+                'application_id' => $data['application_id'],
+                'name' => $data['name'],
+                'url' => $data['url']
+            ]);
+
+            return $ret;
+           }
+
+           function getApplicationResources($application_id='all')
+           {
+               $ret = [];
+               $data = [];
+
+               if($application_id === 'all')
+               {
+                  $data = ApplicationResources::where('id','>','0')->get();
+               }
+               else
+               {
+                $data = ApplicationResources::where('application_id',$application_id)->get();
+               }
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getApplicationResource($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getApplicationResource($id)
+           {
+               $ret = [];
+               $a = ApplicationResources::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['application_id'] = $a->form_id;
+                   $ret['name'] = $a->name;
+                   $ret['url'] = $a->url;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeApplicationResource($id)
+           {
+               $a = ApplicationResources::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
+           function addApplicationPermission($data)
+           {
+            $ret = ApplicationPermissions::create([
+                'admission_id' => $data['admission_id'],
+                'user_id' => $data['user_id'],
+                'permission' => $data['permission']
+            ]);
+
+            return $ret;
+           }
+
+           function getApplicationPermissions($id='all')
+           {
+               $ret = [];
+               $data = [];
+
+               if($id === 'all')
+               {
+                  $data = ApplicationPermissions::where('id','>','0')->get();
+               }
+               else
+               {
+                $data = ApplicationPermissions::where('admission_id',$id)
+                            ->orWhere('user_id',$id)->get();
+               }
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getApplicationPermission($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getApplicationPermission($id)
+           {
+               $ret = [];
+               $a = ApplicationPermissions::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['admission_id'] = $a->admission_id;
+                   $ret['user_id'] = $a->user_id;
+                   $ret['permission'] = $a->permission;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeApplicationPermission($id)
+           {
+               $a = ApplicationPermissions::where('id',$id)->first();
+               if($a != null) $a->delete();
+           }
+
+           function addUserNotification($data)
+           {
+            $ret = SchoolNotifications::create([
+                'school_id' => $data['school_id'],
+                'action_id' => $data['action_id'],
+                'notification_type' => $data['notification_type']
+            ]);
+
+            return $ret;
+           }
+
+           function getUserNotifications($school_id)
+           {
+               $ret = [];
+               $data = [];
+
+                $data = SchoolNotifications::where('id',$school_id)->get();
+              
+               
+               if($data != null)
+               {
+                  foreach($data as $d)
+                  {
+                      $temp = $this->getSchoolNotification($d->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getUserNotification($id)
+           {
+               $ret = [];
+               $a = SchoolNotifications::where('id',$id)->first();
+
+               if($a != null)
+               {
+                   $ret['id'] = $a->id;
+                   $ret['school_id'] = $a->school_id;
+                   $ret['action_id'] = $a->action_id;
+                   $ret['notification_type'] = $a->notification_type;
+                   $ret['date'] = $a->created_at->format("jS F, Y");
+               }
+
+               return $ret;
+           }
+
+          
+
+           function removeUserNotification($id)
+           {
+               $a = SchoolNotifications::where('id',$id)->first();
                if($a != null) $a->delete();
            }
 
@@ -4779,6 +5076,52 @@ EOD;
           }
 
           function parseAdminNotifications($data)
+          {
+            $ret = [];
+            $sname = '';
+            $vu = '#';
+
+            if(count($data) > 0)
+            {
+                foreach($data as $n)
+                {
+                    $temp = ['icon' => "", 'content' => ""];
+
+                    switch($n['notification_type'])
+                    {
+                        case 'bookmark':
+                            $temp['icon'] = 'sl-icon-eye';
+                            $temp['content'] = <<<EOD
+                            Someone Bookmarked <strong><a href="$vu">$sname</a></strong>
+EOD;          
+                        break;
+
+                        case 'review':
+                            $u = $this->getUser($data['action_id']);
+                            $temp['icon'] = 'sl-icon-layers';
+                            $uname = $u['fname']." ".$u['lname'];
+                            $temp['content'] = <<<EOD
+                            $uname Left A Review On <strong><a href="$vu">$sname</a></strong>
+EOD;
+                        break;
+                    }
+                    array_push($ret,$temp);
+
+                    
+                }
+            /*
+             [
+			['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+			//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+			//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+		   ];
+            */
+            }
+            
+            return $ret;
+          }
+
+          function parseUserNotifications($data)
           {
             $ret = [];
             $sname = '';

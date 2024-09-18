@@ -23,9 +23,12 @@ Route::get('schools', [MainController::class,'getSchools']);
 Route::get('school', [MainController::class,'getSchool']);
 
 Route::get('init-school-application', [MainController::class,'getInitSchoolApplication']);
-Route::post('init-school-application', [MainController::class,'postInitSchoolApplication']);
 Route::get('complete-school-application', [MainController::class,'getCompleteSchoolApplication']);
-Route::post('complete-school-application', [MainController::class,'postCompleteSchoolApplication']);
+Route::get('verify-school-application', [MainController::class,'getVerifySchoolApplication']);
+
+Route::get('my-applications', [MainController::class,'getSchoolApplications']);
+Route::get('my-application', [MainController::class,'getSchoolApplication']);
+
 
 
 //Auth routes

@@ -228,7 +228,7 @@ if(!function_exists('isInSchoolClub'))
           $iid = "shdj3";
           $iu = url('application-invoice')."?xf=".$iid;
           $u = $sa['user'];
-          $a = $schoolApplication['admission'];
+          $a = $sa['admission'];
           $term = ['name' => "", 'value' => '0'];
 
           foreach($terms as $t)
@@ -242,7 +242,7 @@ if(!function_exists('isInSchoolClub'))
         <li>
           <p>
             <span>Applicant:-</span> <?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?><br>
-            <span>Term selected:-</span><?php echo e($schoolApplication['term']); ?>
+            <span>Term selected:-</span> <?php echo e($term['name']); ?>
 
           </p>
         </li>

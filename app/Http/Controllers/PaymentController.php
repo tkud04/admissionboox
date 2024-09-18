@@ -77,12 +77,6 @@ class PaymentController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
-            $req = $request->all();
-			
-            $signals = $this->helpers->signals;
-		    $senders = $this->helpers->getSenders();
-		    $plugins = $this->helpers->getPlugins(['mode' => 'active']);
-		    $c = $this->compactValues;
 
             $req = $request->all();
 				
@@ -96,25 +90,36 @@ class PaymentController extends Controller {
                 }
 				else
 				{
-                    $selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
-					$feeKobo = floatval($selectedAdmission['application_fee']) * 100;
+					$applicant = $this->helpers->getSchoolApplication($req['xf'],true);
 
-					$secret_key = $this->helpers->psSecretKey;
-					$initResponse = $this->helpers->callAPI([
-						'method' => 'POST',
-						'url' => 'https://api.paystack.co/transaction/initialize',
-						'headers' => [
-							"Authorization" => "Bearer {$secret_key}",
-                            "Cache-Control: no-cache",
-						],
-						'body' => [
-							"email" => $user->email,
-							"amount" => $feeKobo,
-						]
-					]);
-					
-
-					$ret = ['status'=> "ok","data" => $initResponse];
+					if(count($applicant) > 0)
+					{
+						$selectedAdmission =$applicant['admission'];
+						$feeKobo = floatval($selectedAdmission['application_fee']) * 100;
+	
+						$secret_key = $this->helpers->psSecretKey;
+						$initResponse = $this->helpers->callAPI([
+							'method' => 'POST',
+							'url' => 'https://api.paystack.co/transaction/initialize',
+							'headers' => [
+								"Authorization" => "Bearer {$secret_key}",
+								"Cache-Control: no-cache",
+							],
+							'body' => [
+								"email" => $user->email,
+								"amount" => $feeKobo,
+								"metadata" => json_encode(['xf' => $req['xf']])
+							]
+						]);
+						
+	
+						$ret = ['status'=> "ok","data" => $initResponse];
+					}
+					else
+					{
+						$ret = ['status' => "error","message" => "invalid-session"];
+					}
+                    
                 }
 		}
         else
@@ -134,24 +139,16 @@ class PaymentController extends Controller {
 	function postVerifyPayment(Request $request)
     {
        $user = null;
+	   $ret = ['status' => "ok","message" => "nothing happened"];
 
 		if(Auth::check())
 		{
 			$user = Auth::user();
-            $req = $request->all();
-            dd($req);
-            $signals = $this->helpers->signals;
-		    $senders = $this->helpers->getSenders();
-		    $plugins = $this->helpers->getPlugins(['mode' => 'active']);
-		    $c = $this->compactValues;
 
             $req = $request->all();
 				
 				$validator = Validator::make($req, [
-					'xf' => 'required|numeric',
-					'selectedAdmission' => 'required',
-					'selectedDate' => 'required',
-					'selectedTime' => 'required'
+					'xf' => 'required',
                ]);
 
                if($validator->fails())
@@ -160,13 +157,44 @@ class PaymentController extends Controller {
                 }
 				else
 				{
-                    
+                   # $selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
+					$xf = $req['xf'];
+					$secret_key = $this->helpers->psSecretKey;
+					$initResponse = $this->helpers->callAPI([
+						'method' => 'GET',
+						'url' => "https://api.paystack.co/transaction/verify/{$xf}",
+						'headers' => [
+							"Authorization" => "Bearer {$secret_key}",
+                            "Cache-Control: no-cache",
+						]
+					]);
+					
+
+					$rett = json_decode($initResponse);
+                    $rettData = $rett->data;
+
+					if($rettData->status === 'success')
+					{
+						$paymentRef = $rettData->id;
+						$this->helpers->updateSchoolApplication(['status' => "paid-{$paymentRef}"]);
+
+						$ret = ['status'=> "ok","data" => $initResponse];
+					}
+					else
+					{
+						$ret = ['status' => "error","message" => "payment-failed","data" => $initResponse];
+					}
+
+					
                 }
 		}
         else
-        {
-           return redirect()->intended('/');
-        }
+		{
+			$ret = ['status' => "error","message" => "auth"];
+		}
+
+
+		 return json_encode($ret); 
 	}
 
 }

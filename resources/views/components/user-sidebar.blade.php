@@ -7,6 +7,27 @@ if(!function_exists('getActiveClass'))
 }
 }
 
+$activeApplications = [];  $pendingApplications = []; $expiredApplications = [];
+
+ foreach($schoolApplications as $sa)
+ {
+    if($sa['stage'] === 'pending')
+    {
+         array_push($pendingApplications,$sa);
+    }
+    else
+    {
+        if($sa['stage'] === 'active')
+        {
+            array_push($activeApplications,$sa);
+        } 
+        else if($sa['stage'] === 'expired')
+        {
+            array_push($expiredApplications,$sa);
+        } 
+    }
+ }
+
 ?>
 <div class="utf_dashboard_navigation js-scrollbar">
         <div class="utf_dashboard_navigation_inner_block">
@@ -16,9 +37,9 @@ if(!function_exists('getActiveClass'))
                 <li class="{{getActiveClass('applications',$ac)}}">
                     <a href="javascript:void(0)"><i class="sl sl-icon-layers"></i> My Applications</a>
                     <ul>
-                        <li><a href="{{url('my-applications?status=active')}}">Active <span class="nav-tag green">10</span></a></li>
-                        <li><a href="{{url('my-applications?status=pending')}}">Pending <span class="nav-tag yellow">4</span></a></li>
-                        <li><a href="{{url('my-applications?status=expired')}}">Expired <span class="nav-tag red">8</span></a></li>
+                        <li><a href="{{url('my-applications?status=active')}}">Active <span class="nav-tag green">{{count($activeApplications)}}</span></a></li>
+                        <li><a href="{{url('my-applications?status=pending')}}">Pending <span class="nav-tag yellow">{{count($pendingApplications)}}</span></a></li>
+                        <li><a href="{{url('my-applications?status=expired')}}">Expired <span class="nav-tag red">{{count($expiredApplications)}}</span></a></li>
                     </ul>
                 </li>
                 <li class="{{getActiveClass('messages',$ac)}}"><a href="{{url('messages')}}"><i class="sl sl-icon-envelope-open"></i> Messages</a></li>

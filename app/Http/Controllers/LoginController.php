@@ -460,7 +460,8 @@ class LoginController extends Controller {
            if($user->role === 'admin')
 		   {
 			$menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
-			array_push($c,'menuSchools');
+            $schoolApplications = $this->helpers->getUserSchoolApplications('all');
+			array_push($c,'menuSchools','schoolApplications');
 		   }
            
             return view('change-password',compact($c)); 

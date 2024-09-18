@@ -16,8 +16,12 @@
 
 <?php $__env->startSection('scripts'); ?>
 <script src="js/moment.min.js"></script>
-  <script>	
+ 
+  <script>
+  	 let xf_ref = "" 
+
   $(() => {
+	$('#verify-btn').hide()
 	const selectedDate = moment("<?php echo e($applicant['date_slot']); ?>"),
 	deadlineDate = moment("<?php echo e($admission['end_date']); ?>"),
 	selectedDateDisplay = selectedDate?.format('ddd, MMMM Do YYYY'),
@@ -25,6 +29,73 @@
 
 	$('#selected-date').html(selectedDateDisplay);
 	$('#deadline-date').html(deadlineDateDisplay);
+
+	$('#confirm-btn').click((e) => {
+	e.preventDefault()
+	
+
+		$('#confirm-btn').hide()
+        $('#confirm-loading').fadeIn()
+	
+
+	   completeSchoolApplication({
+		xf: "<?php echo e($applicant['id']); ?>",
+	   },
+	         (data) => {
+				$('#confirm-loading').hide()
+                console.log('complete data: ',data)
+
+                if(data.status === 'ok'){
+					$('#verify-btn').fadeIn()
+					const parsedData = JSON.parse(data?.data)
+					xf_ref = parsedData?.data?.reference
+					window.location = `${parsedData?.data?.authorization_url}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#confirm-loading').hide()
+              $('#confirm-btn').fadeIn()
+                alert(`Failed to confirm school application: ${err}`)
+              }
+	     )
+	
+       })
+
+
+	$('#verify-btn').click((e) => {
+	e.preventDefault()
+	
+
+		$('#verify-btn').hide()
+        $('#confirm-loading').fadeIn()
+	
+
+	   verifySchoolApplication({
+		xf: xf_ref,
+	   },
+	         (data) => {
+				$('#confirm-loading').hide()
+				$('#verify-btn').fadeIn()
+                console.log('verify data: ',data)
+                if(data.status === 'ok'){
+					const parsedData = JSON.parse(data?.data)
+					// window.location = `${data?.data}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#confirm-loading').hide()
+              $('#verify-btn').fadeIn()
+                alert(`Failed to verify school application: ${err}`)
+              }
+	     )
+	
+       })
   })
   
 
@@ -84,7 +155,9 @@
 			  
 			  
 			</div>
-			<a href="#" class="button utf_booking_confirmation_button margin-top-20 margin-bottom-10">Confirm Now</a> 		
+			<?php echo $__env->make('components.generic-loading', ['message' => 'Processing', 'id' => "confirm-loading"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+			<a href="#" id="confirm-btn" class="button utf_booking_confirmation_button margin-top-20 margin-bottom-10">Make Payment</a> 		
+			<a href="#" id="verify-btn" class="button utf_booking_confirmation_button margin-top-20 margin-bottom-10">Verify Payment</a> 		
 		</div>
 	  </div>
       <div class="col-lg-4 col-md-4 margin-top-0 utf_listing_payment_section">

@@ -514,7 +514,8 @@ class MainController extends Controller {
 									'user_id' => $user->id,
 									'date_slot' => $req['selectedDate'],
 									'time_slot' => $req['selectedTime'],
-									'status' => 'unpaid-0',
+									'paystack_id' => '0',
+									'status' => 'unpaid',
 								]);
 	
 								$ret = ['status'=> "ok",'data' => ['xf' => $applicant->id]];
@@ -587,13 +588,79 @@ class MainController extends Controller {
 		{
 			return redirect()->intended('/');
 		}
-
-		
-
 		
     }
 
-	public function postCompleteSchoolApplication(Request $request)
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getVerifySchoolApplication(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+		$signals = $this->helpers->signals;
+		$senders = $this->helpers->getSenders();
+		$plugins = $this->helpers->getPlugins(['mode' => 'active']);
+		$c = $this->compactValues;
+
+		return redirect()->intended('/');
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSchoolApplication(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			$signals = $this->helpers->signals;
+		    $senders = $this->helpers->getSenders();
+		    $plugins = $this->helpers->getPlugins(['mode' => 'active']);
+		    $c = $this->compactValues;
+			$req = $request->all();
+
+			if(isset($req['xf']))
+			{
+               $applicant = $this->helpers->getSchoolApplication($req['xf'],true);
+			   $school = $this->helpers->getSchool($applicant['admission']['school_id']);
+			   #dd($selectedTime);
+
+			   if(count($applicant) > 0)
+			   {
+                 array_push($c,'applicant','school');
+				 return view('upload-application-resources',compact($c));
+			   }
+			   else
+			   {
+				 return redirect()->intended('/');
+			   }
+			}
+			else
+			{
+				return redirect()->intended('/');
+			}
+		}
+		else
+		{
+			return redirect()->intended('/');
+		}
+		
+    }
+
+	public function postUploadApplicationResources(Request $request)
     {
 		$user = null;
 		$ret = ['status' => "ok","message" => "nothing happened"];
@@ -610,30 +677,48 @@ class MainController extends Controller {
 					'selectedTime' => 'required'
                ]);
 
-               if($validator->fails())
+                if($validator->fails())
                 {
                   $ret = ['status' => "error","message" => "validation",'req' => $req];
                 }
 				else
 				{
-					$schoolAdmission = $this->helpers->getSchoolAdmission($req['initAdmission']);
+					$selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
 
-					if(count($schoolAdmission) > 0)
+					if(count($selectedAdmission) > 0)
 					{
-						$payload = [
-							'user_id' => $user->id,
-							'admission_id' => $req['xf'],
-							'date_slot' => $req['date_slot'],
-							'time_slot' => $req['time_slot'],
-							'status' => 'pending'
-						];
-
-						$this->helpers->addSchoolApplication($payload);
-						$ret = ['status'=> "ok"];
+						if($this->helpers->hasPendingSchoolApplication($user->id))
+						{
+							$ret = ['status' => "error","message" => "has-pending-application"];
+						}
+						else
+						{
+							
+							$applicantDate = Carbon::parse($req['selectedDate']);
+							$deadlineDate = Carbon::parse($selectedAdmission['end_date']);
+	
+							if($applicantDate->greaterThan($deadlineDate))
+							{
+								$ret = ['status' => "error","message" => "is-past-deadline"];
+							}
+							else
+							{
+								$applicant = $this->helpers->addSchoolApplication([
+									'admission_id' => $req['selectedAdmission'],
+									'user_id' => $user->id,
+									'date_slot' => $req['selectedDate'],
+									'time_slot' => $req['selectedTime'],
+									'status' => 'unpaid',
+								]);
+	
+								$ret = ['status'=> "ok",'data' => ['xf' => $applicant->id]];
+							}
+							
+						}
 					}
 					else
 					{
-                        $ret = ['status' => "error","message" => "invalid-session"];
+						$ret = ['status' => "error","message" => "invalid-session"];
 					}
 					
 				}
@@ -647,6 +732,8 @@ class MainController extends Controller {
 
 		 return json_encode($ret); 
     }
+
+
 
 
 	/**
@@ -688,12 +775,13 @@ class MainController extends Controller {
 			$facilities = $this->helpers->getFacilities();
 			$clubs = $this->helpers->getClubs();
 			$ngStates = $this->helpers->statesNigeria;
+			$terms = $this->helpers->getTerms();
 			$schoolApplications = $this->helpers->fetchAllSchoolApplications($school['id']);
 
 			array_push(
 				$c,'school','hasCompletedSignup',
 			    'facilities','clubs','ngStates',
-				'schoolApplications'
+				'schoolApplications','terms'
 			);
 
 			$rawNotifications = $this->helpers->getSchoolNotifications($school['id']);
@@ -727,13 +815,17 @@ class MainController extends Controller {
 		}
 		else
 		{
+			$rawNotifications = [];
+			$notifications = $this->helpers->getUserNotifications($rawNotifications);
             $notifications = [
-				['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
-				['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
-				['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
+				//['id' => "1",'type' => "success",'content' => "<p>This is a success notification</p>"],
+				//['id' => "2",'type' => "warning",'content' => "<p>This is a warning notification</p>"],
+				//['id' => "3",'type' => "notice",'content' => "<p>This is an info notification</p>"],
 			];
-			
-			array_push($c,"notifications");
+			$schoolApplications = $this->helpers->getUserSchoolApplications($user->id);
+			$terms = $this->helpers->getTerms();
+
+			array_push($c,"notifications","schoolApplications","terms");
 	        return view('dashboard',compact($c));	
 		}
 
@@ -780,7 +872,8 @@ class MainController extends Controller {
 		   if($user->role === 'admin')
 		   {
 			$menuSchools = $this->helpers->getSchools(['id' => 'all','status' => 'all']);
-			array_push($c,'menuSchools');
+			$schoolApplications = $this->helpers->getUserSchoolApplications('all');
+			array_push($c,'menuSchools','schoolApplications');
 		   }
 		  #dd($ua);
            return view('user-profile',compact($c));	

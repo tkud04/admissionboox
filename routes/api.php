@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SchoolAdminController;
 
 /*
@@ -40,6 +41,10 @@ Route::post('add-school-bookmark', [MainController::class,'postAddSchoolBookmark
 Route::post('remove-school-bookmark', [MainController::class,'postRemoveSchoolBookmark']);
 
 Route::post('init-school-application', [MainController::class,'postInitSchoolApplication']);
+Route::post('complete-school-application', [PaymentController::class,'postInitPayment']);
+Route::post('verify-school-application', [PaymentController::class,'postVerifyPayment']);
+
+Route::post('upload-application-resources', [MainController::class,'postUploadApplicationResources']);
 
 
 //School dashboard routes

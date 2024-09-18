@@ -32,6 +32,9 @@ const handleResponseError = (data) => {
    else if(data.message === 'is-past-deadline'){
     errMessage = 'Date selected has to be before the admission deadline'
    }
+   else if(data.message === 'payment-failed'){
+    errMessage = 'Payment failed'
+   }
 
   alert(errMessage)
 }
@@ -737,8 +740,24 @@ const requestSchoolApplication = async (payload={xf:'',selectedAdmission:'',sele
  
 }
 
-const confirmSchoolApplication = async (payload={xf:''},successCallback,errorCallback) => {
-  const url = 'api/confirm-school-application'
+const completeSchoolApplication = async (payload={xf:''},successCallback,errorCallback) => {
+  const url = 'api/complete-school-application'
+  await fetchWithJson(
+    {
+       url,
+       method: 'POST',
+       data: [
+        {key: 'xf',value: payload.xf}
+      ],
+    },
+    successCallback,
+    errorCallback
+  )
+ 
+}
+
+const verifySchoolApplication = async (payload={xf:''},successCallback,errorCallback) => {
+  const url = 'api/verify-school-application'
   await fetchWithJson(
     {
        url,
