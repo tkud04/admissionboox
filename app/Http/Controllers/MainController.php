@@ -211,6 +211,7 @@ class MainController extends Controller {
 		$applicationTimeSlots = $this->helpers->applicationTimeSlots;
 		$hbsa = $this->helpers->getPendingSchoolApplication($user->id);
 	
+	
 		$applicationDeadlines = [];
 
 		foreach($schoolAdmissions as $sa)
@@ -647,11 +648,13 @@ class MainController extends Controller {
                $applicant = $this->helpers->getSchoolApplication($req['xf'],true);
 			   $admission = $applicant['admission'];
 			   $school = $this->helpers->getSchool($admission['school_id']);
+			   $formSections = $this->helpers->getFormSections($admission['form_id']);
+			   $schoolApplications = $this->helpers->getSchoolApplications($admission['id']);
 			   #dd($selectedTime);
 
 			   if(count($applicant) > 0)
 			   {
-                 array_push($c,'applicant','school');
+                 array_push($c,'applicant','school','formSections','schoolApplications');
 				 return view('fill-admission-form',compact($c));
 			   }
 			   else

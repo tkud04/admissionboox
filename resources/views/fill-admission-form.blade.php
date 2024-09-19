@@ -7,7 +7,7 @@ $titleDescription = $school['name']." | ".$admission['session']. " session";
 ?>
 @extends('dashboard_layout')
 
-@section('dashboard-title',"Application Form - {$admission['session']} Session")
+@section('dashboard-title',$titleDescription)
 
 @section('dashboard-styles')
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>

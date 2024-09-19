@@ -7,7 +7,7 @@ $titleDescription = $school['name']." | ".$admission['session']. " session";
 ?>
 
 
-<?php $__env->startSection('dashboard-title',"Application Form - {$admission['session']} Session"); ?>
+<?php $__env->startSection('dashboard-title',$titleDescription); ?>
 
 <?php $__env->startSection('dashboard-styles'); ?>
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>

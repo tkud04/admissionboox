@@ -641,7 +641,7 @@ $(() => {
 		  <?php
            if(count($hbsa) > 0)
 		   {
-			$cau = url('complete-school-application')."?xf=".$hbsa['id'];
+			$cau = url('fill-school-application-form')."?xf=".$hbsa['id'];
 		  ?>
 		  <div style="border: 1px solid #dedede; background-color: #dedede; border-radius: 5px; padding: 5px; margin-bottom: 10px;">
 		  <h3 class="text-warning"><strong>NOTE:</strong> have an application that is currently pending. <a href="<?php echo e($cau); ?>">Click here</a> to complete</h3>

@@ -4088,18 +4088,23 @@ EOD;
            {
             $ret = [];
 
-              $sa = SchoolApplications::where('user_id',$user_id)
-                                                    ->where('status','unpaid')->first();
+              $apps = SchoolApplications::where('user_id',$user_id)
+                                                    ->where('status','unpaid')->get();
+           
 
-            if($sa !== null)
+            if($apps !== null)
             {
-               $temp = $this->getSchoolApplication($sa->id,true);
-               $sa = $temp['admission'];
-
-               if($sa['status'] === 'pending')
-               {
-                $ret = $temp;
-               }
+                foreach($apps as $app)
+                {
+                    $temp = $this->getSchoolApplication($app->id,true);
+                    $sa = $temp['admission'];
+     
+                    if($sa['status'] === 'pending')
+                    {
+                     $ret = $temp;
+                    }
+                }
+              
             }
               return $ret;
            }
