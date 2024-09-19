@@ -102,6 +102,7 @@ $useSidebar = true;
                             <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['end_date_formatted']); ?></span>
 					                  <span><i class="im im-icon-Folders"></i> <?php echo e(count($a['applications'])); ?> applications</span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;<?php echo e(number_format($fee,2)); ?></span>
+					                  <span><i class="im im-icon-Mail-Money"></i> Status: <?php echo e(ucwords($a['status'])); ?></span>
 					            
                            <!-- 
                             <div class="utf_star_rating_section" data-rating="4.5">
@@ -115,7 +116,7 @@ $useSidebar = true;
                         </div>
                       </div>
                       <div class="buttons-to-right"> 
-					              <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
+					            <?php if($a['status'] !== 'expired'): ?>  <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-pencil"></i> Edit</a>  <?php endif; ?>
 					              <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
 				              </div>
                    </li>

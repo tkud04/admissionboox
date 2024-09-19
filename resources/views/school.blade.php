@@ -298,7 +298,8 @@ $(() => {
                 $('#init-btn').fadeIn()
 
                 if(data.status === 'ok'){
-					 window.location = `complete-school-application?xf=${data?.data?.xf}`
+					// window.location = `complete-school-application?xf=${data?.data?.xf}`
+					 window.location = `fill-school-application-form?xf=${data?.data?.xf}`
                 }
                 else if(data.status === 'error'){
                    handleResponseError(data)

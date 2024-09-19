@@ -20,6 +20,7 @@ $useSidebar = true;
           $('#na-term-validation').hide()
           $('#na-class-validation').hide()
           $('#na-end-date-validation').hide()
+          $('#na-application-fee-validation').hide()
         }
 
     $(document).ready(() =>{
@@ -27,17 +28,20 @@ $useSidebar = true;
         e.preventDefault()
         clearValidations()
          const naSession = $('#na-session').val(), naTerm = $('#na-term').val(),
-         naClasses = $('input.na-classes:checked'), naEndDate = $('#na-end-date').val()
+         naClasses = $('input.na-classes:checked'), naEndDate = $('#na-end-date').val(),
+         naApplicationFee = $('#na-application-fee').val()
          
          //console.log({naSession,naTerm,naClass,naEndDate})
 
-         const v = naSession === 'none' || naTerm === 'none' || naClasses.length < 1 || naEndDate === ''
+         const v = naSession === 'none' || naTerm === 'none' || naClasses.length < 1 || 
+                   naEndDate === '' || naApplicationFee === ''
 
          if(v){
            if(naSession === 'none') $('#na-session-validation').fadeIn()
            if(naTerm === 'none') $('#na-term-validation').fadeIn()
            if(naClasses.length < 1) $('#na-class-validation').fadeIn()
            if(naEndDate === '') $('#na-end-date-validation').fadeIn()
+           if(naApplicationFee === '') $('#na-application-fee-validation').fadeIn()
          }
          else{
           $('#na-btn').hide()
@@ -51,6 +55,7 @@ $useSidebar = true;
               fd.append('session',naSession)
               fd.append('term',naTerm)
               fd.append('end_date',naEndDate)
+              fd.append('application_fee',naApplicationFee)
               fd.append('classes',JSON.stringify(classValues))
 
               addAdmissionSession(fd,
@@ -155,7 +160,7 @@ $useSidebar = true;
                <div class="col-md-6">
                  @include('components.form-validation', ['id' => "na-application-fee-validation",'style' => "margin-top: 10px;"])
                  <h5>Application Fee</h5>
-                 <input type="text" class="input-text" name="address" id="na-application-fee" value="{{$admission['application_fee']}}">
+                 <input type="text" class="input-text" name="address" id="na-application-fee" value="">
                </div>
 
                <div class="col-md-12">

@@ -102,6 +102,7 @@ $useSidebar = true;
                             <span><i class="im im-icon-Timer-2"></i> {{$a['end_date_formatted']}}</span>
 					                  <span><i class="im im-icon-Folders"></i> {{count($a['applications'])}} applications</span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;{{number_format($fee,2)}}</span>
+					                  <span><i class="im im-icon-Mail-Money"></i> Status: {{ucwords($a['status'])}}</span>
 					            
                            <!-- 
                             <div class="utf_star_rating_section" data-rating="4.5">
@@ -115,7 +116,7 @@ $useSidebar = true;
                         </div>
                       </div>
                       <div class="buttons-to-right"> 
-					              <a href="{{$vu}}" class="button gray"><i class="fa fa-pencil"></i> Edit</a> 
+					            @if($a['status'] !== 'expired')  <a href="{{$vu}}" class="button gray"><i class="fa fa-pencil"></i> Edit</a>  @endif
 					              <a href="#" onclick="confirmDeleteAdmission('{{$xf}}'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
 				              </div>
                    </li>

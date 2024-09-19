@@ -68,7 +68,7 @@ $ac = "dashboard";
                     }
         ?>
       <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong><?php echo e($a['session']); ?> <span
-          class="paid">Paid</span></strong>
+          class="paid"><?php echo e(ucwords($sa['stage'])); ?></span></strong>
         <ul>
         <li>
           <p>

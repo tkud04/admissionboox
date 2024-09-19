@@ -172,7 +172,16 @@ class MainController extends Controller {
 			{
                 $schoolCategories = $this->helpers->schoolCategories;
 			$schoolAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
-			$hasActiveAdmission = $this->helpers->checkAdmissionStatus($school['id']);
+            
+			$hasActiveAdmission = false;
+			if(count($schoolAdmissions) > 0)
+			{
+              foreach($schoolAdmissions as $sa)
+			  {
+                if($sa['status']) $hasActiveAdmission = true;
+			  }
+			}
+			
 
 			$currentPage = isset($req['page']) ? $req['page'] : "1";
 		$currentPage = intval($currentPage);	
@@ -493,7 +502,8 @@ class MainController extends Controller {
 
 					if(count($selectedAdmission) > 0)
 					{
-						if($this->helpers->hasPendingSchoolApplication($user->id))
+						$ret2 = $this->helpers->getPendingSchoolApplication($user->id);
+						if(count($ret2) > 0)
 						{
 							$ret = ['status' => "error","message" => "has-pending-application"];
 						}
@@ -612,6 +622,56 @@ class MainController extends Controller {
 
 		return redirect()->intended('/');
     }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFillSchoolApplicationForm(Request $request)
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			$signals = $this->helpers->signals;
+		    $senders = $this->helpers->getSenders();
+		    $plugins = $this->helpers->getPlugins(['mode' => 'active']);
+		    $c = $this->compactValues;
+			$req = $request->all();
+
+			if(isset($req['xf']))
+			{
+               $applicant = $this->helpers->getSchoolApplication($req['xf'],true);
+			   $admission = $applicant['admission'];
+			   $school = $this->helpers->getSchool($admission['school_id']);
+			   #dd($selectedTime);
+
+			   if(count($applicant) > 0)
+			   {
+                 array_push($c,'applicant','school');
+				 return view('fill-admission-form',compact($c));
+			   }
+			   else
+			   {
+				 return redirect()->intended('/');
+			   }
+			}
+			else
+			{
+				return redirect()->intended('/');
+			}
+		}
+		else
+		{
+			return redirect()->intended('/');
+		}
+		
+    }
+
+	
 
 	/**
 	 * Show the application welcome screen to the user.

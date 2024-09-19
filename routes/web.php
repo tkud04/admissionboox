@@ -23,6 +23,7 @@ Route::get('schools', [MainController::class,'getSchools']);
 Route::get('school', [MainController::class,'getSchool']);
 
 Route::get('init-school-application', [MainController::class,'getInitSchoolApplication']);
+Route::get('fill-school-application-form', [MainController::class,'getFillSchoolApplicationForm']);
 Route::get('complete-school-application', [MainController::class,'getCompleteSchoolApplication']);
 Route::get('verify-school-application', [MainController::class,'getVerifySchoolApplication']);
 

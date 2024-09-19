@@ -2414,8 +2414,8 @@ EOD;
 		   function getUsers($id="all")
            {
            	$ret = [];
-               if($id == "all") $uu = User::where('id','>','0')->get();
-               else $uu = User::where('role',$id)->get();
+               if($id == "all") $uu = User::where('id','>','0')->orderBy('created_at','desc')->get();
+               else $uu = User::where('role',$id)->orderBy('created_at','desc')->get();
  
               if($uu != null)
                {
@@ -2533,8 +2533,8 @@ EOD;
            function getPlugins($data=['mode' => 'all'])
            {
                $ret = [];
-               if($data['mode'] === 'all') $plugins = Plugins::where('id','>','0')->get();
-               else $plugins = Plugins::where('status',$data['mode'])->get();
+               if($data['mode'] === 'all') $plugins = Plugins::where('id','>','0')->orderBy('created_at','desc')->get();
+               else $plugins = Plugins::where('status',$data['mode'])->orderBy('created_at','desc')->get();
 
                if($plugins != null)
                {
@@ -2619,8 +2619,8 @@ EOD;
                if($id === 'all') $ret2 = Schools::where('id','>','0');
                else $ret2 = Schools::where('email', $id);
                
-              if($status === "all") $schools = $ret2->get();
-              else $schools = $ret2->where('status',$status)->get();
+              if($status === "all") $schools = $ret2->orderBy('created_at','desc')->get();
+              else $schools = $ret2->where('status',$status)->orderBy('created_at','desc')->get();
              
                if($schools != null)
                {
@@ -2841,7 +2841,7 @@ EOD;
            function getSchoolBanners($school_id)
            {
                $ret = [];
-               $facilities = SchoolBanners::where('school_id',$school_id)->get();
+               $facilities = SchoolBanners::where('school_id',$school_id)->orderBy('created_at','desc')->get();
 
                if($facilities != null)
                {
@@ -2891,7 +2891,7 @@ EOD;
            function getSchoolFacilities($school_id)
            {
                $ret = [];
-               $facilities = SchoolFacilities::where('school_id',$school_id)->get();
+               $facilities = SchoolFacilities::where('school_id',$school_id)->orderBy('created_at','desc')->get();
 
                if($facilities != null)
                {
@@ -2942,7 +2942,7 @@ EOD;
            function getFacilities()
            {
                $ret = [];
-               $facilities = Facilities::where('id','>',0)->get();
+               $facilities = Facilities::where('id','>',0)->orderBy('created_at','desc')->get();
 
                if($facilities != null)
                {
@@ -3046,7 +3046,7 @@ EOD;
            function getSchoolResources($school_id)
            {
                $ret = [];
-               $resources = SchoolResources::where('school_id',$school_id)->get();
+               $resources = SchoolResources::where('school_id',$school_id)->orderBy('created_at','desc')->get();
 
                if($resources != null)
                {
@@ -3101,12 +3101,12 @@ EOD;
 
                if($school_id === 'all')
                {
-                $classes = SchoolClasses::where('id','>','0')->get();
+                $classes = SchoolClasses::where('id','>','0')->orderBy('created_at','desc')->get();
                }
 
                else
                {
-                $classes = SchoolClasses::where('school_id',$school_id)->get();
+                $classes = SchoolClasses::where('school_id',$school_id)->orderBy('created_at','desc')->get();
                }
               
 
@@ -3184,12 +3184,12 @@ EOD;
 
                if($school_id === 'all')
                {
-                $faqs = SchoolFaqs::where('id','>','0')->get();
+                $faqs = SchoolFaqs::where('id','>','0')->orderBy('created_at','desc')->get();
                }
 
                else
                {
-                $faqs = SchoolFaqs::where('school_id',$school_id)->get();
+                $faqs = SchoolFaqs::where('school_id',$school_id)->orderBy('created_at','desc')->get();
                }
               
 
@@ -3257,7 +3257,7 @@ EOD;
            function getClubs()
            {
                $ret = [];
-               $clubs = Clubs::where('id','>',0)->get();
+               $clubs = Clubs::where('id','>',0)->orderBy('created_at','desc')->get();
 
                if($clubs != null)
                {
@@ -3307,7 +3307,7 @@ EOD;
            function getSchoolClubs($school_id)
            {
                $ret = [];
-               $clubs = SchoolClubs::where('school_id',$school_id)->get();
+               $clubs = SchoolClubs::where('school_id',$school_id)->orderBy('created_at','desc')->get();
 
                if($clubs != null)
                {
@@ -3358,7 +3358,7 @@ EOD;
            {
                $ret = []; $clubs = [];
 
-                $terms = Terms::where('id','>','0')->get();
+                $terms = Terms::where('id','>','0')->orderBy('created_at','desc')->get();
                
                if($terms != null)
                {
@@ -3417,11 +3417,12 @@ EOD;
 
                if($school_id === 'all')
                {
-                  $admissions = SchoolAdmissions::where('id','>','0')->get();
+                  $admissions = SchoolAdmissions::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $admissions = SchoolAdmissions::where('school_id',$school_id)->get();
+                $admissions = SchoolAdmissions::where('school_id',$school_id)
+                                              ->where('status','!=','expired')->orderBy('created_at','desc')->get();
                }
                
                if($admissions != null)
@@ -3429,6 +3430,7 @@ EOD;
                   foreach($admissions as $a)
                   {
                       $temp = $this->getSchoolAdmission($a->id);
+                     
                       array_push($ret,$temp);
                   }
                }
@@ -3443,6 +3445,7 @@ EOD;
 
                if($a != null)
                {
+                $this->checkAdmissionStatus($a);
                    $ret['id'] = $a->id;
                    $ret['school_id'] = $a->school_id;
                    $ret['classes'] = $this->getAdmissionClasses($a->id);
@@ -3511,11 +3514,11 @@ EOD;
 
                if($admission_id === 'all')
                {
-                  $forms = AdmissionForms::where('id','>','0')->get();
+                  $forms = AdmissionForms::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $forms = AdmissionForms::where('admission_id',$admission_id)->get();
+                $forms = AdmissionForms::where('admission_id',$admission_id)->orderBy('created_at','desc')->get();
                }
                
                if($forms != null)
@@ -3592,11 +3595,11 @@ EOD;
 
                if($admission_id === 'all')
                {
-                  $forms = AdmissionClasses::where('id','>','0')->get();
+                  $forms = AdmissionClasses::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $forms = AdmissionClasses::where('admission_id',$admission_id)->get();
+                $forms = AdmissionClasses::where('admission_id',$admission_id)->orderBy('created_at','desc')->get();
                }
                
             
@@ -3941,11 +3944,11 @@ EOD;
 
                if($applications === 'all')
                {
-                  $applications = SchoolApplications::where('id','>','0')->get();
+                  $applications = SchoolApplications::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $applications = SchoolApplications::where('admission_id',$admission_id)->get();
+                $applications = SchoolApplications::where('admission_id',$admission_id)->orderBy('created_at','desc')->get();
                }
                
                if($applications != null)
@@ -3965,7 +3968,7 @@ EOD;
                $ret = [];
                $applications = [];
 
-               $applications = SchoolApplications::where('user_id',$user_id)->get();
+               $applications = SchoolApplications::where('user_id',$user_id)->orderBy('created_at','desc')->get();
                
                
                if($applications != null)
@@ -4035,7 +4038,7 @@ EOD;
                $a = SchoolApplications::where('id',$id)->first();
                if($a != null)
                {
-                  $data = ApplicationData::where('application_id',$id)->get();
+                  $data = ApplicationData::where('application_id',$id)->orderBy('created_at','desc')->get();
 
                   if($data !== null)
                   {
@@ -4090,7 +4093,13 @@ EOD;
 
             if($sa !== null)
             {
-               $ret = $this->getSchoolApplication($sa->id);
+               $temp = $this->getSchoolApplication($sa->id,true);
+               $sa = $temp['admission'];
+
+               if($sa['status'] === 'pending')
+               {
+                $ret = $temp;
+               }
             }
               return $ret;
            }
@@ -4104,7 +4113,7 @@ EOD;
             ];
 
               $pendingApplications = SchoolApplications::where('user_id',$user_id)
-                                                    ->where('status','unpaid')->get();
+                                                    ->where('status','unpaid')->orderBy('created_at','desc')->get();
 
             if($pendingApplications !== null)
             {
@@ -4116,7 +4125,7 @@ EOD;
             }
 
              $activeApplications = SchoolApplications::where('user_id',$user_id)
-                                         ->where('status','unpaid')->get();
+                                         ->where('status','unpaid')->orderBy('created_at','desc')->get();
 
              if($pendingApplications !== null)
             {
@@ -4136,14 +4145,6 @@ EOD;
             $origDate = Carbon::parse($application['date']);
             $today = Carbon::now();
             $vv = $origDate->lessThanOrEqualTo($today);
-
-            /*
-            dd([
-                'origDate' => $origDate,
-                'today' => $today,
-                'vv' => $vv
-            ]);
-            */
 
             if($vv)
             {
@@ -4191,11 +4192,11 @@ EOD;
 
                if($application_id === 'all')
                {
-                  $data = ApplicationData::where('id','>','0')->get();
+                  $data = ApplicationData::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $data = ApplicationData::where('application_id',$application_id)->get();
+                $data = ApplicationData::where('application_id',$application_id)->orderBy('created_at','desc')->get();
                }
                
                if($data != null)
@@ -4253,11 +4254,11 @@ EOD;
 
                if($application_id === 'all')
                {
-                  $data = ApplicationResources::where('id','>','0')->get();
+                  $data = ApplicationResources::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
-                $data = ApplicationResources::where('application_id',$application_id)->get();
+                $data = ApplicationResources::where('application_id',$application_id)->orderBy('created_at','desc')->get();
                }
                
                if($data != null)
@@ -4315,12 +4316,12 @@ EOD;
 
                if($id === 'all')
                {
-                  $data = ApplicationPermissions::where('id','>','0')->get();
+                  $data = ApplicationPermissions::where('id','>','0')->orderBy('created_at','desc')->get();
                }
                else
                {
                 $data = ApplicationPermissions::where('admission_id',$id)
-                            ->orWhere('user_id',$id)->get();
+                            ->orWhere('user_id',$id)->orderBy('created_at','desc')->get();
                }
                
                if($data != null)
@@ -4376,7 +4377,7 @@ EOD;
                $ret = [];
                $data = [];
 
-                $data = SchoolNotifications::where('id',$school_id)->get();
+                $data = SchoolNotifications::where('id',$school_id)->orderBy('created_at','desc')->get();
               
                
                if($data != null)
@@ -4432,7 +4433,7 @@ EOD;
                $ret = [];
                $data = [];
 
-                $data = SchoolNotifications::where('id',$school_id)->get();
+                $data = SchoolNotifications::where('id',$school_id)->orderBy('created_at','desc')->get();
               
                
                if($data != null)
@@ -4487,7 +4488,7 @@ EOD;
                $ret = [];
                $data = [];
 
-                $data = AdminNotifications::where('id','>','0')->get();
+                $data = AdminNotifications::where('id','>','0')->orderBy('created_at','desc')->get();
               
                
                if($data != null)
@@ -4547,7 +4548,7 @@ EOD;
                $ret = [];
                $data = [];
 
-                $data = SchoolReviews::where('id',$school_id)->get();
+                $data = SchoolReviews::where('id',$school_id)->orderBy('created_at','desc')->get();
               
                
                if($data != null)
@@ -4627,7 +4628,7 @@ EOD;
                $ret = [];
                $data = [];
 
-                $data = SchoolBookmarks::where('id',$school_id)->get();
+                $data = SchoolBookmarks::where('id',$school_id)->orderBy('created_at','desc')->get();
               
                
                if($data != null)
@@ -4728,7 +4729,7 @@ EOD;
            function getSenders()
            {
                $ret = [];
-               $senders = Senders::where('id','>','0')->get();
+               $senders = Senders::where('id','>','0')->orderBy('created_at','desc')->get();
 
                if($senders != null)
                {
@@ -4970,30 +4971,30 @@ EOD;
                 if($category === 'early')
                 {
                   $schools = SchoolInfo::where('school_type','early-only')
-                                   ->orWhere('school_type','early-primary-secondary')->get();
+                                   ->orWhere('school_type','early-primary-secondary')->orderBy('created_at','desc')->get();
                 }
                 else if($category === 'primary')
                 {
                   $schools = SchoolInfo::where('school_type','primary-only')
                   ->orWhere('school_type','primary-secondary')
-                  ->orWhere('school_type','early-primary-secondary')->get();
+                  ->orWhere('school_type','early-primary-secondary')->orderBy('created_at','desc')->get();
                 }
     
                 else if($category === 'secondary')
                 {
                   $schools = SchoolInfo::where('school_type','secondary-only')
                   ->orWhere('school_type','primary-secondary')
-                  ->orWhere('school_type','early-primary-secondary')->get();
+                  ->orWhere('school_type','early-primary-secondary')->orderBy('created_at','desc')->get();
                 }
                 else if($category === 'day')
                 {
                     $schools = SchoolInfo::where('boarding_type','day')
-                    ->orWhere('boarding_type','both')->get();
+                    ->orWhere('boarding_type','both')->orderBy('created_at','desc')->get();
                 }
                 else if($category === 'boarding')
                 {
                   $schools  = SchoolInfo::where('boarding_type','day')
-                  ->orWhere('boarding_type','both')->get();
+                  ->orWhere('boarding_type','both')->orderBy('created_at','desc')->get();
                 }
                 
     
@@ -5057,19 +5058,41 @@ EOD;
             return $ret;
           }
 
-          function checkAdmissionStatus($school_id)
+          function checkAdmissionStatus($aa)
           {
             $ret = false;
 
-             $activeAdmissions = $this->getSchoolAdmissions($school_id);
-
-             if(count($activeAdmissions) > 0)
+             if($aa != null)
              {
-                foreach($activeAdmissions as $aa)
-                {
-                    $af = $this->getAdmissionForm($aa['id']);
-                    if($af['status'] === 'active') $ret = true;
-                }
+                    $stage = $this->getApplicationStatus([
+                        'origStatus' => $aa->status,
+                        'date' => $aa->end_date
+                      ]);
+                      $af = $this->getAdmissionForm($aa->id);
+
+                     
+                      if($stage === 'expired' || $stage === 'unknown')
+                      {
+                        #dd(['status' => $aa->status,'af' => $af, 'stage' => $stage]);
+                        if($aa->status !== $stage)
+                        {
+                             $this->updateSchoolAdmission([
+                                'xf' => $aa->id,
+                                'status' => $stage === 'expired' ? 'expired' : $aa->status
+                             ]);
+                        }
+                        if($af['status'] !== $stage)
+                        {
+                             $this->updateAdmissionForm([
+                                'xf' => $af['id'],
+                                'status' => $stage
+                             ]);
+                        }
+                      }
+                      else
+                      {
+                        if($af['status'] === 'active') $ret = true;
+                      }
              }
              
              return $ret;

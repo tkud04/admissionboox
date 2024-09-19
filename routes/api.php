@@ -41,6 +41,7 @@ Route::post('add-school-bookmark', [MainController::class,'postAddSchoolBookmark
 Route::post('remove-school-bookmark', [MainController::class,'postRemoveSchoolBookmark']);
 
 Route::post('init-school-application', [MainController::class,'postInitSchoolApplication']);
+Route::post('fill-school-application-form', [MainController::class,'postFillSchoolApplicationForm']);
 Route::post('complete-school-application', [PaymentController::class,'postInitPayment']);
 Route::post('verify-school-application', [PaymentController::class,'postVerifyPayment']);
 
