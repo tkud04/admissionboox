@@ -3422,7 +3422,7 @@ EOD;
                else
                {
                 $admissions = SchoolAdmissions::where('school_id',$school_id)
-                                              ->where('status','!=','expired')->orderBy('created_at','desc')->get();
+                                              /*->where('status','!=','expired')*/->orderBy('created_at','desc')->get();
                }
                
                if($admissions != null)
@@ -3864,6 +3864,28 @@ EOD;
             ]);
 
             return $ret;
+           }
+
+           function updateFormSection($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	    $s = FormSections::where('id', $data['xf'])->first();
+ 
+                        if($s != null)
+                        {
+							$payload = [];
+                            if(isset($data['title'])) $payload['title'] = $data['title'];
+                            if(isset($data['description'])) $payload['description'] = $data['description'];
+   
+                           
+                        	$s->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
            }
 
          

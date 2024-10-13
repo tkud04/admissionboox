@@ -14,7 +14,15 @@ $useSidebar = true;
   <script src="lib/datatables/datatables.min.js"></script>
 
   <script>
-     let fbafOptions = []
+     let fbafOptions = [], fbefOptions = []
+
+     const hideViews = () => {
+      $('#preview-div').hide()
+          $('#form-section-div').hide()
+          $('#form-field-div').hide()
+          $('#edit-form-section-div').hide()
+          $('#edit-form-field-div').hide()
+     }
 
      const removeFbafOption = (id) => {
       let ret = []
@@ -34,10 +42,34 @@ $useSidebar = true;
        let ret = ``
       if(fbafOptions.length > 0){
         for(const o of fbafOptions){
-          ret += `<p>Name: <b>${o.name}</b>, Value: <b>${o.value}</b>  <a href="#" onclick="removeFbafOption('${o.id}'); return false;">Remove <i class="fa fa-trash"></i></a></p>`
+          ret += `<p>Name: <b>${o.name}</b>, Value: <b>${o.value}</b>  <a href="javascript:void 0" onclick="removeFbafOption('${o.id}'); return false;">Remove <i class="fa fa-trash"></i></a></p>`
         }
       }
       $('#fbaf-options-list').html(ret)
+     }
+
+     const removeFbefOption = (id) => {
+      let ret = []
+      if(fbefOptions.length > 0){
+        for(const o of fbefOptions){
+         if(o.id === id){}
+         else{
+          ret.push(o)
+         }
+        }
+      }
+      fbefOptions = ret
+      renderFbefOptions()
+     }
+
+     const renderFbefOptions = () => {
+       let ret = ``
+      if(fbefOptions.length > 0){
+        for(const o of fbefOptions){
+          ret += `<p>Name: <b>${o.name}</b>, Value: <b>${o.value}</b>  <a href="javascript:void 0" onclick="removeFbefOption('${o.id}'); return false;">Remove <i class="fa fa-trash"></i></a></p>`
+        }
+      }
+      $('#fbef-options-list').html(ret)
      }
 
      const confirmRemoveFormSection = (pid) => {
@@ -77,20 +109,54 @@ $useSidebar = true;
           $('#fbas-description-validation').hide()
         }
 
+  const clearFbesValidations = () => {
+    $('#fbes-title-validation').hide()
+    $('#fbes-description-validation').hide()
+  }
+
         const clearFbafValidations = () => {
-          $('#fbaf-title-validation').hide()
           $('#fbaf-title-validation').hide()
           $('#fbaf-description-validation').hide()
         }
+
+        const clearFbefValidations = () => {
+          $('#fbef-title-validation').hide()
+          $('#fbef-description-validation').hide()
+        }
+
+      
+
+    const editFormSection = (sectionId) => {
+      hideViews()
+      const title = $(`#fbes-${sectionId}-title`).val(), description = $(`#fbes-${sectionId}-description`).val()
+      $('#fbes-title').val(title)
+      $('#fbes-description').val(description)
+      $('#fbes-xf').val(sectionId)
+      $('#edit-form-section-div').fadeIn()
+    }
+
+    const editFormField = (fieldId) => { 
+      hideViews()
+      const title = $(`#fbef-${fieldId}-title`).val(), description = $(`#fbef-${fieldId}-description`).val(),
+           type = $(`#fbef-${fieldId}-type`).val(), xz = $(`#fbef-${fieldId}-xz`).val(),
+           options = $(`#fbef-${fieldId}-options`).val(), bs_length = $(`#fbef-${fieldId}-bs_length`).val()
+
+      $('#fbef-title').val(title)
+      $('#fbef-description').val(description)
+      $('#fbef-type').val(type)
+      $('#fbef-bslength').val(bs_length)
+      $('#fbef-xf').val(fieldId)
+      $('#fbef-section').val(xz)
+      //$('#fbef-xz').val(xz)
+      $('#edit-form-field-div').fadeIn()
+    }
+    
 
         $(() => {
 		      $('.admissionboox-table').dataTable()
           $('#options-div').hide()
 
-          $('#preview-div').hide()
-          $('#form-section-div').hide()
-          $('#form-field-div').hide()
-
+         hideViews()
           $('.selectpicker').selectpicker()
 	      })
 
@@ -135,6 +201,48 @@ $useSidebar = true;
             )
         }
       })
+
+      $('#fbes-btn').click((e) => {
+        e.preventDefault()
+        clearFbesValidations()
+        const fbesTitle = $('#fbes-title').val(), fbesDescription = $('#fbes-description').val(),
+        v = fbesTitle === '' || fbesDescription === ''
+
+        if(v){
+          if(fbesTitle === '') $('#fbes-title-validation').fadeIn()
+          if(fbesDescription === '') $('#fbes-description-validation').fadeIn()
+        }
+        else{
+            $('#fbes-btn').hide()
+            $('#fbes-loading').fadeIn()
+            const fd = new FormData()
+            fd.append('xf',$('#fbes-xf').val())
+            fd.append('title',fbesTitle)
+            fd.append('description',fbesDescription)
+
+            updateFormSection(fd,
+              (data) => {
+                
+                $('#fbes-loading').hide()
+              $('#fbes-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Form section updated!')
+                    window.location = `school-admission-form?xf={{$admission['form_id']}}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#fbes-loading').hide()
+              $('#fbes-btn').fadeIn()
+                alert(`Failed to update form section: ${err}`)
+              }
+            )
+        }
+      })
+
 
       $('#fbaf-type').change(() => {
         const option = $('#fbaf-type').val(),
@@ -223,6 +331,93 @@ $useSidebar = true;
         }
       })
 
+      $('#fbef-type').change(() => {
+        const option = $('#fbef-type').val(),
+             v = option === 'select' || option === 'radio' || option === 'checkbox'
+
+        if(v){
+          $('#fbef-options-div').fadeIn()
+        }
+        else{
+          $('#fbef-options-div').hide()
+        }
+      })
+
+      $('#fbef-add-option-btn').click((e) => {
+        e.preventDefault()
+        $('#fbef-add-option-name-validation').hide()
+        $('#fbef-add-option-value-validation').hide()
+
+        const name = $('#fbef-add-option-name').val(), value = $('#fbef-add-option-value').val(),
+              v = name === '' || value === ''
+
+        if(v){
+           if(name === '') $('#fbef-add-option-name-validation').fadeIn()
+           if(value === '') $('#fbef-add-option-value-validation').fadeIn()
+        }
+        else{
+          fbefOptions.push({
+            id: `option-${fbefOptions.length}`,
+            name,
+            value
+          })
+          $('#fbef-add-option-name').val('')
+          $('#fbef-add-option-value').val('')
+          renderFbefOptions()
+        }
+      })
+
+      $('#fbef-btn').click((e) => {
+        e.preventDefault()
+        clearFbefValidations()
+        const fbefTitle = $('#fbef-title').val(), fbefDescription = $('#fbef-description').val(),
+              fbefSection = $('#fbef-section').val(), fbefType = $('#fbef-type').val(), 
+              fbefBsLength = $('#fbef-bslength').val(),
+               v = fbefTitle === '' || fbefDescription === '' || fbefSection === 'none' ||
+                   fbefType === 'none' || fbefBsLength === ''
+
+        if(v){
+          if(fbefTitle === '') $('#fbef-title-validation').fadeIn()
+          if(fbefDescription === '') $('#fbef-description-validation').fadeIn()
+          if(fbefSection === 'none') $('#fbef-section-validation').fadeIn()
+          if(fbefType === 'none') $('#fbef-type-validation').fadeIn()
+          if(fbefBsLength === '') $('#fbef-bslength-validation').fadeIn()
+        }
+        else{
+            $('#fbef-btn').hide()
+            $('#fbef-loading').fadeIn()
+            const fd = new FormData()
+            fd.append('form_id',"{{$admission['form_id']}}")
+            fd.append('section_id',fbefSection)
+            fd.append('title',fbefTitle)
+            fd.append('description',fbefDescription)
+            fd.append('type',fbefType)
+            fd.append('bs_length',fbefBsLength)
+            fd.append('options',JSON.stringify(fbefOptions))
+
+            updateFormField(fd,
+              (data) => {
+                
+                $('#fbef-loading').hide()
+              $('#fbef-btn').fadeIn()
+
+                if(data.status === 'ok'){
+                    alert('Form field updated!')
+                    window.location = `school-admission-form?xf={{$admission['form_id']}}`
+                }
+                else if(data.status === 'error'){
+                   handleResponseError(data)
+                }
+              },
+              (err) => {
+                $('#fbef-loading').hide()
+              $('#fbef-btn').fadeIn()
+                alert(`Failed to update form field: ${err}`)
+              }
+            )
+        }
+      })
+
       $('#fb-preview-btn').click((e) => {
         e.preventDefault()
         $('#edit-div').hide()
@@ -245,6 +440,11 @@ $useSidebar = true;
         $('#form-section-div').hide()
       })
 
+      $('#fb-edit-form-section-back-btn').click(e => {
+        e.preventDefault()
+        $('#edit-form-section-div').hide()
+      })
+
       $('#fb-show-form-field-btn').click(e => {
         e.preventDefault()
         $('#form-field-div').fadeIn()
@@ -252,6 +452,10 @@ $useSidebar = true;
       $('#fb-form-field-back-btn').click(e => {
         e.preventDefault()
         $('#form-field-div').hide()
+      })
+      $('#fb-edit-form-field-back-btn').click(e => {
+        e.preventDefault()
+        $('#edit-form-field-div').hide()
       })
     })
 		
@@ -295,19 +499,25 @@ $useSidebar = true;
               $xf = $fs['id'];
           ?>
            <tr>
+            <input type="hidden" id="fbes-{{$xf}}-title" value="{{$fs['title']}}">
+            <input type="hidden" id="fbes-{{$xf}}-description" value="{{$fs['description']}}">
+
             <td>Section</td>
             <td>
               <p>Title: {{$fs['title']}}</p>
               <p>Description: {{$fs['description']}}</p>
             </td>
             <td>
-              <a href="#" onclick="confirmRemoveFormSection('{{$xf}}')">Remove <i class="fa fa-trash"></i></a>
+              <ul class="list-inline">
+                <li><a href="javascript:void 0" onclick="confirmRemoveFormSection('{{$xf}}')">Remove <i class="fa fa-trash"></i></a></li>
+                <li><a href="#edit-form-section-div" onclick="editFormSection('{{$xf}}')">Edit <i class="fa fa-pencil"></i></a></li>
+              </ul>
             </td>
            </tr>
           <?php
               foreach($fs['form_fields'] as $ff)
               {
-                $xy = $ff['id'];
+                $xy = $ff['id']; $xz = $ff['section_id'];
                 $fieldType = null;
 
                 foreach($fieldTypes as $ft)
@@ -319,13 +529,27 @@ $useSidebar = true;
                 }
           ?>
            <tr>
+           <input type="hidden" id="fbef-{{$xy}}-title" value="{{$ff['title']}}">
+           <input type="hidden" id="fbef-{{$xy}}-type" value="{{$ff['type']}}">
+           <input type="hidden" id="fbef-{{$xy}}-xz" value="{{$xz}}">
+           <input type="hidden" id="fbef-{{$xy}}-description" value="{{$ff['description']}}">
+           <input type="hidden" id="fbef-{{$xy}}-bs_length" value="{{$ff['bs_length']}}">
+           <input type="hidden" id="fbef-{{$xy}}-options" value="{{$ff['options']}}">
+
              <td>{{$fieldType === null ? 'Unknown' : $fieldType['label']}}</td>
              <td>
               <p>Title: {{$ff['title']}}</p>
               <p>Description: {{$ff['description']}}</p>
             </td>
             <td>
-              <a href="#" onclick="confirmRemoveFormField('{{$xy}}')">Remove <i class="fa fa-trash"></i></a>
+              <ul class="list-inline">
+                <li><a href="javascript:void 0" onclick="confirmRemoveFormField('{{$xy}}'); return false;">Remove <i class="fa fa-trash"></i></a></li>
+                <li><a href="#edit-form-field-div" onclick="editFormField('{{$xy}}'); return false;">Edit <i class="fa fa-pencil"></i></a></li>
+              </ul>
+  
+              </div>
+              
+              
             </td>
            </tr>
           <?php
@@ -413,6 +637,59 @@ $useSidebar = true;
                   @include('components.button',[
                      'href' => '#',
                      'id' => 'fb-form-section-back-btn',
+                     'title' => 'Back',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+
+               </div>
+              
+               </div>
+               </div>
+            </div>
+           
+          </div>
+
+          <div class="add_utf_listing_section margin-top-45" id="edit-form-section-div">
+            <div class="utf_add_listing_part_headline_part">
+               <h3><i class="sl sl-icon-book-open"></i> Edit Form Section</h3>
+            </div>
+              <input type="hidden" id="fbes-xf" value="">
+            <div class="utf_submit_section">
+               <div class="row with-forms">
+               <div class="col-md-12" id="fb-edit-component-div">
+                  <div class="row with-forms">
+                  
+                   <div class="col-md-6">
+                    <h5>Title</h5>
+                    @include('components.form-validation', ['id' => "fbes-title-validation",'style' => "margin-top: 10px;"])
+                    <input type="text" class="input-text" name="fbes-title" id="fbes-title" placeholder="Title">
+                   </div>
+                   <div class="col-md-6">
+                    <h5>Description</h5>
+                    @include('components.form-validation', ['id' => "fbes-description-validation",'style' => "margin-top: 10px;"])
+                    <input type="text" class="input-text" name="fbes-description" id="fbes-description" placeholder="Description">
+                   </div>
+                  
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+               @include('components.generic-loading', ['message' => 'Editing section', 'id' => "fbes-loading"])
+              
+               <div class="row">
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fbes-btn',
+                     'title' => 'Edit section',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fb-edit-form-section-back-btn',
                      'title' => 'Back',
                      'classes' => 'margin-top-20'
                     ])
@@ -527,6 +804,121 @@ $useSidebar = true;
                   @include('components.button',[
                      'href' => '#',
                      'id' => 'fb-form-field-back-btn',
+                     'title' => 'Back',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+
+               </div>
+               </div>
+               </div>
+            </div>
+           
+          </div>
+
+          <div class="add_utf_listing_section margin-top-45" id="edit-form-field-div">
+            <div class="utf_add_listing_part_headline_part">
+               <h3><i class="sl sl-icon-book-open"></i> Edit Form Field</h3>
+            </div>
+            <input type="hidden" id="fbef-xf" value="">
+            <input type="hidden" id="fbef-xz" value="">
+
+            <div class="utf_submit_section">
+               <div class="row with-forms">
+               <div class="col-md-12" id="fbef-div">
+                  <div class="row with-forms">
+                  <div class="col-md-6">
+                   @include('components.form-validation', ['id' => "fbef-section-validation",'style' => "margin-top: 10px;"])
+                   <h5>Section</h5>
+                   <select id="fbef-section" class="selectpicker default" data-selected-text-format="count" data-size="{{count($formSections)}}"
+                    title="Select term" tabindex="-98">
+                     <option class="bs-title-option" value="none">Select section</option>
+                     <?php
+                      foreach($formSections as $fs)
+                       {
+                     ?>
+                       <option value="{{$fs['id']}}">{{$fs['title']}}</option>
+                     <?php
+                       }
+                     ?>
+                   </select>
+                   </div>
+                   <div class="col-md-6">
+                   @include('components.form-validation', ['id' => "fbef-type-validation",'style' => "margin-top: 10px;"])
+                   <h5>Field type</h5>
+                   <select id="fbef-type" class="selectpicker default" data-selected-text-format="count" data-size="{{count($fieldTypes)}}"
+                    title="Select term" tabindex="-98">
+                     <option class="bs-title-option" value="none">Select field type</option>
+                     <?php
+                      foreach($fieldTypes as $ft)
+                       {
+                     ?>
+                       <option value="{{$ft['value']}}">{{$ft['label']}}</option>
+                     <?php
+                       }
+                     ?>
+                   </select>
+                   </div>
+                   <div class="col-md-6">
+                    <h5>Title</h5>
+                    @include('components.form-validation', ['id' => "fbef-title-validation",'style' => "margin-top: 10px;"])
+                    <input type="text" class="input-text" name="fbef-title" id="fbef-title" placeholder="Title">
+                   </div>
+                   <div class="col-md-6">
+                    <h5>Description</h5>
+                    @include('components.form-validation', ['id' => "fbef-description-validation",'style' => "margin-top: 10px;"])
+                    <input type="text" class="input-text" name="fbef-description" id="fbef-description" placeholder="Description">
+                   </div>
+                   <div class="col-md-6">
+                   <h5>Field size (between 1 to 12)</h5>
+                    @include('components.form-validation', ['id' => "fbef-bslength-validation",'style' => "margin-top: 10px;"])
+                    <input type="number" class="input-text" name="fbef-bslength" id="fbef-bslength" placeholder="Field size">
+                   </div>
+                   <div class="col-md-12" id="options-div">
+                   
+                    <div class="row">
+                      <div class="col-md-12">
+                         <h5>Options</h5>
+                        <p>Options added:</p>
+                         <div id="fbef-options-list"></div>
+                      </div>
+                       <div class="col-md-6">
+                         <h5>Name</h5>
+                          @include('components.form-validation', ['id' => "fbef-add-option-name-validation",'style' => "margin-top: 10px;"])
+                          <input type="text" class="input-text" id="fbef-add-option-name" placeholder="Name">
+                       </div>
+                       <div class="col-md-6">
+                         <h5>Value</h5>
+                          @include('components.form-validation', ['id' => "fbef-add-option-value-validation",'style' => "margin-top: 10px;"])
+                          <input type="text" class="input-text" id="fbef-add-option-value" placeholder="Value">
+                       </div>
+                       <div class="col-md-12">
+                   @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fbef-add-option-btn',
+                     'title' => 'Add option',
+                     'classes' => 'margin-top-20'
+                    ])
+               </div>
+                    </div>
+                   </div>
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+               <div class="row">
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fbef-btn',
+                     'title' => 'Update field',
+                     'classes' => 'margin-top-20'
+                    ])
+                </div>
+                <div class="col-md-6">
+                  @include('components.button',[
+                     'href' => '#',
+                     'id' => 'fb-edit-form-field-back-btn',
                      'title' => 'Back',
                      'classes' => 'margin-top-20'
                     ])

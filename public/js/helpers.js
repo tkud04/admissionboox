@@ -410,6 +410,20 @@ const addFormSection = async (fd,successCallback,errorCallback) => {
  
 }
 
+const updateFormSection = async (fd,successCallback,errorCallback) => {
+  const url = 'api/update-form-section'
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
+ 
+}
+
 const removeFormSection = async (id,successCallback,errorCallback) => {
   const url = 'api/remove-form-section'
   await fetchWithJson(

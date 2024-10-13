@@ -1056,6 +1056,54 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	public function postUpdateFormSection(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				
+				$validator = Validator::make($req, [
+					'xf' => 'required',
+					'title' => 'required',
+					'description' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					 $this->helpers->updateFormSection($req);
+
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
 	public function postRemoveFormSection(Request $request)
     {
 		$user = null;
