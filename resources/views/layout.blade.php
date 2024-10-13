@@ -19,6 +19,7 @@ $void = "javascript:void(0)";
     <link rel="stylesheet" href="css/mmenu.css">
     <link rel="stylesheet" href="css/stylesheet_1.css" id="colors">
     <link rel="stylesheet" href="lib/sweet-alert/sweetalert2.css">
+    <link rel="stylesheet" href="lib/apex-charts/apexcharts.css">
     
     <!-- Google Font -->
     <link
@@ -561,6 +562,7 @@ else
     <script src="js/lists.js"></script>
     <script src="lib/sweet-alert/sweetalert2.js"></script>
     <script type="module" src="lib/micromodal/micromodal.min.js"></script>
+    <script src="lib/apex-charts/apexcharts.min.js"></script>
     <script src="js/helpers.js?ver={{rand(999, 9999999)}}"></script>
     
     <script>
