@@ -1441,15 +1441,22 @@ class SchoolAdminController extends Controller {
 					$school = $this->helpers->getSchool($user->email);
 					$application = $this->helpers->getSchoolApplication($req['xf']);
 					$applicationData = $this->helpers->getApplicationData($application['id']);
+					$timeSlots = $this->helpers->applicationTimeSlots;
 
 					$admission = $this->helpers->getSchoolAdmission($application['admission_id']);
 					
+					/*dd([
+						'application' => $application,
+						'applicationData' => $applicationData,
+						'admission' => $admission,
+						'timeslots' => $timeslots
+					]);*/
 					
 					
 					array_push($c,'school','admission','application',
-					'applicationData'
+					'applicationData','timeSlots'
 				);
-					return view('application-form',compact($c));
+					return view('my-application',compact($c));
 				}
 				else
 				{
