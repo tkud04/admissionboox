@@ -1211,6 +1211,59 @@ class SchoolAdminController extends Controller {
 		 return json_encode($ret); 
     }
 
+	public function postUpdateFormField(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$req = $request->all();
+				
+				$validator = Validator::make($req, [
+					'xf' => 'required',
+					'form_id' => 'required',
+					'section_id' => 'required',
+					'type' => 'required',
+					'title' => 'required',
+					'bs_length' => 'required',
+					'options' => 'required',
+					'description' => 'required'
+               ]);
+
+               if($validator->fails())
+                {
+                  $ret = ['status' => "error","message" => "validation",'req' => $req];
+                }
+				else
+				{
+					 $this->helpers->updateFormField($req);
+
+					 $ret = ['status' => "ok"];
+				}
+				
+			}
+			else
+			{
+				$ret = ['status' => "error","message" => "invalid-session"];
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
 	public function postRemoveFormField(Request $request)
     {
 		$user = null;
@@ -1389,26 +1442,12 @@ class SchoolAdminController extends Controller {
 					$application = $this->helpers->getSchoolApplication($req['xf']);
 					$applicationData = $this->helpers->getApplicationData($application['id']);
 
-					$admission = $this->helpers->getSchoolAdmission($application['admisison_id']);
-					$formSections = $this->helpers->getFormSections($admission['form_id']);
+					$admission = $this->helpers->getSchoolAdmission($application['admission_id']);
 					
-					$componentObjs = [
-						['label' => 'Form Section','value' => 'section'],
-						['label' => 'Form field', 'value' => 'field']
-					];
-					$fieldTypes = [
-						['label' => 'Text input','value' => 'text'],
-						['label' => 'Date input','value' => 'date'],
-						['label' => 'Password input','value' => 'password'],
-						['label' => 'Dropdown','value' => 'select'],
-						['label' => 'Checkboxes','value' => 'checkbox'],
-						['label' => 'Radio buttons','value' => 'radio'],
-						['label' => 'File upload','value' => 'file'],
-					];
 					
-					array_push($c,'school','admission','formSections',
-					'application','applicationData',
-					'componentObjs','fieldTypes'
+					
+					array_push($c,'school','admission','application',
+					'applicationData'
 				);
 					return view('application-form',compact($c));
 				}

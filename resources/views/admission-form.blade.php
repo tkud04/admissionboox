@@ -143,10 +143,26 @@ $useSidebar = true;
 
       $('#fbef-title').val(title)
       $('#fbef-description').val(description)
-      $('#fbef-type').val(type)
+      $('#fbef-type').selectpicker('val',type)
+      $('#fbef-section').selectpicker('val',xz)
       $('#fbef-bslength').val(bs_length)
       $('#fbef-xf').val(fieldId)
-      $('#fbef-section').val(xz)
+      
+      const v = type === 'select' || type === 'radio' || type === 'checkbox'
+
+       const parsedOptions = JSON.parse(options)
+       console.log('parsed options: ',parsedOptions)
+       for(const o of parsedOptions){
+        fbefOptions.push(o)
+       }
+       renderFbefOptions()
+
+      if(v){
+        $('#fbef-options-div').fadeIn()
+      }
+      else{
+       $('#fbef-options-div').hide()
+      }
       //$('#fbef-xz').val(xz)
       $('#edit-form-field-div').fadeIn()
     }
@@ -370,7 +386,8 @@ $useSidebar = true;
       $('#fbef-btn').click((e) => {
         e.preventDefault()
         clearFbefValidations()
-        const fbefTitle = $('#fbef-title').val(), fbefDescription = $('#fbef-description').val(),
+        const xf = $('#fbef-xf').val(), fbefTitle = $('#fbef-title').val(), 
+              fbefDescription = $('#fbef-description').val(),
               fbefSection = $('#fbef-section').val(), fbefType = $('#fbef-type').val(), 
               fbefBsLength = $('#fbef-bslength').val(),
                v = fbefTitle === '' || fbefDescription === '' || fbefSection === 'none' ||
@@ -389,6 +406,7 @@ $useSidebar = true;
             const fd = new FormData()
             fd.append('form_id',"{{$admission['form_id']}}")
             fd.append('section_id',fbefSection)
+            fd.append('xf',xf)
             fd.append('title',fbefTitle)
             fd.append('description',fbefDescription)
             fd.append('type',fbefType)
@@ -874,7 +892,7 @@ $useSidebar = true;
                     @include('components.form-validation', ['id' => "fbef-bslength-validation",'style' => "margin-top: 10px;"])
                     <input type="number" class="input-text" name="fbef-bslength" id="fbef-bslength" placeholder="Field size">
                    </div>
-                   <div class="col-md-12" id="options-div">
+                   <div class="col-md-12" id="fbef-options-div">
                    
                     <div class="row">
                       <div class="col-md-12">

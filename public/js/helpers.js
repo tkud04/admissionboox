@@ -455,6 +455,20 @@ const addFormField = async (fd,successCallback,errorCallback) => {
  
 }
 
+const updateFormField = async (fd,successCallback,errorCallback) => {
+  const url = 'api/update-form-field'
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
+ 
+}
+
 const removeFormField = async (id,successCallback,errorCallback) => {
   const url = 'api/remove-form-field'
   await fetchWithJson(

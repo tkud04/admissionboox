@@ -30,6 +30,9 @@ $useSidebar = true;
            })
         
         }
+    const viewApplicants = (xf) => {
+      window.location = `school-applications?xf=${xf}&page=1`
+    }
 
     $(document).ready(() =>{
       $('#sort-select').change(() => {
@@ -79,7 +82,7 @@ $useSidebar = true;
                     {
                       $ac = $a['classes'][$i]; $acClass = $ac['class'];
                       $classesString .= $acClass['class_name'];
-
+ 
                       if($i < count($a['classes']) - 1) $classesString .= ", ";
                     }
                     foreach($terms as $t)
@@ -89,6 +92,7 @@ $useSidebar = true;
 
 
                     $fee = $a['application_fee'] === '' ? '0' : $a['application_fee'];
+                    $apct = count($a['applications']); $apctText = $apct === 1 ? 'Applicant' : 'Applicants';
 
               ?>
                     <li>
@@ -99,8 +103,8 @@ $useSidebar = true;
                             <h3><a href="{{$vu}}">{{$a['session']}} Session</a></h3>
 				                	  <span><i class="im im-icon-Calendar"></i> {{$term['name']}} </span> 
 				                	  <span><i class="im im-icon-Building"></i> {{$classesString}} </span> 
-                            <span><i class="im im-icon-Timer-2"></i> {{$a['end_date_formatted']}}</span>
-					                  <span><i class="im im-icon-Folders"></i> {{count($a['applications'])}} applications</span>
+                            <span><i class="im im-icon-Timer-2"></i> {{$a['date']}} to {{$a['end_date_formatted']}}</span>
+					                  <span><i class="im im-icon-Folders"></i> {{$apct}} {{$apctText}}</span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;{{number_format($fee,2)}}</span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Status: {{ucwords($a['status'])}}</span>
 					            
@@ -117,7 +121,9 @@ $useSidebar = true;
                       </div>
                       <div class="buttons-to-right"> 
 					            @if($a['status'] !== 'expired')  <a href="{{$vu}}" class="button gray"><i class="fa fa-pencil"></i> Edit</a>  @endif
-					              <a href="#" onclick="confirmDeleteAdmission('{{$xf}}'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
+                      <a href="#" onclick="confirmDeleteAdmission('{{$xf}}'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
+                      <a href="#" onclick="viewApplicants('{{$xf}}'); return false;" class="button gray"><i class="fa fa-graduation-cap"></i> View {{$apctText}}</a> 
+
 				              </div>
                    </li>
               <?php

@@ -140,7 +140,13 @@ $useSidebar = true;
 				  <div class="utf_list_box_listing_item_content">
 					<div class="inner">
 					  <h3><?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?> <span class="utf_booking_listing_status"<?php echo $styleString; ?>><?php echo e($statusText); ?></span></h3>
-					  <div class="utf_inner_booking_listing_list">
+            <div class="utf_inner_booking_listing_list">
+						<h5>Application Opened:-</h5>
+						<ul class="utf_booking_listing_list">
+						  <li class="highlighted"><?php echo e($admission['date']); ?></li>
+						</ul>
+					  </div>	
+            <div class="utf_inner_booking_listing_list">
 						<h5>Date Applied:-</h5>
 						<ul class="utf_booking_listing_list">
 						  <li class="highlighted"><?php echo e($a['date']); ?></li>

@@ -30,6 +30,9 @@ $useSidebar = true;
            })
         
         }
+    const viewApplicants = (xf) => {
+      window.location = `school-applications?xf=${xf}&page=1`
+    }
 
     $(document).ready(() =>{
       $('#sort-select').change(() => {
@@ -79,7 +82,7 @@ $useSidebar = true;
                     {
                       $ac = $a['classes'][$i]; $acClass = $ac['class'];
                       $classesString .= $acClass['class_name'];
-
+ 
                       if($i < count($a['classes']) - 1) $classesString .= ", ";
                     }
                     foreach($terms as $t)
@@ -89,6 +92,7 @@ $useSidebar = true;
 
 
                     $fee = $a['application_fee'] === '' ? '0' : $a['application_fee'];
+                    $apct = count($a['applications']); $apctText = $apct === 1 ? 'Applicant' : 'Applicants';
 
               ?>
                     <li>
@@ -99,8 +103,8 @@ $useSidebar = true;
                             <h3><a href="<?php echo e($vu); ?>"><?php echo e($a['session']); ?> Session</a></h3>
 				                	  <span><i class="im im-icon-Calendar"></i> <?php echo e($term['name']); ?> </span> 
 				                	  <span><i class="im im-icon-Building"></i> <?php echo e($classesString); ?> </span> 
-                            <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['end_date_formatted']); ?></span>
-					                  <span><i class="im im-icon-Folders"></i> <?php echo e(count($a['applications'])); ?> applications</span>
+                            <span><i class="im im-icon-Timer-2"></i> <?php echo e($a['date']); ?> to <?php echo e($a['end_date_formatted']); ?></span>
+					                  <span><i class="im im-icon-Folders"></i> <?php echo e($apct); ?> <?php echo e($apctText); ?></span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Application fee: &#8358;<?php echo e(number_format($fee,2)); ?></span>
 					                  <span><i class="im im-icon-Mail-Money"></i> Status: <?php echo e(ucwords($a['status'])); ?></span>
 					            
@@ -117,7 +121,9 @@ $useSidebar = true;
                       </div>
                       <div class="buttons-to-right"> 
 					            <?php if($a['status'] !== 'expired'): ?>  <a href="<?php echo e($vu); ?>" class="button gray"><i class="fa fa-pencil"></i> Edit</a>  <?php endif; ?>
-					              <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
+                      <a href="#" onclick="confirmDeleteAdmission('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-trash-o"></i> Remove</a> 
+                      <a href="#" onclick="viewApplicants('<?php echo e($xf); ?>'); return false;" class="button gray"><i class="fa fa-graduation-cap"></i> View <?php echo e($apctText); ?></a> 
+
 				              </div>
                    </li>
               <?php

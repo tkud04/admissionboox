@@ -68,6 +68,7 @@ Route::post('add-form-section', [SchoolAdminController::class,'postAddFormSectio
 Route::post('update-form-section', [SchoolAdminController::class,'postUpdateFormSection']);
 Route::post('remove-form-section', [SchoolAdminController::class,'postRemoveFormSection']);
 Route::post('add-form-field', [SchoolAdminController::class,'postAddFormField']);
+Route::post('update-form-field', [SchoolAdminController::class,'postUpdateFormField']);
 Route::post('remove-form-field', [SchoolAdminController::class,'postRemoveFormField']);
 
 Route::post('school-application', [SchoolAdminController::class,'postSchoolApplication']);

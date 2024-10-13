@@ -3726,11 +3726,36 @@ EOD;
                    $ret['description'] = $f->description;
                    $ret['bs_length'] = $f->bs_length;
                    $ret['options'] = $f->options;
-                   $ret['options'] = $f->options;
                    $ret['ui'] = $this->getFormUI($f);
                }
 
                return $ret;
+           }
+
+           function updateFormField($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	    $f = FormFields::where('id', $data['xf'])->first();
+ 
+                        if($f != null)
+                        {
+							$payload = [];
+                            if(isset($data['title'])) $payload['title'] = $data['title'];
+                            if(isset($data['description'])) $payload['description'] = $data['description'];
+                            if(isset($data['type'])) $payload['type'] = $data['type'];
+                            if(isset($data['section_id'])) $payload['section_id'] = $data['section_id'];
+                            if(isset($data['bs_length'])) $payload['bs_length'] = $data['bs_length'];
+                            if(isset($data['options'])) $payload['options'] = $data['options'];
+   
+                           
+                        	$f->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
            }
 
           
