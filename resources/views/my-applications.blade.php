@@ -136,10 +136,12 @@ $useSidebar = true;
               ?>
                  <li class="utf_approved_booking_listing">
 				<div class="utf_list_box_listing_item bookings">
-				  <div class="utf_list_box_listing_item-img"><img src="{{$avatar}}" alt=""></div>
+				  <div class="utf_list_box_listing_item-img">
+          <a href="{{$vu}}"><img src="{{$avatar}}" alt=""></a>
+          </div>
 				  <div class="utf_list_box_listing_item_content">
 					<div class="inner">
-					  <h3>{{$u['fname']}} {{$u['lname']}} <span class="utf_booking_listing_status"{!!$styleString!!}>{{$statusText}}</span></h3>
+					  <a href="{{$vu}}"><h3>{{$u['fname']}} {{$u['lname']}} <span class="utf_booking_listing_status"{!!$styleString!!}>{{$statusText}}</span></h3></a>
             <div class="utf_inner_booking_listing_list">
 						<h5>Application Opened:-</h5>
 						<ul class="utf_booking_listing_list">

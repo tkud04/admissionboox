@@ -56,9 +56,61 @@ $avatar = strlen($applicant['avatar']) > 0 ? $u['avatar'] : "images/profile.png"
           $('#sa-admission-validation').hide()
         }
 
+      const initCharts = () => {
+        const options = {
+           chart: {
+            type: 'line'
+           }, 
+           series: [{
+             name: 'sales',
+             data: [30,40,35,50,49,60,70,91,125]
+           }],
+           xaxis: {
+             categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+           }
+         }
+
+         renderChart('#test-chart-div',options)
+      }
+
+      const initProgressBar = () => {
+        const options = {
+            strokeWidth: 4,
+            easing: 'easeInOut',
+            duration: 1400,
+            color: '#FF7600',
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {width: '100%', height: '100%'},
+            text: {
+              style: {
+                // Text color.
+                // Default: same as stroke color (options.color)
+                color: '#999',
+                position: 'absolute',
+                right: '0',
+                top: '30px',
+                padding: 0,
+                margin: 0,
+                transform: null
+              },
+              autoStyleContainer: false
+            },
+            from: {color: '#FF7100'},
+            to: {color: '#FF7600'},
+            step: (state, bar) => {
+              $('#admission-progress-bar-text').html(Math.round(bar.value() * 100) + ' %');
+            }
+          }
+      
+          renderProgressBar('#admission-progress-bar',options)
+
+        
+      }
 
     $(document).ready(() =>{
-     
+      //initCharts()
+      initProgressBar()
     })
 		
 	
@@ -75,7 +127,11 @@ $avatar = strlen($applicant['avatar']) > 0 ? $u['avatar'] : "images/profile.png"
           </div>
 
           <div class="utf_submit_section">
-             
+             <div style="display: flex; flex-direction:row;">
+               <div id="admission-progress-bar" style="display: flex; align-self:center; margin: 20px; margin-bottom: 5px;  width: 80%; height: 10px;"></div>
+               <p id="admission-progress-bar-text" style="display: flex; margin-top: 25px;"></p>
+             </div>
+             <div id="test-chart-div"></div>
           </div>
        </div>
        <div class="add_utf_listing_section margin-top-45">

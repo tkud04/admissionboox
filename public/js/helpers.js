@@ -8,6 +8,40 @@ const confirmAction = (actionId,callback,text='Are you sure? This action cannot 
   }
 }
 
+const goTo = (selector) => {
+  const elem =  document.querySelector(selector)
+
+  if(elem){
+    elem?.scrollIntoView()
+  }
+ 
+}
+
+const renderChart = (selector='',options={}) => {
+ 
+
+   const chartObj = new ApexCharts(
+    document.querySelector(selector),
+    options
+   ) 
+   if(chartObj){
+    chartObj?.render()
+   }
+}
+
+const renderProgressBar = (selector,options={},percentage=100) => {
+  const barObj = new ProgressBar.Line(selector,options)
+  
+  if(barObj){
+    const animatedValue = parseFloat(percentage) / 100
+
+    if(!isNaN(animatedValue)){
+      barObj?.animate(animatedValue);  // Number from 0.0 to 1.0
+    }
+   
+  }
+}
+
 const handleResponseError = (data) => {
   console.log('data in error')
   let errMessage = 'please try again'

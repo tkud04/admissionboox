@@ -165,6 +165,7 @@ $useSidebar = true;
       }
       //$('#fbef-xz').val(xz)
       $('#edit-form-field-div').fadeIn()
+      goTo('#edit-form-field-div')
     }
     
 
