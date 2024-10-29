@@ -4424,6 +4424,19 @@ EOD;
             return $ret;
            }
 
+           function getApplicationProgress($application_id)
+           {
+            $ret = [
+                ['label' => "Filled admission form:", 'value' => false,'id' => 'filled'],
+                ['label' => "Made payment", 'value' => false,'id' => 'paid'],
+                ['label' => "Submitted admission:", 'value' => false,'id' => 'submitted'],
+            ];
+             $applicant = $this->getSchoolApplication($application_id);
+
+             return $ret;
+
+           }
+
            function getUserNotifications($school_id)
            {
                $ret = [];

@@ -13,6 +13,16 @@ $avatar = strlen($applicant['avatar']) > 0 ? $u['avatar'] : "images/profile.png"
 
 @section('dashboard-styles')
   <link rel="stylesheet" href="lib/datatables/datatables.min.css"/>
+
+  <style>
+    .icon-success{
+      color: '#FF7600';
+    }
+
+    .icon-pending{
+      color: 'yellow';
+    }
+  </style>
 @stop
 
 @section('dashboard-scripts')
@@ -103,7 +113,7 @@ $avatar = strlen($applicant['avatar']) > 0 ? $u['avatar'] : "images/profile.png"
             }
           }
       
-          renderProgressBar('#admission-progress-bar',options)
+          renderProgressBar('#admission-progress-bar',options,"{{$apct}}")
 
         
       }
@@ -121,19 +131,41 @@ $avatar = strlen($applicant['avatar']) > 0 ? $u['avatar'] : "images/profile.png"
 
 <div class="row">
    <div class="col-lg-12 col-md-12" id="applications-div-1">
+   <?php
+          if(isset($applicationProgress))
+          {
+      ?>
        <div class="add_utf_listing_section margin-top-45">
           <div class="utf_add_listing_part_headline_part">
              <h3><i class="sl sl-icon-book-open"></i>  Admission Progress</h3>
           </div>
-
+         
           <div class="utf_submit_section">
              <div style="display: flex; flex-direction:row;">
                <div id="admission-progress-bar" style="display: flex; align-self:center; margin: 20px; margin-bottom: 5px;  width: 80%; height: 10px;"></div>
                <p id="admission-progress-bar-text" style="display: flex; margin-top: 25px;"></p>
+             </div> 
+             <div style="margin-top: 5px; padding: 10px;">
+              <ul class="list-2">
+                <?php
+                 foreach($applicationProgress as $ap)
+                 {
+                   $apColor = $ap['value'] ? 'green' : '#FF7600';
+                   $apIcon = $ap['value'] ? 'sl-icon-check' : 'sl-icon-clock';
+                   $apStatus = $ap['value'] ? 'Completed' : 'Pending';
+                ?>
+                  <li>{{$ap['label']}} <span style="color: {{$apColor}};"> {{$apStatus}} <i class="sl {{$apIcon}}"></i></span></li>
+                <?php
+                 }
+                ?>
+              </ul>
              </div>
              <div id="test-chart-div"></div>
           </div>
        </div>
+      <?php
+          }
+      ?>
        <div class="add_utf_listing_section margin-top-45">
           <div class="utf_add_listing_part_headline_part">
              <h3><i class="sl sl-icon-book-open"></i>  Applicant Bio</h3>
