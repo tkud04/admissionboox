@@ -3851,8 +3851,7 @@ EOD;
                    case "radio":
                      $ret = <<<EOD
                      <div class="col-md-6">
-                     <h5>Description</h5>
-                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px; margin-left: 10px;"])
                      <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
                     </div>
  EOD;
@@ -3861,9 +3860,7 @@ EOD;
                    case "file":
                      $ret = <<<EOD
                      <div class="col-md-6">
-                     <h5>Description</h5>
-                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
-                     <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
+                    <form action="api/usr" class="dropzone"></form>
                     </div>
  EOD;
                    break;
