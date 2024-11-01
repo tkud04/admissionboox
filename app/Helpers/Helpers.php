@@ -4433,6 +4433,14 @@ EOD;
             ];
              $applicant = $this->getSchoolApplication($application_id);
 
+             //Filled form
+             //$applicantData = 
+
+             //Made payment
+
+
+             //Submitted admission
+
              return $ret;
 
            }
