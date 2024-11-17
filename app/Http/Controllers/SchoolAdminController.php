@@ -663,7 +663,7 @@ class SchoolAdminController extends Controller {
 					$admission = $this->helpers->addSchoolAdmission($admissionPayload);
 					$admissionForm = $this->helpers->addAdmissionForm([
 						'admission_id' => $admission->id,
-						'status' => 'pending'
+						'status' => 'active'
 					]);
 
 					if($admissionForm !== null)

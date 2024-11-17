@@ -1,6 +1,11 @@
 <?php
 $useSidebar = $hasCompletedSignup;
 $ac = "dashboard";
+
+$classX = json_encode($classStatsXY['x']);
+$classY = json_encode($classStatsXY['y']);
+$genderX = json_encode($genderStatsXY['x']);
+$genderY = json_encode($genderStatsXY['y']);
 ?>
 @extends('dashboard_layout')
 
@@ -85,6 +90,36 @@ if(!function_exists('isInSchoolClub'))
   const initElems = () => {
    hideValidations()
   }
+
+  const initCharts = () => {
+        const options1 = {
+           chart: {
+            type: 'bar'
+           }, 
+           series: [{
+             name: 'Classes',
+             data: {{$classY}}
+           }],
+           xaxis: {
+             categories:  {!! $classX !!}
+           }
+         },
+         options2 = {
+          chart: {
+            type: 'pie'
+           }, 
+           series: {!! $genderY !!},
+           labels: {!! $genderX !!}
+         }
+
+
+         renderChart('#class-stats-chart-div',options1)
+         renderChart('#gender-stats-chart-div',options2)
+      }
+
+      $(document).ready(() =>{
+        initCharts()
+      })
 
   $(document).ready(() => {
     initElems()
@@ -192,16 +227,22 @@ if(!function_exists('isInSchoolClub'))
   <div class="row">
     <div class="col-lg-6 col-md-12">
     <div class="utf_dashboard_list_box with-icons margin-top-20">
-      <h4>Recent Updates</h4>
+      <h4>Stats</h4>
       <ul>
         <?php
-         if(count($notifications) > 0)
+         if(count($classStatsXY) > 0)
          {
-           foreach($notifications as $ru){
+           
         ?>
-         @include('components.recent-updates-widget',$ru)
+        <li>
+          <h5>By class</h5>
+          <div id="class-stats-chart-div"></div>
+        </li>
+        <li>
+          <h5>By gender</h5>
+          <div id="gender-stats-chart-div"></div>
+        </li>
         <?php
-         }
         }
         else
         {

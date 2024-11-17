@@ -499,7 +499,8 @@ class MainController extends Controller {
                 }
 				else
 				{
-					$selectedAdmission = $this->helpers->getSchoolAdmission($req['selectedAdmission']);
+					$selectedAdmissionArr = explode(',',$req['selectedAdmission']);
+					$selectedAdmission = $this->helpers->getSchoolAdmission($selectedAdmissionArr[0]);
 
 					if(count($selectedAdmission) > 0)
 					{
@@ -521,8 +522,9 @@ class MainController extends Controller {
 							else
 							{
 								$applicant = $this->helpers->addSchoolApplication([
-									'admission_id' => $req['selectedAdmission'],
+									'admission_id' => $selectedAdmissionArr[0],
 									'user_id' => $user->id,
+									'class_value' => $selectedAdmissionArr[1],
 									'date_slot' => $req['selectedDate'],
 									'time_slot' => $req['selectedTime'],
 									'paystack_id' => '0',
@@ -840,11 +842,25 @@ class MainController extends Controller {
 			$ngStates = $this->helpers->statesNigeria;
 			$terms = $this->helpers->getTerms();
 			$schoolApplications = $this->helpers->fetchAllSchoolApplications($school['id']);
-
+			$admissionStats = $this->helpers->getAdmissionStats($school['id']);
+			$classStatsXY = ['x' => [], 'y' => []];
+			$genderStatsXY = ['x' => [], 'y' => []];
+			foreach($admissionStats['classes'] as $key => $value)
+			{
+               array_push($classStatsXY['x'],$key);
+               array_push($classStatsXY['y'],$value);
+			}
+			foreach($admissionStats['gender'] as $key => $value)
+			{
+               array_push($genderStatsXY['x'],$key);
+               array_push($genderStatsXY['y'],$value);
+			}
+        #dd($classStatsXY);
 			array_push(
 				$c,'school','hasCompletedSignup',
 			    'facilities','clubs','ngStates',
-				'schoolApplications','terms'
+				'schoolApplications','terms','classStatsXY',
+				'genderStatsXY'
 			);
 
 			$rawNotifications = $this->helpers->getSchoolNotifications($school['id']);

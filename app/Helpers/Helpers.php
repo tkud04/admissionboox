@@ -2398,6 +2398,7 @@ EOD;
                        $temp['lname'] = $u->lname; 
                        $temp['phone'] = $u->phone;
                        $temp['email'] = $u->email; 
+                       $temp['gender'] = $u->gender; 
                        $temp['role'] = $u->role; 
                        $temp['avatar'] = $u->avatar; 
                        $temp['status'] = $u->status; 
@@ -3841,8 +3842,7 @@ EOD;
                    case "checkbox":
                      $ret = <<<EOD
                      <div class="col-md-6">
-                     <h5>Description</h5>
-                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px;"])
+                     @include('components.form-validation', ['id' => "fbld-$id-validation",'style' => "margin-top: 10px; margin-left: 10px;"])
                      <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
                     </div>
  EOD;
@@ -3851,7 +3851,7 @@ EOD;
                    case "radio":
                      $ret = <<<EOD
                      <div class="col-md-6">
-                     @include('components.form-validation', ['id' => "fbas-description-validation",'style' => "margin-top: 10px; margin-left: 10px;"])
+                      @include('components.form-validation', ['id' => "fbld-$id-validation",'style' => "margin-top: 10px; margin-left: 10px;"])
                      <input type="text" class="input-text" name="fbas-description" id="fbas-description" placeholder="Description">
                     </div>
  EOD;
@@ -3860,7 +3860,8 @@ EOD;
                    case "file":
                      $ret = <<<EOD
                      <div class="col-md-6">
-                    <form action="api/usr" class="dropzone"></form>
+                     @include('components.form-validation', ['id' => "fbld-$id-validation",'style' => "margin-top: 10px; margin-left: 10px;"])
+                     <input type="file" class="input-text" name="fbld-$id-file" id="fbld-$id-file" placeholder="Description">
                     </div>
  EOD;
                    break;
@@ -3972,6 +3973,7 @@ EOD;
             $ret = SchoolApplications::create([
                 'admission_id' => $data['admission_id'],
                 'user_id' => $data['user_id'],
+                'class_value' => $data['class_value'],
                 'date_slot' => $data['date_slot'],
                 'time_slot' => $data['time_slot'],
                 'paystack_id' => $data['paystack_id'],
@@ -5297,6 +5299,57 @@ EOD;
             }
 
             return $ret;
+          }
+
+          function getAdmissionStats($school_id)
+          {
+            //group applications by class, location and gender
+            $ret = ['classes' => [], 'locations' => [], 'gender' => []];
+
+             $admissions = $this->getSchoolAdmissions($school_id);
+
+             if(count($admissions) > 0)
+             {
+                $tempClasses = []; $tempGenders = [];
+                #dd($admissions);
+                foreach($admissions as $a)
+                {
+                    $applications = $a['applications'];
+
+                    foreach($applications as $aa)
+                    {
+                        //Classes
+                        foreach($a['classes'] as $c)
+                        {
+                            $cname = $c['class']['class_name'];
+                            if(isset($tempClasses[$cname]))
+                            {
+                                ++$tempClasses[$cname];
+                            }
+                            else
+                            {
+                                $tempClasses[$cname] = 1;
+                            }
+                        }
+
+                        //Gender
+                        $u = $aa['user'];
+                        $gname = $u['gender'];
+                        if(isset($tempGenders[$gname]))
+                            {
+                                ++$tempGenders[$gname];
+                            }
+                            else
+                            {
+                                $tempGenders[$gname] = 1;
+                            }
+                    }
+                }
+                $ret['classes'] = $tempClasses; 
+                $ret['gender'] = $tempGenders;
+             }
+
+             return $ret;
           }
 
          

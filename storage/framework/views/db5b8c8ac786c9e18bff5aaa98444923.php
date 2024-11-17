@@ -661,21 +661,32 @@ $(() => {
 						 {
 							foreach($schoolAdmissions as $a)
 							{
+								if($a['status'] === 'active')
+								{
 								$admissionId = $a['id'];
 
 								$classesString = "";
+								$optionsHTML = "";
 
                     for($i = 0; $i < count($a['classes']); $i++)
                     {
                       $ac = $a['classes'][$i]; $acClass = $ac['class'];
-                      $classesString .= $acClass['class_name'];
+                      $classesString = $acClass['class_name'];
 
-                      if($i < count($a['classes']) - 1) $classesString .= ", ";
+                      if($i < count($a['classes']) - 1) $classesString;
+					     
+					  $displayText = $a['session']." Session (".$classesString.")";
+					  $uniqueId = $a['id'].",".$acClass['class_value'];
+					  $optionsHTML .= <<<EOD
+<option value="$uniqueId">$displayText</option>
+EOD;
                     }
-								$displayText = $a['session']." Session (".$classesString.")";
+								
 						?>
-					      <option value='<?php echo e($admissionId); ?>'><?php echo e($displayText); ?></option>
+					     <?php echo $optionsHTML; ?>
+
 					  <?php
+								}
 							}
 						 }
 					  ?>
