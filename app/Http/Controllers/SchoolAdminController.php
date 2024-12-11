@@ -284,7 +284,8 @@ class SchoolAdminController extends Controller {
 					   $uu = $this->helpers->cloudinaryUploadImage($file);
 					   $payload = [
 						'school_id' => $school['id'],
-						'url' => $uu
+						'url' => $uu,
+						'first' => 'no'
 					   ];
 
 					   $this->helpers->addSchoolBanner($payload);
@@ -2111,6 +2112,192 @@ class SchoolAdminController extends Controller {
 	   }
 
 	   return json_encode(($ret));
+    }
+
+	public function getSchoolSettings(Request $request)
+    {
+		$user = null;
+		$req = $request->all();
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+               	$signals = $this->helpers->signals;
+					$senders = $this->helpers->getSenders();
+					 $plugins = $this->helpers->getPlugins(['mode' => 'active']);
+					$c = $this->compactValues;
+	
+					$school = $this->helpers->getSchool($user->email);
+					array_push($c,'school');
+					return view('school-settings',compact($c));
+				
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
+    }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSchoolSettings(Request $request)
+    {
+		$user = null;
+		$ret = ['status' => "ok","message" => "nothing happened"];
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$school = $this->helpers->getSchool($user->email);
+
+				
+					if($request->hasFile('logo'))
+				    {
+					   $file = $request->file('logo');
+
+					   $uu = $this->helpers->cloudinaryUploadImage($file);
+					   $payload = [
+						'id' => $school['id'],
+						'logo' => $uu
+					   ];
+
+					   $this->helpers->updateSchool($payload);
+					   $ret = ['status' => "ok"];
+				    }
+
+					if($request->hasFile('landing_page'))
+				    {
+					   $file = $request->file('landing_page');
+
+					   $uu = $this->helpers->cloudinaryUploadImage($file);
+					   $payload = [
+						'school_id' => $school['id'],
+						'url' => $uu,
+						'first' => 'no'
+					   ];
+
+					   $this->helpers->addSchoolBanner($payload);
+					   $ret = ['status' => "ok"];
+				    }
+
+					if(isset($req['type']) && isset($req['xf']))
+					{
+						$type = $req['type']; 
+
+						if($type === 'first')
+						{
+							$this->removeFirstSchoolBanner($school['id']);
+							$payload = [
+								'id' => $req['xf'],
+								'first' => 'yes'
+							   ];
+		
+							   $this->helpers->updateSchoolBanner($payload);
+							   $ret = ['status' => "ok",'payload' => $payload];
+						}
+
+						if($type === 'delete')
+						{
+                            $this->removeFirstSchoolBanner($school['id']);
+						    $this->helpers->removeSchoolBanner($req['xf']);
+						   $ret = ['status' => "ok"];
+						}
+						
+					}
+
+			}
+			else
+			{
+				$ret = ['status' => "error",'message' => 'invalid-session'];
+
+			}
+			
+		}
+
+    	
+		
+         else
+         {
+			$ret['message'] = "invalid-session";
+         } 
+
+		 return json_encode($ret); 
+    }
+
+	public function getSchoolReports(Request $request)
+    {
+		$user = null;
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+
+			if($user->role === 'school_admin')
+			{
+				$signals = $this->helpers->signals;
+		        $senders = $this->helpers->getSenders();
+	 	        $plugins = $this->helpers->getPlugins(['mode' => 'active']);
+		        $c = $this->compactValues;
+
+				$school = $this->helpers->getSchool($user->email);
+				$req = $request->all();
+
+				$currentPage = isset($req['page']) ? $req['page'] : "1";
+				$currentPage = intval($currentPage);	
+				$reportTypes = $this->helpers->reportTypes;
+
+				if(isset($req['xf']))
+				{
+					$admission = $this->helpers->getSchoolAdmission($req['xf']);
+					$allApplications = $admission['applications'];
+					$admissionId = $admission['id'];
+	
+					$numPages = $this->helpers->numPages($allApplications);
+	
+					$applications = $this->helpers->changePage($allApplications,$currentPage);
+					$hasSelectedReport = true;
+					
+					array_push($c,'school','reportTypes','applications','admission','hasSelectedReport','numPages','currentPage');
+				}
+
+				else
+				{
+					$schoolAdmissions = $this->helpers->getSchoolAdmissions($school['id']);
+					$applications = [];
+					$hasSelectedReport = false;
+					$currentPage = "1";
+					array_push($c,'school','reportTypes','schoolAdmissions','hasSelectedReport','applications','currentPage');
+				}
+				
+				return view('school-reports',compact($c));
+			}
+			else
+			{
+				return redirect()->intended('dashboard');
+			}
+			
+		}
+
+         else
+         {
+			return redirect()->intended('dashboard');
+         } 
     }
 
 	public function getApiTester(Request $request)

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SchoolBanners extends Model
+class SentMails extends Model
 {
 
     /**
@@ -13,7 +13,7 @@ class SchoolBanners extends Model
      * @var array
      */
     protected $fillable = [
-        'school_id', 'url','first'
+        'school_id', 'title' , 'content', 'num_applicants', 'sent_by'
     ];
     
 }

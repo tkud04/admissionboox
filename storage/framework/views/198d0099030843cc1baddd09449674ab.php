@@ -22,6 +22,9 @@ if(!function_exists('getActiveClass'))
                         <!--<li><a href="#">Admission forms</a></li>-->
                     </ul>
                 </li>
+                <li class="<?php echo e(getActiveClass('reports',$ac)); ?>">
+                    <a href="<?php echo e(url('school-reports')); ?>"><i class="sl sl-icon-notebook"></i> Reports</a>
+                </li>
                 <li class="<?php echo e(getActiveClass('email',$ac)); ?>"><a href="<?php echo e(url('send-email')); ?>"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
                 <li class="<?php echo e(getActiveClass('applications',$ac)); ?>">
                     <a href="<?php echo e(url('school-applications')); ?>"><i class="sl sl-icon-layers"></i> Applications</a>
@@ -42,6 +45,9 @@ if(!function_exists('getActiveClass'))
                 </li>
                 <li class="<?php echo e(getActiveClass('reviews',$ac)); ?>">
                     <a href="<?php echo e(url('school-reviews')); ?>"><i class="sl sl-icon-star"></i> Reviews</a>
+                </li>
+                <li class="<?php echo e(getActiveClass('settings',$ac)); ?>">
+                    <a href="<?php echo e(url('school-settings')); ?>"><i class="sl sl-icon-settings"></i> Settings</a>
                 </li>
                 <li class="<?php echo e(getActiveClass('profile',$ac)); ?>"><a href="<?php echo e(url('profile')); ?>"><i class="sl sl-icon-user"></i> My Profile</a></li>
                 <li class="<?php echo e(getActiveClass('change-password',$ac)); ?>"><a href="<?php echo e(url('change-password')); ?>"><i class="sl sl-icon-key"></i> Change Password</a></li>

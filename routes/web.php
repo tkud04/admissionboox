@@ -80,6 +80,8 @@ Route::get('school-faq', [SchoolAdminController::class,'getSchoolFaq']);
 Route::get('add-school-faq', [SchoolAdminController::class,'getAddSchoolFaq']);
 
 Route::get('school-reviews', [SchoolAdminController::class,'getSchoolReviews']);
+Route::get('school-settings', [SchoolAdminController::class,'getSchoolSettings']);
+Route::get('school-reports', [SchoolAdminController::class,'getSchoolReports']);
 
 
 Route::get('api-test', [SchoolAdminController::class,'getApiTester']);

@@ -35,6 +35,7 @@ use App\Models\SchoolBookmarks;
 use App\Models\SchoolFaqs;
 use App\Models\SchoolNotifications;
 use App\Models\SchoolReviews;
+use App\Models\SentMails;
 use GuzzleHttp\Client;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -2270,6 +2271,14 @@ class Helper //implements HelperContract
             'paid','verified','submitted'
         ];
 
+                    
+        public $reportTypes = [
+            ['label' => "Applicants", 'value' => "applicants"],
+            ['label' => "Test Results", 'value' => "results"],
+            ['label' => "Admission List", 'value' => "admission-list"]
+        ];
+/***********************************************************************************/
+
            function symfonySendMail($data){
             
               $email = (new Email())
@@ -2833,7 +2842,8 @@ EOD;
            {
             $ret = SchoolBanners::create([
                 'school_id' => $data['school_id'],
-                'url' => $data['url']
+                'url' => $data['url'],
+                'first' => $data['first'],
             ]);
 
             return $ret;
@@ -2866,11 +2876,39 @@ EOD;
                    $ret['id'] = $s->id;
                    $ret['school_id'] = $s->school_id;
                    $ret['url'] = $s->url;
+                   $ret['first'] = $s->first;
                }
 
                return $ret;
            }
 
+           function updateSchoolBanner($data)
+           {      
+                  
+            $ret = [];
+            $s = SchoolBanners::where('id',$data['id'])->first();
+            
+            if($s != null)
+            {
+                    $payload = [];
+                    if(isset($data['first'])) $payload['first'] = $data['first'];
+                    $s->update($payload);
+                     $ret = "ok";      
+            }
+           }
+
+           function removeFirstSchoolBanner($id)
+           {
+               $p = SchoolBanners::where('id',$id)
+                                  ->where('first','yes')->first();
+               if($p != null)
+               {
+                 $this->updateSchoolBanner([
+                    'id' => $id,
+                    'first' => 'no'
+                 ]);
+               }
+           }
           
 
            function removeSchoolBanner($id)
@@ -3128,7 +3166,8 @@ EOD;
            {
             
                $ret = [];
-               $r = SchoolClasses::where('id',$id)->first();
+               $r = SchoolClasses::where('id',$id)
+                                 ->orWhere('class_value',$id)->first();
 
                if($r != null)
                {
@@ -4047,6 +4086,7 @@ EOD;
                      'date' => $schoolAdmission['end_date']
                    ]);
                    $ret['user'] = $this->getUser($a->user_id);
+                   $ret['class'] = $this->getSchoolClass($a->class_value);
                    $ret['date_slot'] = $a->date_slot;
                    $ret['time_slot'] = $a->time_slot;
                    $ret['paystack_id'] = $a->paystack_id;
@@ -4861,6 +4901,86 @@ EOD;
                if($s != null) $s->delete();
            }
 
+           function createSentMail($data)
+           {
+            
+               $ret = SentMails::create(['title' => $data['title'], 
+                                                      'content' => $data['content'], 
+                                                      'num_applicants' => $data['num_applicants'],
+                                                      'sent_by' => $data['sent_by'],
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+           function getSentMails($school_id='all')
+           {
+               $ret = [];
+               if($school_id === 'all') $mails = SentMails::where('id','>','0')->orderBy('created_at','desc')->get();
+               else $mails = SentMails::where('school_id',$school_id)->orderBy('created_at','desc')->get();
+
+               if($mails != null)
+               {
+                  foreach($mails as $m)
+                  {
+                      $temp = $this->getSentMail($m->id);
+                      array_push($ret,$temp);
+                  }
+               }
+
+               return $ret;
+           }
+
+           function getSentMail($id)
+           {
+           	$ret = [];
+               $s = SentMails::where('school_id',$id)->first();
+ 
+              if($s != null)
+               {
+                   	$temp['id'] = $s->id; 
+                   	$temp['title'] = $s->title; 
+                   	$temp['content'] = $s->content; 
+                   	$temp['num_applicants'] = $s->num_applicants; 
+                   	$temp['sent_by'] = $this->getUser($s->sent_by); 
+                    $temp['date'] = $s->created_at->format("jS F, Y");  
+                    $ret = $temp; 
+               }                          
+                                                      
+                return $ret;
+           }
+
+           function updateSentMail($data)
+           {  
+              $ret = 'error'; 
+         
+              if(isset($data['xf']))
+               {
+               	$ua = SentMails::where('id', $data['xf'])->first();
+ 
+                        if($ua != null)
+                        {
+							$payload = [];
+                            if(isset($data['title'])) $payload['title'] = $data['title'];
+                            if(isset($data['content'])) $payload['content'] = $data['content'];
+                            if(isset($data['num_applicants'])) $payload['num_applicants'] = $data['num_applicants'];
+                           
+                        	$ua->update($payload);
+                             $ret = "ok";
+                        }                                    
+               }                                 
+                  return $ret;                               
+           }
+
+           function removeSentMail($id)
+           {
+            $sm = SentMails::where('id', $id)->first();
+
+               if($sm != null) $sm->delete();
+           }
+
+/*************************************************************************************** */
+
            function generateRandomNumber($length=2,$type='alphanumeric')
            {
             $container = $this->chars;
@@ -5310,7 +5430,7 @@ EOD;
 
              if(count($admissions) > 0)
              {
-                $tempClasses = []; $tempGenders = [];
+                $tempClasses = []; $tempGenders = []; $tempLocations = [];
                 #dd($admissions);
                 foreach($admissions as $a)
                 {
@@ -5318,10 +5438,8 @@ EOD;
 
                     foreach($applications as $aa)
                     {
-                        //Classes
-                        foreach($a['classes'] as $c)
-                        {
-                            $cname = $c['class']['class_name'];
+                        //Class
+                         $cname = $aa['class']['class_name'];
                             if(isset($tempClasses[$cname]))
                             {
                                 ++$tempClasses[$cname];
@@ -5330,10 +5448,10 @@ EOD;
                             {
                                 $tempClasses[$cname] = 1;
                             }
-                        }
 
                         //Gender
                         $u = $aa['user'];
+                       
                         $gname = $u['gender'];
                         if(isset($tempGenders[$gname]))
                             {
@@ -5343,10 +5461,26 @@ EOD;
                             {
                                 $tempGenders[$gname] = 1;
                             }
+                        //Location
+                        $ua = $this->getUserAddress($u['id']);
+                        
+                        if(count($ua) > 0)
+                        {
+                          $lname = $ua['city'];
+                          if(isset($tempLocations[$lname]))
+                            {
+                                ++$tempLocations[$lname];
+                            }
+                            else
+                            {
+                                $tempLocations[$lname] = 1;
+                            }
+                        }
                     }
                 }
                 $ret['classes'] = $tempClasses; 
                 $ret['gender'] = $tempGenders;
+                $ret['location'] = $tempLocations;
              }
 
              return $ret;

@@ -87,6 +87,8 @@ Route::post('remove-school-faq', [SchoolAdminController::class,'postRemoveSchool
 Route::post('update-school-review', [SchoolAdminController::class,'postUpdateSchoolReview']);
 Route::post('remove-school-review', [SchoolAdminController::class,'postRemoveSchoolReview']);
 
+Route::post('school-settings', [SchoolAdminController::class,'postSchoolSettings']);
+
 Route::post('send-email', [SchoolAdminController::class,'postSendEmail']);
 
 

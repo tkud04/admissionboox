@@ -833,3 +833,17 @@ const verifySchoolApplication = async (payload={xf:''},successCallback,errorCall
   )
  
 }
+
+const updateSchoolSettings = async (fd,successCallback,errorCallback) => {
+  const url = 'api/school-settings'
+  await fetchWithFormData(
+    {
+      url,
+      fd,
+      method: 'POST',
+    },
+    successCallback,
+    errorCallback
+  )
+ 
+}

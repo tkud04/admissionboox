@@ -22,6 +22,9 @@ if(!function_exists('getActiveClass'))
                         <!--<li><a href="#">Admission forms</a></li>-->
                     </ul>
                 </li>
+                <li class="{{getActiveClass('reports',$ac)}}">
+                    <a href="{{url('school-reports')}}"><i class="sl sl-icon-notebook"></i> Reports</a>
+                </li>
                 <li class="{{getActiveClass('email',$ac)}}"><a href="{{url('send-email')}}"><i class="sl sl-icon-envelope-open"></i> Send Email</a></li>
                 <li class="{{getActiveClass('applications',$ac)}}">
                     <a href="{{url('school-applications')}}"><i class="sl sl-icon-layers"></i> Applications</a>
@@ -42,6 +45,9 @@ if(!function_exists('getActiveClass'))
                 </li>
                 <li class="{{getActiveClass('reviews',$ac)}}">
                     <a href="{{url('school-reviews')}}"><i class="sl sl-icon-star"></i> Reviews</a>
+                </li>
+                <li class="{{getActiveClass('settings',$ac)}}">
+                    <a href="{{url('school-settings')}}"><i class="sl sl-icon-settings"></i> Settings</a>
                 </li>
                 <li class="{{getActiveClass('profile',$ac)}}"><a href="{{url('profile')}}"><i class="sl sl-icon-user"></i> My Profile</a></li>
                 <li class="{{getActiveClass('change-password',$ac)}}"><a href="{{url('change-password')}}"><i class="sl sl-icon-key"></i> Change Password</a></li>

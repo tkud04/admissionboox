@@ -845,6 +845,7 @@ class MainController extends Controller {
 			$admissionStats = $this->helpers->getAdmissionStats($school['id']);
 			$classStatsXY = ['x' => [], 'y' => []];
 			$genderStatsXY = ['x' => [], 'y' => []];
+			$locationStatsXY = ['x' => [], 'y' => []];
 			foreach($admissionStats['classes'] as $key => $value)
 			{
                array_push($classStatsXY['x'],$key);
@@ -855,12 +856,20 @@ class MainController extends Controller {
                array_push($genderStatsXY['x'],$key);
                array_push($genderStatsXY['y'],$value);
 			}
+			foreach($admissionStats['location'] as $key => $value)
+			{
+               array_push($locationStatsXY['x'],$key);
+               array_push($locationStatsXY['y'],$value);
+			}
+
+			$sentMails = $this->helpers->getSentMails($school['id']);
+
         #dd($classStatsXY);
 			array_push(
 				$c,'school','hasCompletedSignup',
 			    'facilities','clubs','ngStates',
 				'schoolApplications','terms','classStatsXY',
-				'genderStatsXY'
+				'genderStatsXY','locationStatsXY','sentMails'
 			);
 
 			$rawNotifications = $this->helpers->getSchoolNotifications($school['id']);

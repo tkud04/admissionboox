@@ -6,6 +6,8 @@ $classX = json_encode($classStatsXY['x']);
 $classY = json_encode($classStatsXY['y']);
 $genderX = json_encode($genderStatsXY['x']);
 $genderY = json_encode($genderStatsXY['y']);
+$locationX = json_encode($locationStatsXY['x']);
+$locationY = json_encode($locationStatsXY['y']);
 ?>
 @extends('dashboard_layout')
 
@@ -97,7 +99,7 @@ if(!function_exists('isInSchoolClub'))
             type: 'bar'
            }, 
            series: [{
-             name: 'Classes',
+             name: 'Applicants',
              data: {{$classY}}
            }],
            xaxis: {
@@ -110,11 +112,24 @@ if(!function_exists('isInSchoolClub'))
            }, 
            series: {!! $genderY !!},
            labels: {!! $genderX !!}
+         },
+         options3 = {
+           chart: {
+            type: 'bar'
+           }, 
+           series: [{
+             name: 'Applicants',
+             data: {{$locationY}}
+           }],
+           xaxis: {
+             categories:  {!! $locationX !!}
+           }
          }
 
 
          renderChart('#class-stats-chart-div',options1)
          renderChart('#gender-stats-chart-div',options2)
+         renderChart('#location-stats-chart-div',options3)
       }
 
       $(document).ready(() =>{
@@ -242,6 +257,10 @@ if(!function_exists('isInSchoolClub'))
           <h5>By gender</h5>
           <div id="gender-stats-chart-div"></div>
         </li>
+        <li>
+          <h5>By location</h5>
+          <div id="location-stats-chart-div"></div>
+        </li>
         <?php
         }
         else
@@ -297,6 +316,42 @@ if(!function_exists('isInSchoolClub'))
         {
         ?>
          <li><i class="utf_list_box_icon sl sl-icon-eyeglass"></i> No applications yet. <a href="{{url('school-admissions')}}">View admissions</a></strong>
+      </li>
+        <?php
+        }
+       ?>
+      </ul>
+    </div>
+
+    <div class="utf_dashboard_list_box invoices with-icons margin-top-20">
+      <h4>Recent Emails</h4>
+      <ul>
+        <?php
+         if(count($sentMails) > 0)
+         {
+         foreach($sentMails as $se)
+         {
+          $iu = url('view-email')."?xf=".$se['id'];
+        ?>
+        <li><i class="utf_list_box_icon sl sl-icon-doc"></i> <strong>{{ucwords($se['title'])}}</strong>
+        <ul>
+        <li>
+          <p>
+            <span>Date sent:-</span> {{$se['date']}}<br>
+            <span>No. of applicants:-</span> {{$se['num_applicants']}}
+          </p>
+        </li>
+        </ul>
+        <div class="buttons-to-right"> <a href="{{$iu}}" target="_blank" class="button gray"><i
+          class="sl sl-icon-eyeglass"></i> View</a> </div>
+      </li>
+       <?php
+         }
+        }
+        else
+        {
+        ?>
+         <li><i class="utf_list_box_icon sl sl-icon-note"></i> No emails sent... yet. <a href="{{url('send-email')}}">Send a message</a></strong>
       </li>
         <?php
         }
